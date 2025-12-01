@@ -117,7 +117,7 @@ public class VillageLocation : MonoBehaviour
     {
         Debug.Log($"{locationName} 상호작용");
 
-        // UIManager를 통해 패널 열기
+         UIManager를 통해 패널 열기
         if (MasterManager.Instance != null)
         {
             MasterManager.Instance.UIManager.OpenPanel(panelName);
