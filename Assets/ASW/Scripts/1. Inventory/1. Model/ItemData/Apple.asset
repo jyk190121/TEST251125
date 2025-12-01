@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc815ae28bb36e648a25aa8d6e293f20, type: 3}
+  m_Script: {fileID: 11500000, guid: e0fe34ac530498b4cb0e910aef999a22, type: 3}
   m_Name: Apple
   m_EditorClassIdentifier: 
-  ID: 200
-  itemName: Apple
-  icon: {fileID: 21300000, guid: 5d9ba4e7d0964044ea54abe409d81dfd, type: 3}
-  description: "\uC0AC\uACFC"
+  ID: 100
+  itemName: 
+  icon: {fileID: 0}
+  description: "\uC0AC\uACE0"
   isStackable: 1
-  maxStackSize: 10
-  buyPrice: 50
-  sellPrice: 10
+  maxStackSize: 99
+  buyPrice: 0
+  sellPrice: 0
