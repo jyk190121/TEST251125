@@ -49,7 +49,7 @@ public class EnhanceUI : UIBase
 
     void OnEnhanceButtonClicked()
     {
-        DataManager dataManager = MasterManager.Instance.DataManager;
+        /*DataManager dataManager = MasterManager.Instance.DataManager;
 
         if (dataManager.RemoveGold(enhanceCost))
         {
@@ -70,6 +70,6 @@ public class EnhanceUI : UIBase
                 enhanceDescriptionText.text = "골드가 부족합니다...";
                 enhanceDescriptionText.color = Color.red;
             }
-        }
+        }*/
     }
 }

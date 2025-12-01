@@ -118,11 +118,11 @@ public class VillageLocation : MonoBehaviour
         Debug.Log($"{locationName} 상호작용");
 
         // UIManager를 통해 패널 열기
-        if (MasterManager.Instance != null)
-        {
-            MasterManager.Instance.UIManager.OpenPanel(panelName);
-            ShowInteractionPrompt(false);  // 프롬프트 숨기기
-        }
+        //if (MasterManager.Instance != null)
+        //{
+        //    MasterManager.Instance.UIManager.OpenPanel(panelName);
+        //    ShowInteractionPrompt(false);  // 프롬프트 숨기기
+        //}
     }
 
     public LocationType GetLocationType() => locationType;
