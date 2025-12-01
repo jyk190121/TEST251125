@@ -206,7 +206,7 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 7.15, y: -5.4, z: 2.5}
+  m_LocalPosition: {x: 7.15, y: -3.3, z: 2.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -455,10 +455,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e609d7c14fde4b4fbf93a0ec7b6beb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRoomPrefab: {fileID: 7661453549190273966, guid: b163cb8cb47e52344a5923ed010c32a5, type: 3}
-  normalRoomPrefab: {fileID: 4231749974672691696, guid: 779491e9bd050ae439c59f788d821baa, type: 3}
-  restRoomPrefab: {fileID: 5012549638067475066, guid: 4bab7679ab20ea64eb267f8631aca74c, type: 3}
-  bossRoomPrefab: {fileID: 7431850272378965514, guid: 92b3d096c4366a44d99f758883867347, type: 3}
+  startRoomPrefab: {fileID: 8639513916530384409, guid: b163cb8cb47e52344a5923ed010c32a5, type: 3}
+  normalRoomPrefab: {fileID: 3047929950201611012, guid: 22467f3ffeb021648a62605b83458b47, type: 3}
+  restRoomPrefab: {fileID: 5702839579492418867, guid: 1c23cd635afdd7c4491c237bd83cf05b, type: 3}
+  bossRoomPrefab: {fileID: 8957650460743286428, guid: 92b3d096c4366a44d99f758883867347, type: 3}
   roomSpacingX: 48.5
   roomSpacingZ: 28
 --- !u!4 &956454584
