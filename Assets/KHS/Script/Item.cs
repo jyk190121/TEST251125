@@ -10,7 +10,7 @@ public enum ItemType
 
 
 [CreateAssetMenu(fileName = "NewItemData", menuName = "Item/Unified Item Data")]
-public class ItemData : ScriptableObject
+public class Item : ScriptableObject
 {
     [Header("기본 정보")]
     public int itemID;    //아이템 고유 ID
@@ -19,9 +19,6 @@ public class ItemData : ScriptableObject
     [TextArea(3, 5)]
     public string description;      //아이템 설명
 
-    [Header("아이템 타입")]
-    public ItemType type;
-
     [Header("스택 가능여부 및 수량")]
     public bool isStackable = true;
     public int maxStack = 99;
@@ -29,6 +26,9 @@ public class ItemData : ScriptableObject
     [Header("구매가/판매가")]
     public int buyPrice;
     public int sellPrice;
+
+    [Header("아이템 타입")]
+    public ItemType type;
 
     [Header("재료")]
     [Tooltip("희귀도")]
@@ -67,6 +67,6 @@ public enum EquipmentSlot { Weapon, Head, Body, Foot }      //장비 슬롯
 [System.Serializable]
 public struct MaterialCost
 {
-    public ItemData materialItem;
+    public Item materialItem;
     public int amount;
 }

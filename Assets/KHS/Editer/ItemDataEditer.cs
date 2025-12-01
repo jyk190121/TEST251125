@@ -10,7 +10,7 @@ using UnityEngine;
 // - 잘못된 데이터 입력을 방지하고 편의성 향상
 //
 
-[CustomEditor(typeof(ItemData))]     // ItemData에만 적용되는 에디터
+[CustomEditor(typeof(Item))]     // ItemData에만 적용되는 에디터
 public class ItemDataEditor : Editor
 {
     // --------------------------

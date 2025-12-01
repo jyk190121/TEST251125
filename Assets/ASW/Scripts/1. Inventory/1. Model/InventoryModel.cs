@@ -49,10 +49,10 @@ public class InventoryModel
                 InventorySlotModel slot = kvp.Value;
 
                 //같은 ID의 아이템 && maxStackSize에 도달하지 않은 아이템인 경우
-                if (slot.itemData != null && slot.itemData.ID == itemData.ID && slot.quantity < itemData.maxStackSize)
+                if (slot.itemData != null && slot.itemData.itemID == itemData.itemID && slot.quantity < itemData.maxStack)
                 {
                     //이 슬롯에 더 들어갈 수 있는 공간 계산 (예: 99 - 90 = 9개 공간)
-                    int spaceLeft = itemData.maxStackSize - slot.quantity;
+                    int spaceLeft = itemData.maxStack - slot.quantity;
                     
                     if (count <= spaceLeft)
                     {
@@ -65,7 +65,7 @@ public class InventoryModel
                     {
                         //획득한 아이템이 공간보다 많음 (넘침)
                         //일단 이 슬롯을 꽉 채우고 (99개)
-                        slot.quantity = itemData.maxStackSize;
+                        slot.quantity = itemData.maxStack;
 
                         //넣은 만큼 count에서 뺌 (남은 개수를 들고 다음 슬롯을 찾으러 감)
                         count -= spaceLeft;
@@ -94,18 +94,18 @@ public class InventoryModel
                 //기존 데이터가 남았을 수 있으니, 새로 덮어쓰거나 채운다.
                 if (slots.ContainsKey(emptySlotIndex))
                 {
-                    slots[emptySlotIndex].Set(itemData, Mathf.Min(count, itemData.maxStackSize));
+                    slots[emptySlotIndex].Set(itemData, Mathf.Min(count, itemData.maxStack));
                 }
                 else
                 {
                     InventorySlotModel newSlot = new InventorySlotModel();
-                    newSlot.Set(itemData, Mathf.Min(count, itemData.maxStackSize));
+                    newSlot.Set(itemData, Mathf.Min(count, itemData.maxStack));
 
                     //딕셔너리에 등록
                     slots.Add(emptySlotIndex, newSlot);
                 }
                 //이번 슬롯에 넣을 양 결정 (남은 게 99개보다 많으면 99개만, 적으면 전부)
-                int amountToAdd = Mathf.Min(count, itemData.maxStackSize);
+                int amountToAdd = Mathf.Min(count, itemData.maxStack);
                 
                 //처리한 만큼 남은 개수 차감
                 count -= amountToAdd; 
@@ -137,7 +137,7 @@ public class InventoryModel
         {
             //빈 슬롯은 넘김
             //아이템 ID가 같은지 확인
-            if(slot.IsEmpty && slot.itemData.ID == targetItemID)
+            if(slot.IsEmpty && slot.itemData.itemID == targetItemID)
             {
                 //같으면 토탈 카운트에 해당 슬롯 아이템의 수량을 누적
                 //묶음으로 여러개 소지하고 있어도 아이템 ID가 같으면 지속적으로 누적
@@ -195,7 +195,7 @@ public class InventoryModel
             var slot = slots[key];
 
             //타겟 아이템이 맞는지 아이디 확인
-            if(slot.IsEmpty && slot.itemData.ID == targetItemID)
+            if(slot.IsEmpty && slot.itemData.itemID == targetItemID)
             {
                 //이 슬롯에 있는 게, 지워야 할 양보다 많음
                 //(예: 슬롯에 10개 있음, 2개만 지워야 함 -> 8개 남김)

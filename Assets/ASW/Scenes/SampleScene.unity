@@ -150,9 +150,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   capacity: 20
   inventoryView: {fileID: 1072469417}
-  testItemA: {fileID: 11400000, guid: a491e5fb3bb450b44ad5458a124cb143, type: 2}
-  testItemB: {fileID: 11400000, guid: 569a5324e31058e4a9baf0d42bf5e655, type: 2}
-  testItemC: {fileID: 11400000, guid: 798a8fcd55d201e459877d27df404a75, type: 2}
+  testItemA: {fileID: 11400000, guid: 95d0da29fd4eb30458aab46b559c4151, type: 2}
+  testItemB: {fileID: 11400000, guid: 498532b2d5450c542acd1ec7d19e2442, type: 2}
+  testItemC: {fileID: 11400000, guid: 0e40e3f0981ad5d4593ef165c8909f26, type: 2}
 --- !u!4 &284210396
 Transform:
   m_ObjectHideFlags: 0
