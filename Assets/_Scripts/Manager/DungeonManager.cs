@@ -240,4 +240,9 @@ public class DungeonManager : MonoBehaviour
         }
         return list; // 섞인 리스트를 반환합니다.
     }
+
+    public void Initialize()
+    {
+
+    }
 }

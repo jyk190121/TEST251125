@@ -26,7 +26,7 @@ public static class KeySetting
     public static Dictionary<KeyInput, KeyCode> keys = new Dictionary<KeyInput, KeyCode>();
 }
 
-public class KeyManager : MonoBehaviour
+public class InputManager : MonoBehaviour
 {
     //KeyCode EnumType
     KeyCode[] defaultKeys = new KeyCode[]
@@ -78,5 +78,10 @@ public class KeyManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void Initialize()
+    {
+       
     }
 }

@@ -436,8 +436,6 @@ GameObject:
   m_Component:
   - component: {fileID: 956454584}
   - component: {fileID: 956454583}
-  - component: {fileID: 956454586}
-  - component: {fileID: 956454585}
   m_Layer: 0
   m_Name: DungeonManager
   m_TagString: Untagged
@@ -478,42 +476,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &956454585
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 956454582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3da2ee37b4e6cda48b38565160cc6829, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &956454586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 956454582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9595a84e3cc7bb2498fc962d1ab36380, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &133518506718432872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8321097601144881150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!23 &2392183055739861787
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -610,10 +572,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &8321097601144881150
 GameObject:
@@ -628,7 +590,6 @@ GameObject:
   - component: {fileID: 2392183055739861787}
   - component: {fileID: 2426759551638440016}
   - component: {fileID: 7480713698761726895}
-  - component: {fileID: 133518506718432872}
   - component: {fileID: 8527763038730016672}
   - component: {fileID: 8527763038730016671}
   m_Layer: 0

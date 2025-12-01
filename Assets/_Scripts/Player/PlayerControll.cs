@@ -9,13 +9,14 @@ public class PlayerControll : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
+        model = _MasterManager.Instance.DataManager.GetStat();
+        Debug.Log("모델" + model);
     }
 
-    // Update is called once per frame
-    void Update()
+    //장비 장착시 호출! player의 스탯값 변경!
+    public void RefreshStat()
     {
-        model = DataManager.Instance.GetPlayer();
+        model = _MasterManager.Instance.DataManager.GetStat();
     }
 
     public void Move(Vector3 dir)

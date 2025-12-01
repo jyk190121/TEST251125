@@ -213,4 +213,9 @@ public class InventoryManager : MonoBehaviour
         //Model을 호출하여 아이템 아이디 및 수량 확인
         return GetItemCount(itemID);
     }
+
+    public void Initialize()
+    {
+
+    }
 }
