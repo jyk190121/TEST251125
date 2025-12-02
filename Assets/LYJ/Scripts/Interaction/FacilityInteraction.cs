@@ -1,0 +1,134 @@
+using UnityEngine;
+using TMPro;
+
+/// <summary>
+/// 마을의 모든 시설 상호작용을 담당
+/// 플레이어가 범위 내에 들어오면 프롬프트 표시
+/// F 키를 눌러 상호작용
+/// </summary>
+public class FacilityInteraction : MonoBehaviour
+{
+    [SerializeField] private string facilityID;
+    [SerializeField] private float interactionRange = 2f;
+    [SerializeField] private KeyCode interactionKey = KeyCode.F;
+    [SerializeField] private string promptText = "대화하기 [F]";
+    [SerializeField] private GameObject linkedUIPanel;
+
+    // 프롬프트 표시 UI
+    [SerializeField] private TextMeshProUGUI promptUIText;
+    [SerializeField] private CanvasGroup promptCanvasGroup;
+
+    private Transform playerTransform;
+    private bool isPlayerInRange = false;
+
+    private void Start()
+    {
+        // 플레이어 찾기
+        PlayerController playerController = FindAnyObjectByType<PlayerController>();
+        if (playerController != null)
+        {
+            playerTransform = playerController.transform;
+        }
+        else
+        {
+            Debug.LogError("[FacilityInteraction] PlayerController를 찾을 수 없습니다");
+        }
+
+        // 프롬프트 초기화
+        if (promptUIText != null)
+            promptUIText.text = promptText;
+
+        HidePrompt();
+    }
+
+    private void Update()
+    {
+        if (playerTransform == null)
+            return;
+
+        float distanceToPlayer = Vector3.Distance(
+            transform.position,
+            playerTransform.position
+        );
+
+        // 범위 내/외 확인
+        if (distanceToPlayer <= interactionRange)
+        {
+            if (!isPlayerInRange)
+            {
+                isPlayerInRange = true;
+                ShowPrompt();
+            }
+
+            // F 키 입력 확인
+            if (Input.GetKeyDown(interactionKey))
+            {
+                OnInteraction();
+            }
+        }
+        else
+        {
+            if (isPlayerInRange)
+            {
+                isPlayerInRange = false;
+                HidePrompt();
+            }
+        }
+    }
+
+    private void OnInteraction()
+    {
+        // 특수 처리: 던전 입장
+        if (facilityID == "dungeon")
+        {
+            Debug.Log("[FacilityInteraction] 던전 입장!");
+            // 나중에: SceneManager.LoadScene("DungeonScene");
+            return;
+        }
+
+        // 시설 구매 (특수 처리)
+        if (facilityID == "buy_facilities")
+        {
+            if (linkedUIPanel != null)
+            {
+                linkedUIPanel.SetActive(true);
+            }
+            Debug.Log("[FacilityInteraction] 시설 구매 UI 열기");
+            return;
+        }
+
+        // 일반 시설 상호작용
+        VillageSystemManager systemManager = VillageSystemManager.Instance;
+
+        if (systemManager.IsFacilityUnlocked(facilityID))
+        {
+            // 시설이 해금됨: UI 열기
+            if (linkedUIPanel != null)
+            {
+                linkedUIPanel.SetActive(true);
+                Debug.Log($"[FacilityInteraction] {facilityID} UI 열기");
+            }
+        }
+        else
+        {
+            // 시설이 잠금
+            int cost = systemManager.GetFacilityUnlockCost(facilityID);
+            string facilityName = systemManager.GetFacilityName(facilityID);
+            Debug.Log($"[FacilityInteraction] {facilityName}은 잠금 상태입니다. " +
+                      $"(비용: {cost}G) 시설 구매대에서 구매하세요!");
+        }
+    }
+
+    private void ShowPrompt()
+    {
+        if (promptCanvasGroup != null)
+            promptCanvasGroup.alpha = 1f;
+    }
+
+    private void HidePrompt()
+    {
+        if (promptCanvasGroup != null)
+            promptCanvasGroup.alpha = 0f;
+    }
+}
+
