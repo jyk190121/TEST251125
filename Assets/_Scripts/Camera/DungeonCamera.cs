@@ -10,6 +10,7 @@ public class DungeonCamera : MonoBehaviour
     {
         cam = GetComponent<Camera>();
         cam.transform.position = new Vector3(0, cameraHeigth, 0);
+        cam.transform.rotation = Quaternion.Euler(90, 0, 0);
     }
 
     //왼쪽방으로 갈 때
@@ -27,12 +28,12 @@ public class DungeonCamera : MonoBehaviour
     //위 방으로 갈 때
     public void UpMove()
     {
-        cam.transform.position += new Vector3(30, 0, 0);
+        cam.transform.position += new Vector3(0, 0, 30);
     }
 
     //아래 방으로 갈 때
     public void DownMove()
     {
-        cam.transform.position += new Vector3(-30, 0, 0);
+        cam.transform.position += new Vector3(0, 0, -30);
     }
 }
