@@ -2,26 +2,26 @@ using UnityEngine;
 
 public class EntranceDoor: MonoBehaviour
 {
-    [Header("È¨»óÁ¡ ÇÁ¸®ÆÕ")]
+    [Header("í™ˆìƒì  í”„ë¦¬íŒ¹")]
     public GameObject homeShop;
 
-    [Header("¸¶À» ÇÁ¸®ÆÕ")]
+    [Header("ë§ˆì„ í”„ë¦¬íŒ¹")]
     public GameObject village;
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
-            bool state = !homeShop.activeSelf; // homeShopÀÇ ÇöÀç »óÅÂ ¹İÀü
+            bool state = !homeShop.activeSelf; // homeShop ìƒíƒœê°€ í•­ìƒ ë°˜ëŒ€
             homeShop.gameObject.SetActive(state);
             village.gameObject.SetActive(!state);
 
             if (state)
             {
-                other.transform.position = other.transform.position - new Vector3(0, 0,-1.5f);
+                other.transform.position = other.transform.position - new Vector3(0, 0,-3f);
             }
             else
             {
-                other.transform.position = other.transform.position - new Vector3(0, 0, 1.5f);
+                other.transform.position = other.transform.position - new Vector3(0, 0, 3f);
             }
         }
     }
