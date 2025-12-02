@@ -75,7 +75,7 @@ public class DungeonManager : MonoBehaviour
         {
             currentPos = GetNextRandomPosition(currentPos);
             roomCoordinates.Add(currentPos);
-            // RoomData를 추가합니다. 문 정보는 다음 방이 결정될 때 업데이트됩니다.
+            // 문 정보는 다음 방이 결정될 때 업데이트
             roomPath.Add(new RoomData { gridPos = currentPos });
         }
 
@@ -97,7 +97,7 @@ public class DungeonManager : MonoBehaviour
             // 현재 방의 정보입니다.
             RoomData currentRoomData = roomPath[i];
 
-            // 주석: 다음 방의 좌표입니다. (마지막 방이 아니면 다음 방이 존재합니다.)
+            // 다음 방의 좌표입니다. (마지막 방이 아니면 다음 방이 존재합니다.)
             Vector2Int nextPos = (i < roomPath.Count - 1) ? roomPath[i + 1].gridPos : Vector2Int.zero;
 
             // 이전 방의 좌표입니다. (첫 방이 아니면 이전 방이 존재합니다.)
@@ -198,7 +198,7 @@ public class DungeonManager : MonoBehaviour
         // GetComponent<T>(): 게임 오브젝트에 부착된 특정 타입의 컴포넌트를 가져옵니다.
         Room roomComponent = newRoom.GetComponent<Room>();
 
-        // if문: Room 컴포넌트가 있다면 문 초기화 함수를 호출하여 문을 엽니다.
+        // Room 컴포넌트가 있다면 문 초기화 함수를 호출하여 문을 엽니다.
         if (roomComponent != null)
         {
             // InitializeDoors(): Room 스크립트의 함수를 호출하여 문 활성화/비활성화 상태를 설정합니다.
