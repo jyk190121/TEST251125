@@ -156,8 +156,18 @@ public class EquipManager : MonoBehaviour
     // 플레이어 스탯 매니저에게 변경된 수치 전달
     private void UpdateStatToPlayer()
     {
+        //모델에서 총합 계산
         var stats = model.CalculateTotalStats();
-        // 예시: PlayerStatManager.Instance.SetBonusStats(stats.atk, stats.def, ...);
-        Debug.Log($"[장비 스탯 적용] 공격력:{stats.atk}, 방어력:{stats.def}");
+
+        //DataManager에게 적용 요청
+        if (_MasterManager.Instance.DataManager != null)
+        {
+            _MasterManager.Instance.UpdatePlayerStats(
+                stats.atk,
+                stats.def,
+                stats.hp,
+                stats.spd
+            );
+        }
     }
 }

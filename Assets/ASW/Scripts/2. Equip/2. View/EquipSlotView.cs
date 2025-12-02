@@ -23,14 +23,14 @@ public class EquipSlotView : MonoBehaviour, IDropHandler, IPointerClickHandler
             //아이템이 있으면 아이콘을 보여준다.
             iconImage.sprite = item.icon;
             iconImage.enabled = true;
-            //if(emptyIcon != null) emptyIcon.SetActive(false);
+            if(emptyIcon != null) emptyIcon.SetActive(false);
         }
         else
         {
             //아이콘이 없으면 아이콘을 숨긴다.
             iconImage.sprite = null;
             iconImage.enabled = false;
-            //if(emptyIcon != null ) emptyIcon.SetActive(true);
+            if(emptyIcon != null ) emptyIcon.SetActive(true);
         }
     }
     //인벤토리에서 이 슬롯으로 아이템을 드래그해서 놓았을 때
