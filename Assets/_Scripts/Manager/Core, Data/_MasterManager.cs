@@ -4,7 +4,7 @@ public class _MasterManager : MonoBehaviour
 {
     public static _MasterManager Instance { get; private set; }
 
-    // ¸ğµç ¸Å´ÏÀú
+    // ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½
     public DataManager DataManager { get; private set; }
     public SaveLoadManager SaveLoadManager { get; private set; }
     public DayManager DayManager { get; private set; }
@@ -14,7 +14,6 @@ public class _MasterManager : MonoBehaviour
     public BattleManager BattleManager { get; private set; }
     public DungeonManager DungeonManager { get; private set; }
     public EnemyManager EnemyManager { get; private set; }
-    public CameraManager CameraManager { get; private set; }
     public ResourceManager ResourceManager { get; private set; }
     public SoundManager SoundManager { get; private set; }
 
@@ -32,7 +31,7 @@ public class _MasterManager : MonoBehaviour
         InitializeManagers();
     }
 
-    //¸Å´ÏÀú ÃÊ±âÈ­
+    //ï¿½Å´ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
     void InitializeManagers()
     {
         DataManager = GetComponent<DataManager>();
@@ -44,31 +43,29 @@ public class _MasterManager : MonoBehaviour
         BattleManager = GetComponent<BattleManager>();
         DungeonManager = GetComponent<DungeonManager>();
         EnemyManager = GetComponent<EnemyManager>();
-        CameraManager = GetComponent<CameraManager>();
         ResourceManager = GetComponent<ResourceManager>();
         SoundManager = GetComponent<SoundManager>();
 
-        // 1. µ¥ÀÌÅÍ ±â¹İ
+        // 1. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
         ResourceManager.Initialize();
         DataManager.Initialize();
         SaveLoadManager.Initialize();
 
-        // 2. UI / ÀÔ·Â
+        // 2. UI / ï¿½Ô·ï¿½
         InputManager.Initialize();
         UIManager.Initialize();
         InventoryManager.Initialize();
 
-        // 3. ÀüÅõ / ´øÀü / Àû
+        // 3. ï¿½ï¿½ï¿½ï¿½ / ï¿½ï¿½ï¿½ï¿½ / ï¿½ï¿½
         EnemyManager.Initialize();
         BattleManager.Initialize();
         DungeonManager.Initialize();
 
-        // 4. »ç¿îµå/Ä«¸Ş¶ó/½Ã°£
+        // 4. ï¿½ï¿½ï¿½ï¿½/Ä«ï¿½Ş¶ï¿½/ï¿½Ã°ï¿½
         SoundManager.Initialize();
-        CameraManager.Initialize();
         DayManager.Initialize();
 
 
-        Debug.Log("¸ğµç ¸Å´ÏÀú ÃÊ±âÈ­ ¿Ï·á");
+        Debug.Log("ï¿½ï¿½ï¿½ ï¿½Å´ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­ ï¿½Ï·ï¿½");
     }
 }

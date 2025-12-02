@@ -1,18 +1,40 @@
+using TMPro;
 using UnityEngine;
-
-//¸ğµç ÇÁ¸®ÆÕ ²°´ÙÄ×´ÙÇØÁÖ´Â ½ºÅ©¸³Æ®ÀÎµ¥
-//UI°¡ ¾Æ´Ñ ÇÁ¸®ÆÕÀº?
-
 public class UIManager : MonoBehaviour
 {
+    //Left UP Panel
+    [SerializeField] TextMeshProUGUI PlayerGoldText;
+    [SerializeField] TextMeshProUGUI PlayerHpText;
+
+    //RIGHT UP Panel
+    [SerializeField] TextMeshProUGUI PlayerPortionText;
+    [SerializeField] TextMeshProUGUI PlayerRollText;
+    [SerializeField] TextMeshProUGUI PlayerSwitchWeaponText;
+    [SerializeField] TextMeshProUGUI PlayerSubAttackText;
+    [SerializeField] TextMeshProUGUI PlayerMainAttackText;
+    [SerializeField] TextMeshProUGUI PlayerInvetoryText;
+
+    //í•„ìš”í•œ ì •ë³´
+    PlayerModel player;             //í”Œë ˆì´ì–´ ì •ë³´
+
+
     void Start()
     {
-        
+        player = _MasterManager.Instance.DataManager.GetStat();     //ìµœì´ˆ í”Œë ˆì´ì–´ ì •ë³´ ì´ˆê¸°í™”
     }
 
     void Update()
     {
-        
+        PlayerGoldText.text = $"{player.Money}";
+        PlayerHpText.text = $"{player.HP} / {player.MaxHP}";
+
+        // ë‹¨ì¶•í‚¤ UI í…ìŠ¤íŠ¸ ì—…ë°ì´íŠ¸
+        PlayerPortionText.text = $"{KeySetting.keys[KeyInput.PENDANT]}";     // í¬ì…˜ or íœë˜íŠ¸
+        PlayerRollText.text = $"{KeySetting.keys[KeyInput.ROLL]}";
+        PlayerSwitchWeaponText.text = $"{KeySetting.keys[KeyInput.SWITCHWEAPON]}";
+        PlayerSubAttackText.text = $"{KeySetting.keys[KeyInput.SUBATTACK]}";
+        PlayerMainAttackText.text = $"{KeySetting.keys[KeyInput.MAINATTACK]}";
+        PlayerInvetoryText.text = $"{KeySetting.keys[KeyInput.TouchNPC]}";    // ì¸ë²¤í† ë¦¬ í‚¤ê°€ ë”°ë¡œ ìˆë‹¤ë©´ ìˆ˜ì •
     }
 
     public void Initialize()
