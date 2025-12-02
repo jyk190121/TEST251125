@@ -17,8 +17,8 @@ public enum KeyInput
     PENDANT,
     SWITCHWEAPON,
     OPTION,
+    INVENTORY,
     KEYCOUNT
-     
 }
 
 public static class KeySetting
@@ -41,7 +41,8 @@ public class InputManager : MonoBehaviour
         KeyCode.G,      //상호작용
         KeyCode.B,      //펜던트 사용
         KeyCode.T,      //무기 교체
-        KeyCode.Escape
+        KeyCode.Escape, //옵션 열기
+        KeyCode.I       //인벤토리 열기
     };
 
     private void Awake()
