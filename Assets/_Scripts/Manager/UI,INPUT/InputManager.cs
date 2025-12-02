@@ -18,7 +18,6 @@ public enum KeyInput
     SWITCHWEAPON,
     OPTION,
     KEYCOUNT
-     
 }
 
 public static class KeySetting
