@@ -325,10 +325,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de2db388dfe0c74d838391b5a69b3cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upDoor: {fileID: 6966190852787596122}
-  downDoor: {fileID: 5086408026908071205}
-  leftDoor: {fileID: 2671161406246470249}
-  rightDoor: {fileID: 320954164873580258}
+  doorUp: {fileID: 6966190852787596122}
+  doorDown: {fileID: 5086408026908071205}
+  doorLeft: {fileID: 2671161406246470249}
+  doorRight: {fileID: 320954164873580258}
 --- !u!1 &2358184118776644212
 GameObject:
   m_ObjectHideFlags: 0

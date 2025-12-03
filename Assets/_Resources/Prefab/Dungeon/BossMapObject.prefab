@@ -770,10 +770,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de2db388dfe0c74d838391b5a69b3cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upDoor: {fileID: 7723270133446670979}
-  downDoor: {fileID: 5554343304126989564}
-  leftDoor: {fileID: 3356219446024721328}
-  rightDoor: {fileID: 1150162780875841339}
+  doorUp: {fileID: 7723270133446670979}
+  doorDown: {fileID: 5554343304126989564}
+  doorLeft: {fileID: 3356219446024721328}
+  doorRight: {fileID: 1150162780875841339}
 --- !u!1 &6383567739828079065
 GameObject:
   m_ObjectHideFlags: 0

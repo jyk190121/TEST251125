@@ -1143,10 +1143,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de2db388dfe0c74d838391b5a69b3cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upDoor: {fileID: 3152687954128307356}
-  downDoor: {fileID: 1007386259717323491}
-  leftDoor: {fileID: 7961702733634842031}
-  rightDoor: {fileID: 5699370531459604772}
+  doorUp: {fileID: 3152687954128307356}
+  doorDown: {fileID: 1007386259717323491}
+  doorLeft: {fileID: 7961702733634842031}
+  doorRight: {fileID: 5699370531459604772}
 --- !u!1001 &49907927749899191
 PrefabInstance:
   m_ObjectHideFlags: 0
