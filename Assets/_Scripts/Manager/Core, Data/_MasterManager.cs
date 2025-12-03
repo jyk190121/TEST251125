@@ -63,7 +63,7 @@ public class _MasterManager : MonoBehaviour
 
         // 4. ����/ī�޶�/�ð�
         SoundManager.Initialize();
-        DayManager.Initialize();
+        //DayManager.Initialize();
 
 
         Debug.Log("��� �Ŵ��� �ʱ�ȭ �Ϸ�");

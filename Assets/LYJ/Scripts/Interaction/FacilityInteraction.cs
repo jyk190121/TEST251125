@@ -4,14 +4,14 @@ using TMPro;
 /// <summary>
 /// 마을의 모든 시설 상호작용을 담당
 /// 플레이어가 범위 내에 들어오면 프롬프트 표시
-/// F 키를 눌러 상호작용
+/// G 키를 눌러 상호작용
 /// </summary>
 public class FacilityInteraction : MonoBehaviour
 {
     [SerializeField] private string facilityID;
     [SerializeField] private float interactionRange = 2f;
-    [SerializeField] private KeyCode interactionKey = KeyCode.F;
-    [SerializeField] private string promptText = "대화하기 [F]";
+    private KeyCode interactionKey = KeyCode.G;
+    [SerializeField] private string promptText = "대화하기 [G]";
     [SerializeField] private GameObject linkedUIPanel;
 
     // 프롬프트 표시 UI
@@ -60,7 +60,7 @@ public class FacilityInteraction : MonoBehaviour
                 ShowPrompt();
             }
 
-            // F 키 입력 확인
+            // G 키 입력 확인
             if (Input.GetKeyDown(interactionKey))
             {
                 OnInteraction();
@@ -78,7 +78,15 @@ public class FacilityInteraction : MonoBehaviour
 
     private void OnInteraction()
     {
-        // 특수 처리: 던전 입장
+        // 상점 입장
+        if (facilityID == "shop")
+        {
+            Debug.Log("[FacilityInteraction] 문라이터 입장!");
+            // 나중에: SceneManager.LoadScene("ShopScene");
+            return;
+        }
+
+        // 던전 입장
         if (facilityID == "dungeon")
         {
             Debug.Log("[FacilityInteraction] 던전 입장!");
@@ -86,7 +94,7 @@ public class FacilityInteraction : MonoBehaviour
             return;
         }
 
-        // 시설 구매 (특수 처리)
+        // 시설 구매
         if (facilityID == "buy_facilities")
         {
             if (linkedUIPanel != null)
@@ -97,7 +105,7 @@ public class FacilityInteraction : MonoBehaviour
             return;
         }
 
-        // 일반 시설 상호작용
+        // 일반 시설 (대장간, 나무 모자)
         VillageSystemManager systemManager = VillageSystemManager.Instance;
 
         if (systemManager.IsFacilityUnlocked(facilityID))
@@ -114,8 +122,7 @@ public class FacilityInteraction : MonoBehaviour
             // 시설이 잠금
             int cost = systemManager.GetFacilityUnlockCost(facilityID);
             string facilityName = systemManager.GetFacilityName(facilityID);
-            Debug.Log($"[FacilityInteraction] {facilityName}은 잠금 상태입니다. " +
-                      $"(비용: {cost}G) 시설 구매대에서 구매하세요!");
+            Debug.Log($"[FacilityInteraction] {facilityName}은 잠금 상태입니다.");
         }
     }
 
