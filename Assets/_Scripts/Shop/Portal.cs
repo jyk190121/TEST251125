@@ -15,31 +15,6 @@ public class HomePortal : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.transform.position = pos.transform.position;
-
-            if (movingHome) MovingHome();
-            else MovingShop();
         }
     }
-
-
-    void MovingHome()
-    {
-        Camera.main.transform.position =
-            Vector3.Lerp(Camera.main.transform.position,
-            new Vector3(-4,8,1),
-            Time.deltaTime);
-
-        movingHome = false;
-    }
-
-    void MovingShop()
-    {
-        Camera.main.transform.position =
-          Vector3.Lerp(Camera.main.transform.position,
-          new Vector3(-4, 8, -7.5f),
-          Time.deltaTime);
-
-        movingHome = true;
-    }
-
 }
