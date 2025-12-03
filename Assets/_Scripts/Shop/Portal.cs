@@ -8,8 +8,6 @@ public class HomePortal : MonoBehaviour
     [Header("순간이동할 위치")]
     public Transform pos;
 
-    bool movingHome = false;
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
