@@ -14,7 +14,6 @@ public class _MasterManager : MonoBehaviour
     public BattleManager BattleManager { get; private set; }
     public DungeonManager DungeonManager { get; private set; }
     public EnemyManager EnemyManager { get; private set; }
-    public CameraManager CameraManager { get; private set; }
     public ResourceManager ResourceManager { get; private set; }
     public SoundManager SoundManager { get; private set; }
 
@@ -44,7 +43,6 @@ public class _MasterManager : MonoBehaviour
         BattleManager = GetComponent<BattleManager>();
         DungeonManager = GetComponent<DungeonManager>();
         EnemyManager = GetComponent<EnemyManager>();
-        CameraManager = GetComponent<CameraManager>();
         ResourceManager = GetComponent<ResourceManager>();
         SoundManager = GetComponent<SoundManager>();
 
@@ -65,8 +63,7 @@ public class _MasterManager : MonoBehaviour
 
         // 4. ����/ī�޶�/�ð�
         SoundManager.Initialize();
-        CameraManager.Initialize();
-        //DayManager.Initialize();
+        DayManager.Initialize();
 
 
         Debug.Log("��� �Ŵ��� �ʱ�ȭ �Ϸ�");

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2650172735250416492}
   - component: {fileID: 3294822001658407788}
   - component: {fileID: 4671395591291504479}
-  - component: {fileID: 2981657586856984908}
   - component: {fileID: 8920553311433859232}
   - component: {fileID: 1293457061437949131}
   - component: {fileID: 4446091005734904064}
@@ -65,18 +64,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ab9f4b2420d63a14f914829458945dab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2981657586856984908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1122407842628781802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a55690733b8de041ada07b70e57fcf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &8920553311433859232
@@ -187,3 +174,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb4171dfbfd1b74bbb153862866bb33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerGoldText: {fileID: 0}
+  PlayerHpText: {fileID: 0}
+  PlayerPortionText: {fileID: 0}
+  PlayerRollText: {fileID: 0}
+  PlayerSwitchWeaponText: {fileID: 0}
+  PlayerSubAttackText: {fileID: 0}
+  PlayerMainAttackText: {fileID: 0}
+  PlayerInvetoryText: {fileID: 0}
