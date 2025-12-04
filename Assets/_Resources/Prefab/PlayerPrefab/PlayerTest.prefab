@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 53021235777541595}
   - component: {fileID: 3623911395392893663}
   - component: {fileID: 6433518742274345354}
-  - component: {fileID: 6807223370957367372}
   - component: {fileID: 7957223060827283624}
+  - component: {fileID: 7225683072826563298}
   m_Layer: 0
   m_Name: PlayerTest
   m_TagString: Player
@@ -111,18 +111,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: -0.3, z: 0}
---- !u!114 &6807223370957367372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4331189220267833685}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11249dc8d6eada8469634998932c4a75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &7957223060827283624
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -150,6 +138,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!114 &7225683072826563298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4331189220267833685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11249dc8d6eada8469634998932c4a75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &298723448067718374
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -254,11 +254,64 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 217948144222324984, guid: 5c520967f1cb7264e91d049797165604, type: 3}
+    - {fileID: -1758387426544957723, guid: 5c520967f1cb7264e91d049797165604, type: 3}
+    - {fileID: 6087868488589767693, guid: 5c520967f1cb7264e91d049797165604, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 464192553626721337, guid: 5c520967f1cb7264e91d049797165604, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 56024648417027386}
+    - targetCorrespondingSourceObject: {fileID: 464192553626721337, guid: 5c520967f1cb7264e91d049797165604, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4239931834258392235}
+    - targetCorrespondingSourceObject: {fileID: 464192553626721337, guid: 5c520967f1cb7264e91d049797165604, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4357489741838656149}
   m_SourcePrefab: {fileID: 100100000, guid: 5c520967f1cb7264e91d049797165604, type: 3}
+--- !u!1 &167868829956481247 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 464192553626721337, guid: 5c520967f1cb7264e91d049797165604, type: 3}
+  m_PrefabInstance: {fileID: 298723448067718374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &56024648417027386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167868829956481247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc7db1e72b876446a1abf7eade81ad2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4239931834258392235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167868829956481247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33897426fc4ed984f9ead7bc352d8628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4357489741838656149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 167868829956481247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9595a84e3cc7bb2498fc962d1ab36380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5078611421344684353 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4782714273285154215, guid: 5c520967f1cb7264e91d049797165604, type: 3}
