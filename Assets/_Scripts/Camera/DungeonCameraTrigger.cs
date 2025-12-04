@@ -10,20 +10,25 @@ public class CameraTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             DungeonCamera cam = Camera.main.GetComponent<DungeonCamera>();
+            DungeonPortal player = GameObject.FindFirstObjectByType <DungeonPortal>();
 
             switch (moveDirection)
             {
                 case MoveDir.Left:
                     cam.LeftMove();
+                    player.LeftMove();
                     break;
                 case MoveDir.Right:
                     cam.RightMove();
+                    player.RightMove(); 
                     break;
                 case MoveDir.Up:
                     cam.UpMove();
+                    player.UpMove();
                     break;
                 case MoveDir.Down:
                     cam.DownMove();
+                    player.DownMove();
                     break;
             }
         }

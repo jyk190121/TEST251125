@@ -269,7 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36263559bdfaec9418d8411e1b8ffa57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraHeigth: 23
+  cameraHeigth: 25
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,6 +391,23 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!1 &608199552 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8077640625402577114, guid: 508a3831b4ea2d34aa2906af51eb979f, type: 3}
+  m_PrefabInstance: {fileID: 4709613929670024663}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &608199560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608199552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f60430813c67a40a1f91469fa7e3b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,6 +467,7 @@ GameObject:
   m_Component:
   - component: {fileID: 956454584}
   - component: {fileID: 956454585}
+  - component: {fileID: 956454586}
   m_Layer: 0
   m_Name: DungeonManager
   m_TagString: Untagged
@@ -488,8 +506,22 @@ MonoBehaviour:
   normalRoomPrefab: {fileID: 7750781564248813308, guid: ccd1b933ff665c044a586117264e8c08, type: 3}
   restRoomPrefab: {fileID: 2322801824289053418, guid: f679a44dc19c7974a9b6f7b93ea0b6e9, type: 3}
   bossRoomPrefab: {fileID: 6114786623350134996, guid: 7ea6cc0841d0c3e4c9daca663a1e87dc, type: 3}
+  minRooms: 8
+  maxRooms: 10
   roomSpacingX: 50
   roomSpacingZ: 30
+--- !u!114 &956454586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 956454582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23f60430813c67a40a1f91469fa7e3b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1877417425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -610,7 +642,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8077640625402577114, guid: 508a3831b4ea2d34aa2906af51eb979f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 608199560}
   m_SourcePrefab: {fileID: 100100000, guid: 508a3831b4ea2d34aa2906af51eb979f, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

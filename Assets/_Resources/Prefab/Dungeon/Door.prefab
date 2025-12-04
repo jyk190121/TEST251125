@@ -333,15 +333,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5114715344399388685}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0de2db388dfe0c74d838391b5a69b3cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upDoor: {fileID: 3130518526125324075}
-  downDoor: {fileID: 958064446323640660}
-  leftDoor: {fileID: 7984011923061317144}
-  rightDoor: {fileID: 5740248614739415699}
+  doorUp: {fileID: 0}
+  doorDown: {fileID: 0}
+  doorLeft: {fileID: 0}
+  doorRight: {fileID: 0}
 --- !u!1 &5740248614739415699
 GameObject:
   m_ObjectHideFlags: 0
