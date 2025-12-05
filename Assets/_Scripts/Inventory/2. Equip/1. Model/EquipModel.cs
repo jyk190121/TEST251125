@@ -41,7 +41,7 @@ public class EquipModel
         return null;
     }
 
-    // 현재 장착된 아이템 가져오기
+    //현재 장착된 아이템 가져오기
     public Item GetEquip(int index)
     {
         if (index >= 0 && index < equipSlots.Length)

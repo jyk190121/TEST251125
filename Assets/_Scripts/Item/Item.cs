@@ -13,9 +13,9 @@ public enum ItemType
 public class Item : ScriptableObject
 {
     [Header("기본 정보")]
-    public int itemID;    //아이템 고유 ID
-    public string itemName; //아이템 이름
-    public Sprite icon;     //아이템 아이콘(이미지)
+    public int itemID;              //아이템 고유 ID
+    public string itemName;         //아이템 이름
+    public Sprite icon;             //아이템 아이콘(이미지)
     [TextArea(3, 5)]
     public string description;      //아이템 설명
 
@@ -61,7 +61,7 @@ public class Item : ScriptableObject
 }
 
 public enum Rarity { Common, Uncommon, Rare, Epic, Legendary }  //희귀도
-public enum EquipmentType { Weapon, Armor }         //장비 타입(무기/방어구)
+public enum EquipmentType { Weapon, Armor }                     //장비 타입(무기/방어구)
 public enum EquipmentSlot { Weapon, Head, Body, Foot }          //장비 슬롯
 
 [System.Serializable]
