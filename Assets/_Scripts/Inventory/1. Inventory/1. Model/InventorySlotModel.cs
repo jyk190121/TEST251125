@@ -1,6 +1,7 @@
-using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.Progress;
+//using UnityEngine;
+//using UnityEngine.EventSystems;
+//using UnityEngine.UIElements;
+//using static UnityEditor.Progress;
 
 [System.Serializable]
 public class InventorySlotModel
@@ -24,4 +25,5 @@ public class InventorySlotModel
         itemData = null;
         quantity = 0;
     }
+
 }
