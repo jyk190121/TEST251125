@@ -19,7 +19,6 @@ public class RoomController : MonoBehaviour
 
     public static void ClearDungeon()
     {
-
         isCleared = true;
         Debug.Log("던전 클리어! 문이 열렸습니다.");
     }
