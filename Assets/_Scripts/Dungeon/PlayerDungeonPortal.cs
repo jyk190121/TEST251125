@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class DungeonPortal : MonoBehaviour
+public class PlayerDungeonPortal : MonoBehaviour
 { 
     GameObject player;
 
