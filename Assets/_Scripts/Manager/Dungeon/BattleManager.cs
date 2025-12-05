@@ -20,4 +20,9 @@ public class BattleManager : MonoBehaviour
     {
 
     }
+
+    void TakeDamage(int hp, int amount)
+    {
+        
+    }
 }

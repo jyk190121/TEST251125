@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations;
 
 //PlayerMove에서 입력받은 값에 따라 실행되는 함수를 정리한 스크립트
 public class PlayerControll : MonoBehaviour
@@ -22,6 +23,10 @@ public class PlayerControll : MonoBehaviour
     public void Move(Vector3 dir)
     {
         rb.linearVelocity = dir * model.moveSpeed;
+        if (dir != Vector3.zero)
+        {
+            transform.rotation = Quaternion.LookRotation(dir);
+        }
     }
 
     public void Attack()

@@ -731,6 +731,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7869836724087356899}
+  - component: {fileID: 8232392857601895933}
   m_Layer: 0
   m_Name: BossMapObject
   m_TagString: Untagged
@@ -757,6 +758,22 @@ Transform:
   - {fileID: 62415252492055370}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8232392857601895933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6114786623350134996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0de2db388dfe0c74d838391b5a69b3cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorUp: {fileID: 7723270133446670979}
+  doorDown: {fileID: 5554343304126989564}
+  doorLeft: {fileID: 3356219446024721328}
+  doorRight: {fileID: 1150162780875841339}
 --- !u!1 &6383567739828079065
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,5 +1207,25 @@ PrefabInstance:
 --- !u!4 &62415252492055370 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4648551613745118946, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+  m_PrefabInstance: {fileID: 4638504512020172200}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1150162780875841339 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5740248614739415699, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+  m_PrefabInstance: {fileID: 4638504512020172200}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3356219446024721328 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7984011923061317144, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+  m_PrefabInstance: {fileID: 4638504512020172200}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5554343304126989564 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 958064446323640660, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+  m_PrefabInstance: {fileID: 4638504512020172200}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7723270133446670979 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3130518526125324075, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
   m_PrefabInstance: {fileID: 4638504512020172200}
   m_PrefabAsset: {fileID: 0}

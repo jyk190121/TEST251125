@@ -38,23 +38,21 @@ public class _MasterManager : MonoBehaviour
         SaveLoadManager = GetComponent<SaveLoadManager>();
         DayManager = GetComponent<DayManager>();
         UIManager = GetComponent<UIManager>();
-        InventoryManager = GetComponent<InventoryManager>();
         InputManager = GetComponent<InputManager>();
         BattleManager = GetComponent<BattleManager>();
         DungeonManager = GetComponent<DungeonManager>();
         EnemyManager = GetComponent<EnemyManager>();
-        ResourceManager = GetComponent<ResourceManager>();
+        //ResourceManager = GetComponent<ResourceManager>();
         SoundManager = GetComponent<SoundManager>();
 
         // 1. ������ ���
-        ResourceManager.Initialize();
+        //ResourceManager.Initialize();
         DataManager.Initialize();
         SaveLoadManager.Initialize();
 
         // 2. UI / �Է�
         InputManager.Initialize();
         UIManager.Initialize();
-        InventoryManager.Initialize();
 
         // 3. ���� / ���� / ��
         EnemyManager.Initialize();
