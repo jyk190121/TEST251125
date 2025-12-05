@@ -506,8 +506,8 @@ MonoBehaviour:
   normalRoomPrefab: {fileID: 7750781564248813308, guid: ccd1b933ff665c044a586117264e8c08, type: 3}
   restRoomPrefab: {fileID: 2322801824289053418, guid: f679a44dc19c7974a9b6f7b93ea0b6e9, type: 3}
   bossRoomPrefab: {fileID: 6114786623350134996, guid: 7ea6cc0841d0c3e4c9daca663a1e87dc, type: 3}
-  minRooms: 8
-  maxRooms: 10
+  minRooms: 10
+  maxRooms: 12
   roomSpacingX: 50
   roomSpacingZ: 30
 --- !u!114 &956454586

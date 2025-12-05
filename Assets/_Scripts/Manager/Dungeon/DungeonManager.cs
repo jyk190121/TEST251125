@@ -27,6 +27,7 @@ public class DungeonManager : MonoBehaviour
     private List<Vector2Int> roomPositions = new();
     private Dictionary<Vector2Int, GameObject> spawnedRooms = new();
 
+
     private readonly Vector2Int[] dirs = new Vector2Int[]
     {
         new Vector2Int(1,0),   // Right
@@ -162,7 +163,7 @@ public class DungeonManager : MonoBehaviour
             Vector2Int pos = kv.Key;
             GameObject room = kv.Value;
 
-            RoomDoorController doors = room.GetComponent<RoomDoorController>();
+            RoomController doors = room.GetComponent<RoomController>();
 
             if (doors == null)
             {

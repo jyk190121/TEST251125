@@ -1,34 +1,36 @@
 using UnityEngine;
 
 public class DungeonPortal : MonoBehaviour
-{
-    GameObject player;  //플레이어
+{ 
+    GameObject player;
 
-    void Start()
+    private void Start()
     {
-        player = GetComponent<GameObject>();
+        player = this.gameObject;
+        player.transform.position = Vector3.zero;
+        player.transform.rotation = Quaternion.identity;
     }
 
     //왼쪽방으로 갈 때
-    public void LeftMove()
+    public void LeftMove(Collider player)
     {
-        player.transform.position = new Vector3(-10, 0, 0);
+        player.transform.position += new Vector3(-10, 0, 0);
     }
 
     //오른쪽방으로 갈 때
-    public void RightMove()
+    public void RightMove(Collider player)
     {
         player.transform.position += new Vector3(10, 0, 0);
     }
 
     //위쪽방으로 갈 때
-    public void UpMove()
+    public void UpMove(Collider player)
     {
         player.transform.position += new Vector3(0, 0, 8);
     }
 
     //아래쪽방으로 갈 때
-    public void DownMove()
+    public void DownMove(Collider player)
     {
         player.transform.position += new Vector3(0, 0, -8);
     }
