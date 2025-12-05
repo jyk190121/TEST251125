@@ -62,7 +62,7 @@ public class Item : ScriptableObject
 
 public enum Rarity { Common, Uncommon, Rare, Epic, Legendary }  //희귀도
 public enum EquipmentType { Weapon, Armor }         //장비 타입(무기/방어구)
-public enum EquipmentSlot { Weapon, Head, Body, Foot }      //장비 슬롯
+public enum EquipmentSlot { Weapon, Head, Body, Foot }          //장비 슬롯
 
 [System.Serializable]
 public struct MaterialCost
