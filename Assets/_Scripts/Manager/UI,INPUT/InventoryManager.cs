@@ -46,6 +46,7 @@ public class InventoryManager : MonoBehaviour
         //이벤트 연결 (View -> Logic)
         //슬롯이 클릭되면 -> HandleSlotClick 실행
         inventoryView.OnSlotClicked += HandleSlotClick;
+
     }
     
     private void Start()

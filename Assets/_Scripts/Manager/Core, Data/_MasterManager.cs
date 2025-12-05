@@ -45,7 +45,6 @@ public class _MasterManager : MonoBehaviour
         ResourceManager = GetComponent<ResourceManager>();
         InventoryManager = GetComponent<InventoryManager>();
         SoundManager = GetComponent<SoundManager>();
-        InventoryManager = GetComponent<InventoryManager>();
 
         // 1. ������ ���
         ResourceManager.Initialize();
