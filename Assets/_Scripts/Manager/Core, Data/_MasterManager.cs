@@ -44,6 +44,7 @@ public class _MasterManager : MonoBehaviour
         EnemyManager = GetComponent<EnemyManager>();
         //ResourceManager = GetComponent<ResourceManager>();
         SoundManager = GetComponent<SoundManager>();
+        InventoryManager = GetComponent<InventoryManager>();
 
         // 1. ������ ���
         //ResourceManager.Initialize();
@@ -53,6 +54,7 @@ public class _MasterManager : MonoBehaviour
         // 2. UI / �Է�
         InputManager.Initialize();
         UIManager.Initialize();
+        InventoryManager.Initialize();
 
         // 3. ���� / ���� / ��
         EnemyManager.Initialize();
