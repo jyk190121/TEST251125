@@ -6,12 +6,12 @@ using UnityEngine;
 /// </summary>
 public class PlayerBoundaryLimiter : MonoBehaviour
 {
-    [SerializeField] private float minX = -240f;
-    [SerializeField] private float maxX = 240f;
-    [SerializeField] private float minZ = -240f;
-    [SerializeField] private float maxZ = 240f;
-    [SerializeField] private float minY = -5f;
-    [SerializeField] private float maxY = 50f;
+    [SerializeField] private float minX = -25f;
+    [SerializeField] private float maxX = 25f;
+    [SerializeField] private float minZ = -23f;
+    [SerializeField] private float maxZ = 23f;
+    [SerializeField] private float minY = -1f;
+    [SerializeField] private float maxY = 10f;
 
     private Transform playerTransform;
 
@@ -76,13 +76,6 @@ public class PlayerBoundaryLimiter : MonoBehaviour
         // 모서리 강조
         Gizmos.color = Color.red;
         DrawCorner(new Vector3(minX, minY, minZ));
-        DrawCorner(new Vector3(maxX, minY, minZ));
-        DrawCorner(new Vector3(minX, minY, maxZ));
-        DrawCorner(new Vector3(maxX, minY, maxZ));
-        DrawCorner(new Vector3(minX, maxY, minZ));
-        DrawCorner(new Vector3(maxX, maxY, minZ));
-        DrawCorner(new Vector3(minX, maxY, maxZ));
-        DrawCorner(new Vector3(maxX, maxY, maxZ));
     }
 
     private void DrawCorner(Vector3 pos)

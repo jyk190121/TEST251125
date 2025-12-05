@@ -13,7 +13,7 @@ public enum KeyInput
     MAINATTACK,
     SUBATTACK,
     ROLL,
-    TouchNPC,
+    INTERACTIVE,
     PENDANT,
     SWITCHWEAPON,
     OPTION,
@@ -24,6 +24,11 @@ public enum KeyInput
 public static class KeySetting
 {
     public static Dictionary<KeyInput, KeyCode> keys = new Dictionary<KeyInput, KeyCode>();
+
+    public static string GetKeyString(KeyInput keyInput)
+    {
+        return keys[keyInput].ToString();  // "W", "Space", "I" 같은 스트링 반환
+    }
 }
 
 public class InputManager : MonoBehaviour
