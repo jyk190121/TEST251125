@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 3031894113465792698}
   - component: {fileID: 6448531299175955211}
   - component: {fileID: 3738285220579728500}
+  - component: {fileID: 4793295448319582399}
   m_Layer: 0
   m_Name: Enter
   m_TagString: Untagged
@@ -377,6 +378,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Exit
   homeShop: {fileID: 0}
   village: {fileID: 5279884624396352501}
+--- !u!114 &4793295448319582399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7797264268249160380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6442d2347da4bf4d9e5f8825006edd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7960778563847467365
 GameObject:
   m_ObjectHideFlags: 0

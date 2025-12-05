@@ -13,7 +13,7 @@ public class KJY_Camera : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        movingHome = true;
+        movingHome = false;
         dis = 0.1f;
     }
 

@@ -1663,7 +1663,7 @@ GameObject:
   - component: {fileID: 4548383455292901204}
   - component: {fileID: 4478190021928495932}
   - component: {fileID: 8228856137147476475}
-  - component: {fileID: 573158914295152055}
+  - component: {fileID: 443474115138332206}
   m_Layer: 0
   m_Name: Exit
   m_TagString: Untagged
@@ -1760,7 +1760,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &573158914295152055
+--- !u!114 &443474115138332206
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1769,11 +1769,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6323694695371151231}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23db641b79605744ebddd042600315ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 24e19e86dd3b6664d9f7aad47b1f3391, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Exit
-  homeShop: {fileID: 4065030858194598756}
-  village: {fileID: 0}
+  m_EditorClassIdentifier: 
 --- !u!1 &7158267188205352128
 GameObject:
   m_ObjectHideFlags: 0
@@ -2674,6 +2672,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bed
       objectReference: {fileID: 0}
+    - target: {fileID: 5696494855991954268, guid: d13cdfd2a832b394aae70f7526e4d949, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0486aeb3252478d4c81d8a33e1630f3d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
