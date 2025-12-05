@@ -43,11 +43,11 @@ public class _MasterManager : MonoBehaviour
         BattleManager = GetComponent<BattleManager>();
         DungeonManager = GetComponent<DungeonManager>();
         EnemyManager = GetComponent<EnemyManager>();
-        ResourceManager = GetComponent<ResourceManager>();
+        //ResourceManager = GetComponent<ResourceManager>();
         SoundManager = GetComponent<SoundManager>();
 
         // 1. ������ ���
-        ResourceManager.Initialize();
+        //ResourceManager.Initialize();
         DataManager.Initialize();
         SaveLoadManager.Initialize();
 
@@ -63,7 +63,7 @@ public class _MasterManager : MonoBehaviour
 
         // 4. ����/ī�޶�/�ð�
         SoundManager.Initialize();
-        //DayManager.Initialize();
+        DayManager.Initialize();
 
 
         Debug.Log("��� �Ŵ��� �ʱ�ȭ �Ϸ�");

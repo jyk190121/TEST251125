@@ -24,7 +24,7 @@ public class FacilityInteraction : MonoBehaviour
     private void Start()
     {
         // 플레이어 찾기
-        PlayerController playerController = FindAnyObjectByType<PlayerController>();
+        PlayerController_YJ playerController = FindAnyObjectByType<PlayerController_YJ>();
         if (playerController != null)
         {
             playerTransform = playerController.transform;

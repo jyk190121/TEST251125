@@ -3,22 +3,21 @@ using TMPro;
 using UnityEngine.UI;
 
 /// <summary>
-/// 마을 화면 HUD
+/// 화면 HUD
 /// </summary>
 public class VillageHUD : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI dayText;
     [SerializeField] private Image backgroundImage;
 
     // 낮/밤 색상
-    [SerializeField] private Color dayColor = Color.white;
-    [SerializeField] private Color nightColor = new Color(0.3f, 0.3f, 0.5f);
+    [SerializeField] private Color dayColor = new Color(1f, 1f, 1f, 0f);
+    [SerializeField] private Color nightColor = new Color(0.1f, 0.1f, 0.3f, 0.5f);
 
     private DayManager dayManager;
 
     private void Start()
     {
-        dayManager = DayManager.Instance;
+        dayManager = _MasterManager.Instance.DayManager;
 
         if (dayManager == null)
         {
@@ -55,11 +54,6 @@ public class VillageHUD : MonoBehaviour
 
     private void UpdateDisplay()
     {
-        if (dayText != null)
-        {
-            dayText.text = $"{dayManager.CurrentDay}일";
-        }
-
         // 배경 색상 변경 (낮/밤)
         if (backgroundImage != null)
         {

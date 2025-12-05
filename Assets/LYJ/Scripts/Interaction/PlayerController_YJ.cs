@@ -71,7 +71,5 @@ public class PlayerController_YJ : MonoBehaviour
             bool isMoving = inputDirection.magnitude > 0.1f;
             animator.SetBool("IsMoving", isMoving);
         }
-
-        Debug.Log($"[PlayerController] 위치: {transform.position}, 입력: ({horizontal}, {vertical})");
     }
 }

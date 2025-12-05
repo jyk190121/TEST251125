@@ -32,13 +32,13 @@ public class VillageSystemManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        InitializeFacilities();
+        Initialize();
     }
 
     /// <summary>
     /// 초기 시설 데이터 설정
     /// </summary>
-    private void InitializeFacilities()
+    private void Initialize()
     {
         // 대장간 (무기 제작)
         facilities["smithy"] = new Facility
@@ -57,8 +57,6 @@ public class VillageSystemManager : MonoBehaviour
             unlockCost = 500,
             isUnlocked = false
         };
-
-        Debug.Log("[VillageSystemManager] 2개 시설 초기화됨");
     }
 
     public bool IsFacilityUnlocked(string facilityID)
@@ -117,6 +115,6 @@ public class VillageSystemManager : MonoBehaviour
 
     public void ResetFacilities()
     {
-        InitializeFacilities();
+        Initialize();
     }
 }

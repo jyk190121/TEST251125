@@ -6,8 +6,6 @@ using System;
 /// </summary>
 public class DayManager : MonoBehaviour
 {
-    public static DayManager Instance { get; private set; }
-
     public enum TimeOfDay
     {
         Day,
@@ -23,20 +21,28 @@ public class DayManager : MonoBehaviour
     public event Action<TimeOfDay> OnTimeChanged;
     public event Action<int> OnDayChanged;
 
-    private void Awake()
+    private bool isInitialized = false;
+
+    public void Initialize()
     {
-        if (Instance != null && Instance != this)
+        if (isInitialized)
         {
-            Destroy(gameObject);
+            Debug.LogWarning("[DayManager] 이미 초기화됨");
             return;
         }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+
+        isInitialized = true;
+
+        currentTime = TimeOfDay.Day;
+        currentDay = 1;
+
+        Debug.Log($"[DayManager] 초기화 완료: {currentDay}일, {currentTime}");
     }
 
+
     /// <summary>
-    /// 시간대를 변경합니다 (낮 ↔ 밤)
-    /// 밤에서 낮으로 변경될 때는 날짜가 1일 증가합니다
+    /// 시간대 변경 (낮 ↔ 밤)
+    /// 밤에서 낮으로 변경될 때는 날짜가 1일 증가
     /// </summary>
     public void ChangeTimeOfDay(TimeOfDay newTime)
     {
