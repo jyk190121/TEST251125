@@ -13,7 +13,8 @@ public class Customer : MonoBehaviour
     public enum CustomerState
     {
         EnteringShop,       //가게안으로 이동
-        BuyingItem,         //아이템 구매여부
+        SelectItem,         //아이템 구매여부
+        BuyingItem,         //아이템 구매
         LeavingShop         //가게밖으로 이동
     }
 
@@ -22,6 +23,11 @@ public class Customer : MonoBehaviour
     public Transform itemPos;   //아이템 구매 위치
     public Transform salesPos;  //돈 계산 위치
 
+    bool itemChek;
+    bool itemBuyCheck;
+
+    RegisteredItem items;
+
     NavMeshAgent agent;
     CustomerState state;
 
@@ -29,6 +35,9 @@ public class Customer : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        items = GameObject.Find("DisplayStand").GetComponent<RegisteredItem>();
+        itemChek = false;
+        itemBuyCheck = false;
         EnterShop();
     }
 
@@ -38,20 +47,33 @@ public class Customer : MonoBehaviour
         switch (state)
         {
             case CustomerState.EnteringShop:
+                //입구로 이동
                 if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
                 {
-                    StartCoroutine(BuyItem());
+                    if (Vector3.Distance(transform.position, entered.position) < 1f)
+                    {
+                        //Warp는 순간이동
+                        agent.Warp(new Vector3(-0.9f, 0.98f, -10.48f));
+                    }
+                    StartCoroutine(SelectItem());
                 }
                 break;
 
+            case CustomerState.SelectItem:
+                break;
+
             case CustomerState.BuyingItem:
-                // 구매 중에는 이동하지 않음
+
+                StartCoroutine(BuyItem());
                 break;
 
             case CustomerState.LeavingShop:
+                LeaveShop();
+                //출구로 이동
                 if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
                 {
-                    Destroy(gameObject); // 가게 밖으로 나가면 삭제
+                    // 가게 밖으로 나가면 삭제
+                    Destroy(gameObject); 
                 }
                 break;
         }
@@ -62,27 +84,56 @@ public class Customer : MonoBehaviour
         print("가게로 가자");
         state = CustomerState.EnteringShop;
         agent.SetDestination(entered.position);
-        if (Vector3.Distance(transform.position, entered.position) < 1f)
+    }
+
+    IEnumerator SelectItem()
+    {
+        if (itemChek) yield break;
+
+        itemChek = true;
+
+        //등록된 아이템 리스트 확인 (이동x)
+        print("아이템 확인");
+        agent.SetDestination(itemPos.position);
+        //아이템 확인 5초대기
+        yield return new WaitForSeconds(5f);
+        int r = Random.Range(1, 31);
+
+        //마음에 안드는 경우 바로 나가자
+        if(r > 20)
         {
-            transform.position = exited.position;
+            print("마음에 드는게 없네");
+            state = CustomerState.LeavingShop;
         }
+        //마음에 드는 경우 판매대로 이동
+        else
+        {
+            print("이 아이템 사야겠다");
+            state = CustomerState.BuyingItem;
+        }
+            
     }
 
     IEnumerator BuyItem()
     {
+        if(itemBuyCheck) yield break;
+
+        itemBuyCheck = true;
+        //아이템 가격 지불 (이동x)
+
         print("물건을 사자");
-        state = CustomerState.BuyingItem;
+        agent.SetDestination(salesPos.position);
 
-        // 구매 행동 예시: 2초 기다림
-        yield return new WaitForSeconds(2f);
-
-        LeaveShop();
+        //계산 후 밖으로 나감
+        yield return new WaitForSeconds(3f);
+        agent.enabled = false;
+        yield return new WaitForSeconds(3f);
+        state = CustomerState.LeavingShop;
     }
 
     void LeaveShop()
     {
-        print("가게를 나가자");
-        state = CustomerState.LeavingShop;
+        agent.enabled = true;
         agent.SetDestination(exited.position);
     }
 }
