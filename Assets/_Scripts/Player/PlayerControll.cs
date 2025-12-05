@@ -10,6 +10,7 @@ public class PlayerControll : MonoBehaviour
 
 
     bool isMove = false;
+    bool isAttacking = false;
 
     //구르기
     //1. 구르기 거리
@@ -17,6 +18,10 @@ public class PlayerControll : MonoBehaviour
     float rollDistance = 2f;
     bool isRolling = false;
     float rollTimer = 1.5f;
+
+    //공격 속도
+    float attackTimer;
+    float defaultAttackTimer = 4f;
 
     void Start()
     {
@@ -51,6 +56,15 @@ public class PlayerControll : MonoBehaviour
                 Debug.Log("구르기 끝");
             }
         }
+
+        if(isAttacking)
+        {
+            attackTimer -= Time.deltaTime;
+            if(attackTimer <= 0f)
+            {
+                isAttacking = false;
+            }
+        }
     }
 
 
@@ -69,7 +83,7 @@ public class PlayerControll : MonoBehaviour
     }
     public void Move(Vector3 dir)
     {
-        if (isRolling) return;
+        if (isRolling||isAttacking) return;
 
         isMove = true;
         PAC.HandleMovementAnim(isMove);
@@ -92,12 +106,16 @@ public class PlayerControll : MonoBehaviour
 
     public void Attack()
     {
-
+        if (isRolling || isAttacking) return;
+        //_MasterManager.Instance.InventoryManager.eq
+        attackTimer = model.attackSpeed;
+        isAttacking = true;
     }
 
     public void SpecialAttack()
     {
-
+        if (isRolling || isAttacking) return;
+        isAttacking = true;
     }
 
     public void Roll(Vector3 rolldir)
