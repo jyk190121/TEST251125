@@ -9,14 +9,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0fe34ac530498b4cb0e910aef999a22, type: 3}
+  m_Script: {fileID: 11500000, guid: f8829d3539dece74b96949f1d189af8e, type: 3}
   m_Name: Armor
   m_EditorClassIdentifier: 
-  ID: 500
-  itemName: 
-  icon: {fileID: 0}
-  description: 
+  itemID: 30
+  itemName: "\uAC11\uC637"
+  icon: {fileID: 21300000, guid: 9a0abe91b8446c84588185d33b986e94, type: 3}
+  description: "\uD754\uD55C \uB204\uB354\uAE30 \uAC11\uC637"
   isStackable: 0
-  maxStackSize: 99
+  maxStack: 99
   buyPrice: 0
   sellPrice: 0
+  type: 1
+  rarity: 0
+  dropMonsters: []
+  equipmentType: 1
+  equipmentSlot: 2
+  tier: 1
+  attack: 0
+  defense: 10
+  speed: 0
+  hpPlus: 0
+  craftRecipe: []
+  upgradeRecipe: []
+  healAmount: 0
+  coolDown: 0

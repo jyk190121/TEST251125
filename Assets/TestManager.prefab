@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 3044458439310454514}
   - component: {fileID: 110381562089895264}
   - component: {fileID: 919440173361447715}
+  - component: {fileID: -7363748038466931331}
   m_Layer: 0
   m_Name: TestManager
   m_TagString: Untagged
@@ -174,11 +175,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb4171dfbfd1b74bbb153862866bb33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerGoldText: {fileID: 0}
-  PlayerHpText: {fileID: 0}
-  PlayerPortionText: {fileID: 0}
-  PlayerRollText: {fileID: 0}
-  PlayerSwitchWeaponText: {fileID: 0}
-  PlayerSubAttackText: {fileID: 0}
-  PlayerMainAttackText: {fileID: 0}
-  PlayerInvetoryText: {fileID: 0}
+--- !u!114 &-7363748038466931331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122407842628781802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7ba9c846be56a147afc9fb0d89c98dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 20
+  inventoryView: {fileID: 77216356036523531, guid: 6c85ddb8d6015154d89e1c8ef45f0d1b, type: 3}
+  testItemA: {fileID: 11400000, guid: d576bfb12e04e264a975361eb98e2c04, type: 2}
+  testItemB: {fileID: 11400000, guid: d719090986879d9428ddda3b72bdd3c7, type: 2}
+  testItemC: {fileID: 11400000, guid: e44c9295fb545f4458b550d1c19eed3b, type: 2}
+  testItemD: {fileID: 11400000, guid: 4a18fce1baae1674cb2a6cabe50e1592, type: 2}
+  testItemE: {fileID: 11400000, guid: cd64f39ae2df86b48ad4f35ea6135f0e, type: 2}
+  inventoryPanelRect: {fileID: 2654045858577554233, guid: cc250527e86224a46b93dcd104871d26, type: 3}
+  dropPopup: {fileID: 4626495044776823140, guid: 5b78621d79b2762438ce31622cd47b1d, type: 3}

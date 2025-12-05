@@ -14,6 +14,8 @@ public class InventoryManager : MonoBehaviour
     public Item testItemA;              //인스펙터에서 아이템(임시) 연결
     public Item testItemB;              //인스펙터에서 아이템(임시) 연결
     public Item testItemC;              //인스펙터에서 아이템(임시) 연결
+    public Item testItemD;              //인스펙터에서 아이템(임시) 연결
+    public Item testItemE;              //인스펙터에서 아이템(임시) 연결
 
     //Model (Inspector에 안 보임)
     private InventoryModel model;    
@@ -21,6 +23,10 @@ public class InventoryManager : MonoBehaviour
     [Header("드래그 상태")]
     //드래그 시작한 슬롯 번호 (-1: 아무것도 안 잡음)
     private int dragStartIndex = -1;
+
+    [Header("UI 영역 설정")]
+    public RectTransform inventoryPanelRect; //인벤토리 배경 (이 밖으로 나가면 팝업)
+    public ItemDropPopup dropPopup;          //팝업창 스크립트
 
     private void Awake()
     {
@@ -41,11 +47,12 @@ public class InventoryManager : MonoBehaviour
         //슬롯이 클릭되면 -> HandleSlotClick 실행
         inventoryView.OnSlotClicked += HandleSlotClick;
     }
-
+    
     private void Start()
     {
         //시작 시 초기화
-        HandleInventoryUpdate(); 
+        HandleInventoryUpdate();
+        dropPopup.ClosePopup();
     }
 
     //임시 아이템 업로드 코드
@@ -81,18 +88,37 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        //D키를 누르면 테스트 아이템 C 획득
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            if (dragStartIndex != -1)
+            if (testItemB != null)
             {
-                // 상태 초기화
-                dragStartIndex = -1;
-
-                // 화면 강제 갱신 (이때 SlotView의 UpdateView가 호출되면서 고스트가 삭제됨)
-                model.NotifyUpdate();
-                Debug.Log("드래그 강제 종료 (안전장치 발동)");
+                AddItem(testItemD);
+                Debug.Log("아이템 획득: " + testItemD.itemName);
             }
         }
+
+        //C키를 누르면 테스트 아이템 C 획득
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (testItemB != null)
+            {
+                AddItem(testItemE);
+                Debug.Log("아이템 획득: " + testItemE.itemName);
+            }
+        }
+
+        //마우스 버튼을 뗐는데(Up) && 드래그 중이라면(dragStartIndex != -1)
+        if (Input.GetMouseButtonUp(0) && dragStartIndex != -1)
+        {
+            //핵심: "팝업창이 꺼져있을 때만" 강제로 종료 처리
+            //(팝업이 켜져 있다면, 유저의 응답을 기다려야 하므로 건드리지 않음)
+            if (dropPopup.gameObject.activeSelf == false)
+            {
+                //강제로 드래그 종료 함수 호출 (-1: 인벤토리 밖으로 간주)
+                OnDragEnd(-1);
+            }
+        }      
     }
 
 
@@ -112,8 +138,12 @@ public class InventoryManager : MonoBehaviour
         model.RemoveItem(dragStartIndex);
         Debug.Log("쓰레기통에 버려 삭제되었습니다.");
 
+        //팝업
+        //ShowDropPopup();
+        
+
         //처리가 끝났으니 드래그 상태 초기화        
-        dragStartIndex = -1;
+        dragStartIndex = -1;       
 
         //화면 갱신
         model.NotifyUpdate();
@@ -122,10 +152,20 @@ public class InventoryManager : MonoBehaviour
     //드래그 끝(드롭) 시 호출
     public void OnDragEnd(int dropIndex)
     {
-        //인벤토리 슬롯 이외에 Drop하면 리셋
+        //인벤토리 슬롯이 아닌 곳(-1)에 Drop 했을 때
         if (dropIndex == -1)
         {
-            dragStartIndex = -1;
+            //마우스가 인벤토리 패널 안에 있는지 확인
+            if (IsMouseOverInventoryPanel())
+            {
+                //안쪽이면 -> 그냥 취소 (원래대로 돌아감)
+                CancelDrag();
+            }
+            else
+            {
+                //바깥쪽이면 -> "버리시겠습니까?" 팝업 띄우기
+                ShowDropPopup();
+            }
             return;
         }
 
@@ -143,11 +183,123 @@ public class InventoryManager : MonoBehaviour
         dragStartIndex = -1;
     }
 
+    //아이템 사용/장착 시 호출
+    public void UseItem(int index)
+    {
+        //모델에서 해당 인덱스 아이템 데이터 가져오기
+        var slots = model.GetSlotsForView();
+
+        //인덱스 범위 체크
+        if (index < 0 || index >= slots.Length) return;
+
+        var targetSlot = slots[index];
+
+        //빈 슬롯이면 취소
+        if (targetSlot.IsEmpty) return;
+
+        Item item = targetSlot.itemData;
+
+        //아이템 타입에 따라 분기 처리        
+        
+        //장비 아이템
+        if (item.type == ItemType.Equipment)
+        {
+            //EquipManager의 장착 함수 소출
+            bool isEquipped = EquipManager.Instance.TryEquipItem(item);
+
+            if (isEquipped)
+            {
+                //장착 성공 시 인벤토리에서 해당 슬롯 비우기
+                model.RemoveItem(index);
+            }
+        }
+
+        //소비 아이템 (포션 등)
+        //else if (item.type == ItemType.Potion)
+        //{
+        //    //체력이 MAX상태인지 확인
+        //    //MatserManager를 통해 플레이어 정보 접근
+        //    if (_MasterManager.Instance == null) return;
+
+        //    PlayerModel playerStat = _MasterManager.Instance.DataManager.GetStat();
+        //    if (playerStst.HP >= playerStat.MaxHP)
+        //    {
+        //        Debug.Log("채력이 이미 가득 찼습니다");
+        //        return;
+        //    }
+
+        //    //체력 회복
+        //    //item.healAmount 만큼 회복
+        //    _MasterManager.Instance.DataManager.AddHP(item.healAmount);
+        //    Debug.Log($"{item.itemName}을(를) 사용하여 체력을 {item.healAmount}만큼 회복했습니다.");
+
+        //    //아이템 수량 감소
+        //    //InventoryModel의 수량 감소 함수 호출
+        //    model.DecreaseItemAmount(index, 1);
+        //}
+    }
+
+
+    //현재 드래그 중인 아이템 데이터를 반환하는 함수 (장비창에서 쓰기 위함)
+    public Item GetDraggedItem()
+    {
+        if (dragStartIndex == -1) return null;
+        var slots = model.GetSlotsForView();
+        return slots[dragStartIndex].itemData;
+    }
+
+    //특정 인덱스의 아이템을 장착 때문에 삭제하는 함수 (단순 삭제와 다름)
+    public void UseItemForEquip()
+    {
+        if (dragStartIndex != -1)
+        {
+            model.RemoveItem(dragStartIndex);
+            dragStartIndex = -1;
+            model.NotifyUpdate();
+        }
+    }
+
+
+    //마우스가 인벤토리 패널 위에 있는지 판별하는 함수
+    private bool IsMouseOverInventoryPanel()
+    {
+        //RectTransformUtility가 마우스 좌표가 네모 칸 안에 있는지 검사해줌
+        return RectTransformUtility.RectangleContainsScreenPoint(
+            inventoryPanelRect,
+            Input.mousePosition
+        );
+    }
+
+    private void ShowDropPopup()
+    {
+        //현재 잡고 있는 아이템 데이터 가져오기
+        var slots = model.GetSlotsForView();
+
+        //안전장치: 인덱스가 이상하면 취소
+        if (dragStartIndex < 0 || dragStartIndex >= slots.Length) return;
+
+        var itemToDrop = slots[dragStartIndex].itemData;
+
+        //팝업 열기 (아이템 이름, YES 행동, NO 행동 전달)
+        dropPopup.OpenPopup(
+            itemToDrop.itemName,
+            //YES 눌렀을 때: 아이템 삭제
+            onYes: () => {
+                model.RemoveItem(dragStartIndex); // 모델에서 삭제
+                dragStartIndex = -1;              // 드래그 상태 초기화
+            },
+            //NO 눌렀을 때: 드래그 취소 (제자리 복귀)
+            onNo: () => {
+                CancelDrag();
+            }
+        );
+    }
+
     //인벤토리 슬롯이 아닌 곳에 Drop했을 때
     public void CancelDrag()
-    {
-        //드래그 상태 초기화
-        dragStartIndex = -1;       
+    {        
+        dragStartIndex = -1;    //드래그 상태 초기화
+        model.NotifyUpdate();   //화면을 원래대로 복구
     }
 
     //인덱스 두 개를 받아서 데이터를 교환
@@ -181,20 +333,17 @@ public class InventoryManager : MonoBehaviour
         var slots = model.GetSlotsForView();
         var clickedSlot = slots[index];
 
-        if (clickedSlot.IsEmpty)
-        {
-            Debug.Log($"[{index}] 빈 슬롯입니다.");
-        }
-        else
+        if (!clickedSlot.IsEmpty)
         {
             Debug.Log($"[{index}] 아이템 선택: {clickedSlot.itemData.itemName}");
         }
     }
 
     //외부에서 아이템 획득 시 호출
-    public void AddItem(Item item, int count = 1)
+    public bool AddItem(Item item, int count = 1)
     {
         model.AddItem(item, count);
+        return true;
     }
 
     //외부에서 아이템 사용 시 호출 (장비 강화, 소모품 사용 등)
@@ -202,7 +351,6 @@ public class InventoryManager : MonoBehaviour
     {
         model.RemoveItemByCount(itemID, count);
     }
-
 
     //외부에서 아이템 ID 값 안내 시 호출
     public int GetItemCount(Item itemID)

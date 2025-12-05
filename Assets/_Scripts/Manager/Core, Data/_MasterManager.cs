@@ -59,7 +59,7 @@ public class _MasterManager : MonoBehaviour
         // 3. ���� / ���� / ��
         EnemyManager.Initialize();
         BattleManager.Initialize();
-        DungeonManager.Initialize();
+        //DungeonManager.Initialize();
 
         // 4. ����/ī�޶�/�ð�
         SoundManager.Initialize();

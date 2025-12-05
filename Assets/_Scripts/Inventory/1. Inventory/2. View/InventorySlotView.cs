@@ -109,12 +109,19 @@ public class InventorySlotView : MonoBehaviour, IBeginDragHandler, IDragHandler,
         if (eventData.dragging) return;
         OnSlotClick?.Invoke(myIndex);
 
+        //더블 클릭 시 InventoryManager에게 장비 착용 알림
+        if (eventData.button == PointerEventData.InputButton.Left && eventData.clickCount == 2)
+        {
+            Debug.Log($"{myIndex}번 인벤토리 아이템 사용");
+            InventoryManager.Instance.UseItem(myIndex);
+        }
+
         //마우스 우클릭 시 아이템 사용/장착
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             //사용 시 디버그 로그
             Debug.Log($"{myIndex}번 인벤토리 아이템 사용");
-            //InventoryManager.Instance.UseItem(myIndex);
+            InventoryManager.Instance.UseItem(myIndex);
         }
     }
 
