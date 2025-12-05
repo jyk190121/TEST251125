@@ -45,7 +45,7 @@ public class _MasterManager : MonoBehaviour
         ResourceManager = GetComponent<ResourceManager>();
         InventoryManager = GetComponent<InventoryManager>();
         SoundManager = GetComponent<SoundManager>();
-        DayManager = GetComponent<DayManager>();
+        InventoryManager = GetComponent<InventoryManager>();
 
         // 1. ������ ���
         ResourceManager.Initialize();
@@ -67,6 +67,6 @@ public class _MasterManager : MonoBehaviour
         DayManager.Initialize();
 
 
-        Debug.Log("��� �Ŵ��� �ʱ�ȭ �Ϸ�");
+        Debug.Log("게임 매니저 초기화 완료");
     }
 }
