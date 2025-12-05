@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 110381562089895264}
   - component: {fileID: 919440173361447715}
   - component: {fileID: -7363748038466931331}
+  - component: {fileID: 4363275150379579331}
+  - component: {fileID: 8578001207759984347}
   m_Layer: 0
   m_Name: TestManager
   m_TagString: Untagged
@@ -183,3 +185,29 @@ MonoBehaviour:
   testItemE: {fileID: 11400000, guid: cd64f39ae2df86b48ad4f35ea6135f0e, type: 2}
   inventoryPanelRect: {fileID: 2654045858577554233, guid: cc250527e86224a46b93dcd104871d26, type: 3}
   dropPopup: {fileID: 4626495044776823140, guid: 5b78621d79b2762438ce31622cd47b1d, type: 3}
+--- !u!114 &4363275150379579331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122407842628781802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b4d5b555e078ed4a98f7799f2b21992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8578001207759984347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122407842628781802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 075cbf78f8b5b7b4ea2a6863d482a1a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTime: 0
+  currentDay: 1
