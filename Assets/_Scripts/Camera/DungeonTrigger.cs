@@ -72,7 +72,7 @@ public class DungeonTrigger : MonoBehaviour
             if (RoomController.isCleared)
             {
                 DungeonCamera cam = Camera.main.GetComponent<DungeonCamera>();
-                DungeonPortal player = other.GetComponent<DungeonPortal>();
+                PlayerDungeonPortal player = other.GetComponent<PlayerDungeonPortal>();
 
                 switch (moveDirection)
                 {
