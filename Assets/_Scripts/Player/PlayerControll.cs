@@ -36,7 +36,7 @@ public class PlayerControll : MonoBehaviour
             // 2. 구르기 이동 처리 (CharacterController 사용)
             // rolldir은 Roll() 호출 시 transform.forward로 설정되었으므로, 현재 방향으로 이동합니다.
             // Roll 시에는 model.moveSpeed보다 빠른 Roll 전용 속도를 사용합니다.
-            float rollSpeed = 3f; // 구르기 속도 (임의의 값, 필요에 따라 조정)
+            float rollSpeed = 8f; // 구르기 속도 (임의의 값, 필요에 따라 조정)
             Vector3 rollMovement = transform.forward * rollSpeed;
             CC.Move(rollMovement * Time.deltaTime);
 

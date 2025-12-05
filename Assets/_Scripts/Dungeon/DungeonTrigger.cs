@@ -64,7 +64,7 @@ public class DungeonTrigger : MonoBehaviour
         }
     }
     
-
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -103,5 +103,43 @@ public class DungeonTrigger : MonoBehaviour
                 Debug.Log("던전을 클리어해야만 이 문을 통과할 수 있습니다!");
             }
         }
+    }
+    */
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+             DungeonCamera cam = Camera.main.GetComponent<DungeonCamera>();
+             PlayerDungeonPortal player = other.GetComponent<PlayerDungeonPortal>();
+
+             switch (moveDirection)
+             {
+                 case MoveDir.Left:
+                     cam.LeftMove();
+                     player.LeftMove(other);
+                     break;
+                 case MoveDir.Right:
+                     cam.RightMove();
+                     player.RightMove(other);
+                     break;
+                 case MoveDir.Up:
+                     cam.UpMove();
+                     player.UpMove(other);
+                     break;
+                 case MoveDir.Down:
+                     cam.DownMove();
+                     player.DownMove(other);
+                     break;
+             }
+
+             Debug.Log("던전이 클리어되어 플레이어가 이동했습니다.");
+
+        }
+        /*
+        else
+        {
+            Debug.Log("던전을 클리어해야만 이 문을 통과할 수 있습니다!");
+        }
+        */
     }
 }
