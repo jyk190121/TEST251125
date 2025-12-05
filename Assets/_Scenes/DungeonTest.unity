@@ -145,7 +145,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4658789441695126820, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 35.07
       objectReference: {fileID: 0}
     - target: {fileID: 4658789441695126820, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_LocalPosition.y
@@ -183,32 +183,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: -5959200195376775878, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2016070290646377139, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 257733375}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
---- !u!1 &257733374 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2016070290646377139, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
-  m_PrefabInstance: {fileID: 257733373}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &257733375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 257733374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23f60430813c67a40a1f91469fa7e3b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,7 +519,6 @@ GameObject:
   m_Component:
   - component: {fileID: 956454584}
   - component: {fileID: 956454585}
-  - component: {fileID: 956454586}
   m_Layer: 0
   m_Name: DungeonManager
   m_TagString: Untagged
@@ -575,26 +553,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e609d7c14fde4b4fbf93a0ec7b6beb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startRoomPrefab: {fileID: 4345327899832292214, guid: d4a8abb703d9e534488c95b07e7d2223, type: 3}
-  normalRoomPrefab: {fileID: 7750781564248813308, guid: ccd1b933ff665c044a586117264e8c08, type: 3}
-  restRoomPrefab: {fileID: 2322801824289053418, guid: f679a44dc19c7974a9b6f7b93ea0b6e9, type: 3}
-  bossRoomPrefab: {fileID: 6114786623350134996, guid: 7ea6cc0841d0c3e4c9daca663a1e87dc, type: 3}
-  minRooms: 10
-  maxRooms: 12
+  roomPrefabList:
+  - roomType: 0
+    prefab: {fileID: 4345327899832292214, guid: d4a8abb703d9e534488c95b07e7d2223, type: 3}
+  - roomType: 1
+    prefab: {fileID: 7750781564248813308, guid: ccd1b933ff665c044a586117264e8c08, type: 3}
+  - roomType: 2
+    prefab: {fileID: 256492928721464780, guid: 09c0bc065555a3d46b7e6a8441a4326f, type: 3}
+  - roomType: 3
+    prefab: {fileID: 2322801824289053418, guid: f679a44dc19c7974a9b6f7b93ea0b6e9, type: 3}
+  - roomType: 4
+    prefab: {fileID: 6114786623350134996, guid: 7ea6cc0841d0c3e4c9daca663a1e87dc, type: 3}
+  minRooms: 12
+  maxRooms: 15
   roomSpacingX: 50
   roomSpacingZ: 30
---- !u!114 &956454586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 956454582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23f60430813c67a40a1f91469fa7e3b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1877417425
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -645,6 +618,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2650172735250416492, guid: bf7589300f9051345b917a1764f22c61, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9076564967756922066, guid: bf7589300f9051345b917a1764f22c61, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
