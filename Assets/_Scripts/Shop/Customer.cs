@@ -23,7 +23,7 @@ public class Customer : MonoBehaviour
     public Transform itemPos;   //아이템 구매 위치
     public Transform salesPos;  //돈 계산 위치
 
-    bool itemChek;
+    bool itemCheck;
     bool itemBuyCheck;
 
     RegisteredItem items;
@@ -31,35 +31,44 @@ public class Customer : MonoBehaviour
     NavMeshAgent agent;
     CustomerState state;
 
+    void Awake()
+    {
+        agent = GetComponent<NavMeshAgent>();
+        agent.avoidancePriority = Random.Range(0, 100);
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
         items = GameObject.Find("DisplayStand").GetComponent<RegisteredItem>();
-        itemChek = false;
+        itemCheck = false;
         itemBuyCheck = false;
+        entered = GameObject.Find("EnterPos").GetComponent<Transform>();
+        exited = GameObject.Find("ExitPos").GetComponent<Transform>();
+        itemPos = GameObject.Find("ItemPos").GetComponent<Transform>();
+        salesPos = GameObject.Find("SalesPos").GetComponent<Transform>();
         EnterShop();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!gameObject) return;
+
         switch (state)
         {
             case CustomerState.EnteringShop:
                 //입구로 이동
                 if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
                 {
-                    if (Vector3.Distance(transform.position, entered.position) < 1f)
-                    {
-                        //Warp는 순간이동
-                        agent.Warp(new Vector3(-0.9f, 0.98f, -10.48f));
-                    }
-                    StartCoroutine(SelectItem());
+                    //agent.Warp(transform.position += new Vector3(0, 0, 2));
+                    agent.Warp(new Vector3(-0.9f, 0.98f, -10.48f));
+                    state = CustomerState.SelectItem;
                 }
                 break;
 
             case CustomerState.SelectItem:
+                StartCoroutine(SelectItem());
                 break;
 
             case CustomerState.BuyingItem:
@@ -73,7 +82,7 @@ public class Customer : MonoBehaviour
                 if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
                 {
                     // 가게 밖으로 나가면 삭제
-                    Destroy(gameObject); 
+                    Destroy(gameObject);
                 }
                 break;
         }
@@ -85,12 +94,11 @@ public class Customer : MonoBehaviour
         state = CustomerState.EnteringShop;
         agent.SetDestination(entered.position);
     }
-
     IEnumerator SelectItem()
     {
-        if (itemChek) yield break;
+        if (itemCheck) yield break;
 
-        itemChek = true;
+        itemCheck = true;
 
         //등록된 아이템 리스트 확인 (이동x)
         print("아이템 확인");
@@ -100,7 +108,7 @@ public class Customer : MonoBehaviour
         int r = Random.Range(1, 31);
 
         //마음에 안드는 경우 바로 나가자
-        if(r > 20)
+        if (r > 20)
         {
             print("마음에 드는게 없네");
             state = CustomerState.LeavingShop;
@@ -111,24 +119,32 @@ public class Customer : MonoBehaviour
             print("이 아이템 사야겠다");
             state = CustomerState.BuyingItem;
         }
-            
+
     }
 
     IEnumerator BuyItem()
     {
-        if(itemBuyCheck) yield break;
+        if (itemBuyCheck) yield break;
 
         itemBuyCheck = true;
-        //아이템 가격 지불 (이동x)
 
         print("물건을 사자");
         agent.SetDestination(salesPos.position);
 
-        //계산 후 밖으로 나감
-        yield return new WaitForSeconds(3f);
-        agent.enabled = false;
-        yield return new WaitForSeconds(3f);
-        state = CustomerState.LeavingShop;
+        if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        {
+            //계산 후 밖으로 나감
+            agent.enabled = false;
+            yield return new WaitForSeconds(3f);
+            state = CustomerState.LeavingShop;
+          
+        }
+        else
+        {
+            print("다시 판매대로");
+            itemBuyCheck = false;
+            agent.SetDestination(salesPos.position);
+        }
     }
 
     void LeaveShop()
@@ -136,6 +152,7 @@ public class Customer : MonoBehaviour
         agent.enabled = true;
         agent.SetDestination(exited.position);
     }
+
 }
 
 
