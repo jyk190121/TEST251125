@@ -14,7 +14,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
             GameSceneManager.game.LoadScene("Shop_VillageSceneTest");
         }
 
-        //if(other.gameObject.layer == LayerMask.NameToLayer("Customer"))
+        //if (other.gameObject.layer == LayerMask.NameToLayer("Customer"))
         //{
         //    print("손님 들어오게 처리");
         //    other.gameObject.transform.position = new Vector3(-0.9f, 0.98f, -10.48f);
