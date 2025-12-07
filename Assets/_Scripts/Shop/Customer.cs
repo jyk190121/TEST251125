@@ -153,6 +153,15 @@ public class Customer : MonoBehaviour
         agent.SetDestination(exited.position);
     }
 
+
+    //플레이어한테 부딫힐 때 충돌 미적용 (임시)
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Physics.IgnoreCollision(GetComponent<Collider>(), collision.collider);
+        }
+    }
 }
 
 

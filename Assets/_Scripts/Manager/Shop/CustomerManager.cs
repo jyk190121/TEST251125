@@ -14,7 +14,7 @@ public class CustomerManager : MonoBehaviour
     //임시
     void Start()
     {
-        StartCoroutine(CreateCustomer(7));
+        StartCoroutine(CreateCustomer(1));
     }
 
     //손님 생성
