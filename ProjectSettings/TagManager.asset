@@ -13,6 +13,8 @@ TagManager:
   - Water
   - UI
   - Portal
+  - Player
+  - Trap
   - 
   - 
   - 
@@ -34,10 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
+  - SuperMan
   m_SortingLayers:
   - name: Default
     uniqueID: 0

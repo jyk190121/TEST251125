@@ -1,4 +1,7 @@
+using System;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -120,8 +123,8 @@ public class InventoryManager : MonoBehaviour
         //마우스 버튼을 뗐는데(Up) && 드래그 중이라면(dragStartIndex != -1)
         if (Input.GetMouseButtonUp(0) && dragStartIndex != -1)
         {
-            //핵심: "팝업창이 꺼져있을 때만" 강제로 종료 처리
-            //(팝업이 켜져 있다면, 유저의 응답을 기다려야 하므로 건드리지 않음)
+            //팝업창이 꺼져있을 때만 강제로 종료 처리
+            //팝업이 켜져 있다면, 유저의 응답을 기다려야 하므로 건드리지 않음
             if (dropPopup.gameObject.activeSelf == false)
             {
                 //강제로 드래그 종료 함수 호출 (-1: 인벤토리 밖으로 간주)
@@ -195,6 +198,7 @@ public class InventoryManager : MonoBehaviour
     //아이템 사용/장착 시 호출
     public void UseItem(int index)
     {
+        Debug.Log($"인벤토리 아이템 사용 시도: 인덱스 {index}");
         //모델에서 해당 인덱스 아이템 데이터 가져오기
         var slots = model.GetSlotsForView();
 
@@ -224,30 +228,35 @@ public class InventoryManager : MonoBehaviour
         }
 
         //소비 아이템 (포션 등)
-        //else if (item.type == ItemType.Potion)
-        //{
-        //    //체력이 MAX상태인지 확인
-        //    //MatserManager를 통해 플레이어 정보 접근
-        //    if (_MasterManager.Instance == null) return;
+        else if (item.type == ItemType.Potion)
+        {            
+            //체력이 MAX상태인지 확인
+            //MatserManager를 통해 플레이어 정보 접근
+            if (_MasterManager.Instance == null) return;
 
-        //    PlayerModel playerStat = _MasterManager.Instance.DataManager.GetStat();
-        //    if (playerStst.HP >= playerStat.MaxHP)
-        //    {
-        //        Debug.Log("채력이 이미 가득 찼습니다");
-        //        return;
-        //    }
+            PlayerModel playerStat = _MasterManager.Instance.DataManager.GetStat();
+            if (playerStat.HP >= playerStat.MaxHP)
+            {
+                Debug.Log("채력이 이미 가득 찼습니다");
+                return;
+            }
 
-        //    //체력 회복
-        //    //item.healAmount 만큼 회복
-        //    _MasterManager.Instance.DataManager.AddHP(item.healAmount);
-        //    Debug.Log($"{item.itemName}을(를) 사용하여 체력을 {item.healAmount}만큼 회복했습니다.");
+            //체력 회복
+            //item.healAmount 만큼 회복
+            _MasterManager.Instance.DataManager.AddHP(item.healAmount);
+            Debug.Log($"{item.itemName}을(를) 사용하여 체력을 {item.healAmount}만큼 회복했습니다.");
 
-        //    //아이템 수량 감소
-        //    //InventoryModel의 수량 감소 함수 호출
-        //    model.DecreaseItemAmount(index, 1);
-        //}
+            //아이템 수량 감소
+            //InventoryModel의 수량 감소 함수 호출
+            model.DecreaseItemAmount(index, 1);
+        }
     }
 
+    //외부(퀵슬롯)에서 현재 드래그 시작 인덱스 조회 함수
+    public int GetDragStartIndex()
+    {
+        return dragStartIndex;
+    }
 
     //현재 드래그 중인 아이템 데이터를 반환하는 함수 (장비창에서 쓰기 위함)
     public Item GetDraggedItem()
@@ -362,13 +371,19 @@ public class InventoryManager : MonoBehaviour
     }
 
     //외부에서 아이템 ID 값 안내 시 호출
-    public int GetItemCount(Item itemID)
+    public int GetItemCount(Item item)
     {
         //InventoryModel null 체크
         if (model == null) return 0;
 
         //Model을 호출하여 아이템 아이디 및 수량 확인
-        return GetItemCount(itemID);
+        return model.GetItemCount(item.itemID);
+    }
+
+    public event Action OnInventoryUpdated
+    {
+        add { model.OnInventoryUpdated += value; }
+        remove { model.OnInventoryUpdated -= value; }
     }
 
     public void Initialize()

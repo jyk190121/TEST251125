@@ -136,7 +136,7 @@ public class InventoryModel
         {
             //빈 슬롯은 넘김
             //아이템 ID가 같은지 확인
-            if(slot.IsEmpty && slot.itemData.itemID == targetItemID)
+            if(!slot.IsEmpty && slot.itemData.itemID == targetItemID)
             {
                 //같으면 토탈 카운트에 해당 슬롯 아이템의 수량을 누적
                 //묶음으로 여러개 소지하고 있어도 아이템 ID가 같으면 지속적으로 누적
