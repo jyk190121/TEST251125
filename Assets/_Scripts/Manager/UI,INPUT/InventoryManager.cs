@@ -28,6 +28,8 @@ public class InventoryManager : MonoBehaviour
     public RectTransform inventoryPanelRect; //인벤토리 배경 (이 밖으로 나가면 팝업)
     public ItemDropPopup dropPopup;          //팝업창 스크립트
 
+    Inventory inventory;                    //인벤토리창 키고 끄기
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -54,6 +56,7 @@ public class InventoryManager : MonoBehaviour
         //시작 시 초기화
         HandleInventoryUpdate();
         dropPopup.ClosePopup();
+        inventory = transform.GetChild(0).gameObject.GetComponent<Inventory>();
     }
 
     //임시 아이템 업로드 코드
@@ -107,6 +110,11 @@ public class InventoryManager : MonoBehaviour
                 AddItem(testItemE);
                 Debug.Log("아이템 획득: " + testItemE.itemName);
             }
+        }
+
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            inventory.gameObject.SetActive(!inventory.gameObject.activeSelf);
         }
 
         //마우스 버튼을 뗐는데(Up) && 드래그 중이라면(dragStartIndex != -1)
