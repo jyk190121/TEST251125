@@ -1,6 +1,7 @@
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
+using static VillageSystemManager;
 
 /// <summary>
 /// 시설 구매 UI
@@ -8,16 +9,25 @@ using UnityEngine.UI;
 /// </summary>
 public class FacilitiesBuyUI : MonoBehaviour
 {
-    [SerializeField] private GameObject buyPanel;
-    [SerializeField] private Button closeButton;
+    // 시설 선택 버튼
+    [SerializeField] private Button smithySelectButton;
+    [SerializeField] private Button woodenHatSelectButton;
 
-    [SerializeField] private Button buySmithyButton;
-    [SerializeField] private TextMeshProUGUI smithyCostText;
+    // 시설 상세 정보 표시 (사용x)
+    private TextMeshProUGUI facilityNameText;
+    private TextMeshProUGUI facilityCostText;
+    //요거 사용
+    [SerializeField] private GameObject SmithyPanel;
+    [SerializeField] private GameObject WoodenHatPanel;
 
-    [SerializeField] private Button buyWoodenHatButton;
-    [SerializeField] private TextMeshProUGUI woodenHatCostText;
+    // 구매 버튼
+    [SerializeField] private Button purchaseButton;
+    [SerializeField] private TextMeshProUGUI purchaseButtonText;
+
+    [SerializeField] TextMeshProUGUI CloseButtonText;
 
     private VillageSystemManager villageSystemManager;
+    private string selectedFacilityID;
 
     private void Start()
     {
@@ -29,89 +39,137 @@ public class FacilitiesBuyUI : MonoBehaviour
             return;
         }
 
-        if (closeButton != null)
-            closeButton.onClick.AddListener(CloseUI);
+        // 버튼 이벤트 연결
+        if (smithySelectButton != null)
+            smithySelectButton.onClick.AddListener(() => OnFacilitySelected("smithy"));
 
-        if (buySmithyButton != null)
-            buySmithyButton.onClick.AddListener(() => OnBuyFacility("smithy"));
+        if (woodenHatSelectButton != null)
+            woodenHatSelectButton.onClick.AddListener(() => OnFacilitySelected("wooden_hat"));
 
-        if (buyWoodenHatButton != null)
-            buyWoodenHatButton.onClick.AddListener(() => OnBuyFacility("wooden_hat"));
+        if (purchaseButton != null)
+            purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
 
-        if (buyPanel != null)
-            buyPanel.SetActive(false);
+        // 초기 상태: 대장간 선택
+        ClearDisplay();
 
-        UpdateUI();
+        CloseButtonText.text = $"닫기 [{KeySetting.GetKeyString(KeyInput.INTERACTIVE)}]";
     }
 
-    public void OpenUI()
+    private void Update()
     {
-        if (buyPanel == null)
-            return;
-
-        buyPanel.SetActive(true);
-        UpdateUI();
-    }
-
-    public void CloseUI()
-    {
-        if (buyPanel == null)
-            return;
-
-        buyPanel.SetActive(false);
-    }
-
-    private void UpdateUI()
-    {
-        // 대장간 정보
-        bool smithyUnlocked = villageSystemManager.IsFacilityUnlocked("smithy");
-        int smithyCost = villageSystemManager.GetFacilityUnlockCost("smithy");
-
-        if (smithyCostText != null)
+        // 인터렉티브 키로 UI 닫기
+        if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]))
         {
-            if (smithyUnlocked)
+            CloseUI();
+        }
+    }
+
+    /// <summary>
+    /// 시설 선택 (Smithy 또는 WoodenHat 버튼 클릭)
+    /// </summary>
+    private void OnFacilitySelected(string facilityID)
+    {
+        selectedFacilityID = facilityID;
+        UpdateDisplay();
+
+        Debug.Log($"[FacilitiesBuyUI] 시설 선택: {facilityID}");
+    }
+
+    /// <summary>
+    /// 선택된 시설 정보 표시
+    /// </summary>
+    private void UpdateDisplay()
+    {
+        if (string.IsNullOrEmpty(selectedFacilityID))
+        {
+            ClearDisplay();
+            return;
+        }
+
+        // 시설 정보 가져오기
+        string facilityName = villageSystemManager.GetFacilityName(selectedFacilityID);
+        int facilityCost = villageSystemManager.GetFacilityUnlockCost(selectedFacilityID);
+        bool isUnlocked = villageSystemManager.IsFacilityUnlocked(selectedFacilityID);
+
+        // UI 업데이트
+        if (selectedFacilityID == "wooden_hat")
+        {
+            SmithyPanel.SetActive(false);
+            WoodenHatPanel.SetActive(true);
+        }
+        else 
+        {
+            SmithyPanel.SetActive(true);
+            WoodenHatPanel.SetActive(false);
+        }
+        /*
+        if (facilityNameText != null)
+            facilityNameText.text = facilityName;
+
+        if (facilityCostText != null)
+        {
+            if (isUnlocked)
             {
-                smithyCostText.text = "구매됨";
+                facilityCostText.text = "";
             }
             else
             {
-                smithyCostText.text = $"비용: {smithyCost}G";
+                facilityCostText.text = $"{facilityCost}";
             }
         }
+        */
 
-        if (buySmithyButton != null)
-            buySmithyButton.interactable = !smithyUnlocked;
-
-        // 나무모자 정보
-        bool woodenHatUnlocked = villageSystemManager.IsFacilityUnlocked("wooden_hat");
-        int woodenHatCost = villageSystemManager.GetFacilityUnlockCost("wooden_hat");
-
-        if (woodenHatCostText != null)
+        // 구매 버튼 상태 업데이트
+        if (purchaseButton != null)
         {
-            if (woodenHatUnlocked)
+            purchaseButton.interactable = !isUnlocked;
+
+            if (purchaseButtonText != null)
             {
-                woodenHatCostText.text = "구매됨";
-            }
-            else
-            {
-                woodenHatCostText.text = $"비용: {woodenHatCost}G";
+                if (isUnlocked)
+                {
+                    if (selectedFacilityID == "smithy")
+                    {
+                        smithySelectButton.image.color = new Color(1f, 1f, 1f, 1f);
+                    }
+                    else if (selectedFacilityID == "wooden_hat")
+                    {
+                        woodenHatSelectButton.image.color = new Color(1f, 1f, 1f, 1f);
+                    }
+
+                    purchaseButton.image.color = new Color(1f, 1f, 1f, 0f);
+                    purchaseButtonText.text = "구매 완료";
+                }
+                else
+                {
+                    purchaseButton.image.color = new Color(1f, 1f, 1f, 1f);
+                    purchaseButtonText.text = "구매하기";
+                }
             }
         }
-
-        if (buyWoodenHatButton != null)
-            buyWoodenHatButton.interactable = !woodenHatUnlocked;
     }
 
-    private void OnBuyFacility(string facilityID)
+    /// <summary>
+    /// 표시 초기화
+    /// </summary>
+    private void ClearDisplay()
     {
-        // DataManager와 연동해 골드 차감 (임시: 직접 진행)
-        bool success = villageSystemManager.TryUnlockFacility(facilityID);
+        OnFacilitySelected("smithy");
+    }
+
+    /// <summary>
+    /// 구매 버튼 클릭
+    /// </summary>
+    private void OnPurchaseButtonClicked()
+    {
+        // villageSystemManager와 연동
+        bool success = villageSystemManager.TryUnlockFacility(selectedFacilityID);
 
         if (success)
         {
-            string facilityName = villageSystemManager.GetFacilityName(facilityID);
+            string facilityName = villageSystemManager.GetFacilityName(selectedFacilityID);
             Debug.Log($"[FacilitiesBuyUI] {facilityName} 구매 완료!");
-            UpdateUI();
+            UpdateDisplay();
         }
         else
         {
@@ -119,16 +177,21 @@ public class FacilitiesBuyUI : MonoBehaviour
         }
     }
 
+    public void CloseUI()
+    {
+        gameObject.SetActive(false);
+        ClearDisplay();
+    }
+
     private void OnDestroy()
     {
-        if (closeButton != null)
-            closeButton.onClick.RemoveListener(CloseUI);
+        if (smithySelectButton != null)
+            smithySelectButton.onClick.RemoveAllListeners();
+        if (woodenHatSelectButton != null)
+            woodenHatSelectButton.onClick.RemoveAllListeners();
 
-        if (buySmithyButton != null)
-            buySmithyButton.onClick.RemoveAllListeners();
-
-        if (buyWoodenHatButton != null)
-            buyWoodenHatButton.onClick.RemoveAllListeners();
+        if (purchaseButton != null)
+            purchaseButton.onClick.RemoveAllListeners();
     }
 }
 
