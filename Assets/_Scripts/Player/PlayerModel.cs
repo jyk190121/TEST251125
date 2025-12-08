@@ -8,9 +8,10 @@ public class PlayerModel
     public int Money;
     public int ATT;
     public int Defend;
-    public int moveSpeed;
+    public float moveSpeed;
+    public float attackSpeed; 
 
-    public PlayerModel(int hp, int maxhp, int money, int att, int defend, int moveSpeed)
+    public PlayerModel(int hp, int maxhp, int money, int att, int defend, float moveSpeed)
     {
         HP = hp;
         MaxHP = maxhp;
@@ -18,6 +19,7 @@ public class PlayerModel
         ATT = att;
         Defend = defend;
         this.moveSpeed = moveSpeed;
+        attackSpeed = 0;
     }
     public static PlayerModel SetStat()
     {
@@ -27,7 +29,7 @@ public class PlayerModel
             100,
             25,
             10,
-            5
+            12
         );
     }
 }

@@ -1,43 +1,59 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RoomType
+{
+    Start,
+    Normal,
+    Trap,
+    Rest,
+    Boss
+}
+
+[System.Serializable]
+public class RoomPrefabData
+{
+    public RoomType roomType;     // 방 타입
+    public GameObject prefab;     // 해당 타입의 프리팹
+}
+
 public class DungeonManager : MonoBehaviour
 {
     [Header("=== Room Prefabs ===")]
-    public GameObject startRoomPrefab;
-    public GameObject normalRoomPrefab;
-    public GameObject restRoomPrefab;
-    public GameObject bossRoomPrefab;
+    [Tooltip("여기에 RoomType - Prefab 세트를 추가하세요.")]
+    public List<RoomPrefabData> roomPrefabList = new();
+
+    
+    private Dictionary<RoomType, GameObject> prefabDictionary;
 
     [Header("=== Settings ===")]
-    [Tooltip("생성할 최소 방 개수")]
     public int minRooms = 8;
-
-    [Tooltip("생성할 최대 방 개수")]
     public int maxRooms = 10;
 
     [Header("--- Spacing Settings ---")]
-    [Tooltip("방 오브젝트의 가로 길이(X축)에 맞춰 설정하세요.")]
     public float roomSpacingX = 20.0f;
-
-    [Tooltip("방 오브젝트의 세로 길이(Z축)에 맞춰 설정하세요.")]
     public float roomSpacingZ = 15.0f;
 
-    // 랜덤 생성 좌표 데이터
     private List<Vector2Int> roomPositions = new();
     private Dictionary<Vector2Int, GameObject> spawnedRooms = new();
 
-
     private readonly Vector2Int[] dirs = new Vector2Int[]
     {
-        new Vector2Int(1,0),   // Right
-        new Vector2Int(-1,0),  // Left
-        new Vector2Int(0,1),   // Up
-        new Vector2Int(0,-1)   // Down
+        new Vector2Int(1,0),
+        new Vector2Int(-1,0),
+        new Vector2Int(0,1),
+        new Vector2Int(0,-1)
     };
 
     void Start()
     {
+        // Enum + Prefab 매핑
+        prefabDictionary = new Dictionary<RoomType, GameObject>();
+        foreach (var data in roomPrefabList)
+        {
+            prefabDictionary[data.roomType] = data.prefab;
+        }
+
         GenerateDungeon();
     }
 
@@ -50,12 +66,12 @@ public class DungeonManager : MonoBehaviour
     }
 
     // ------------------------------------
-    // 1. 방 위치 랜덤 생성 (트리 구조)
+    // 1. 랜덤 방 좌표 생성
     // ------------------------------------
     void CreateRoomPositions()
     {
         roomPositions.Clear();
-        roomPositions.Add(Vector2Int.zero);  // 시작방
+        roomPositions.Add(Vector2Int.zero);  // 시작 방
 
         int target = Random.Range(minRooms, maxRooms + 1);
 
@@ -70,7 +86,7 @@ public class DungeonManager : MonoBehaviour
     }
 
     // ------------------------------------
-    // 2. BFS로 보스방 & 쉬는방 찾기
+    // 2. BFS로 보스방, 쉬는방 결정
     // ------------------------------------
     (Vector2Int bossPos, Vector2Int restPos, Dictionary<Vector2Int, Vector2Int> parents)
     BFSFindSpecialRooms()
@@ -102,7 +118,7 @@ public class DungeonManager : MonoBehaviour
             }
         }
 
-        // 가장 먼 방 = 보스방
+        // 가장 먼 곳 = 보스방
         Vector2Int bossPos = start;
         int maxDist = 0;
 
@@ -115,14 +131,35 @@ public class DungeonManager : MonoBehaviour
             }
         }
 
-        // 보스방 바로 앞 방 = 쉬는방
+        // 보스방 바로 이전 = 쉬는방
         Vector2Int restPos = parent[bossPos];
 
         return (bossPos, restPos, parent);
     }
 
     // ------------------------------------
-    // 3. 방 프리팹 생성 (X, Z 배치)
+    //  방 타입 결정 함수 (여기서 확장 가능)
+    // ------------------------------------
+    RoomType GetRoomType(Vector2Int pos, Vector2Int bossPos, Vector2Int restPos)
+    {
+        if (pos == Vector2Int.zero)
+            return RoomType.Start;
+
+        if (pos == bossPos)
+            return RoomType.Boss;
+
+        if (pos == restPos)
+            return RoomType.Rest;
+
+        // 확률로 트랩방 생성 (원하면 조절 가능)
+        if (Random.value < 0.15f)
+            return RoomType.Trap;
+
+        return RoomType.Normal;
+    }
+
+    // ------------------------------------
+    // 3. 프리팹 생성
     // ------------------------------------
     void SpawnRooms(Vector2Int bossPos, Vector2Int restPos)
     {
@@ -130,18 +167,16 @@ public class DungeonManager : MonoBehaviour
 
         foreach (var pos in roomPositions)
         {
-            GameObject prefabToUse;
+            RoomType type = GetRoomType(pos, bossPos, restPos);
 
-            if (pos == Vector2Int.zero)
-                prefabToUse = startRoomPrefab;
-            else if (pos == bossPos)
-                prefabToUse = bossRoomPrefab;
-            else if (pos == restPos)
-                prefabToUse = restRoomPrefab;
-            else
-                prefabToUse = normalRoomPrefab;
+            if (!prefabDictionary.ContainsKey(type))
+            {
+                Debug.LogError($"프리팹 Dictionary에 '{type}' 타입이 등록되지 않음!");
+                continue;
+            }
 
-            // X, Z 간격을 따로 적용
+            GameObject prefabToUse = prefabDictionary[type];
+
             Vector3 worldPos = new Vector3(
                 pos.x * roomSpacingX,
                 0f,
@@ -167,7 +202,7 @@ public class DungeonManager : MonoBehaviour
 
             if (doors == null)
             {
-                Debug.LogWarning($"Room prefab '{room.name}'에 RoomDoorController가 없습니다.");
+                Debug.LogWarning($"Room prefab '{room.name}'에 RoomController가 없습니다.");
                 continue;
             }
 
