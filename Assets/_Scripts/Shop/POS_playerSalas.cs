@@ -7,21 +7,47 @@ using UnityEngine.UI;
 /// </summary>
 public class POS_playerSalas : MonoBehaviour
 {
-    Image image; 
+    public Image image;
+    public Transform salasPos;      //손님이 왔을 때 확인 여부
+
+    bool customerCheck;
+
+
     private void Start()
     {
-        image= GetComponentInChildren<Image>();
         image.gameObject.SetActive(false);
+        customerCheck = false;
     }
-    private void OnTriggerEnter(Collider other)
+
+    private void Update()
     {
-        if(other.CompareTag("Player"))
+        print(customerCheck);
+
+        if (salasPos != null)
         {
-            //판매라는 버튼 띄우기
-            image.gameObject.SetActive(true);
+            customerCheck = true;
         }
         else
         {
+            customerCheck = false;
+        }
+    }
+
+
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            //판매 열기
+            image.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            //판매 닫기
             image.gameObject.SetActive(false);
         }
     }
