@@ -31,6 +31,7 @@ public class CustomerManager : MonoBehaviour
         for (int i = 0; i < r; i++)
         {
             customers[i] = Instantiate(customer, createPos.position , Quaternion.identity);
+            customers[i].name = $"손님 {i+1}";
 
             yield return new WaitForSeconds(5f);
         }

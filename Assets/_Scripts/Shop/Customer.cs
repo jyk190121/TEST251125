@@ -141,14 +141,20 @@ public class Customer : MonoBehaviour
             while(true)
             {
                 print($"{gameObject.name} 돈 지불 대기");
-                if(itemPayCheck)
+                yield return new WaitForSeconds(5f);
+
+                if (itemPayCheck)
                 {
                     print($"{gameObject.name} 돈 지불 완료");
                     break;
                 }
+                else
+                {
+                    print($"플레이어가 판매하지 않아 {gameObject.name}이 떠났다..");
+                    break;
+                }
             }
 
-            yield return new WaitForSeconds(3f);
             state = CustomerState.LeavingShop;
           
         }
