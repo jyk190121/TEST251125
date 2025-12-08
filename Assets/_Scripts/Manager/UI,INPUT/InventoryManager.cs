@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -391,6 +390,16 @@ public class InventoryManager : MonoBehaviour
 
         //Model을 호출하여 아이템 아이디 및 수량 확인
         return model.GetItemCount(item.itemID);
+    }
+
+    //플레이어 사망 시 호출
+    public void OnPlayerDeath()
+    {
+        //인벤토리 1열(5칸)만 남기고 모두 삭제
+        int safeCount = 5;
+        model.RemoveSomeItemsOnDeath(safeCount);
+
+        Debug.Log("플레이어가 사망하여 인벤토리의 일부 아이템이 제거되었습니다.");
     }
 
     public event Action OnInventoryUpdated
