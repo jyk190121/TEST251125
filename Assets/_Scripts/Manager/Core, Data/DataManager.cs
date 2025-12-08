@@ -15,6 +15,7 @@ public class DataManager : MonoBehaviour
     int dungeonCleared = 0;
 
     public static Action OnEquipmentChanged;
+    public static Action MoneyChanged;
     public void Initialize()
     {
         modelstat = PlayerModel.SetStat();
@@ -27,6 +28,10 @@ public class DataManager : MonoBehaviour
 
         // 모든 구독자(PlayerControll 등)에게 변경 사항을 알립니다.
         OnEquipmentChanged?.Invoke();
+    }
+    public void ChangeMoney()
+    {
+        MoneyChanged?.Invoke();
     }
 
     //플레이어 아이템 장착시 스탯 변경
@@ -58,16 +63,19 @@ public class DataManager : MonoBehaviour
         {
             player.HP = 0;
         }
+
     }
     //돈 벌었을때
     public void EarnMoney(int amount)
     {
         player.Money += amount;
+        ChangeMoney();
     }
     //돈 썼을 때
     public void SpendMoney(int amount)
     {
         player.Money -= amount;
+        ChangeMoney();
     }
     //얼마있냐
     public int HojuMoney()
