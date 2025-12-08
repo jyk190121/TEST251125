@@ -195,12 +195,21 @@ public class InventoryManager : MonoBehaviour
         dragStartIndex = -1;
     }
 
+
+    //인벤토리에서 특정 아이템의 인덱스 찾기 
+    public int FindInventoryIndex(Item item)
+    {
+        if (model == null) return -1;
+        return model.FindItemIndex(item);
+    }
+
     //아이템 사용/장착 시 호출
     public void UseItem(int index)
     {
-        Debug.Log($"인벤토리 아이템 사용 시도: 인덱스 {index}");
+        
         //모델에서 해당 인덱스 아이템 데이터 가져오기
         var slots = model.GetSlotsForView();
+        Debug.Log($"인벤토리 아이템 사용 시도: 인덱스 {index}");
 
         //인덱스 범위 체크
         if (index < 0 || index >= slots.Length) return;
@@ -208,7 +217,11 @@ public class InventoryManager : MonoBehaviour
         var targetSlot = slots[index];
 
         //빈 슬롯이면 취소
-        if (targetSlot.IsEmpty) return;
+        if (targetSlot.IsEmpty)
+        {
+            Debug.Log($"빈슬롯");
+            return;
+        }
 
         Item item = targetSlot.itemData;
 

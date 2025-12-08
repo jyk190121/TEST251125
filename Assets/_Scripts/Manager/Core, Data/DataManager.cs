@@ -8,6 +8,7 @@ public class DataManager : MonoBehaviour
     PlayerModel modelstat;      //장비를 착용하지 않은 기본 스탯
     PlayerModel player;         //플레이어의 정보를 담을 그릇
 
+    public Item EquipWeapon;    //장착한 무기
 
     //던전 정보 관련
     int dungeonCleared = 0;
