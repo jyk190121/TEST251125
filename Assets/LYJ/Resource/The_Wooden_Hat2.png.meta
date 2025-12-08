@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d07384bd76d4f4345b8aae0d88edce38
+guid: d1db3cc6df5ff654db82317533b41aa7
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Vulcan's_Forge2_0
+      name: The_Wooden_Hat2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 270
-        height: 303
+        width: 134
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,8 +125,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e1f313ab58e4ee488f9bb9fd0764f77
-      internalID: 1658356734
+      spriteID: 5b809859273155940a4e5660b5a8774c
+      internalID: 724175808
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 9cc65e82775820c409cb465cfdd9690c
+    spriteID: 1a0ef027644421d46bb9d0713632813f
     internalID: 0
     vertices: []
     indices: 
@@ -145,7 +145,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Vulcan's_Forge2_0: 1658356734
+      The_Wooden_Hat2_0: 724175808
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

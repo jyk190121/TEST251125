@@ -10,12 +10,11 @@ public class FacilityInteraction : MonoBehaviour
 {
     [SerializeField] private string facilityID;
     [SerializeField] private float interactionRange = 4f;
-    private KeyCode interactionKey = KeySetting.keys[KeyInput.INTERACTIVE];
     [SerializeField] private string promptText = "대화하기";
     [SerializeField] private GameObject linkedUIPanel;
 
     // 프롬프트 표시 UI
-    string keyString = KeySetting.GetKeyString(KeyInput.INTERACTIVE);
+    private KeyCode interactionKey;
     [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private TextMeshProUGUI promptUIText;
     [SerializeField] private GameObject promptPanel;
@@ -37,10 +36,14 @@ public class FacilityInteraction : MonoBehaviour
         }
 
         // 프롬프트 초기화
+        interactionKey = KeySetting.keys[KeyInput.INTERACTIVE];
+
         if (promptUIText != null)
             promptUIText.text = promptText;
         if (keyText != null)
-        { keyText.text = keyString;
+        {
+            string keyString = KeySetting.GetKeyString(KeyInput.INTERACTIVE);
+            keyText.text = keyString;
             Debug.Log("키 텍스트 설정 완료");
         }
 

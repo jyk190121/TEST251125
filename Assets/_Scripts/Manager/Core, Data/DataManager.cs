@@ -58,6 +58,11 @@ public class DataManager : MonoBehaviour
     {
         player.Money -= amount;
     }
+    //얼마있냐
+    public int HojuMoney()
+    {
+        return player.Money;
+    }
 
     //던전 클리어 정보 갱신
     public void DugeonClear(int clearLevel)

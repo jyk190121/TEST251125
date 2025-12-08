@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d07384bd76d4f4345b8aae0d88edce38
+guid: 22a9daa816fcd644891e34e3615eec66
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Vulcan's_Forge2_0
+      name: staff_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 270
-        height: 303
+        x: 41
+        y: 670
+        width: 102
+        height: 95
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -125,8 +125,118 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8e1f313ab58e4ee488f9bb9fd0764f77
-      internalID: 1658356734
+      spriteID: 1fa72d5660115b44e9a870c85ba411fa
+      internalID: 496020952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: staff_1
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 640
+        width: 34
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7960ef57c666c544a9a1fce6c457d154
+      internalID: -565679295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: staff_2
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 349
+        width: 169
+        height: 225
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 09b8d078128b9994a94a7dfd90ba6ec8
+      internalID: 2089893106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: staff_3
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 142
+        width: 131
+        height: 122
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 774a891fe91c3324fa9944a8d268858d
+      internalID: -2126170613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: staff_4
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 0
+        width: 1295
+        height: 791
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76f6f3bb3754a9a4da27cd07ed24d18b
+      internalID: 71210911
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: staff_5
+      rect:
+        serializedVersion: 2
+        x: 1483
+        y: 22
+        width: 406
+        height: 773
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 901020f3c41594f458ec10a4be880704
+      internalID: 2117751563
       vertices: []
       indices: 
       edges: []
@@ -135,7 +245,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 9cc65e82775820c409cb465cfdd9690c
+    spriteID: c47ec9735115f67459850afd229a9e3e
     internalID: 0
     vertices: []
     indices: 
@@ -145,7 +255,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Vulcan's_Forge2_0: 1658356734
+      staff_0: 496020952
+      staff_1: -565679295
+      staff_2: 2089893106
+      staff_3: -2126170613
+      staff_4: 71210911
+      staff_5: 2117751563
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
