@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,15 +9,24 @@ public class DataManager : MonoBehaviour
     PlayerModel modelstat;      //장비를 착용하지 않은 기본 스탯
     PlayerModel player;         //플레이어의 정보를 담을 그릇
 
-    public Item EquipWeapon;    //장착한 무기
+    Item EquipWeapon;    //장착한 무기
 
     //던전 정보 관련
     int dungeonCleared = 0;
 
+    public static Action OnEquipmentChanged;
     public void Initialize()
     {
         modelstat = PlayerModel.SetStat();
         player = PlayerModel.SetStat();     
+    }
+
+    public void ChangeWeapon(Item newItem)
+    {
+        EquipWeapon = newItem;
+
+        // 모든 구독자(PlayerControll 등)에게 변경 사항을 알립니다.
+        OnEquipmentChanged?.Invoke();
     }
 
     //플레이어 아이템 장착시 스탯 변경
@@ -69,4 +79,13 @@ public class DataManager : MonoBehaviour
     {
         return player;
     }
+    public void SetWeapon(Item item)
+    {
+        EquipWeapon = item;
+    }
+    public Item GetWeapon()
+    {
+        return EquipWeapon;
+    }
+
 }
