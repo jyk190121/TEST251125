@@ -177,6 +177,22 @@ public class InventoryModel
         }
     }
 
+    //아이템이 들어있는 슬롯 번호 찾기
+    public int FindItemIndex(Item item)
+    {
+        // 딕셔너리 전체를 돌면서 찾습니다
+        foreach (var kvp in slots)
+        {
+            // 빈 슬롯이 아니고, 아이템 ID가 같다면?
+            if (!kvp.Value.IsEmpty && kvp.Value.itemData.itemID == item.itemID)
+            {
+                return kvp.Key; // 그 슬롯의 번호(Key)를 반환!
+            }
+        }
+        return -1; // 없으면 -1 반환
+    }
+
+
     //특정 슬롯의 아이템 수량을 감소 (포션 사용 등)
     public void DecreaseItemAmount(int index, int amount)
     {
