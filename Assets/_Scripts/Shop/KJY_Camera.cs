@@ -38,7 +38,7 @@ public class KJY_Camera : MonoBehaviour
         Camera.main.transform.position =
             Vector3.Lerp(Camera.main.transform.position,
             new Vector3(-6, 10, 1.5f),
-            Time.deltaTime);
+            Time.deltaTime * 10f);
     }
 
     void MovingShop()
@@ -46,7 +46,7 @@ public class KJY_Camera : MonoBehaviour
         Camera.main.transform.position =
           Vector3.Lerp(Camera.main.transform.position,
           new Vector3(-6, 10, -7.5f),
-          Time.deltaTime);
+          Time.deltaTime * 10f);
     }
 
 }
