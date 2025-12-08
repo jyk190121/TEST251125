@@ -10,7 +10,7 @@ public class EquipManager : MonoBehaviour
     public GameObject equipPanel;
 
     //실제 데이터를 관리하는 모델 객체
-    private EquipModel model;
+    public EquipModel model;
 
     private void Awake()
     {
@@ -125,8 +125,7 @@ public class EquipManager : MonoBehaviour
     //3. 보조 기능
     //====================================================
 
-    //Enum 타입을 배열 인덱스로 변환하는 함수
-    //(무기 스위칭이 사라져서 로직이 아주 단순해짐)
+    //Enum 타입을 배열 인덱스로 변환하는 함수    
     private int GetSlotIndexByEnum(EquipmentSlot type)
     {
         switch (type)
@@ -150,6 +149,8 @@ public class EquipManager : MonoBehaviour
                 uiSlots[i].UpdateSlot(currentEquips[i]);
             }
         }
+        _MasterManager.Instance.DataManager.EquipWeapon = model.GetEquip(EquipModel.SLOT_WEAPON);
+        Debug.Log($"{EquipModel.SLOT_WEAPON}");
     }
 
     //플레이어 스탯 매니저에게 변경된 수치 전달
@@ -169,4 +170,17 @@ public class EquipManager : MonoBehaviour
             );
         }
     }
+
+    //private void UpdateEquipPlayer()
+    //{
+    //    //현재 장착된 아이템 정보 보내주기
+    //    int currentWeaponID = model.GetEquip(EquipModel.SLOT_WEAPON) != null ?
+    //        model.GetEquip(EquipModel.SLOT_WEAPON).itemID : -1;
+
+    //    //DataManager에 전달
+    //    if(_MasterManager.Instance != null)
+    //    {
+    //        _MasterManager.Instance.DataManager.SetCurrentWeapon(currentWeaponID);
+    //    }
+    //}
 }

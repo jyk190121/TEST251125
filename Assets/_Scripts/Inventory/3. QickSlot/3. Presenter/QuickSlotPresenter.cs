@@ -119,25 +119,27 @@ public class QuickSlotPresenter : MonoBehaviour
 
 
     //아이템 사용 (소모 + 효과)
-    public void UseQuickSlotItem(int slotIndex = 0)
+    public void UseQuickSlotItem(int slotIndex)
     {
         Item item = model.GetItem(slotIndex);
 
-        //아이템이 있고, 인벤토리에 실제 수량이 남아있다면
+        //아이템이 있고, 인벤토리에 수량이 있다면
         if (item != null && InventoryManager.Instance.GetItemCount(item) > 0)
         {
-            Debug.Log($"퀵슬롯 사용: {item.itemName}");
+            //인벤토리에서 이 아이템이 "몇 번째 칸"에 있는지 찾기
+            int realInventoryIndex = InventoryManager.Instance.FindInventoryIndex(item);
 
-            //인벤토리에서 개수 차감
-            InventoryManager.Instance.UseItem(1);
-
-            //실제 효과 적용
-            if (item.type == ItemType.Potion)
+            //찾은 인덱스가 유효하다면(-1이 아니라면) 사용
+            if (realInventoryIndex != -1)
             {
-                if (_MasterManager.Instance != null)
-                {
-                    _MasterManager.Instance.DataManager.AddHP(item.healAmount);
-                }
+                Debug.Log($"퀵슬롯 사용: {item.itemName} (인벤토리 {realInventoryIndex}번 슬롯 사용)");
+
+                //퀵슬롯 번호(slotIndex)가 아니라, 진짜 인벤토리 번호(realInventoryIndex)를 넘겨줌
+                InventoryManager.Instance.UseItem(realInventoryIndex);
+            }
+            else
+            {
+                Debug.Log("오류: 아이템 수량은 있는데 인벤토리에서 찾을 수 없습니다.");
             }
         }
     }
