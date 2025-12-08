@@ -24,10 +24,13 @@ public class PlayerMove : MonoBehaviour
 
         Vector3 dir = new Vector3(moveX, 0, moveZ);     //방향 설정
 
-
         if (dir != new Vector3(0, 0, 0))    //new Vector3(0,0,0);
         {
             PC.Move(dir);     // 이동
+        }
+        if(dir == new Vector3(0, 0, 0))
+        {
+            PC.Idle();
         }
 
         if (Input.GetKeyDown(KeySetting.keys[KeyInput.MAINATTACK]))
@@ -40,9 +43,11 @@ public class PlayerMove : MonoBehaviour
             PC.SpecialAttack();
         }
 
+        Vector3 rolldir = transform.forward;
+
         if (Input.GetKeyDown(KeySetting.keys[KeyInput.ROLL]))
         {
-            PC.Roll();
+            PC.Roll(rolldir);
         }
 
         //던전 안이면

@@ -19,14 +19,15 @@ public class DataManager : MonoBehaviour
     }
 
     //플레이어 아이템 장착시 스탯 변경
-    public void playerStatChanged(int att, int def, int hp, int spd)
+    public void playerStatChanged(int att, int def, int hp, int mspd = 0)
     {
         //이후 장비 관련 변수 추가시 수정 필요
         player.HP = modelstat.HP + hp;
         player.MaxHP = modelstat.HP + hp;
         player.ATT = modelstat.ATT + att;
         player.Defend = modelstat.Defend + def;
-        player.moveSpeed = modelstat.moveSpeed + spd;
+        player.moveSpeed = modelstat.moveSpeed + mspd;
+        player.attackSpeed = modelstat.attackSpeed + mspd;
     }
 
     //체력 회복

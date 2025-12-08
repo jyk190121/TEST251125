@@ -157,16 +157,16 @@ public class EquipManager : MonoBehaviour
     {
         //모델에서 튜플을 통해 총합 계산
         var stats = model.CalculateTotalStats();
-
-        //MasterManager에게 적용 요청
-        //if (_MasterManager.Instance.DataManager.playerStatChanged != null)
-        //{
-        //    _MasterManager.Instance.DataManager.playerStatChanged(
-        //        stats.atk,
-        //        stats.def,
-        //        stats.hp,
-        //        stats.spd
-        //    );
-        //}
+        
+        if (_MasterManager.Instance != null)
+        {
+            //MasterManager에 자식으로 있는 DataManager에게 적용 요청
+            _MasterManager.Instance.DataManager.playerStatChanged(
+                stats.atk,
+                stats.def,
+                stats.hp,
+                stats.spd
+            );
+        }
     }
 }
