@@ -64,7 +64,7 @@ public class DungeonTrigger : MonoBehaviour
         }
     }
     
-    
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -104,9 +104,9 @@ public class DungeonTrigger : MonoBehaviour
             }
         }
     }
-    
+    */
 
-    /*
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -137,15 +137,7 @@ public class DungeonTrigger : MonoBehaviour
              Debug.Log("던전이 클리어되어 플레이어가 이동했습니다.");
 
         }
-        
-
-        
-        else
-        {
-            Debug.Log("던전을 클리어해야만 이 문을 통과할 수 있습니다!");
-        }
-        
     }
-    */
+    
 
 }
