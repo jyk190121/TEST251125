@@ -11,8 +11,8 @@ public class EquipSlotView : MonoBehaviour, IDropHandler, IPointerClickHandler
     [Header("UI 컴포넌트")]
     public Image iconImage;             //아이콘 이미지
     public GameObject emptyIcon;        //빈 슬롯 아이콘
-
     private Item currentItem;           //현재 장착된 아이템
+
 
     public void UpdateSlot(Item item)
     {
