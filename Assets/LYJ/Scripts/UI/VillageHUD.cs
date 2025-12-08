@@ -7,11 +7,16 @@ using UnityEngine.UI;
 /// </summary>
 public class VillageHUD : MonoBehaviour
 {
-    [SerializeField] private Image backgroundImage;
+    [SerializeField] private Light directionalLight;
+    [SerializeField] private GameObject streetLights;
 
-    // 낮/밤 색상
-    [SerializeField] private Color dayColor = new Color(1f, 1f, 1f, 0f);
-    [SerializeField] private Color nightColor = new Color(0.1f, 0.1f, 0.3f, 0.5f);
+    // 낮 설정
+    [SerializeField] private float dayIntensity = 1.2f;
+    [SerializeField] private Color dayColor = Color.white;
+
+    // 밤 설정
+    [SerializeField] private float nightIntensity = 0.4f;
+    [SerializeField] private Color nightColor = new Color(0.3f, 0.3f, 0.6f, 1f);
 
     private DayManager dayManager;
 
@@ -22,6 +27,22 @@ public class VillageHUD : MonoBehaviour
         if (dayManager == null)
         {
             Debug.LogError("[VillageHUD] DayManager를 찾을 수 없습니다");
+            return;
+        }
+
+        // Directional Light 자동 검색 (설정되지 않은 경우)
+        if (directionalLight == null)
+        {
+            directionalLight = FindAnyObjectByType<Light>();
+            if (directionalLight != null && directionalLight.type != LightType.Directional)
+            {
+                directionalLight = null;
+            }
+        }
+
+        if (directionalLight == null)
+        {
+            Debug.LogError("[VillageHUD] Directional Light를 찾을 수 없습니다");
             return;
         }
 
@@ -52,19 +73,26 @@ public class VillageHUD : MonoBehaviour
         UpdateDisplay();
     }
 
+    /// <summary>
+    /// Directional Light의 강도와 색상 조정
+    /// </summary>
     private void UpdateDisplay()
     {
-        // 배경 색상 변경 (낮/밤)
-        if (backgroundImage != null)
+        if (directionalLight == null) return;
+
+        if (dayManager.IsDay)
         {
-            if (dayManager.IsDay)
-            {
-                backgroundImage.color = dayColor;
-            }
-            else
-            {
-                backgroundImage.color = nightColor;
-            }
+            // 낮: 밝은 흰색 빛
+            directionalLight.intensity = dayIntensity;
+            directionalLight.color = dayColor;
+            streetLights.SetActive(false);
+        }
+        else
+        {
+            // 밤: 어두운 파란색 빛
+            directionalLight.intensity = nightIntensity;
+            directionalLight.color = nightColor;
+            streetLights.SetActive(true);
         }
 
         Debug.Log($"[VillageHUD] 업데이트: {dayManager.CurrentDay}일 " +

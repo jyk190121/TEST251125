@@ -1,20 +1,24 @@
 using UnityEngine;
+using UnityEngine.UI;
+using static DayManager;
 /// <summary>
-/// 1.ÇÃ·¹ÀÌ¾î°¡ °¡±îÀÌ ¿ÔÀ» ¶§ »óÈ£ÀÛ¿ë Å°ÀÔ·Â (Collision) 
-///
+/// 1.í”Œë ˆì´ì–´ì™€ ìƒí˜¸ì‘ìš© (Gí‚¤) - Collision 
 /// </summary>
 public class Bed : MonoBehaviour
 {
-    float keyDownTime;           // Å° ±æ°Ô ´©¸£´Â ½Ã°£
-    float sleepDuration;         // ÀáÀÚ´Â ½Ã°£
+    float keyDownTime;           // ìƒí˜¸ì‘ìš©ì„ ìœ„í•œ ì‹œê°„
+    float sleepDuration;         // í”Œë ˆì´ì–´ ì ìëŠ” ì‹œê°„
 
-    bool playerInBed = false;   // ÇÃ·¹ÀÌ¾î Á¢ÃË ¿©ºÎ
-    Vector3 inBedPos;           // ÇÃ·¹ÀÌ¾î ÀÚ±âÀü À§Ä¡
-    bool isSleeping = false;    // ÇÃ·¹ÀÌ¾î ÀÚ´ÂÁö ¿©ºÎ
-    float keyTimer = 0f;        // Å° ÀÔ·Â ½Ã°£
-    float sleepTimer = 0f;      // ÀÚ°í ÀÖ´Â ½Ã°£
+    bool playerInBed = false;   // í”Œë ˆì´ì–´ê°€ ì¹¨ëŒ€ì— ë‹¿ì•˜ëŠ”ì§€ ì—¬ë¶€
+    Vector3 inBedPos;           // í”Œë ˆì´ì–´ê°€ ìê¸° ì „ ìœ„ì¹˜
+    bool isSleeping = false;    // í”Œë ˆì´ì–´ê°€ ìê³ ìˆëŠ”ì§€ ì—¬ë¶€
+    float keyTimer = 0f;        // í‚¤ ì…ë ¥ ì‹œê°„
+    float sleepTimer = 0f;      // ìëŠ” ì‹œê°„
+    public Image image;         // í‚¤ì…ë ¥í•˜ëŠ” ë™ì•ˆ ë„ìš¸ ì´ë¯¸ì§€
 
-    PlayerController player;   // ÇÃ·¹ÀÌ¾î ½ºÅ©¸³Æ®(ÀÌ¸§Àº ¿øÇÏ´Â °É·Î º¯°æ)
+    PlayerController player;    // í”Œë ˆì´ì–´ ìŠ¤í¬ë¦½íŠ¸( ì„ì‹œ )
+
+    DayManager dayManager;      // ìê³  ì¼ì–´ë‚˜ë©´ ì‹œê°„ ê°€ê¸°
 
     private void Start()
     {
@@ -24,30 +28,47 @@ public class Bed : MonoBehaviour
         isSleeping = false;
         keyTimer = 0f;
         sleepTimer = 0f;
+        image.gameObject.SetActive(false);
+        image.fillAmount = 0f;
+        image.color = new Color (0, 150f, 0, 100f);
+        //Outline outline = image.GetComponent<Outline>();
+        //outline.effectDistance = new Vector2(5f, 5f);
+
+        dayManager = GameObject.Find("TestManager").GetComponent<DayManager>();
     }
 
 
     void Update()
     {
-        // ÇÃ·¹ÀÌ¾î°¡ ÀÚ´Â ÁßÀÌ¸é ½Ã°£ Ã¼Å©
+        image.gameObject.SetActive(false);
+
+        // í”Œë ˆì´ì–´ê°€ ìëŠ” ì¤‘ì¼ ë•Œ ì‹œê°„ ì²´í¬
         if (isSleeping)
         {
             sleepTimer += Time.deltaTime;
+
             if (sleepTimer >= sleepDuration)
             {
+                dayManager.ChangeTimeOfDay(TimeOfDay.Day);
                 WakeUpPlayer();
             }
             return;
         }
 
-        // ÇÃ·¹ÀÌ¾î°¡ Ä§´ë ±ÙÃ³¿¡ ÀÖÀ» ¶§ »óÈ£ÀÛ¿ë Å° ±æ°Ô ´©¸£±â Ã¼Å©
+        image.fillAmount = keyTimer;
+
+        // í”Œë ˆì´ì–´ê°€ ì¹¨ëŒ€ ê·¼ì²˜ì— ìˆìœ¼ë©´ ìƒí˜¸ì‘ìš© í‚¤ ëˆ„ë¦„ ì‹œê°„ ì²´í¬
         if (playerInBed)
         {
             if (Input.GetKey(KeyCode.G))
             {
                 keyTimer += Time.deltaTime;
+                image.gameObject.SetActive(true);
 
-                //ÀÚ±âÀü À§Ä¡°ª ¹Ş¾Æ¿À±â
+                //print($"KeyTimer : {keyTimer}");
+                //print($"fillAmount : {image.fillAmount}");
+
+                //ì ë“¤ê¸° ì „ ìœ„ì¹˜ë¥¼ ë°›ì•„ì˜´
                 inBedPos = player.transform.position;
 
                 if (keyTimer >= keyDownTime)
@@ -88,7 +109,7 @@ public class Bed : MonoBehaviour
 
         Debug.Log("Zzz");
 
-        // ÇÃ·¹ÀÌ¾î ¿òÁ÷ÀÓ ºñÈ°¼ºÈ­
+        // í”Œë ˆì´ì–´ ì›€ì§ì„ì„ ë¹„í™œì„±í™”
         if (player != null)
         {
             player.enabled = false;
@@ -100,9 +121,9 @@ public class Bed : MonoBehaviour
     {
         isSleeping = false;
 
-        Debug.Log("ÇÃ·¹ÀÌ¾î°¡ ÀÏ¾î³µ½À´Ï´Ù.");
+        Debug.Log("í”Œë ˆì´ì–´ê°€ ì¼ì–´ë‚¬ìŠµë‹ˆë‹¤.");
 
-        // ÇÃ·¹ÀÌ¾î ¿òÁ÷ÀÓ ´Ù½Ã È°¼ºÈ­
+        // í”Œë ˆì´ì–´ ì›€ì§ì„ì„ ë‹¤ì‹œ í™œì„±í™”
         if (player != null)
         {
             player.enabled = true;

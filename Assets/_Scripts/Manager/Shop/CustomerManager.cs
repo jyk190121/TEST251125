@@ -1,32 +1,37 @@
 using System.Collections;
 using UnityEngine;
 /// <summary>
-/// ¼Õ´Ô¸¸µé¾îÁÖ±â
-/// ¸î¸í ? ·£´ı?
+/// ì†ë‹˜ë§¤ë‹ˆì €
 /// </summary>
 
 public class CustomerManager : MonoBehaviour
 {
-    public GameObject customer;     //¼Õ´Ô ÇÁ¸®ÆÕ
-    GameObject[] customers;         //¼Õ´Ôµé
-    public Transform createPos;     //¼Õ´Ôµé »ı¼º À§Ä¡
+    public GameObject customer;     //ì†ë‹˜ í”„ë¦¬íŒ¹
+    GameObject[] customers;         //ì†ë‹˜ë“¤
+    public Transform createPos;     //ì†ë‹˜ ìƒì„± ìœ„ì¹˜
 
-    //ÀÓ½Ã
+    //ì„ì‹œ
     void Start()
     {
-        StartCoroutine(CreateCustomer(1));
+        StartCoroutine(CreateCustomer(4));
     }
 
-    //¼Õ´Ô »ı¼º
+    //
+    private void Update()
+    {
+        //ìƒì  ì—´ì—ˆëŠ”ì§€ ì²´í¬
+
+    }
+
+    //ì†ë‹˜ ìƒì„±
     public IEnumerator CreateCustomer(int r)
     {
-        //¼Õ´ÔÀº ³·¿¡¸¸ µîÀå
-        //if(Daily? == ³·)
         customers = new GameObject[r];
 
         for (int i = 0; i < r; i++)
         {
             customers[i] = Instantiate(customer, createPos.position , Quaternion.identity);
+            customers[i].name = $"ì†ë‹˜ {i+1}";
 
             yield return new WaitForSeconds(5f);
         }

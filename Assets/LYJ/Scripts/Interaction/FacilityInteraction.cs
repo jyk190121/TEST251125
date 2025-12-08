@@ -9,14 +9,15 @@ using TMPro;
 public class FacilityInteraction : MonoBehaviour
 {
     [SerializeField] private string facilityID;
-    [SerializeField] private float interactionRange = 2f;
-    private KeyCode interactionKey = KeyCode.G;
-    [SerializeField] private string promptText = "대화하기 [G]";
+    [SerializeField] private float interactionRange = 4f;
+    [SerializeField] private string promptText = "대화하기";
     [SerializeField] private GameObject linkedUIPanel;
 
     // 프롬프트 표시 UI
+    private KeyCode interactionKey;
+    [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private TextMeshProUGUI promptUIText;
-    [SerializeField] private CanvasGroup promptCanvasGroup;
+    [SerializeField] private GameObject promptPanel;
 
     private Transform playerTransform;
     private bool isPlayerInRange = false;
@@ -24,7 +25,7 @@ public class FacilityInteraction : MonoBehaviour
     private void Start()
     {
         // 플레이어 찾기
-        PlayerController_YJ playerController = FindAnyObjectByType<PlayerController_YJ>();
+        PlayerVillageControll playerController = FindAnyObjectByType<PlayerVillageControll>();
         if (playerController != null)
         {
             playerTransform = playerController.transform;
@@ -35,8 +36,16 @@ public class FacilityInteraction : MonoBehaviour
         }
 
         // 프롬프트 초기화
+        interactionKey = KeySetting.keys[KeyInput.INTERACTIVE];
+
         if (promptUIText != null)
             promptUIText.text = promptText;
+        if (keyText != null)
+        {
+            string keyString = KeySetting.GetKeyString(KeyInput.INTERACTIVE);
+            keyText.text = keyString;
+            Debug.Log("키 텍스트 설정 완료");
+        }
 
         HidePrompt();
     }
@@ -128,14 +137,18 @@ public class FacilityInteraction : MonoBehaviour
 
     private void ShowPrompt()
     {
-        if (promptCanvasGroup != null)
-            promptCanvasGroup.alpha = 1f;
+        if (promptPanel != null)
+        {
+            promptPanel.SetActive(true);
+        }
     }
 
     private void HidePrompt()
     {
-        if (promptCanvasGroup != null)
-            promptCanvasGroup.alpha = 0f;
+        if (promptPanel != null)
+        {
+            promptPanel.SetActive(false);
+        }
     }
 }
 

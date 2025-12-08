@@ -2,7 +2,7 @@
 
 public class EquipModel
 {
-    //장비 슬롯 배열 (0: 투구, 1: 갑옷, 2: 신발, 3: 무기)
+    //장비 슬롯 배열 (0: 무기, 1: 머리, 2: 몸통, 3: 신발)
     private Item[] equipSlots = new Item[4];
 
     //장비 슬롯 인덱스 상수
