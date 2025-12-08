@@ -25,6 +25,7 @@ public class Customer : MonoBehaviour
 
     bool itemCheck;
     bool itemBuyCheck;
+    public bool itemPayCheck;   //돈 지불여부
 
     RegisteredItem items;
 
@@ -43,6 +44,7 @@ public class Customer : MonoBehaviour
         items = GameObject.Find("DisplayStand").GetComponent<RegisteredItem>();
         itemCheck = false;
         itemBuyCheck = false;
+        itemPayCheck = false;
         entered = GameObject.Find("EnterPos").GetComponent<Transform>();
         exited = GameObject.Find("ExitPos").GetComponent<Transform>();
         itemPos = GameObject.Find("ItemPos").GetComponent<Transform>();
@@ -128,20 +130,37 @@ public class Customer : MonoBehaviour
 
         itemBuyCheck = true;
 
-        print("물건을 사자");
+        //print("물건을 사자");
         agent.SetDestination(salesPos.position);
 
-        if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            //계산 후 밖으로 나감
+            //플레이어가 POS기 앞에 서서 해당아이템 판매 확인 (계산 중) 후 이동
             agent.enabled = false;
-            yield return new WaitForSeconds(3f);
+            
+            while(true)
+            {
+                print($"{gameObject.name} 돈 지불 대기");
+                yield return new WaitForSeconds(5f);
+
+                if (itemPayCheck)
+                {
+                    print($"{gameObject.name} 돈 지불 완료");
+                    break;
+                }
+                else
+                {
+                    print($"플레이어가 판매하지 않아 {gameObject.name}이 떠났다..");
+                    break;
+                }
+            }
+
             state = CustomerState.LeavingShop;
           
         }
         else
         {
-            print("다시 판매대로");
+            //print("다시 판매대로");
             itemBuyCheck = false;
             agent.SetDestination(salesPos.position);
         }

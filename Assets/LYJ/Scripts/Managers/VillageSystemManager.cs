@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 
 /// <summary>
 /// 마을의 시설 관리와 상태를 담당하는 Manager
@@ -44,7 +45,7 @@ public class VillageSystemManager : MonoBehaviour
         facilities["smithy"] = new Facility
         {
             facilityID = "smithy",
-            facilityName = "대장간",
+            facilityName = "벌컨의 대장간",
             unlockCost = 500,
             isUnlocked = false
         };
@@ -82,12 +83,22 @@ public class VillageSystemManager : MonoBehaviour
             return false;
         }
 
-        // DataManager와 연동해 골드 차감 (임시: true)
-        facility.isUnlocked = true;
-        OnFacilityUnlocked?.Invoke(facilityID);
+        int money = _MasterManager.Instance.DataManager.HojuMoney();
+        int cost = GetFacilityUnlockCost(facilityID);
 
-        Debug.Log($"[VillageSystemManager] 시설 해금: {facility.facilityName}");
-        return true;
+        if ( money >= cost )
+        {
+            facility.isUnlocked = true;
+            OnFacilityUnlocked?.Invoke(facilityID);
+
+            Debug.Log($"[VillageSystemManager] 시설 해금: {facility.facilityName}");
+            return true;
+        }
+        else
+        {
+            Debug.Log($"[VillageSystemManager] 골드 부족");
+            return false;
+        }
     }
 
     public int GetFacilityUnlockCost(string facilityID)

@@ -8,6 +8,7 @@ public class DataManager : MonoBehaviour
     PlayerModel modelstat;      //장비를 착용하지 않은 기본 스탯
     PlayerModel player;         //플레이어의 정보를 담을 그릇
 
+    public Item EquipWeapon;    //장착한 무기
 
     //던전 정보 관련
     int dungeonCleared = 0;
@@ -57,6 +58,11 @@ public class DataManager : MonoBehaviour
     public void SpendMoney(int amount)
     {
         player.Money -= amount;
+    }
+    //얼마있냐
+    public int HojuMoney()
+    {
+        return player.Money;
     }
 
     //던전 클리어 정보 갱신
