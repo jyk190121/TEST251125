@@ -1,7 +1,5 @@
 using System;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -21,8 +19,8 @@ public class InventoryManager : MonoBehaviour
     public Item testItemE;              //인스펙터에서 아이템(임시) 연결
 
     //Model (Inspector에 안 보임)
-    private InventoryModel model;    
-    
+    private InventoryModel model;
+
     [Header("드래그 상태")]
     //드래그 시작한 슬롯 번호 (-1: 아무것도 안 잡음)
     private int dragStartIndex = -1;
@@ -53,7 +51,7 @@ public class InventoryManager : MonoBehaviour
         inventoryView.OnSlotClicked += HandleSlotClick;
 
     }
-    
+
     private void Start()
     {
         //시작 시 초기화
@@ -115,7 +113,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             inventory.gameObject.SetActive(!inventory.gameObject.activeSelf);
         }
@@ -130,7 +128,7 @@ public class InventoryManager : MonoBehaviour
                 //강제로 드래그 종료 함수 호출 (-1: 인벤토리 밖으로 간주)
                 OnDragEnd(-1);
             }
-        }      
+        }
     }
 
 
@@ -152,10 +150,10 @@ public class InventoryManager : MonoBehaviour
 
         //팝업
         //ShowDropPopup();
-        
+
 
         //처리가 끝났으니 드래그 상태 초기화        
-        dragStartIndex = -1;       
+        dragStartIndex = -1;
 
         //화면 갱신
         model.NotifyUpdate();
@@ -205,8 +203,7 @@ public class InventoryManager : MonoBehaviour
 
     //아이템 사용/장착 시 호출
     public void UseItem(int index)
-    {
-        
+    {        
         //모델에서 해당 인덱스 아이템 데이터 가져오기
         var slots = model.GetSlotsForView();
         Debug.Log($"인벤토리 아이템 사용 시도: 인덱스 {index}");
@@ -216,7 +213,7 @@ public class InventoryManager : MonoBehaviour
 
         var targetSlot = slots[index];
 
-        //빈 슬롯이면 취소
+        //빈 슬롯이면 취소        
         if (targetSlot.IsEmpty)
         {
             Debug.Log($"빈슬롯");
@@ -226,7 +223,7 @@ public class InventoryManager : MonoBehaviour
         Item item = targetSlot.itemData;
 
         //아이템 타입에 따라 분기 처리        
-        
+
         //장비 아이템
         if (item.type == ItemType.Equipment)
         {
@@ -242,7 +239,7 @@ public class InventoryManager : MonoBehaviour
 
         //소비 아이템 (포션 등)
         else if (item.type == ItemType.Potion)
-        {            
+        {
             //체력이 MAX상태인지 확인
             //MatserManager를 통해 플레이어 정보 접근
             if (_MasterManager.Instance == null) return;
@@ -271,7 +268,7 @@ public class InventoryManager : MonoBehaviour
         return dragStartIndex;
     }
 
-    //현재 드래그 중인 아이템 데이터를 반환하는 함수 (장비창 & 창고에서 쓰기 위함)
+    //현재 드래그 중인 아이템 데이터를 반환하는 함수 (장비창에서 쓰기 위함)
     public Item GetDraggedItem()
     {
         if (dragStartIndex == -1) return null;
@@ -328,7 +325,7 @@ public class InventoryManager : MonoBehaviour
 
     //인벤토리 슬롯이 아닌 곳에 Drop했을 때
     public void CancelDrag()
-    {        
+    {
         dragStartIndex = -1;    //드래그 상태 초기화
         model.NotifyUpdate();   //화면을 원래대로 복구
     }

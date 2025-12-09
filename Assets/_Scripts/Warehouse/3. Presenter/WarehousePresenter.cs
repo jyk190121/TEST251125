@@ -108,12 +108,23 @@ public class WarehousePresenter : MonoBehaviour
             //창고의 해당 슬롯에 있던 아이템 (교체용)
             WarehouseSlotModel targetSlot = model.GetSlotsForView()[dropIndex];
             Item warehouseItem = targetSlot.IsEmpty ? null : targetSlot.itemDate;
-            int warehouseQuantity = targetSlot.quantity;
+            int warehouseQuantity = targetSlot.quantity;            
 
             //인벤토리에서 아이템 삭제
             InventoryManager.Instance.UseItemForEquip();
-        }
-        
+
+            //창고에 아이템 추가
+            model.AddItemToSlot(dropIndex, new WarehouseSlotModel { itemDate = inventoryItem, quantity = 1 });
+
+            //창고 자리에 아이템이 있으면 인벤토리로 보내기
+            //if (warehouseItem != null)
+            //{
+            //    InventoryManager.Instance.AddItem(warehouseItem, warehouseItemCount);
+            //}
+
+            //창고 화면 갱신
+            model.NotifyUpdate();
+        }        
     }
 
     //창고 슬롯이 아닌 곳에 Drop했을 때

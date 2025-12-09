@@ -1,5 +1,7 @@
+using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Animations;
+using Unity.VisualScripting;
 
 //PlayerMove에서 입력받은 값에 따라 실행되는 함수를 정리한 스크립트
 public class PlayerControll : MonoBehaviour
@@ -8,9 +10,11 @@ public class PlayerControll : MonoBehaviour
     PlayerModel model;
     PlayerAnimController PAC;
 
+    Item weapon;
 
     bool isMove = false;
     bool isAttacking = false;
+    int comboTime = 0;
 
     //구르기
     //1. 구르기 거리
@@ -21,7 +25,11 @@ public class PlayerControll : MonoBehaviour
 
     //공격 속도
     float attackTimer;
-    float defaultAttackTimer = 4f;
+
+    private void OnEnable()
+    {
+        DataManager.OnEquipmentChanged += RefreshWeapon;
+    }
 
     void Start()
     {
@@ -57,12 +65,16 @@ public class PlayerControll : MonoBehaviour
             }
         }
 
-        if(isAttacking)
+        if (isAttacking)
         {
             attackTimer -= Time.deltaTime;
-            if(attackTimer <= 0f)
+            if (attackTimer <= 0f)
             {
                 isAttacking = false;
+                if (comboTime > 0)
+                {
+                    comboTime = 0;
+                }
             }
         }
     }
@@ -73,6 +85,12 @@ public class PlayerControll : MonoBehaviour
     {
         model = _MasterManager.Instance.DataManager.GetStat();
     }
+    public void RefreshWeapon()
+    {
+        weapon = _MasterManager.Instance.DataManager.GetWeapon();
+    }
+
+
 
     public void Idle()
     {
@@ -107,15 +125,91 @@ public class PlayerControll : MonoBehaviour
     public void Attack()
     {
         if (isRolling || isAttacking) return;
-        //_MasterManager.Instance.InventoryManager.eq
-        attackTimer = model.attackSpeed;
-        isAttacking = true;
+        if (weapon == null)
+        {
+            Debug.Log("무기 없음!");
+            return;
+        }
+
+        //무기별 구분
+        switch (weapon.itemID)
+        {
+            //검방
+            case 10:
+                //얘는 3번 콤보해야하니까 isAttacking은 나중에?
+                attackTimer = model.attackSpeed;
+                PAC.HandleAttackSword();
+                comboTime++;
+                if (comboTime == 1)
+                {
+                    attackTimer = model.attackSpeed;
+                    comboTime++;
+                }
+                if (comboTime == 2)
+                {
+                    attackTimer = model.attackSpeed;
+                    comboTime++;
+                    isAttacking = true;
+                }
+
+
+                break;
+            //창
+            case 11:
+                isAttacking = true;
+                attackTimer = model.attackSpeed;
+                PAC.HandleAttackSpear();
+
+                break;
+            //활
+            case 12:
+                isAttacking = true;
+                attackTimer = model.attackSpeed;
+                PAC.HandleAttackBow();
+
+                break;
+        }
+
     }
 
-    public void SpecialAttack()
+    public void SubCharge()
     {
         if (isRolling || isAttacking) return;
         isAttacking = true;
+
+        switch (weapon.itemID)
+        {
+            //검방
+            case 10:
+                PAC.HandleShieldAnim(true);
+                break;
+            //창
+            case 11:
+                PAC.HandleAttackSpear();
+                break;
+            //활
+            case 12:
+                PAC.HandleAttackBow();
+                break;
+        }
+    }
+
+    public void SubAttack()
+    {
+
+        switch (weapon.itemID)
+        {
+            //검방
+            case 10:
+                PAC.HandleShieldAnim(false);
+                break;
+            //창
+            case 11:
+                break;
+            //활
+            case 12:
+                break;
+        }
     }
 
     public void Roll(Vector3 rolldir)
