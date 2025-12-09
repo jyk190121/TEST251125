@@ -4,7 +4,7 @@ using UnityEngine;
 /// 플레이어의 애니메이션 출력만을 담당
 /// 인풋매니저의 키값을 받아와 출력
 /// </summary>
-public class PlayerAnim_Village : MonoBehaviour
+public class VillagePlayerAnim : MonoBehaviour
 {
     [SerializeField] GameObject playerPrefab;
     Animator anim;

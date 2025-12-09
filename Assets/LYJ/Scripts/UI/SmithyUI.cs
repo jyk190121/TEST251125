@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 /// <summary>
-/// 대장간 UI (무기 제작만)
+/// 대장간 UI (무기 제작)
 /// </summary>
 public class SmithyUI : MonoBehaviour
 {
@@ -20,7 +20,7 @@ public class SmithyUI : MonoBehaviour
     [SerializeField] private Button craftButton;
 
     private SmithySystem craftingSystem;
-    private string selectedRecipeID;
+    private int selectedRecipeID;  // ← string에서 int로 변경
 
     private void Start()
     {
@@ -76,7 +76,7 @@ public class SmithyUI : MonoBehaviour
             TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
 
             if (buttonText != null)
-                buttonText.text = recipe.recipeName;  // 레시피 이름 표시
+                buttonText.text = recipe.recipeName;
 
             if (button != null)
             {
@@ -85,7 +85,7 @@ public class SmithyUI : MonoBehaviour
         }
     }
 
-    private void SelectRecipe(string recipeID)
+    private void SelectRecipe(int recipeID)  // ← string에서 int로 변경
     {
         selectedRecipeID = recipeID;
 
@@ -99,18 +99,32 @@ public class SmithyUI : MonoBehaviour
 
         // 비용 표시
         if (recipeCostText != null)
-            recipeCostText.text = $"제작 비용: {recipe.craftCost} 골드";
+            recipeCostText.text = $"제작 비용: {recipe.goldCost} 골드";  // ← craftCost에서 goldCost로 변경
 
         // 필요 재료 표시
         if (requirementsText != null)
         {
             string requirementsStr = "필요 재료:\n";
-            foreach (var requirement in recipe.requiredMaterials)
+            var materials = craftingSystem.GetRequiredMaterials(recipeID);
+
+            if (materials != null && materials.Length > 0)
             {
-                requirementsStr += $"- {requirement.itemID} x{requirement.quantity}\n";
+                foreach (var material in materials)
+                {
+                    if (material.materialItem != null)
+                    {
+                        requirementsStr += $"- {material.materialItem.itemName} x{material.amount}\n";
+                    }
+                }
             }
+            else
+            {
+                requirementsStr += "필요한 재료 없음";
+            }
+
             requirementsText.text = requirementsStr;
         }
+
 
         // 제작 버튼 활성화/비활성화
         if (craftButton != null)
@@ -122,7 +136,7 @@ public class SmithyUI : MonoBehaviour
 
     private void OnCraftButtonClicked()
     {
-        if (string.IsNullOrEmpty(selectedRecipeID))
+        if (selectedRecipeID == 0)  // ← int 기본값 0으로 변경
             return;
 
         bool success = craftingSystem.TryCraft(selectedRecipeID);
@@ -130,7 +144,9 @@ public class SmithyUI : MonoBehaviour
         if (success)
         {
             var recipe = craftingSystem.GetRecipe(selectedRecipeID);
-            Debug.Log($"[SmithyUI] 제작 완료: {recipe.resultItemName}");
+            // TODO: recipe.resultItemName이 Recipe SO에 있는지 확인
+            // Debug.Log($"[SmithyUI] 제작 완료: {recipe.outputItem.itemName}");
+            Debug.Log($"[SmithyUI] 제작 완료");
         }
         else
         {
@@ -149,4 +165,6 @@ public class SmithyUI : MonoBehaviour
             craftButton.onClick.RemoveListener(OnCraftButtonClicked);
     }
 }
+
+
 
