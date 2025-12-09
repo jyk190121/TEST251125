@@ -47,7 +47,6 @@ public class Item : ScriptableObject
 
     [Header("추가 능력치")]
     public int attack;
-    public int attackSpeed;
     public int defense;
     public int speed;
     public int hpPlus;

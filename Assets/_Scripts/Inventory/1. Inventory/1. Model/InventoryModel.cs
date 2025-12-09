@@ -177,35 +177,19 @@ public class InventoryModel
         }
     }
 
-    //죽었을 떄 아이템 일부 제거
-    public void RemoveSomeItemsOnDeath(int safeCount)
-    {
-        //safeCount부터 인벤토리 끝까지 아이템 제거
-        for (int i= safeCount; i < Capacity; i++)
-        {
-            //해당 슬롯에 아이템이 있으면 제거
-            if (slots.ContainsKey(i))
-            {
-                slots.Remove(i);
-            }
-        }
-        OnInventoryUpdated?.Invoke();
-    }
-
-
     //아이템이 들어있는 슬롯 번호 찾기
     public int FindItemIndex(Item item)
     {
-        //딕셔너리 전체를 돌면서 찾기
+        // 딕셔너리 전체를 돌면서 찾습니다
         foreach (var kvp in slots)
         {
-            //빈 슬롯이 아니고, 아이템 ID가 같다면?
+            // 빈 슬롯이 아니고, 아이템 ID가 같다면?
             if (!kvp.Value.IsEmpty && kvp.Value.itemData.itemID == item.itemID)
             {
-                return kvp.Key; //그 슬롯의 번호(Key)를 반환
+                return kvp.Key; // 그 슬롯의 번호(Key)를 반환!
             }
         }
-        return -1; //없으면 -1 반환
+        return -1; // 없으면 -1 반환
     }
 
 
@@ -271,8 +255,8 @@ public class InventoryModel
             }
         }
 
-        //데이터가 변했으니 View(화면)도 갱신하라고 알림 (Observer Pattern)
+        // 데이터가 변했으니 View(화면)도 갱신하라고 알림 (Observer Pattern)
         OnInventoryUpdated?.Invoke();
-        return true; //성공적으로 삭제함
+        return true; // 성공적으로 삭제함
     }
 }
