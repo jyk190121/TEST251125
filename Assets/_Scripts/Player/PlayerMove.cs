@@ -40,7 +40,11 @@ public class PlayerMove : MonoBehaviour
 
         if (Input.GetKeyDown(KeySetting.keys[KeyInput.SUBATTACK]))
         {
-            PC.SpecialAttack();
+            PC.SubCharge();
+        }
+        else if (Input.GetKeyUp(KeySetting.keys[KeyInput.SUBATTACK]))
+        {
+            PC.SubAttack();
         }
 
         Vector3 rolldir = transform.forward;
