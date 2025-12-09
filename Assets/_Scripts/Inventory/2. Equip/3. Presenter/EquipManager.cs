@@ -149,7 +149,7 @@ public class EquipManager : MonoBehaviour
                 uiSlots[i].UpdateSlot(currentEquips[i]);
             }
         }
-        //_MasterManager.Instance.DataManager.SetWeapon(model.GetEquip(EquipModel.SLOT_WEAPON);
+        _MasterManager.Instance.DataManager.ChangeWeapon(model.GetEquip(EquipModel.SLOT_WEAPON));
         Debug.Log($"{EquipModel.SLOT_WEAPON}");
     }
 

@@ -28,7 +28,7 @@ public class PlayerModel
             100,
             1000,
             25,
-            10,
+            5,
             12
         );
     }

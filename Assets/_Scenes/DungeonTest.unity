@@ -263,9 +263,29 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 4021254807791516217, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4021254807791516217, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4021254807791516217, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261452490436890902, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4326902835973662571, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4361047247619547267, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 4422393936416606624, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_Layer
@@ -495,7 +515,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &257733376
 MonoBehaviour:
   m_ObjectHideFlags: 0

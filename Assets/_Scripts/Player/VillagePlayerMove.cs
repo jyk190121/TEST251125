@@ -3,13 +3,13 @@ using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
 //플레이어의 키입력을 받고 함수를 실행 시키는 스크립트
-public class PlayerMove_Village : MonoBehaviour
+public class VillagePlayerMove : MonoBehaviour
 {
-    PlayerVillageControll PC;
+    VillagePlayerControll PC;
 
     private void Start()
     {
-        PC = GetComponent<PlayerVillageControll>();
+        PC = GetComponent<VillagePlayerControll>();
     }
     void Update()
     {
