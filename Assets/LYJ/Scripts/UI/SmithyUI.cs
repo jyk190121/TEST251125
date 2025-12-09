@@ -9,7 +9,6 @@ using System.Collections.Generic;
 public class SmithyUI : MonoBehaviour
 {
     [SerializeField] private GameObject smithyPanel;
-    [SerializeField] private Button closeButton;
 
     [SerializeField] private Transform recipeListContainer;
     [SerializeField] private GameObject recipeButtonPrefab;
@@ -20,7 +19,8 @@ public class SmithyUI : MonoBehaviour
     [SerializeField] private Button craftButton;
 
     private SmithySystem craftingSystem;
-    private int selectedRecipeID;  // ← string에서 int로 변경
+    private int selectedRecipeID;
+    private List<Button> createdButtons = new List<Button>();  // 생성된 버튼 추적
 
     private void Start()
     {
@@ -31,15 +31,18 @@ public class SmithyUI : MonoBehaviour
             Debug.LogError("[SmithyUI] SmithySystem을 찾을 수 없습니다");
             return;
         }
-
-        if (closeButton != null)
-            closeButton.onClick.AddListener(CloseUI);
-
+        // ===== 버튼 이벤트 연결 =====
         if (craftButton != null)
             craftButton.onClick.AddListener(OnCraftButtonClicked);
 
+        // ===== 제작 시스템 이벤트 구독 =====
+        craftingSystem.OnCraftingComplete += HandleCraftingComplete;
+
+        // 초기 상태: 패널 비활성화
         if (smithyPanel != null)
             smithyPanel.SetActive(false);
+
+        Debug.Log("[SmithyUI] 대장간 UI 초기화 완료");
     }
 
     public void OpenUI()
@@ -59,18 +62,36 @@ public class SmithyUI : MonoBehaviour
         smithyPanel.SetActive(false);
     }
 
+    /// <summary>
+    /// 제작 가능한 레시피 목록을 UI에 동적으로 생성
+    /// </summary>
     private void PopulateRecipeList()
     {
-        // 기존 버튼 삭제
+        // 기존 버튼 정리
         foreach (Transform child in recipeListContainer)
         {
+            Button btn = child.GetComponent<Button>();
+            if (btn != null)
+            {
+                btn.onClick.RemoveAllListeners();  // 이벤트 리스너 제거
+            }
             Destroy(child.gameObject);
         }
 
         var recipes = craftingSystem.GetAllRecipes();
 
+        if (recipes == null || recipes.Count == 0)
+        {
+            Debug.LogWarning("[SmithyUI] 표시할 레시피가 없습니다");
+            return;
+        }
+
+        // 모든 레시피에 대해 버튼 생성
         foreach (var recipe in recipes.Values)
         {
+            if (recipe == null)
+                continue;
+
             GameObject buttonObj = Instantiate(recipeButtonPrefab, recipeListContainer);
             Button button = buttonObj.GetComponent<Button>();
             TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
@@ -80,12 +101,15 @@ public class SmithyUI : MonoBehaviour
 
             if (button != null)
             {
-                button.onClick.AddListener(() => SelectRecipe(recipe.recipeID));
+                // 클로저 문제 방지: 로컬 변수 사용
+                int recipeID = recipe.recipeID;
+                button.onClick.AddListener(() => SelectRecipe(recipeID));
+                createdButtons.Add(button);
             }
         }
     }
 
-    private void SelectRecipe(int recipeID)  // ← string에서 int로 변경
+    private void SelectRecipe(int recipeID)
     {
         selectedRecipeID = recipeID;
 
@@ -99,7 +123,7 @@ public class SmithyUI : MonoBehaviour
 
         // 비용 표시
         if (recipeCostText != null)
-            recipeCostText.text = $"제작 비용: {recipe.goldCost} 골드";  // ← craftCost에서 goldCost로 변경
+            recipeCostText.text = $"제작 비용: {recipe.goldCost} 골드";
 
         // 필요 재료 표시
         if (requirementsText != null)
@@ -113,6 +137,10 @@ public class SmithyUI : MonoBehaviour
                 {
                     if (material.materialItem != null)
                     {
+                        // TODO: 실제 플레이어 보유량을 InventoryManager에서 가져오기
+                        // int playerQuantity = InventoryManager.Instance.GetItemQuantity(material.materialItem.itemID);
+                        // requirementsStr += $"- {material.materialItem.itemName} x{material.amount} (보유: {playerQuantity})\n";
+
                         requirementsStr += $"- {material.materialItem.itemName} x{material.amount}\n";
                     }
                 }
@@ -136,7 +164,7 @@ public class SmithyUI : MonoBehaviour
 
     private void OnCraftButtonClicked()
     {
-        if (selectedRecipeID == 0)  // ← int 기본값 0으로 변경
+        if (selectedRecipeID == 0)
             return;
 
         bool success = craftingSystem.TryCraft(selectedRecipeID);
@@ -145,24 +173,52 @@ public class SmithyUI : MonoBehaviour
         {
             var recipe = craftingSystem.GetRecipe(selectedRecipeID);
             // TODO: recipe.resultItemName이 Recipe SO에 있는지 확인
-            // Debug.Log($"[SmithyUI] 제작 완료: {recipe.outputItem.itemName}");
-            Debug.Log($"[SmithyUI] 제작 완료");
+            // Debug.Log($"[SmithyUI] 제작 시도: {recipe.outputItem.itemName}");
         }
         else
         {
             Debug.Log("[SmithyUI] 제작 실패");
         }
+    }
 
-        PopulateRecipeList();
+    /// <summary>
+    /// 제작 성공 이벤트 핸들러
+    /// </summary>
+    private void HandleCraftingComplete(int itemID, int quantity)
+    {
+        var recipe = craftingSystem.GetRecipe(selectedRecipeID);
+        string itemName = recipe != null ? recipe.outputItem.itemName : "아이템";
+
+        Debug.Log($"[SmithyUI] 제작 성공: {itemName} x{quantity}");
+
+        // 선택 해제 및 UI 갱신
+        SelectRecipe(selectedRecipeID);
     }
 
     private void OnDestroy()
     {
-        if (closeButton != null)
-            closeButton.onClick.RemoveListener(CloseUI);
+        // 모든 이벤트 리스너 정리 (메모리 누수 방지)
 
         if (craftButton != null)
             craftButton.onClick.RemoveListener(OnCraftButtonClicked);
+
+        // 제작 시스템 이벤트 구독 해제
+        if (craftingSystem != null)
+        {
+            craftingSystem.OnCraftingComplete -= HandleCraftingComplete;
+        }
+
+        // 동적으로 생성한 버튼의 이벤트 정리
+        foreach (var button in createdButtons)
+        {
+            if (button != null)
+            {
+                button.onClick.RemoveAllListeners();
+            }
+        }
+        createdButtons.Clear();
+
+        Debug.Log("[SmithyUI] 대장간 UI 정리 완료");
     }
 }
 
