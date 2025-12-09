@@ -85,9 +85,6 @@ public class ItemDataEditor : Editor
         speed = serializedObject.FindProperty("speed");
         hpPlus = serializedObject.FindProperty("hpPlus");
 
-        craftRecipe = serializedObject.FindProperty("craftRecipe");
-        upgradeRecipe = serializedObject.FindProperty("upgradeRecipe");
-
         healAmount = serializedObject.FindProperty("healAmount");
         coolDown = serializedObject.FindProperty("coolDown");
     }
@@ -188,10 +185,6 @@ public class ItemDataEditor : Editor
         EditorGUILayout.PropertyField(hpPlus);
 
         EditorGUILayout.Space(5);
-
-        EditorGUILayout.LabelField("== 제작 및 업그레이드 재료 ==", EditorStyles.boldLabel);
-        EditorGUILayout.PropertyField(craftRecipe, true);
-        EditorGUILayout.PropertyField(upgradeRecipe, true);
     }
 
 
