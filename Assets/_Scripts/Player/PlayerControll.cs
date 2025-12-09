@@ -14,6 +14,7 @@ public class PlayerControll : MonoBehaviour
 
     bool isMove = false;
     bool isAttacking = false;
+    bool isCharge = false;
     int comboTime = 0;
 
     //구르기
@@ -25,6 +26,10 @@ public class PlayerControll : MonoBehaviour
 
     //공격 속도
     float attackTimer;
+
+    //임의로 사용할 무기 정보 값
+    int weaponnumber = 3;
+    
 
     private void OnEnable()
     {
@@ -67,10 +72,15 @@ public class PlayerControll : MonoBehaviour
 
         if (isAttacking)
         {
-            attackTimer -= Time.deltaTime;
+            if (!isCharge)
+            {
+                attackTimer -= Time.deltaTime;
+            }
+
             if (attackTimer <= 0f)
             {
                 isAttacking = false;
+
                 if (comboTime > 0)
                 {
                     comboTime = 0;
@@ -124,92 +134,61 @@ public class PlayerControll : MonoBehaviour
 
     public void Attack()
     {
-        if (isRolling || isAttacking) return;
-        if (weapon == null)
-        {
-            Debug.Log("무기 없음!");
-            return;
-        }
+        if (isRolling) return;
+        //if (weapon == null)
+        //{
+        //    Debug.Log("무기 없음!");
+        //    return;
+        //}
 
-        //무기별 구분
-        switch (weapon.itemID)
+
+        if (weaponnumber == 1) // 검 공격
         {
-            //검방
-            case 10:
-                //얘는 3번 콤보해야하니까 isAttacking은 나중에?
-                attackTimer = model.attackSpeed;
-                PAC.HandleAttackSword();
+            if (isAttacking == false)
+            {
+                comboTime = 1; // 1타 시작
+            }
+            else
+            {
+                // 공격 중(isAttacking=true)에 입력이 들어오면 다음 콤보로 증가
                 comboTime++;
-                if (comboTime == 1)
+                if (comboTime > 3)
                 {
-                    attackTimer = model.attackSpeed;
-                    comboTime++;
+                    // 3타 이후에는 다시 1타로 리셋되도록 준비 (애니메이션이 끝나면 1타가 들어감)
+                    comboTime = 1;
                 }
-                if (comboTime == 2)
-                {
-                    attackTimer = model.attackSpeed;
-                    comboTime++;
-                    isAttacking = true;
-                }
-
-
-                break;
-            //창
-            case 11:
-                isAttacking = true;
-                attackTimer = model.attackSpeed;
-                PAC.HandleAttackSpear();
-
-                break;
-            //활
-            case 12:
-                isAttacking = true;
-                attackTimer = model.attackSpeed;
-                PAC.HandleAttackBow();
-
-                break;
+            }
         }
+        else // 기타 무기 (창, 활 등 콤보가 없는 무기)
+        {
+            // 콤보가 없는 무기는 무조건 1타로 고정
+            if (isAttacking) return; // 공격 중이면 추가 입력 무시
+            comboTime = 1;
+        }
+        isAttacking = true;
+        attackTimer = 1f;
 
+        PAC.HandleAttack(weaponnumber, comboTime);
     }
 
     public void SubCharge()
     {
         if (isRolling || isAttacking) return;
-        isAttacking = true;
+        //if (weapon == null) return;
 
-        switch (weapon.itemID)
-        {
-            //검방
-            case 10:
-                PAC.HandleShieldAnim(true);
-                break;
-            //창
-            case 11:
-                PAC.HandleAttackSpear();
-                break;
-            //활
-            case 12:
-                PAC.HandleAttackBow();
-                break;
-        }
+        isAttacking = true;
+        isCharge = true;
+
+        PAC.HandleCharge(isCharge, weaponnumber);
     }
 
     public void SubAttack()
     {
+        if(!isCharge) return;
+        isCharge = false;
 
-        switch (weapon.itemID)
-        {
-            //검방
-            case 10:
-                PAC.HandleShieldAnim(false);
-                break;
-            //창
-            case 11:
-                break;
-            //활
-            case 12:
-                break;
-        }
+        PAC.HandleCharge(isCharge, weaponnumber);
+        attackTimer = model.attackSpeed;
     }
 
     public void Roll(Vector3 rolldir)
