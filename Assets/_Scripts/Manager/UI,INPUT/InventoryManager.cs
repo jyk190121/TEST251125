@@ -162,35 +162,68 @@ public class InventoryManager : MonoBehaviour
     //드래그 끝(드롭) 시 호출
     public void OnDragEnd(int dropIndex)
     {
-        //인벤토리 슬롯이 아닌 곳(-1)에 Drop 했을 때
-        if (dropIndex == -1)
+        if (dragStartIndex != -1)
         {
-            //마우스가 인벤토리 패널 안에 있는지 확인
-            if (IsMouseOverInventoryPanel())
+            //인벤토리 슬롯이 아닌 곳(-1)에 Drop 했을 때
+            if (dropIndex == -1)
             {
-                //안쪽이면 -> 그냥 취소 (원래대로 돌아감)
+                //마우스가 인벤토리 패널 안에 있는지 확인
+                if (IsMouseOverInventoryPanel())
+                {
+                    //안쪽이면 -> 그냥 취소 (원래대로 돌아감)
+                    CancelDrag();
+                }
+                else
+                {
+                    //바깥쪽이면 -> "버리시겠습니까?" 팝업 띄우기
+                    ShowDropPopup();
+                }
+                return;
+            }
+
+            //제자리에 놨으면 취소
+            if (dragStartIndex == dropIndex)
+            {
                 CancelDrag();
+                return;
             }
-            else
-            {
-                //바깥쪽이면 -> "버리시겠습니까?" 팝업 띄우기
-                ShowDropPopup();
-            }
-            return;
-        }
 
-        //출발한 적이 없거나(-1), 제자리에 놨으면 취소
-        if (dragStartIndex == -1 || dragStartIndex == dropIndex)
-        {
+            //교환 실행
+            SwapItems(dragStartIndex, dropIndex);
+
+            //기록 초기화
             dragStartIndex = -1;
-            return;
         }
+        if (WarehousePresenter.Instance.GetDragStartIndex() != -1)
+        {
+            if (dropIndex == -1) return;
 
-        //교환 실행
-        SwapItems(dragStartIndex, dropIndex);
+            //Warehouse에서 드래그한 아이템을 인벤토리에 넣기
+            Item warehouseItem = WarehousePresenter.Instance.GetDraggedItem();
+            if (warehouseItem == null) return;
 
-        //기록 초기화
-        dragStartIndex = -1;
+            //인벤토리의 해당 슬롯에 있던 아이템 (교체용)
+            InventorySlotModel targetSlot = model.GetSlotsForView()[dropIndex];
+            Item inventoryItem = targetSlot.IsEmpty ? null : targetSlot.itemData;
+            int inventoryItemCount = targetSlot.quantity;
+            int count = WarehousePresenter.Instance.GetDraggedItemCount();
+
+            //창고에서 아이템 삭제
+            WarehousePresenter.Instance.UseItemForMove();
+
+            //인벤토리에 아이템 추가
+            //int count = WarehousePresenter.Instance.GetDraggedItemCount();
+            model.AddItemToSlot(dropIndex, new InventorySlotModel { itemData = warehouseItem, quantity = count });
+
+            //인벤토리 자리에 아이템이 있으면 창고로 보내기
+            if(inventoryItem != null)
+            {
+                WarehousePresenter.Instance.AddItem(inventoryItem, inventoryItemCount);
+            }
+
+            //인벤토리 화면 갱신
+            model.NotifyUpdate();
+        }        
     }
 
 
@@ -276,7 +309,14 @@ public class InventoryManager : MonoBehaviour
         return slots[dragStartIndex].itemData;
     }
 
-    //특정 인덱스의 아이템을 장착 때문에 삭제하는 함수 (단순 삭제와 다름)
+    //현재 드래그 중인 아이템 수량 반환 함수 (창고에서 쓰기 위함)
+    public int GetDraggedItemCount()
+    {
+        if (dragStartIndex == -1) return 0;
+        return model.GetSlotsForView()[dragStartIndex].quantity;
+    }
+
+    //특정 인덱스의 아이템을 장착 및 창고 저장 때문에 삭제하는 함수 (단순 삭제와 다름)
     public void UseItemForEquip()
     {
         if (dragStartIndex != -1)
