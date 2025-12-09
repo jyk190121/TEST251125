@@ -41,7 +41,7 @@ public class QuickSlotView : MonoBehaviour, IPointerClickHandler, IDropHandler
         Item draggedItem = InventoryManager.Instance.GetDraggedItem();
         if (draggedItem != null)
         {
-            // Presenter에게 등록 요청
+            //Presenter에게 등록 요청
             QuickSlotPresenter.Instance.RegisterItem(myIndex, draggedItem);
         }
     }

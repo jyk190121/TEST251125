@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class EquipModel
 {
-    //장비 슬롯 배열 (0: 투구, 1: 갑옷, 2: 신발, 3: 무기)
+    //장비 슬롯 배열 (0: 무기, 1: 투구, 2: 갑옷, 3: 신발)
     private Item[] equipSlots = new Item[4];
 
     //장비 슬롯 인덱스 상수
-    public const int SLOT_HEAD = 0;
-    public const int SLOT_BODY = 1;
-    public const int SLOT_FOOT = 2;
-    public const int SLOT_WEAPON = 3;
+    public const int SLOT_WEAPON = 0;
+    public const int SLOT_HEAD = 1;
+    public const int SLOT_BODY = 2;
+    public const int SLOT_FOOT = 3;    
 
     //장비 장착
     public void SetEquip(int index, Item item)
