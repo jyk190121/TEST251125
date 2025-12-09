@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Manager
   layers:
   - Default
   - TransparentFX
@@ -12,6 +13,8 @@ TagManager:
   - Water
   - UI
   - Portal
+  - Player
+  - Trap
   - 
   - 
   - 
@@ -25,6 +28,7 @@ TagManager:
   - 
   - 
   - 
+  - Customer
   - 
   - 
   - 
@@ -32,11 +36,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - SuperMan
   m_SortingLayers:
   - name: Default
     uniqueID: 0
