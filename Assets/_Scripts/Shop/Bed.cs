@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static DayManager;
@@ -17,7 +18,6 @@ public class Bed : MonoBehaviour
     public Image image;         // 키입력하는 동안 띄울 이미지
 
     PlayerController player;    // 플레이어 스크립트( 임시 )
-
     DayManager dayManager;      // 자고 일어나면 시간 가기
 
     private void Start()
@@ -30,14 +30,12 @@ public class Bed : MonoBehaviour
         sleepTimer = 0f;
         image.gameObject.SetActive(false);
         image.fillAmount = 0f;
-        image.color = new Color (0, 150f, 0, 100f);
+        image.color = new Color(0, 150f, 0, 100f);
         //Outline outline = image.GetComponent<Outline>();
         //outline.effectDistance = new Vector2(5f, 5f);
 
         dayManager = GameObject.Find("TestManager").GetComponent<DayManager>();
     }
-
-
     void Update()
     {
         image.gameObject.SetActive(false);
@@ -114,6 +112,7 @@ public class Bed : MonoBehaviour
         {
             player.enabled = false;
             player.gameObject.transform.position = (transform.position) + Vector3.up;
+            player.transform.rotation = Quaternion.Euler(-90f, -90f, 0);
         }
     }
 
@@ -128,6 +127,7 @@ public class Bed : MonoBehaviour
         {
             player.enabled = true;
             player.gameObject.transform.position = inBedPos;
+            player.transform.rotation = Quaternion.identity;
         }
     }
 }
