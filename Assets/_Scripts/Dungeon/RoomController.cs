@@ -23,6 +23,8 @@ public class RoomController : MonoBehaviour
     public bool isBossRoom = false;
     public bool isRestRoom = false;
 
+    private List<GameObject> aliveMonsters = new List<GameObject>();
+
 
     public void SetDoorActive(bool up, bool down, bool left, bool right)
     {
@@ -42,8 +44,11 @@ public class RoomController : MonoBehaviour
         foreach (var point in spawnPoints)
         {
             int rand = Random.Range(0, monsterPrefabs.Count);
-            Instantiate(monsterPrefabs[rand], point.position, Quaternion.identity);
+            GameObject monster = Instantiate(monsterPrefabs[rand], point.position, Quaternion.identity);
+            aliveMonsters.Add(monster);
+            monster.GetComponent<MonsterTest>().SetupRoom(this);
         }
+
     }
 
     public void SpawnMonstersOnce()
@@ -55,12 +60,19 @@ public class RoomController : MonoBehaviour
         SpawnMonster();             // 기존 몬스터 생성 함수 호출
     }
 
-
-    public static void ClearDungeon()
+    public void ClearDungeon(GameObject monster)
     {
-        isCleared = true;
-        Debug.Log("던전 클리어! 문이 열렸습니다.");
+        if (aliveMonsters.Contains(monster))
+            aliveMonsters.Remove(monster);
+
+        // 모두 죽으면 문 열기
+        if (aliveMonsters.Count == 0)
+        {
+            
+            isCleared = true;
+            Debug.Log("방 클리어! 문 열림");
+
+        }
     }
 
-    
 }

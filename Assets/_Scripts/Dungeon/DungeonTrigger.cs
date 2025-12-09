@@ -68,7 +68,7 @@ public class DungeonTrigger : MonoBehaviour
         }
     }
     
-    /*
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -108,9 +108,9 @@ public class DungeonTrigger : MonoBehaviour
             }
         }
     }
-    */
-
     
+
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -147,6 +147,6 @@ public class DungeonTrigger : MonoBehaviour
 
         }
     }
-    
+    */
 
 }
