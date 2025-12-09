@@ -21,8 +21,6 @@ public class POS_playerSalas : MonoBehaviour
 
     private void Update()
     {
-        print(customerCheck);
-
         if (salasPos != null)
         {
             customerCheck = true;
