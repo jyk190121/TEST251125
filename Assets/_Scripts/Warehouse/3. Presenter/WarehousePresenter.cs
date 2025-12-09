@@ -68,34 +68,52 @@ public class WarehousePresenter : MonoBehaviour
     public void OnDragEnd(int dropIndex)
     {
         //인벤토리 슬롯이 아닌 곳(-1)에 Drop 했을 때
-        //if (dropIndex == -1)
-        //{
-        //    //마우스가 인벤토리 패널 안에 있는지 확인
-        //    if (IsMouseOverInventoryPanel())
-        //    {
-        //        //안쪽이면 -> 그냥 취소 (원래대로 돌아감)
-        //        CancelDrag();
-        //    }
-        //    else
-        //    {
-        //        //바깥쪽이면 -> "버리시겠습니까?" 팝업 띄우기
-        //        ShowDropPopup();
-        //    }
-        //    return;
-        //}
-
-        //출발한 적이 없거나(-1), 제자리에 놨으면 취소
-        if (dragStartIndex == -1 || dragStartIndex == dropIndex)
+        if (dropIndex == -1)
         {
-            dragStartIndex = -1;
-            return;
+            ////마우스가 인벤토리 패널 안에 있는지 확인
+            //if (IsMouseOverInventoryPanel())
+            //{
+            //    //안쪽이면 -> 그냥 취소 (원래대로 돌아감)
+            //    CancelDrag();
+            //}
+            //else
+            //{
+            //    //바깥쪽이면 -> "버리시겠습니까?" 팝업 띄우기
+            //    ShowDropPopup();
+            //}
+            //return;
+            
+            //출발한 적이 없거나(-1), 제자리에 놨으면 취소
+            if (dragStartIndex == -1 || dragStartIndex == dropIndex)
+            {
+                dragStartIndex = -1;
+                return;
+            }
+
+            //교환 실행
+            SwapItems(dragStartIndex, dropIndex);
+
+            //기록 초기화
+            dragStartIndex = -1;            
+        }        
+
+        else if (InventoryManager.Instance.GetDragStartIndex() != -1)
+        {
+            if (dropIndex == -1) return;
+            
+            //인벤토리 매니저에서 드래그한 아이템 가져오기
+            Item inventoryItem = InventoryManager.Instance.GetDraggedItem();
+            if (inventoryItem == null) return;
+
+            //창고의 해당 슬롯에 있던 아이템 (교체용)
+            WarehouseSlotModel targetSlot = model.GetSlotsForView()[dropIndex];
+            Item warehouseItem = targetSlot.IsEmpty ? null : targetSlot.itemDate;
+            int warehouseQuantity = targetSlot.quantity;
+
+            //인벤토리에서 아이템 삭제
+            InventoryManager.Instance.UseItemForEquip();
         }
-
-        //교환 실행
-        SwapItems(dragStartIndex, dropIndex);
-
-        //기록 초기화
-        dragStartIndex = -1;
+        
     }
 
     //창고 슬롯이 아닌 곳에 Drop했을 때
@@ -151,11 +169,5 @@ public class WarehousePresenter : MonoBehaviour
     {
         model.AddItem(item, count);
         return true;
-    }
-
-    //외부에서 아이템 사용 시 호출 (장비 강화, 소모품 사용 등)
-    public void ConsumeItem(int itemID, int count)
-    {
-        model.RemoveItemByCount(itemID, count);
     }
 }

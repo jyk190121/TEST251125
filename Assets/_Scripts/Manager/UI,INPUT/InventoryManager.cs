@@ -270,7 +270,7 @@ public class InventoryManager : MonoBehaviour
         return dragStartIndex;
     }
 
-    //현재 드래그 중인 아이템 데이터를 반환하는 함수 (장비창에서 쓰기 위함)
+    //현재 드래그 중인 아이템 데이터를 반환하는 함수 (장비창 & 창고에서 쓰기 위함)
     public Item GetDraggedItem()
     {
         if (dragStartIndex == -1) return null;
