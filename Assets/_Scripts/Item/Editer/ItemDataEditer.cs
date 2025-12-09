@@ -41,7 +41,6 @@ public class ItemDataEditor : Editor
     SerializedProperty tier;
 
     SerializedProperty attack;
-    SerializedProperty attackSpeed;
     SerializedProperty defense;
     SerializedProperty speed;
     SerializedProperty hpPlus;
@@ -82,7 +81,6 @@ public class ItemDataEditor : Editor
         tier = serializedObject.FindProperty("tier");
 
         attack = serializedObject.FindProperty("attack");
-        attackSpeed = serializedObject.FindProperty("attackSpeed");
         defense = serializedObject.FindProperty("defense");
         speed = serializedObject.FindProperty("speed");
         hpPlus = serializedObject.FindProperty("hpPlus");
@@ -185,7 +183,6 @@ public class ItemDataEditor : Editor
 
         EditorGUILayout.LabelField("== 추가 능력치 ==", EditorStyles.boldLabel);
         EditorGUILayout.PropertyField(attack);
-        EditorGUILayout.PropertyField(attackSpeed);
         EditorGUILayout.PropertyField(defense);
         EditorGUILayout.PropertyField(speed);
         EditorGUILayout.PropertyField(hpPlus);

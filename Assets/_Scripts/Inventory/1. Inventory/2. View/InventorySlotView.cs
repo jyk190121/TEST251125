@@ -37,7 +37,7 @@ public class InventorySlotView : MonoBehaviour, IBeginDragHandler, IDragHandler,
         {
             iconImage.sprite = slotData.itemData.icon;
             iconImage.enabled = true;
-            iconImage.color = Color.white; //투명도 복구
+            iconImage.color = Color.white; //[중요] 투명도 복구
 
             //수량이 1보다 클 때만 숫자 표시
             amountText.text = slotData.quantity > 1 ? slotData.quantity.ToString() : "";
