@@ -37,7 +37,7 @@ public class KJY_Camera : MonoBehaviour
     {
         Camera.main.transform.position =
             Vector3.Lerp(Camera.main.transform.position,
-            new Vector3(-6, 10, 1.5f),
+            new Vector3(-2.2f, 10, 1.5f),
             Time.deltaTime * 10f);
     }
 
@@ -45,7 +45,7 @@ public class KJY_Camera : MonoBehaviour
     {
         Camera.main.transform.position =
           Vector3.Lerp(Camera.main.transform.position,
-          new Vector3(-6, 10, -7.5f),
+          new Vector3(-2.2f, 10, -7.5f),
           Time.deltaTime * 10f);
     }
 

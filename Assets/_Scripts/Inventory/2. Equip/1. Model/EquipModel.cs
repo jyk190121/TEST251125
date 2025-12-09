@@ -1,15 +1,15 @@
-//using UnityEngine;
+using UnityEngine;
 
 public class EquipModel
 {
-    //장비 슬롯 배열 (0: 무기, 1: 머리, 2: 몸통, 3: 신발)
+    //장비 슬롯 배열 (0: 투구, 1: 갑옷, 2: 신발, 3: 무기)
     private Item[] equipSlots = new Item[4];
 
     //장비 슬롯 인덱스 상수
-    public const int SLOT_WEAPON = 0;
-    public const int SLOT_HEAD = 1;
-    public const int SLOT_BODY = 2;
-    public const int SLOT_FOOT = 3;    
+    public const int SLOT_HEAD = 0;
+    public const int SLOT_BODY = 1;
+    public const int SLOT_FOOT = 2;
+    public const int SLOT_WEAPON = 3;
 
     //장비 장착
     public void SetEquip(int index, Item item)
@@ -41,7 +41,7 @@ public class EquipModel
         return null;
     }
 
-    //현재 장착된 아이템 가져오기
+    // 현재 장착된 아이템 가져오기
     public Item GetEquip(int index)
     {
         if (index >= 0 && index < equipSlots.Length)
@@ -52,8 +52,6 @@ public class EquipModel
     //전체 장비 배열을 가져오는 함수 (UI 전체 갱신용)
     public Item[] GetAllEquips() => equipSlots;
 
-    //튜플(Tuple)을 사용하여 총 능력치 계산
-    //각 장비 슬롯의 능력치를 모두 더하여 반환    
     public (int atk, int def, int hp, int spd) CalculateTotalStats()
     {
         int atk = 0, def = 0, hp = 0, spd = 0;
@@ -70,7 +68,6 @@ public class EquipModel
                 spd += item.speed;
             }
         }
-        //튜플로 총 능력치를 한번에 반환
         return (atk, def, hp, spd);
     }
 }

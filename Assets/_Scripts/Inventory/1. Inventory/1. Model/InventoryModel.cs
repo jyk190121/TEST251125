@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InventoryModel
 {
@@ -136,7 +137,7 @@ public class InventoryModel
         {
             //빈 슬롯은 넘김
             //아이템 ID가 같은지 확인
-            if(!slot.IsEmpty && slot.itemData.itemID == targetItemID)
+            if(slot.IsEmpty && slot.itemData.itemID == targetItemID)
             {
                 //같으면 토탈 카운트에 해당 슬롯 아이템의 수량을 누적
                 //묶음으로 여러개 소지하고 있어도 아이템 ID가 같으면 지속적으로 누적
@@ -176,46 +177,6 @@ public class InventoryModel
             OnInventoryUpdated?.Invoke();
         }
     }
-
-    //아이템이 들어있는 슬롯 번호 찾기
-    public int FindItemIndex(Item item)
-    {
-        // 딕셔너리 전체를 돌면서 찾습니다
-        foreach (var kvp in slots)
-        {
-            // 빈 슬롯이 아니고, 아이템 ID가 같다면?
-            if (!kvp.Value.IsEmpty && kvp.Value.itemData.itemID == item.itemID)
-            {
-                return kvp.Key; // 그 슬롯의 번호(Key)를 반환!
-            }
-        }
-        return -1; // 없으면 -1 반환
-    }
-
-
-    //특정 슬롯의 아이템 수량을 감소 (포션 사용 등)
-    public void DecreaseItemAmount(int index, int amount)
-    {
-        //해당 슬롯에 아이템이 있는지 확인
-        if(!slots.ContainsKey(index)) return;
-
-        InventorySlotModel slot = slots[index];
-
-        //수랑 감소
-        slot.quantity -= amount;
-
-        //만약 수량이 0 이하가 되면 슬롯에서 제거
-        if(slot.quantity <= 0)
-        {
-            slot.Clear();
-            //딕셔너리에서도 키 삭제
-            slots.Remove(index);
-        }
-
-        //데이터가 변했으니 View(화면)도 갱신
-        OnInventoryUpdated?.Invoke();
-    }
-
 
     //아이템 제거 (외부에서 사용)
     public bool RemoveItemByCount(int targetItemID, int countToRemove)
