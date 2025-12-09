@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using System;
 
 //유저 데이터를 저장하는 공간 - 던전 진행도/골드/체력 등
 public class DataManager : MonoBehaviour
@@ -12,6 +13,9 @@ public class DataManager : MonoBehaviour
 
     //던전 정보 관련
     int dungeonCleared = 0;
+
+    public static Action OnEquipmentChanged;
+    //public static Action OnStatChanged;
 
     public void Initialize()
     {
@@ -73,5 +77,18 @@ public class DataManager : MonoBehaviour
     public PlayerModel GetStat()
     {
         return player;
+    }
+
+    public void ChangeWeapon(Item newItem)
+    {
+        EquipWeapon = newItem;
+
+        // 모든 구독자(PlayerControll 등)에게 변경 사항을 알립니다.
+        OnEquipmentChanged?.Invoke();
+    }
+
+    public Item GetWeapon()
+    {
+        return EquipWeapon;
     }
 }
