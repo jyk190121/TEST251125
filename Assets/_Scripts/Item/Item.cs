@@ -51,10 +51,6 @@ public class Item : ScriptableObject
     public int speed;
     public int hpPlus;
 
-    [Header("장비 만드는데 필요한 코스트")]
-    public MaterialCost[] craftRecipe;
-    public MaterialCost[] upgradeRecipe;
-
     [Header("포션")]
     public int healAmount;
     public float coolDown;
@@ -64,9 +60,3 @@ public enum Rarity { Common, Uncommon, Rare, Epic, Legendary }  //희귀도
 public enum EquipmentType { Weapon, Armor }                     //장비 타입(무기/방어구)
 public enum EquipmentSlot { Weapon, Head, Body, Foot }          //장비 슬롯
 
-[System.Serializable]
-public struct MaterialCost
-{
-    public Item materialItem;
-    public int amount;
-}

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 
 //PlayerMove에서 입력받은 값에 따라 실행되는 함수를 정리한 스크립트
-public class PlayerVillageControll : MonoBehaviour
+public class VillagePlayerControll : MonoBehaviour
 {
     CharacterController CC;
     PlayerModel model;

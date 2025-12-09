@@ -24,8 +24,8 @@ public class WoodenHatUI : MonoBehaviour
     [SerializeField] private Button craftButton;
 
     private WoodenHatSystem craftingSystem;
-    private string selectedRecipeID;
-    private CraftingSystemBase.RecipeType currentTabType = CraftingSystemBase.RecipeType.Craft;
+    private int selectedRecipeID;  // ← string에서 int로 변경
+    private bool isPocionTab = true;  // ← true: 포션, false: 강화
 
     private void Start()
     {
@@ -41,10 +41,10 @@ public class WoodenHatUI : MonoBehaviour
             closeButton.onClick.AddListener(CloseUI);
 
         if (craftTabButton != null)
-            craftTabButton.onClick.AddListener(() => SelectTab(CraftingSystemBase.RecipeType.Craft));
+            craftTabButton.onClick.AddListener(() => SelectTab(true));  // 포션 탭
 
         if (enhanceTabButton != null)
-            enhanceTabButton.onClick.AddListener(() => SelectTab(CraftingSystemBase.RecipeType.Enhance));
+            enhanceTabButton.onClick.AddListener(() => SelectTab(false));  // 강화 탭
 
         if (craftButton != null)
             craftButton.onClick.AddListener(OnCraftButtonClicked);
@@ -59,7 +59,7 @@ public class WoodenHatUI : MonoBehaviour
             return;
 
         woodenHatPanel.SetActive(true);
-        SelectTab(CraftingSystemBase.RecipeType.Craft); // 기본 탭: 제작
+        SelectTab(true);  // 기본 탭: 포션 제작
     }
 
     public void CloseUI()
@@ -70,15 +70,16 @@ public class WoodenHatUI : MonoBehaviour
         woodenHatPanel.SetActive(false);
     }
 
-    private void SelectTab(CraftingSystemBase.RecipeType tabType)
+    private void SelectTab(bool isPotion)
     {
-        currentTabType = tabType;
+        isPocionTab = isPotion;
+        selectedRecipeID = 0;  // ← 선택 초기화
         PopulateRecipeList();
 
         // 탭 버튼 강조 (시각 효과)
-        if (currentTabType == CraftingSystemBase.RecipeType.Craft)
+        if (isPocionTab)
         {
-            Debug.Log("[WoodenHatUI] 제작 탭 선택");
+            Debug.Log("[WoodenHatUI] 포션 제작 탭 선택");
         }
         else
         {
@@ -94,11 +95,18 @@ public class WoodenHatUI : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        // 현재 탭 타입의 레시피만 가져오기
-        var recipes = craftingSystem.GetRecipesByType(currentTabType);
+        var allRecipes = craftingSystem.GetAllRecipes();
 
-        foreach (var recipe in recipes.Values)
+        foreach (var recipe in allRecipes.Values)
         {
+            // 포션 탭: AlchemyRecipe만 표시
+            if (isPocionTab && !(recipe is AlchemyRecipe))
+                continue;
+
+            // 강화 탭: EnchantRecipe만 표시
+            if (!isPocionTab && !(recipe is EnchantRecipe))
+                continue;
+
             GameObject buttonObj = Instantiate(recipeButtonPrefab, recipeListContainer);
             Button button = buttonObj.GetComponent<Button>();
             TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
@@ -113,7 +121,7 @@ public class WoodenHatUI : MonoBehaviour
         }
     }
 
-    private void SelectRecipe(string recipeID)
+    private void SelectRecipe(int recipeID)  // ← string에서 int로 변경
     {
         selectedRecipeID = recipeID;
 
@@ -124,22 +132,35 @@ public class WoodenHatUI : MonoBehaviour
         // 레시피 이름 표시
         if (recipeNameText != null)
         {
-            string typeStr = recipe.recipeType == CraftingSystemBase.RecipeType.Craft ? "제작" : "강화";
+            string typeStr = isPocionTab ? "포션 제작" : "강화";
             recipeNameText.text = $"{typeStr}: {recipe.recipeName}";
         }
 
         // 비용 표시
         if (recipeCostText != null)
-            recipeCostText.text = $"비용: {recipe.craftCost} 골드";
+            recipeCostText.text = $"비용: {recipe.goldCost} 골드";  // ← craftCost에서 goldCost로 변경
 
         // 필요 재료 표시
         if (requirementsText != null)
         {
             string requirementsStr = "필요 재료:\n";
-            foreach (var requirement in recipe.requiredMaterials)
+            var materials = craftingSystem.GetRequiredMaterials(recipeID);  // ← 메서드 사용
+
+            if (materials != null && materials.Length > 0)
             {
-                requirementsStr += $"- {requirement.itemID} x{requirement.quantity}\n";
+                foreach (var material in materials)
+                {
+                    if (material.materialItem != null)
+                    {
+                        requirementsStr += $"- {material.materialItem.itemName} x{material.amount}\n";
+                    }
+                }
             }
+            else
+            {
+                requirementsStr += "필요한 재료 없음";
+            }
+
             requirementsText.text = requirementsStr;
         }
 
@@ -153,7 +174,7 @@ public class WoodenHatUI : MonoBehaviour
             TextMeshProUGUI btnText = craftButton.GetComponentInChildren<TextMeshProUGUI>();
             if (btnText != null)
             {
-                string btnLabel = recipe.recipeType == CraftingSystemBase.RecipeType.Craft ? "제작" : "강화";
+                string btnLabel = isPocionTab ? "포션 제작" : "강화";
                 btnText.text = btnLabel;
             }
         }
@@ -161,7 +182,7 @@ public class WoodenHatUI : MonoBehaviour
 
     private void OnCraftButtonClicked()
     {
-        if (string.IsNullOrEmpty(selectedRecipeID))
+        if (selectedRecipeID == 0)  // ← int 기본값 0으로 변경
             return;
 
         bool success = craftingSystem.TryCraft(selectedRecipeID);
@@ -169,8 +190,9 @@ public class WoodenHatUI : MonoBehaviour
         if (success)
         {
             var recipe = craftingSystem.GetRecipe(selectedRecipeID);
-            string action = recipe.recipeType == CraftingSystemBase.RecipeType.Craft ? "제작" : "강화";
-            Debug.Log($"[WoodenHatUI] {action} 완료: {recipe.resultItemName}");
+            string action = isPocionTab ? "포션 제작" : "강화";
+            // TODO: recipe.outputItem.itemName 확인
+            Debug.Log($"[WoodenHatUI] {action} 완료: {recipe.outputItem.itemName}");
         }
         else
         {
@@ -195,3 +217,4 @@ public class WoodenHatUI : MonoBehaviour
             craftButton.onClick.RemoveListener(OnCraftButtonClicked);
     }
 }
+
