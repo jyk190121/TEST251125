@@ -1,10 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
-<<<<<<<< HEAD:Assets/_Resources/Model/Weapons/GameLair/MedievalFantasyWeaponPack/Prefabs/Spear3 1.prefab
 --- !u!1 &6733007476273260494
-========
---- !u!1 &7689144012477797116
->>>>>>>> Develop:Assets/_Resources/Model/Weapons/GameLair/MedievalFantasyWeaponPack/Prefabs/ArrowOne.prefab
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,35 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<<< HEAD:Assets/_Resources/Model/Weapons/GameLair/MedievalFantasyWeaponPack/Prefabs/Spear3 1.prefab
   - component: {fileID: 6213738287469788532}
   - component: {fileID: 7031378619254338257}
   - component: {fileID: 5075713805594297883}
   m_Layer: 0
   m_Name: Spear3 1
-========
-  - component: {fileID: 3730147865020604577}
-  - component: {fileID: 1645143587880616244}
-  - component: {fileID: 7699398815087320767}
-  m_Layer: 0
-  m_Name: ArrowOne
->>>>>>>> Develop:Assets/_Resources/Model/Weapons/GameLair/MedievalFantasyWeaponPack/Prefabs/ArrowOne.prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<<< HEAD:Assets/_Resources/Model/Weapons/GameLair/MedievalFantasyWeaponPack/Prefabs/Spear3 1.prefab
 --- !u!4 &6213738287469788532
-========
---- !u!4 &3730147865020604577
->>>>>>>> Develop:Assets/_Resources/Model/Weapons/GameLair/MedievalFantasyWeaponPack/Prefabs/ArrowOne.prefab
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<<< HEAD:Assets/_Resources/Model/Weapons/GameLair/MedievalFantasyWeaponPack/Prefabs/Spear3 1.prefab
   m_GameObject: {fileID: 6733007476273260494}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000018626443, y: 0.00000005774197, z: -0.5989242, w: 0.8008057}
@@ -51,42 +34,20 @@ Transform:
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -73.586}
 --- !u!33 &7031378619254338257
-========
-  m_GameObject: {fileID: 7689144012477797116}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1645143587880616244
->>>>>>>> Develop:Assets/_Resources/Model/Weapons/GameLair/MedievalFantasyWeaponPack/Prefabs/ArrowOne.prefab
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<<< HEAD:Assets/_Resources/Model/Weapons/GameLair/MedievalFantasyWeaponPack/Prefabs/Spear3 1.prefab
   m_GameObject: {fileID: 6733007476273260494}
   m_Mesh: {fileID: -894122891035482148, guid: beaf8ab64257f1742adb9176f98ad2ef, type: 3}
 --- !u!23 &5075713805594297883
-========
-  m_GameObject: {fileID: 7689144012477797116}
-  m_Mesh: {fileID: -6081876587123893287, guid: 6a70f8d58f0469a4680627c0092c7c56, type: 3}
---- !u!23 &7699398815087320767
->>>>>>>> Develop:Assets/_Resources/Model/Weapons/GameLair/MedievalFantasyWeaponPack/Prefabs/ArrowOne.prefab
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<<< HEAD:Assets/_Resources/Model/Weapons/GameLair/MedievalFantasyWeaponPack/Prefabs/Spear3 1.prefab
   m_GameObject: {fileID: 6733007476273260494}
-========
-  m_GameObject: {fileID: 7689144012477797116}
->>>>>>>> Develop:Assets/_Resources/Model/Weapons/GameLair/MedievalFantasyWeaponPack/Prefabs/ArrowOne.prefab
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -103,7 +64,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5acce1f2b51a9c64baa41fe711e3f321, type: 2}
+  - {fileID: -1846407553807266444, guid: beaf8ab64257f1742adb9176f98ad2ef, type: 3}
+  - {fileID: -6615434337646332195, guid: beaf8ab64257f1742adb9176f98ad2ef, type: 3}
+  - {fileID: 1432594464388952545, guid: beaf8ab64257f1742adb9176f98ad2ef, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
