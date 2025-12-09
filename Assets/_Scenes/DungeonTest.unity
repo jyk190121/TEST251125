@@ -289,7 +289,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4658789441695126820, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.69
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4658789441695126820, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_LocalPosition.z
@@ -942,7 +942,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TrapLayerName: Trap
-  respawnPoint: {x: 0, y: 0, z: 0}
+  fallDuration: 1.5
+  fallSpeed: 5
 --- !u!1 &956454582
 GameObject:
   m_ObjectHideFlags: 0
