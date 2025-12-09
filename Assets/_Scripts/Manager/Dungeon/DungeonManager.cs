@@ -185,6 +185,14 @@ public class DungeonManager : MonoBehaviour
 
             GameObject room = Instantiate(prefabToUse, worldPos, Quaternion.identity);
             spawnedRooms[pos] = room;
+
+            RoomController controller = room.GetComponent<RoomController>();
+            if (controller != null)
+            {
+                controller.isStartRoom = (type == RoomType.Start);
+                controller.isRestRoom = (type == RoomType.Rest);
+                controller.isBossRoom = (type == RoomType.Boss);
+            }
         }
     }
 
