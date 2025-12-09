@@ -16,6 +16,7 @@ public class Bed : MonoBehaviour
     float keyTimer;             // 키 입력 시간
     float sleepTimer;           // 자는 시간
     public Image image;         // 키입력하는 동안 띄울 이미지
+    public Image key;           // 상호작용 키 알려줄 이미지
 
     PlayerController player;    // 플레이어 스크립트( 임시 )
     DayManager dayManager;      // 자고 일어나면 시간 가기
@@ -29,6 +30,7 @@ public class Bed : MonoBehaviour
         keyTimer = 0f;
         sleepTimer = 0f;
         image.gameObject.SetActive(false);
+        key.gameObject.SetActive(false);
         image.fillAmount = 0f;
         image.color = new Color(0, 150f, 0, 100f);
         //Outline outline = image.GetComponent<Outline>();
@@ -61,6 +63,7 @@ public class Bed : MonoBehaviour
             if (Input.GetKey(KeySetting.keys[KeyInput.INTERACTIVE]))
             {
                 keyTimer += Time.deltaTime;
+                key.gameObject.SetActive(false);
                 image.gameObject.SetActive(true);
                 image.fillAmount = keyTimer;
 
@@ -91,6 +94,7 @@ public class Bed : MonoBehaviour
         {
             playerIn = true;
             player = collision.collider.GetComponent<PlayerController>();
+            key.gameObject.SetActive(true);
         }
     }
 
@@ -102,6 +106,7 @@ public class Bed : MonoBehaviour
             keyTimer = 0f;
             player = null;
             image.gameObject.SetActive(false);
+            key.gameObject.SetActive(false);
         }
     }
 
