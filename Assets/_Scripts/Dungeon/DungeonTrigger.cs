@@ -8,7 +8,9 @@ public class DungeonTrigger : MonoBehaviour
     public ParticleSystem portalEffect;
     private MeshRenderer portalRenderer;
 
-    
+    //private RoomController room;
+
+
     private void Start()
     {
         // [코드 설명] 이 스크립트가 붙어있는 오브젝트에서 MeshRenderer 컴포넌트를 가져옵니다.
@@ -17,6 +19,8 @@ public class DungeonTrigger : MonoBehaviour
 
         // 초기 상태를 한 번 확인합니다.
         CheckPortalStatus();
+
+        //room = GetComponentInParent<RoomController>();
     }
 
     private void Update()
@@ -114,23 +118,28 @@ public class DungeonTrigger : MonoBehaviour
              DungeonCamera cam = Camera.main.GetComponent<DungeonCamera>();
              PlayerDungeonPortal player = other.GetComponent<PlayerDungeonPortal>();
 
+
              switch (moveDirection)
              {
                  case MoveDir.Left:
                      cam.LeftMove();
                      player.LeftMove(other);
+                     //room.SpawnMonster();
                      break;
                  case MoveDir.Right:
                      cam.RightMove();
                      player.RightMove(other);
+                     //room.SpawnMonster();
                      break;
                  case MoveDir.Up:
                      cam.UpMove();
                      player.UpMove(other);
+                     //room.SpawnMonster();
                      break;
                  case MoveDir.Down:
                      cam.DownMove();
                      player.DownMove(other);
+                     //room.SpawnMonster();
                      break;
              }
 
