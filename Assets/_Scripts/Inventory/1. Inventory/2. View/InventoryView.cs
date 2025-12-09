@@ -25,6 +25,7 @@ public class InventoryView : MonoBehaviour
 
             slotView.Initialize(i);
             slotView.OnSlotClick += (idx) => OnSlotClicked?.Invoke(idx);
+
             uiSlots[i] = slotView;
         }
     }
