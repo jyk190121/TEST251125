@@ -17,6 +17,12 @@ public class PlayerControll : MonoBehaviour
     bool isCharge = false;
     int comboTime = 0;
 
+
+    //콤보시스템
+    private int comboInputBuffer = 0;
+    private const int MaxComboInput = 3; // 최대 2번까지 미리 입력 허용 (총 3타 콤보이므로)
+    
+
     //구르기
     //1. 구르기 거리
     //2. 구르기 했나?
@@ -27,8 +33,24 @@ public class PlayerControll : MonoBehaviour
     //공격 속도
     float attackTimer;
 
+    //공격 회전 관련 변수
+    private Quaternion originalRotation; // 공격 직전의 원래 회전값
+    private bool needsRotationRevert = false; // 공격 후 회전 복구가 필요한지 여부
+
+    // 창과 활의 임시 회전값 (예시: 활은 오른쪽 30도, 창은 왼쪽 40도)
+    private const float BowAttackAngle = 90f;
+    private const float SpearAttackAngle = 40f;
+    private const float SwordShieldAngle = 40f;
+
+    //임시 무기별 공격 시간 -> 공격때 넣을거임
+    float sword = 1.5f;
+    float shield = 0.2f;
+    float bow = 1.5f;
+    float spear = 0.69f;
+
+
     //임의로 사용할 무기 정보 값
-    int weaponnumber = 3;
+    public int weaponnumber = 1;
     
 
     private void OnEnable()
@@ -46,6 +68,7 @@ public class PlayerControll : MonoBehaviour
 
     public void Update()
     {
+
         if (isRolling)
         {
             // 1. 구르기 타이머 감소
@@ -80,6 +103,7 @@ public class PlayerControll : MonoBehaviour
             if (attackTimer <= 0f)
             {
                 isAttacking = false;
+                comboInputBuffer = 0;
 
                 if (comboTime > 0)
                 {
@@ -87,6 +111,15 @@ public class PlayerControll : MonoBehaviour
                 }
             }
         }
+
+        //공격 후 정면 복구
+        if (needsRotationRevert && !isAttacking && !isMove && !isCharge)
+        {
+            transform.rotation = originalRotation;
+            needsRotationRevert = false;
+        }
+
+        ComboInputBuffer();
     }
 
 
@@ -111,7 +144,7 @@ public class PlayerControll : MonoBehaviour
     }
     public void Move(Vector3 dir)
     {
-        if (isRolling||isAttacking) return;
+        if (isRolling || isCharge) return;
 
         isMove = true;
         PAC.HandleMovementAnim(isMove);
@@ -120,16 +153,14 @@ public class PlayerControll : MonoBehaviour
         CC.Move(move * Time.deltaTime);
 
         // 회전
-        if (dir != Vector3.zero)
+        if (!isAttacking)
         {
-            Quaternion targetRot = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRot,
-                Time.deltaTime * 10f
-            );
+            if (dir != Vector3.zero)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(dir);
+                transform.rotation = targetRot;
+            }
         }
-  
     }
 
     public void Attack()
@@ -140,23 +171,23 @@ public class PlayerControll : MonoBehaviour
         //    Debug.Log("무기 없음!");
         //    return;
         //}
-
+        Quaternion targetRotation = transform.rotation; // 부모의 현재 회전을 기준으로 시작
+        bool shouldRotate = false;
 
         if (weaponnumber == 1) // 검 공격
         {
             if (isAttacking == false)
             {
                 comboTime = 1; // 1타 시작
+                comboInputBuffer = 0;
             }
             else
             {
-                // 공격 중(isAttacking=true)에 입력이 들어오면 다음 콤보로 증가
-                comboTime++;
-                if (comboTime > 3)
+                if (comboInputBuffer < MaxComboInput -1)
                 {
-                    // 3타 이후에는 다시 1타로 리셋되도록 준비 (애니메이션이 끝나면 1타가 들어감)
-                    comboTime = 1;
+                    comboInputBuffer++;
                 }
+                return;
             }
         }
         else // 기타 무기 (창, 활 등 콤보가 없는 무기)
@@ -164,13 +195,51 @@ public class PlayerControll : MonoBehaviour
             // 콤보가 없는 무기는 무조건 1타로 고정
             if (isAttacking) return; // 공격 중이면 추가 입력 무시
             comboTime = 1;
+
+            //원본 회전값
+            originalRotation = transform.rotation;
+            if (weaponnumber == 2)
+            {
+                targetRotation = originalRotation * Quaternion.Euler(0, SpearAttackAngle, 0);
+                shouldRotate = true;
+                needsRotationRevert = true;
+            }
+            if(weaponnumber == 3)
+            {
+                targetRotation = originalRotation * Quaternion.Euler(0, BowAttackAngle, 0);
+                shouldRotate = true;
+                needsRotationRevert = true;
+            }
         }
+
+        // 🌟 1. 부모 오브젝트의 회전을 적용합니다. 🌟
+        if (shouldRotate)
+        {
+            // 💡 Move() 함수와 마찬가지로 즉시 회전하도록 transform.rotation을 직접 설정합니다.
+            transform.rotation = targetRotation;
+        }
+
         isAttacking = true;
-        attackTimer = 1f;
+
+        //isAttacking 해제 시간
+        switch (weaponnumber)
+        {
+            case 1:
+                attackTimer = sword;
+                break;
+            case 2:
+                attackTimer = spear;
+                break;
+            case 3:
+                attackTimer = bow;
+                break;
+        }
 
         PAC.HandleAttack(weaponnumber, comboTime);
     }
 
+
+    //보조공격
     public void SubCharge()
     {
         if (isRolling || isAttacking) return;
@@ -179,16 +248,60 @@ public class PlayerControll : MonoBehaviour
         isAttacking = true;
         isCharge = true;
 
+        Quaternion targetRotation = transform.rotation; // 부모의 현재 회전을 기준으로 시작
+        bool shouldRotate = false;
+
+        originalRotation = transform.rotation;
+
+        if (weaponnumber == 1)
+        {
+            targetRotation = originalRotation * Quaternion.Euler(0, SwordShieldAngle, 0);
+            shouldRotate = true;
+            needsRotationRevert = true;
+        }
+        if (weaponnumber == 2)
+        {
+            targetRotation = originalRotation * Quaternion.Euler(0, SpearAttackAngle, 0);
+            shouldRotate = true;
+            needsRotationRevert = true;
+        }
+        if (weaponnumber == 3)
+        {
+            targetRotation = originalRotation * Quaternion.Euler(0, BowAttackAngle, 0);
+            shouldRotate = true;
+            needsRotationRevert = true;
+        }
+        // 부모 오브젝트의 회전을 적용
+        if (shouldRotate)
+        {
+            //즉시 회전하도록 transform.rotation을 직접 설정
+            transform.rotation = targetRotation;
+        }
+
+        switch (weaponnumber)
+        {
+            case 1:
+                attackTimer = shield;
+                break;
+            case 2:
+                attackTimer = spear + 0.15f;
+                break;
+            case 3:
+                attackTimer = bow + 0.2f;
+                break;
+        }
+
+
         PAC.HandleCharge(isCharge, weaponnumber);
     }
 
     public void SubAttack()
     {
+        Debug.Log("서브어택");
         if(!isCharge) return;
         isCharge = false;
 
         PAC.HandleCharge(isCharge, weaponnumber);
-        attackTimer = model.attackSpeed;
     }
 
     public void Roll(Vector3 rolldir)
@@ -204,5 +317,23 @@ public class PlayerControll : MonoBehaviour
     public void Die()
     {
 
+    }
+
+    void ComboInputBuffer()
+    {
+        if (comboInputBuffer > 0)
+        {
+            comboInputBuffer--;           // 저장된 값 소모
+
+            comboTime++; // 다음 콤보 카운트 증가
+
+            // 콤보 횟수 리셋 (3타 후 다시 1타로)
+            if (comboTime > 3)
+            {
+                comboTime = 1;
+            }
+
+            PAC.HandleAttack(weaponnumber, comboTime);
+        }
     }
 }
