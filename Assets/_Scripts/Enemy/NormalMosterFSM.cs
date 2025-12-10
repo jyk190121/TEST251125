@@ -44,11 +44,11 @@ public class NormalMosterFSM : MonoBehaviour
     float meleeRadius;  //데이터에서 attackRadius(공격 거리
     float meleeAngle;   //데이터에서 attackAngle(공격 각도(?))
     float aoeRange;     //데이터에서 aoeRange(범위)
-    float aoeDamageMuliplier;
+    float aoeDamageMultiplier;
 
     //세부 - 원거리
     float projectileSpeed;
-    int projectilCount;
+    int projectileCount;
     float shotInterval;
     int burstCount;
 
