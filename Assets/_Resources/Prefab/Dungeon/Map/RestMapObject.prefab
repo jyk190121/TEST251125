@@ -1100,7 +1100,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2f30677dfd6715d419ec2327c55150df, type: 2}
+  - {fileID: 2100000, guid: 5756c540645884e4890e8557d2593685, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1307,19 +1307,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4477728835528664058, guid: 960470756ac4e1044ac5ceb302454757, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4477728835528664058, guid: 960470756ac4e1044ac5ceb302454757, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.95881975
+      value: 0.9866754
       objectReference: {fileID: 0}
     - target: {fileID: 4477728835528664058, guid: 960470756ac4e1044ac5ceb302454757, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.28401542
+      value: 0.1627016
       objectReference: {fileID: 0}
     - target: {fileID: 4477728835528664058, guid: 960470756ac4e1044ac5ceb302454757, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -33
+      value: -18.727
       objectReference: {fileID: 0}
     - target: {fileID: 4477728835528664058, guid: 960470756ac4e1044ac5ceb302454757, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
