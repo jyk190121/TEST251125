@@ -11,6 +11,7 @@ public class POS_playerSalas : MonoBehaviour
     public TextMeshProUGUI key;     //상호작용 키
     public TextMeshProUGUI sales;   //문구
     public bool shopOpenCheck;      //상점 열었는지 확인
+    public bool playerIsSales;      //플레이어가 판매대에 있는지
 
     public void posUpdate()
     {
@@ -18,12 +19,13 @@ public class POS_playerSalas : MonoBehaviour
         else sales.text = "판매 시작";
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
         {
             //판매 UI 열기
             image.gameObject.SetActive(true);
+            playerIsSales = true;
         }
     }
 
@@ -33,6 +35,7 @@ public class POS_playerSalas : MonoBehaviour
         {
             //판매 UI 닫기
             image.gameObject.SetActive(false);
+            playerIsSales = false;
         }
     }
 }

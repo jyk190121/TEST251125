@@ -49,7 +49,14 @@ public class Bed : MonoBehaviour
 
             if (sleepTimer >= sleepDuration)
             {
-                dayManager.ChangeTimeOfDay(TimeOfDay.Day);
+                if(dayManager.IsDay)
+                {
+                    dayManager.ChangeTimeOfDay(TimeOfDay.Night);
+                }
+                else if(dayManager.IsNight)
+                {
+                    dayManager.ChangeTimeOfDay(TimeOfDay.Day);
+                }
                 WakeUpPlayer();
             }
             return;
