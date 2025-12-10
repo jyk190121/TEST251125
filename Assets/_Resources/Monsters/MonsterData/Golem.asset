@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Golem
   m_EditorClassIdentifier: 
   mobID: 0
-  mobName: 
-  MobPrefab: {fileID: 0}
+  mobName: "\uD070\uACE8\uB818"
+  MobPrefab: {fileID: 8456632441884022478, guid: c2377cd991f850b48bbdafd4a4240be9, type: 3}
   HP: 0
   Speed: 0
   Attack: 0
@@ -25,8 +25,8 @@ MonoBehaviour:
   minAttackRange: 0
   Class: 0
   Type: 0
-  Race: 0
-  Pattern: 
+  Race: 1
+  Pattern: 0000000002000000
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0

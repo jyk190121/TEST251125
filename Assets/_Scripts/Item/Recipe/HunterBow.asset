@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: HunterBow
+  m_EditorClassIdentifier: Assembly-CSharp::SmithyRecipe
+  recipeID: 2006
+  recipeName: "\uC0AC\uB0E5\uAFBC\uC758 \uD65C"
+  inputMaterials: []
+  goldCost: 4000
+  outputItem: {fileID: 11400000, guid: 5ea98b649da8096458bb69e4c9bccdc5, type: 2}
+  requiredBaseEquipment: {fileID: 11400000, guid: bd34eec483df3934c944544cd7f6a654, type: 2}
