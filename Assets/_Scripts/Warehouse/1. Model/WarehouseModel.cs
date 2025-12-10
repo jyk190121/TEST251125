@@ -174,7 +174,9 @@ public class WarehouseModel
 
     public bool RemoveItemByCount(int targetItemID, int countToRemove)
     {
-        //딕셔너리 내 슬롯 검사
+        //사용하려는 아이템의 수량이 현재 가지고 있는 수량보다 적으면 실패
+        if (GetItemCount(targetItemID) < countToRemove) return false;
+
         //딕셔너리 내 슬롯 검사
         //딕셔너리 순회 중 데이터 삭제(Clear/Remove)가 발생하면 오류가 발생
         //new List<int>(slots.Keys)를 통해 키 목록을 복사본으로 만들어서 안전하게 순회
