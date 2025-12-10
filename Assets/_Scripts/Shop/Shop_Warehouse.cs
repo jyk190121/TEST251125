@@ -13,6 +13,11 @@ public class Warehouse : MonoBehaviour
 
     PlayerController player;    // 플레이어 스크립트( 임시 )
 
+    //public ItemSplitPopup itemSplitPopup;  //창고 UI 캔버스 열기/닫기
+    public GameObject itemWarehousePanel;    //창고 UI 판넬
+
+    bool openWarehousePanel;                 //창고 UI 열려있는지 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,11 +27,17 @@ public class Warehouse : MonoBehaviour
         key.gameObject.SetActive(false);
         image.fillAmount = 0f;
         image.color = new Color(0, 0, 150f, 50f);
+
+        //itemSplitPopup = FindAnyObjectByType<ItemSplitPopup>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
+        {
+            itemWarehousePanel.SetActive(false);
+        }
         // 플레이어가 창고 근처에 있으면 상호작용 키 누름 시간 체크
         if (playerIn)
         {
@@ -42,6 +53,9 @@ public class Warehouse : MonoBehaviour
                     image.gameObject.SetActive(false);
                     //창고개방
                     print("창고개방");
+                    //itemSplitPopup.gameObject.SetActive(true);
+                    itemWarehousePanel.SetActive(true);
+                    openWarehousePanel = true;
                 }
             }
             else
@@ -49,6 +63,12 @@ public class Warehouse : MonoBehaviour
                 keyTimer = 0f;
                 //image.fillAmount = 0f;
                 image.gameObject.SetActive(false);
+                //itemSplitPopup.gameObject.SetActive(false);
+
+                if (!openWarehousePanel)
+                {
+                    itemWarehousePanel.SetActive(false);
+                }
             }
         }
     }
@@ -72,6 +92,7 @@ public class Warehouse : MonoBehaviour
             player = null;
             image.gameObject.SetActive(false);
             key.gameObject.SetActive(false);
+            itemWarehousePanel.SetActive(false);
         }
     }
 }
