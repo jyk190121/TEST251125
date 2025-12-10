@@ -5,8 +5,10 @@ public class DungeonTrigger : MonoBehaviour
     public enum MoveDir { Left, Right, Up, Down }
     public MoveDir moveDirection;
 
-    public ParticleSystem portalEffect;
-    private MeshRenderer portalRenderer;
+    private RoomController room;
+
+    //public ParticleSystem portalEffect;
+    //private MeshRenderer portalRenderer;
 
     //private RoomController room;
 
@@ -15,19 +17,21 @@ public class DungeonTrigger : MonoBehaviour
     {
         // [코드 설명] 이 스크립트가 붙어있는 오브젝트에서 MeshRenderer 컴포넌트를 가져옵니다.
         // [코드 목적] 포털이 닫혔을 때 렌더러의 색상이나 활성화를 제어하기 위함입니다.
-        portalRenderer = GetComponent<MeshRenderer>();
+        //portalRenderer = GetComponent<MeshRenderer>();
 
         // 초기 상태를 한 번 확인합니다.
-        CheckPortalStatus();
+        //CheckPortalStatus();
 
         //room = GetComponentInParent<RoomController>();
+
     }
 
     private void Update()
     {
-        CheckPortalStatus();
+        //CheckPortalStatus();
     }
 
+    /*
     private void CheckPortalStatus()
     {
         // [if문 설명] DungeonManager의 isCleared 상태를 확인합니다.
@@ -67,8 +71,9 @@ public class DungeonTrigger : MonoBehaviour
             }
         }
     }
-    
-    
+    */
+
+    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -108,11 +113,12 @@ public class DungeonTrigger : MonoBehaviour
             }
         }
     }
-    
+    */
 
-    /*
+    
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.CompareTag("Player"))
         {
              DungeonCamera cam = Camera.main.GetComponent<DungeonCamera>();
@@ -147,6 +153,6 @@ public class DungeonTrigger : MonoBehaviour
 
         }
     }
-    */
+    
 
 }

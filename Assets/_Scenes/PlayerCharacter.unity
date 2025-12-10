@@ -360,6 +360,10 @@ PrefabInstance:
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5672606562929598894, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
+      propertyPath: arrowPrefab
+      value: 
+      objectReference: {fileID: 5887862363047474371, guid: 078967520f5b4f947a1b2861cbdd600d, type: 3}
+    - target: {fileID: 5672606562929598894, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: weaponnumber
       value: 1
       objectReference: {fileID: 0}

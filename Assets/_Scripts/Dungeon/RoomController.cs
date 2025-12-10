@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+
+
 public class RoomController : MonoBehaviour
 {
     [Header("문 설정")]
@@ -17,7 +19,7 @@ public class RoomController : MonoBehaviour
 
     public bool isSpawned = false;
 
-    public static bool isCleared = false;
+    public bool isCleared = false;
 
     public bool isStartRoom = false;
     public bool isBossRoom = false;
@@ -46,33 +48,37 @@ public class RoomController : MonoBehaviour
             int rand = Random.Range(0, monsterPrefabs.Count);
             GameObject monster = Instantiate(monsterPrefabs[rand], point.position, Quaternion.identity);
             aliveMonsters.Add(monster);
-            monster.GetComponent<MonsterTest>().SetupRoom(this);
+            //monster.GetComponent<MonsterTest>().SetupRoom(this);
         }
 
     }
 
     public void SpawnMonstersOnce()
     {
-        if (isSpawned) return;       // ★ 이미 스폰했으면 더 이상 스폰 안 함
+        if (isSpawned) return;       // 이미 스폰했으면 더 이상 스폰 안 함
 
         isSpawned = true;            // 스폰 표시
 
         SpawnMonster();             // 기존 몬스터 생성 함수 호출
     }
 
+    
     public void ClearDungeon(GameObject monster)
     {
+        if (isCleared) return;
+
         if (aliveMonsters.Contains(monster))
+        {
             aliveMonsters.Remove(monster);
+        }
 
         // 모두 죽으면 문 열기
         if (aliveMonsters.Count == 0)
         {
-            
             isCleared = true;
             Debug.Log("방 클리어! 문 열림");
-
+            SetDoorActive(true, true, true, true);
         }
     }
-
+    
 }

@@ -51,6 +51,7 @@ public class PlayerFallController : MonoBehaviour
     {
         if (!isFall && other.gameObject.layer == TrapLayer )
         {
+            if (this.gameObject.layer == 30) return;
             StartCoroutine(FallAndRespawn());
         }
     }
