@@ -172,6 +172,29 @@ public class WarehouseModel
         }
     }
 
+    //특정 슬롯에 아이템 수량을 감소 (인벤토리 이동)
+    public void DecreaseItemAmount(int index, int amount)
+    {
+        //해당 슬롯에 아이템이 있는지 확인
+        if (!slots.ContainsKey(index)) return;
+
+        WarehouseSlotModel slot = slots[index];
+
+        //수량 감소
+        slot.quantity -= amount;
+
+        //만약 수량이 0 이하가 되면 슬롯에서 제거
+        if (slot.quantity <= 0)
+        {
+            slot.Clear();
+            //딕셔너리에서도 키 삭제
+            slots.Remove(index);
+        }
+
+        //View 화면 갱신
+        OnWarehouseUpdated?.Invoke();
+    }
+
     public bool RemoveItemByCount(int targetItemID, int countToRemove)
     {
         //사용하려는 아이템의 수량이 현재 가지고 있는 수량보다 적으면 실패
