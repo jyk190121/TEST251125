@@ -1,27 +1,23 @@
 using System.Collections;
 using UnityEngine;
 /// <summary>
-/// 손님매니저
-/// </summary>
+/// 손님생성해주는 역할
+/// /// </summary>
 
 public class CustomerManager : MonoBehaviour
 {
+    [HideInInspector]
     public GameObject customer;     //손님 프리팹
-    GameObject[] customers;         //손님들
+    [HideInInspector]
     public Transform createPos;     //손님 생성 위치
+    
+    GameObject[] customers;         //손님들
 
     //임시
-    void Start()
-    {
-        StartCoroutine(CreateCustomer(4));
-    }
-
-    //
-    private void Update()
-    {
-        //상점 열었는지 체크
-
-    }
+    //void Start()
+    //{
+    //    StartCoroutine(CreateCustomer(4));
+    //}
 
     //손님 생성
     public IEnumerator CreateCustomer(int r)
@@ -36,5 +32,14 @@ public class CustomerManager : MonoBehaviour
             yield return new WaitForSeconds(5f);
         }
     }
-    
+
+    //모든 손님이 나감 or 없음
+    public GameObject GetCustomerAllExit()
+    {
+        if (customers != null)
+        {
+            return customers[customers.Length -1];
+        }
+        return null;
+    }
 }
