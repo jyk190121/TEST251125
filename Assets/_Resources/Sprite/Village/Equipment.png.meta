@@ -351,6 +351,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Equipment_11
+      rect:
+        serializedVersion: 2
+        x: 1112
+        y: 716
+        width: 112
+        height: 102
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 941220d1299c722469dd3d6191cd4397
+      internalID: 2131346704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -368,6 +390,7 @@ TextureImporter:
       Equipment_0: -214247809
       Equipment_1: -294143512
       Equipment_10: 1596518573
+      Equipment_11: 2131346704
       Equipment_2: 1283331872
       Equipment_3: -543209748
       Equipment_4: -925319073

@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AlchemyRecipe
   recipeID: 3001
   recipeName: "HP \uD3EC\uC158 1"
-  inputMaterials: []
+  inputMaterials:
+  - materialItem: {fileID: 11400000, guid: 8f420ecf5ae80a1448aba1394d7f6375, type: 2}
+    amount: 1
   goldCost: 125
-  outputItem: {fileID: 0}
+  outputItem: {fileID: 11400000, guid: 21e3730efbc322b429bfe82932762fc2, type: 2}
   quantityPerCraft: 1
