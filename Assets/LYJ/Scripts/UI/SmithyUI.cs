@@ -10,9 +10,11 @@ public class SmithyUI : MonoBehaviour
 {
     [SerializeField] private GameObject smithyPanel;
 
+    [Header("레시피 목록")]
     [SerializeField] private Transform recipeListContainer;
     [SerializeField] private GameObject recipeButtonPrefab;
 
+    [Header("레시피 상세 정보")]
     [SerializeField] private TextMeshProUGUI recipeNameText;
     [SerializeField] private TextMeshProUGUI recipeCostText;
     [SerializeField] private TextMeshProUGUI requirementsText;
@@ -94,10 +96,8 @@ public class SmithyUI : MonoBehaviour
 
             GameObject buttonObj = Instantiate(recipeButtonPrefab, recipeListContainer);
             Button button = buttonObj.GetComponent<Button>();
-            TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
-
-            if (buttonText != null)
-                buttonText.text = recipe.recipeName;
+            Image buttonImage = buttonObj.GetComponent<Image>();
+            buttonImage.sprite = recipe.outputItem.icon;
 
             if (button != null)
             {

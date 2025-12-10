@@ -87,7 +87,7 @@ public class WoodenHatUI : MonoBehaviour
     private void SelectTab(bool isPotion)
     {
         isPocionTab = isPotion;
-        selectedRecipeID = 0;  // ← 선택 초기화
+        selectedRecipeID = 0;  // 선택 초기화
 
         // 탭 UI 시각화 업데이트
         UpdateTabHighlight();
@@ -174,7 +174,7 @@ public class WoodenHatUI : MonoBehaviour
             TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
 
             if (buttonText != null)
-                buttonText.text = recipe.recipeName;
+                buttonText.text = "";
 
             if (button != null)
             {
@@ -205,21 +205,20 @@ public class WoodenHatUI : MonoBehaviour
 
         // ===== 레시피 정보 UI에 표시 =====
 
-        // 1. 레시피 이름 (타입 표시 포함)
+        // 1. 레시피 이름
         if (recipeNameText != null)
         {
-            string typeStr = isPocionTab ? "포션 제작" : "강화";
-            recipeNameText.text = $"{typeStr}: {recipe.recipeName}";
+            recipeNameText.text = $"{recipe.recipeName}";
         }
 
         // 2. 제작 비용
         if (recipeCostText != null)
-            recipeCostText.text = $"비용: {recipe.goldCost} 골드";
+            recipeCostText.text = $"{recipe.goldCost}";
 
         // 3. 필요 재료
         if (requirementsText != null)
         {
-            string requirementsStr = "필요 재료:\n";
+            string requirementsStr = "";
             var materials = craftingSystem.GetRequiredMaterials(recipeID);
 
             if (materials != null && materials.Length > 0)
@@ -253,7 +252,7 @@ public class WoodenHatUI : MonoBehaviour
             // 버튼 텍스트 업데이트 (캐시된 TextMeshProUGUI 사용)
             if (craftButtonText != null)
             {
-                string btnLabel = isPocionTab ? "포션 제작" : "강화";
+                string btnLabel = isPocionTab ? "제작하기" : "강화하기";
                 craftButtonText.text = btnLabel;
             }
         }
