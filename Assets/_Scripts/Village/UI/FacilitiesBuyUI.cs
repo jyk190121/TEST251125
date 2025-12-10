@@ -52,13 +52,13 @@ public class FacilitiesBuyUI : MonoBehaviour
         // 초기 상태: 대장간 선택
         ClearDisplay();
 
-        CloseButtonText.text = $"닫기 [{KeySetting.GetKeyString(KeyInput.INTERACTIVE)}]";
+        CloseButtonText.text = $"닫기 [{KeySetting.GetKeyString(KeyInput.CANCLE)}]";
     }
 
     private void Update()
     {
-        // 인터렉티브 키로 UI 닫기
-        if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]))
+        // 캔슬 키로 UI 닫기
+        if (Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
         {
             CloseUI();
         }
