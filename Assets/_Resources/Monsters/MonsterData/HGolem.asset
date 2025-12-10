@@ -26,7 +26,7 @@ MonoBehaviour:
   Class: 0
   Type: 0
   Race: 1
-  Pattern: 
+  Pattern: 0000000002000000
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0

@@ -33,6 +33,9 @@ public class PlayerAnimController : MonoBehaviour
     //무기 구분
     readonly int hashWeapon = Animator.StringToHash("WeaponType");
 
+    //임시용 콤보 저장
+    readonly int hashCombo = Animator.StringToHash("Combo");
+
     public void HandleMovementAnim(bool isRun)
     {
 
@@ -58,7 +61,7 @@ public class PlayerAnimController : MonoBehaviour
     {
         anim.SetInteger(hashWeapon, weaponType);
         anim.SetInteger(hashComboCount, combo);
-        anim.SetTrigger(hashAttack); 
+        anim.SetTrigger(hashAttack);
     }
 
     public void HandleCharge(bool charge, int weaponType) // 무기 타입 정보를 받습니다.
@@ -68,5 +71,10 @@ public class PlayerAnimController : MonoBehaviour
 
         // 2. 통합된 Charge Bool 설정
         anim.SetBool(hashCharge, charge);
+    }
+
+    public void HandleCombo(int buffer)
+    {
+        anim.SetInteger(hashCombo, buffer);
     }
 }

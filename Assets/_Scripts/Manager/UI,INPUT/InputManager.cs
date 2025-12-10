@@ -18,6 +18,7 @@ public enum KeyInput
     SWITCHWEAPON,
     OPTION,
     INVENTORY,
+    CANCLE,
     KEYCOUNT
 }
 
@@ -47,7 +48,8 @@ public class InputManager : MonoBehaviour
         KeyCode.B,      //펜던트 사용
         KeyCode.T,      //무기 교체
         KeyCode.Escape, //옵션 열기
-        KeyCode.I       //인벤토리 열기
+        KeyCode.I,      //인벤토리 열기
+        KeyCode.C
     };
 
     private void Awake()
