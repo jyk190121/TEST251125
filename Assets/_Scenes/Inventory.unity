@@ -860,7 +860,23 @@ PrefabInstance:
     - target: {fileID: 8590519255577056727, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: testItemA
       value: 
-      objectReference: {fileID: 11400000, guid: d719090986879d9428ddda3b72bdd3c7, type: 2}
+      objectReference: {fileID: 11400000, guid: 21e3730efbc322b429bfe82932762fc2, type: 2}
+    - target: {fileID: 8590519255577056727, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: testItemB
+      value: 
+      objectReference: {fileID: 11400000, guid: c478fec8dcd89fe499f107d94b7165b2, type: 2}
+    - target: {fileID: 8590519255577056727, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: testItemC
+      value: 
+      objectReference: {fileID: 11400000, guid: 21da0633ee7d5dd4fa6917fd3352399b, type: 2}
+    - target: {fileID: 8590519255577056727, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: testItemD
+      value: 
+      objectReference: {fileID: 11400000, guid: a1d17f58a4e593848a84bbd4d347fa53, type: 2}
+    - target: {fileID: 8590519255577056727, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: testItemE
+      value: 
+      objectReference: {fileID: 11400000, guid: e7c63945d43a58b4db31cfbdbe8d3d59, type: 2}
     - target: {fileID: 8590519255577056727, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: splitPopup
       value: 
