@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEditor.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
@@ -70,12 +71,17 @@ public class NormalMosterFSM : MonoBehaviour
 
     void Start()
     {
+        if (monsterData == null)
+        {
+            Debug.LogError("monsterData가 NULL이다! 프리팹에 monsterData 넣어야 함");
+        }
+
         state = MonsterState.Idle;
 
         //target = GameObject.FindWithTag("Player").transform;
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        agent.enabled = false;
+        //agent.enabled = false;
 
         //기본스탯
         currentHP = monsterData.HP;
@@ -116,11 +122,18 @@ public class NormalMosterFSM : MonoBehaviour
         // Agent Speed
         agent.speed = speed;
 
+        
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (attRange == monsterData.attackRange)
+        {
+            print("값 받아옴");
+
+        }
         switch (state)
         {
             case MonsterState.Idle:
@@ -169,20 +182,10 @@ public class NormalMosterFSM : MonoBehaviour
     private void OnDrawGizmos()
     {
         //공격가능범위
-        if (attRange != 0)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, attRange);
-        }
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, monsterData.attackRange);
         //원거리 최소거리
-        if (minRangeRange != 0)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, minRangeRange);
-        }
-
-        //플레이어 찾을 수 있는 범위
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, detRange);
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, monsterData.minAttackRange);
     }
 }
