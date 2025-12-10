@@ -209,7 +209,7 @@ public class InventoryModel
     }
 
 
-    //특정 슬롯의 아이템 수량을 감소 (포션 사용 등)
+    //특정 슬롯의 아이템 수량을 감소 (포션, 창고 사용 등)
     public void DecreaseItemAmount(int index, int amount)
     {
         //해당 슬롯에 아이템이 있는지 확인
@@ -231,7 +231,6 @@ public class InventoryModel
         //데이터가 변했으니 View(화면)도 갱신
         OnInventoryUpdated?.Invoke();
     }
-
 
     //아이템 제거 (외부에서 사용)
     public bool RemoveItemByCount(int targetItemID, int countToRemove)

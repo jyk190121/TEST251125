@@ -4,13 +4,15 @@ using UnityEngine.Animations;
 using Unity.VisualScripting;
 
 //PlayerMove에서 입력받은 값에 따라 실행되는 함수를 정리한 스크립트
-public class PlayerControll : MonoBehaviour
+public class PlayerControll : MonoBehaviour, IHitResponder
 {
     CharacterController CC;
     PlayerModel model;
     PlayerAnimController PAC;
 
     Item weapon;
+    public GameObject arrowPrefab;
+    public GameObject arrowSpawnPoint;
 
     bool isMove = false;
     bool isAttacking = false;
@@ -236,6 +238,10 @@ public class PlayerControll : MonoBehaviour
         }
 
         PAC.HandleAttack(weaponnumber, comboTime);
+        if (weaponnumber == 3)
+        {
+            fireArrow();
+        }
     }
 
 
@@ -302,6 +308,10 @@ public class PlayerControll : MonoBehaviour
         isCharge = false;
 
         PAC.HandleCharge(isCharge, weaponnumber);
+        if(weaponnumber == 3)
+        {
+            fireArrow();
+        }
     }
 
     public void Roll(Vector3 rolldir)
@@ -314,11 +324,17 @@ public class PlayerControll : MonoBehaviour
         Debug.Log("구르기 시작");
     }
 
+    public void TakeDamage(DamageData damage)
+    {
+        _MasterManager.Instance.DataManager.ChangeHP((int)damage.damageAmount); 
+        
+    }
     public void Die()
     {
 
     }
 
+    //칼 콤보 공격 처리
     void ComboInputBuffer()
     {
         if (comboInputBuffer > 0)
@@ -334,6 +350,27 @@ public class PlayerControll : MonoBehaviour
             }
 
             PAC.HandleAttack(weaponnumber, comboTime);
+        }
+    }
+
+    //화살 발사
+    void fireArrow()
+    {
+        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.transform.position, transform.rotation);
+    
+        DamageDealer dealer = arrow.GetComponent<DamageDealer>();
+
+        if(dealer != null)
+        {
+            dealer.SetOwner(gameObject);
+
+            dealer.SetDamage(model.ATT);
+        }
+    
+        Projectile projectile = arrow.GetComponent<Projectile>();
+        if(projectile != null)
+        {
+            projectile.Launch();
         }
     }
 }
