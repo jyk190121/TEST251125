@@ -28,7 +28,7 @@ public class PlayerControll : MonoBehaviour
     float attackTimer;
 
     //임의로 사용할 무기 정보 값
-    int weaponnumber = 3;
+    public int weaponnumber = 1;
     
 
     private void OnEnable()
@@ -111,7 +111,7 @@ public class PlayerControll : MonoBehaviour
     }
     public void Move(Vector3 dir)
     {
-        if (isRolling||isAttacking) return;
+        if (isRolling || isCharge) return;
 
         isMove = true;
         PAC.HandleMovementAnim(isMove);
