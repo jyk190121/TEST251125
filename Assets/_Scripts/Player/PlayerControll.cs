@@ -196,7 +196,7 @@ public class PlayerControll : MonoBehaviour
         if (isRolling) return;
         PAC.HandleRollingAnim();
         isRolling = true;
-        gameObject.layer = 31;
+        gameObject.layer = 30;
 
         Debug.Log("구르기 시작");
     }

@@ -4,7 +4,7 @@ public class RoomEnterTrigger : MonoBehaviour
 {
     private RoomController room;
 
-    void Start()
+    void Awake()
     {
         room = GetComponentInParent<RoomController>();
     }
@@ -13,7 +13,15 @@ public class RoomEnterTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            room.SpawnMonstersOnce();
+            if (room != null && !room.isStartRoom && !room.isRestRoom)
+            {
+                if (!room.isSpawned)
+                {
+                    room.SpawnMonstersOnce();
+
+                    Debug.Log("RoomEnterTrigger 감지: 몬스터 스폰 및 문 잠금 완료.");
+                }
+            }
         }
     }
 }
