@@ -2,13 +2,19 @@ using System.Collections;
 using UnityEngine;
 /// <summary>
 /// 손님생성해주는 역할
-/// </summary>
+/// - 랜덤 명
+/// - 성향별 손님 등장
+/// /// </summary>
 
 public class CustomerManager : MonoBehaviour
 {
+    [HideInInspector]
     public GameObject customer;     //손님 프리팹
-    GameObject[] customers;         //손님들
+    [HideInInspector]
     public Transform createPos;     //손님 생성 위치
+    
+    GameObject[] customers;  //손님들
+    
 
     //임시
     //void Start()
@@ -30,4 +36,12 @@ public class CustomerManager : MonoBehaviour
         }
     }
     
+    //public int GetExistCustomer()
+    //{
+    //    foreach (GameObject customer in customers)
+    //    {
+    //        if (customer.layer != LayerMask.NameToLayer("Customer")) return 0;
+    //    }
+    //    return 1;
+    //}
 }

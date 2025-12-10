@@ -10,25 +10,13 @@ public class POS_playerSalas : MonoBehaviour
 
     public TextMeshProUGUI key;     //상호작용 키
     public TextMeshProUGUI sales;   //문구
-    public bool customerCheck;      
+    public bool shopOpenCheck;      //상점 열었는지 확인
 
-
-    private void Start()
+    public void posUpdate()
     {
-        image.gameObject.SetActive(false);
-        customerCheck = false;
-        //UI로 상호작용키 띄워주기
-        key.text = $"{KeySetting.GetKeyString(KeyInput.INTERACTIVE)}";
-        //손님이 아이템을 가져오면 '판매' 라는 문구 로 변경
-        sales.text = "판매 시작";
-    }
-
-    private void Update()
-    {
-        if (customerCheck) sales.text = "판매";
+        if (shopOpenCheck) sales.text = "판매";
         else sales.text = "판매 시작";
     }
-
 
     private void OnTriggerStay(Collider other)
     {
