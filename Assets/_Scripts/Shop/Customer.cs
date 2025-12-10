@@ -41,7 +41,8 @@ public class Customer : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        items = GameObject.Find("DisplayStand").GetComponent<RegisteredItem>();
+        items = FindAnyObjectByType<RegisteredItem>();
+        //items = GameObject.Find("DisplayStand").GetComponent<RegisteredItem>();
         itemCheck = false;
         itemBuyCheck = false;
         itemPayCheck = false;
@@ -50,6 +51,7 @@ public class Customer : MonoBehaviour
         itemPos = GameObject.Find("ItemPos").GetComponent<Transform>();
         salesPos = GameObject.Find("SalesPos").GetComponent<Transform>();
         EnterShop();
+
     }
 
     // Update is called once per frame

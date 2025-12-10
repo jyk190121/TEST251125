@@ -28,6 +28,8 @@ public class WoodenHatUI : MonoBehaviour
     [SerializeField] private Button craftButton;
     [SerializeField] private TextMeshProUGUI craftButtonText;
 
+    [SerializeField] TextMeshProUGUI CloseButtonText;
+
     private WoodenHatSystem craftingSystem;
     private int selectedRecipeID;
     private bool isPocionTab = true;  // true: 포션, false: 강화
@@ -57,11 +59,22 @@ public class WoodenHatUI : MonoBehaviour
         // ===== 제작 시스템 이벤트 구독 =====
         craftingSystem.OnCraftingComplete += HandleCraftingComplete;
 
+        CloseButtonText.text = $"안녕! [{KeySetting.GetKeyString(KeyInput.CANCLE)}]";
+
         // 초기 상태: 패널 비활성화
         if (woodenHatPanel != null)
             woodenHatPanel.SetActive(false);
 
         Debug.Log("[WoodenHatUI] 나무 모자 UI 초기화 완료");
+    }
+
+    private void Update()
+    {
+        // 캔슬 키로 UI 닫기
+        if (Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
+        {
+            CloseUI();
+        }
     }
 
     public void OpenUI()
@@ -71,6 +84,9 @@ public class WoodenHatUI : MonoBehaviour
             Debug.LogError("[WoodenHatUI] woodenHatPanel이 할당되지 않았습니다");
             return;
         }
+
+        if (woodenHatPanel.activeSelf)
+            return;
 
         woodenHatPanel.SetActive(true);
         SelectTab(true);  // 기본 탭: 포션 제작
