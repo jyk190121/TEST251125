@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SmithyRecipe
   recipeID: 2005
   recipeName: "\uD6C8\uB828\uC6A9 \uD65C"
-  inputMaterials: []
+  inputMaterials:
+  - materialItem: {fileID: 11400000, guid: e81cf065c2dff944dbf974dfdd293ea2, type: 2}
+    amount: 4
+  - materialItem: {fileID: 11400000, guid: 563c4d607c18dd849bd3dbedaa38cef6, type: 2}
+    amount: 8
+  - materialItem: {fileID: 11400000, guid: 83ae3ef0a7137694e845e688a0e637ce, type: 2}
+    amount: 10
   goldCost: 1000
   outputItem: {fileID: 11400000, guid: bd34eec483df3934c944544cd7f6a654, type: 2}
   requiredBaseEquipment: {fileID: 0}

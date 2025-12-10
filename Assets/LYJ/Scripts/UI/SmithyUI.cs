@@ -16,6 +16,7 @@ public class SmithyUI : MonoBehaviour
 
     [Header("레시피 상세 정보")]
     [SerializeField] private TextMeshProUGUI recipeNameText;
+    [SerializeField] Image recipeImage;
     [SerializeField] private TextMeshProUGUI recipeCostText;
     [SerializeField] private TextMeshProUGUI requirementsText;
     [SerializeField] private Button craftButton;
@@ -139,12 +140,25 @@ public class SmithyUI : MonoBehaviour
         if (recipe == null)
             return;
 
+        var Item = recipe.outputItem;
+
         // 레시피 이름 표시
         if (recipeNameText != null)
             recipeNameText.text = $"{recipe.recipeName}";
 
-        //스탯 변화 표시
+        //아이템 아이콘 표시
+        if (recipeImage != null)
+            recipeImage.sprite = recipe.outputItem.icon;
 
+        //스탯 변화 표시
+        if (HPText != null)
+            HPText.text = $"+{Item.hpPlus}";
+        if (AttText != null)
+            AttText.text = $"+{Item.attack}";
+        if (DefText != null)
+            DefText.text = $"+{Item.defense}";
+        if (SpeedText != null)
+            SpeedText.text = $"+{Item.speed}";
 
         // 비용 표시
         if (recipeCostText != null)
