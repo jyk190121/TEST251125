@@ -1,6 +1,8 @@
+using Unity.VisualScripting;
 using UnityEditor.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.TestTools;
 
 public class NormalMosterFSM : MonoBehaviour
 {
@@ -31,6 +33,9 @@ public class NormalMosterFSM : MonoBehaviour
     float attRange;
     float detRange;
 
+    //원거리
+    float minRangeRange;
+
     Type monsterType;   //몬스터 Melee/Range
     Race monsterRace;   //몬스터 종족
 
@@ -59,16 +64,24 @@ public class NormalMosterFSM : MonoBehaviour
 
     NavMeshAgent agent;
 
+    //플레이어 레이어
+    LayerMask player = 7;
+
     public Animator anim;
 
     void Start()
     {
+        if (monsterData == null)
+        {
+            Debug.LogError("monsterData가 NULL이다! 프리팹에 monsterData 넣어야 함");
+        }
+
         state = MonsterState.Idle;
 
-        target = GameObject.FindWithTag("Player").transform;
+        //target = GameObject.FindWithTag("Player").transform;
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        agent.enabled = false;
+        //agent.enabled = false;
 
         //기본스탯
         currentHP = monsterData.HP;
@@ -80,6 +93,8 @@ public class NormalMosterFSM : MonoBehaviour
         //범위
         attRange = monsterData.attackRange;
         detRange = monsterData.detectionRange;
+        //원거리
+        minRangeRange = monsterData.minAttackRange;
 
         //몬스터 정보
         monsterType = monsterData.Type;
@@ -107,11 +122,18 @@ public class NormalMosterFSM : MonoBehaviour
         // Agent Speed
         agent.speed = speed;
 
+        
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (attRange == monsterData.attackRange)
+        {
+            print("값 받아옴");
+
+        }
         switch (state)
         {
             case MonsterState.Idle:
@@ -157,5 +179,13 @@ public class NormalMosterFSM : MonoBehaviour
     {
 
     }
-
+    private void OnDrawGizmos()
+    {
+        //공격가능범위
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, monsterData.attackRange);
+        //원거리 최소거리
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, monsterData.minAttackRange);
+    }
 }
