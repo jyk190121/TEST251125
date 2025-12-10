@@ -20,6 +20,8 @@ public class SmithyUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI requirementsText;
     [SerializeField] private Button craftButton;
 
+    [SerializeField] TextMeshProUGUI CloseButtonText;
+
     private SmithySystem craftingSystem;
     private int selectedRecipeID;
     private List<Button> createdButtons = new List<Button>();  // 생성된 버튼 추적
@@ -39,6 +41,8 @@ public class SmithyUI : MonoBehaviour
 
         // ===== 제작 시스템 이벤트 구독 =====
         craftingSystem.OnCraftingComplete += HandleCraftingComplete;
+
+        CloseButtonText.text = $"안녕! [{KeySetting.GetKeyString(KeyInput.INTERACTIVE)}]";
 
         // 초기 상태: 패널 비활성화
         if (smithyPanel != null)
@@ -119,16 +123,16 @@ public class SmithyUI : MonoBehaviour
 
         // 레시피 이름 표시
         if (recipeNameText != null)
-            recipeNameText.text = $"레시피: {recipe.recipeName}";
+            recipeNameText.text = $"{recipe.recipeName}";
 
         // 비용 표시
         if (recipeCostText != null)
-            recipeCostText.text = $"제작 비용: {recipe.goldCost} 골드";
+            recipeCostText.text = $"{recipe.goldCost}";
 
         // 필요 재료 표시
         if (requirementsText != null)
         {
-            string requirementsStr = "필요 재료:\n";
+            string requirementsStr = "";
             var materials = craftingSystem.GetRequiredMaterials(recipeID);
 
             if (materials != null && materials.Length > 0)

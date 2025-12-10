@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemID: 2006
   itemName: "\uC0AC\uB0E5\uAFBC\uC758 \uD65C"
-  icon: {fileID: 0}
+  icon: {fileID: -543209748, guid: f35653537d012544b886553d746f45e3, type: 3}
   description: 
   isStackable: 0
   maxStack: 99
@@ -25,7 +25,7 @@ MonoBehaviour:
   dropMonsters: []
   equipmentType: 0
   equipmentSlot: 0
-  tier: 0
+  tier: 1
   attack: 35
   defense: 0
   speed: 0

@@ -45,7 +45,6 @@ public class FacilityInteraction : MonoBehaviour
         {
             string keyString = KeySetting.GetKeyString(KeyInput.INTERACTIVE);
             keyText.text = keyString;
-            Debug.Log("키 텍스트 설정 완료");
         }
 
         HidePrompt();
@@ -121,9 +120,16 @@ public class FacilityInteraction : MonoBehaviour
         if (systemManager.IsFacilityUnlocked(facilityID))
         {
             // 시설이 해금됨: UI 열기
-            if (linkedUIPanel != null)
+            if (facilityID == "smithy")
             {
-                linkedUIPanel.SetActive(true);
+                SmithyUI smithyUI = linkedUIPanel.GetComponent<SmithyUI>();
+                smithyUI.OpenUI();
+                Debug.Log($"[FacilityInteraction] {facilityID} UI 열기");
+            }
+            else if (facilityID == "wooden_hat")
+            {
+                WoodenHatUI woodenHatUI = linkedUIPanel.GetComponent<WoodenHatUI>();
+                woodenHatUI.OpenUI();
                 Debug.Log($"[FacilityInteraction] {facilityID} UI 열기");
             }
         }

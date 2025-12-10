@@ -43,7 +43,6 @@ public class SmithySystem : CraftingSystemBase
             if (recipe != null)
             {
                 recipes[recipe.recipeID] = recipe;
-                Debug.Log($"[SmithySystem] 레시피 로드: {recipe.recipeName}");
             }
         }
 

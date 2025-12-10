@@ -44,7 +44,6 @@ public class WoodenHatSystem : CraftingSystemBase
                 if (recipe != null)
                 {
                     recipes[recipe.recipeID] = recipe;
-                    Debug.Log($"[WoodenHatSystem] 포션 레시피 로드: {recipe.recipeName}");
                 }
             }
         }
