@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 /// <summary>
-/// 손님매니저
+/// 손님생성해주는 역할
 /// </summary>
 
 public class CustomerManager : MonoBehaviour
@@ -11,17 +11,10 @@ public class CustomerManager : MonoBehaviour
     public Transform createPos;     //손님 생성 위치
 
     //임시
-    void Start()
-    {
-        StartCoroutine(CreateCustomer(4));
-    }
-
-    //
-    private void Update()
-    {
-        //상점 열었는지 체크
-
-    }
+    //void Start()
+    //{
+    //    StartCoroutine(CreateCustomer(4));
+    //}
 
     //손님 생성
     public IEnumerator CreateCustomer(int r)

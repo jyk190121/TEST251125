@@ -3,19 +3,20 @@ using UnityEngine;
 using UnityEngine.UI;
 using static DayManager;
 /// <summary>
-/// 1.플레이어와 상호작용 (G키) - Collision 
+/// 1.플레이어와 상호작용 - Collision 
 /// </summary>
 public class Bed : MonoBehaviour
 {
     float keyDownTime;           // 상호작용을 위한 시간
     float sleepDuration;         // 플레이어 잠자는 시간
 
-    bool playerInBed = false;   // 플레이어가 침대에 닿았는지 여부
+    bool playerIn;              // 플레이어가 침대에 닿았는지 여부
     Vector3 inBedPos;           // 플레이어가 자기 전 위치
-    bool isSleeping = false;    // 플레이어가 자고있는지 여부
-    float keyTimer = 0f;        // 키 입력 시간
-    float sleepTimer = 0f;      // 자는 시간
+    bool isSleeping;            // 플레이어가 자고있는지 여부
+    float keyTimer;             // 키 입력 시간
+    float sleepTimer;           // 자는 시간
     public Image image;         // 키입력하는 동안 띄울 이미지
+    public Image key;           // 상호작용 키 알려줄 이미지
 
     PlayerController player;    // 플레이어 스크립트( 임시 )
     DayManager dayManager;      // 자고 일어나면 시간 가기
@@ -24,11 +25,12 @@ public class Bed : MonoBehaviour
     {
         keyDownTime = 1f;
         sleepDuration = 5f;
-        playerInBed = false;
+        playerIn = false;
         isSleeping = false;
         keyTimer = 0f;
         sleepTimer = 0f;
         image.gameObject.SetActive(false);
+        key.gameObject.SetActive(false);
         image.fillAmount = 0f;
         image.color = new Color(0, 150f, 0, 100f);
         //Outline outline = image.GetComponent<Outline>();
@@ -38,7 +40,7 @@ public class Bed : MonoBehaviour
     }
     void Update()
     {
-        image.gameObject.SetActive(false);
+        //image.gameObject.SetActive(false);
 
         // 플레이어가 자는 중일 때 시간 체크
         if (isSleeping)
@@ -53,15 +55,17 @@ public class Bed : MonoBehaviour
             return;
         }
 
-        image.fillAmount = keyTimer;
+        //image.fillAmount = keyTimer;
 
         // 플레이어가 침대 근처에 있으면 상호작용 키 누름 시간 체크
-        if (playerInBed)
+        if (playerIn)
         {
-            if (Input.GetKey(KeyCode.G))
+            if (Input.GetKey(KeySetting.keys[KeyInput.INTERACTIVE]))
             {
                 keyTimer += Time.deltaTime;
+                key.gameObject.SetActive(false);
                 image.gameObject.SetActive(true);
+                image.fillAmount = keyTimer;
 
                 //print($"KeyTimer : {keyTimer}");
                 //print($"fillAmount : {image.fillAmount}");
@@ -71,12 +75,15 @@ public class Bed : MonoBehaviour
 
                 if (keyTimer >= keyDownTime)
                 {
+                    image.gameObject.SetActive(false);
                     SleepPlayer();
                 }
             }
             else
             {
                 keyTimer = 0f;
+                //image.fillAmount = 0f;
+                image.gameObject.SetActive(false);
             }
         }
     }
@@ -85,8 +92,9 @@ public class Bed : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            playerInBed = true;
+            playerIn = true;
             player = collision.collider.GetComponent<PlayerController>();
+            key.gameObject.SetActive(true);
         }
     }
 
@@ -94,9 +102,11 @@ public class Bed : MonoBehaviour
     {
         if (collision.collider.CompareTag("Player"))
         {
-            playerInBed = false;
+            playerIn = false;
             keyTimer = 0f;
             player = null;
+            image.gameObject.SetActive(false);
+            key.gameObject.SetActive(false);
         }
     }
 

@@ -102,7 +102,8 @@ public class QuickSlotPresenter : MonoBehaviour
         if (item == null) return;
 
         //인벤토리로 복귀 시도
-        bool added = InventoryManager.Instance.AddItem(item);
+        //bool added = InventoryManager.Instance.AddItem(item);
+        bool added = true;
 
         //인벤토리에 자리가 있어서 잘 들어갔다면 퀵슬롯 비우기
         if (added)

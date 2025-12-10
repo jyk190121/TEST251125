@@ -6,18 +6,18 @@ using System.Collections.Generic;
 
 public enum KeyInput
 {
-    UP,             
-    DOWN,
-    LEFT,
-    RIGHT,
-    MAINATTACK,
-    SUBATTACK,
-    ROLL,
-    INTERACTIVE,
-    PENDANT,
-    SWITCHWEAPON,
-    OPTION,
-    INVENTORY,
+    UP,             //위로
+    DOWN,           //아래로
+    LEFT,           //왼쪽
+    RIGHT,          //오른쪽
+    MAINATTACK,     //일반공격
+    SUBATTACK,      //특수공격
+    ROLL,           //구르기
+    INTERACTIVE,    //상호작용
+    PENDANT,        //펜던트 사용
+    SWITCHWEAPON,   //무기 교체
+    OPTION,         //옵션 열기
+    INVENTORY,      //인벤토리 열기
     KEYCOUNT
 }
 
@@ -49,6 +49,7 @@ public class InputManager : MonoBehaviour
         KeyCode.Escape, //옵션 열기
         KeyCode.I       //인벤토리 열기
     };
+
 
     private void Awake()
     {
