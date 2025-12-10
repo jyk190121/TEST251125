@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BossDragon
   m_EditorClassIdentifier: 
   mobID: 0
-  mobName: 
-  MobPrefab: {fileID: 0}
+  mobName: "\uB545\uB4DC\uB798\uACE4"
+  MobPrefab: {fileID: 206288137534574219, guid: a24c7cbacf4537d4daa1d0750b87cf71, type: 3}
   HP: 0
   Speed: 0
   Attack: 0
@@ -23,10 +23,10 @@ MonoBehaviour:
   attackRange: 0
   detectionRange: 0
   minAttackRange: 0
-  Class: 0
+  Class: 1
   Type: 0
-  Race: 0
-  Pattern: 
+  Race: 5
+  Pattern: 00000000020000000c0000000e0000000f000000
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0

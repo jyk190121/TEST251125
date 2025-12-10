@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 253642078dcbc9f49b55c18ef13d53ef, type: 3}
-  m_Name: Mimic
+  m_Name: SlimeBlue
   m_EditorClassIdentifier: 
   mobID: 0
-  mobName: "\uBBF8\uBBF9"
-  MobPrefab: {fileID: 2203997256558560351, guid: 82c9c370e9e97a8499c01e7893cc266e, type: 3}
+  mobName: "\uD30C\uB780\uC2AC\uB77C\uC784"
+  MobPrefab: {fileID: 1613628643030205678, guid: ba0180098f81c0a4ea0fcec817ba7604, type: 3}
   HP: 0
   Speed: 0
   Attack: 0
@@ -25,8 +25,8 @@ MonoBehaviour:
   minAttackRange: 0
   Class: 0
   Type: 0
-  Race: 4
-  Pattern: 000000000200000006000000
+  Race: 0
+  Pattern: 0000000002000000
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0

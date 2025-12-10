@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BossRhino
   m_EditorClassIdentifier: 
   mobID: 0
-  mobName: 
-  MobPrefab: {fileID: 0}
+  mobName: "\uBCF4\uC2A4\uCF54\uBFD4\uC18C"
+  MobPrefab: {fileID: 5223809100160976117, guid: 6196e906dfb7d5a49ab361c328d68897, type: 3}
   HP: 0
   Speed: 0
   Attack: 0
@@ -23,10 +23,10 @@ MonoBehaviour:
   attackRange: 0
   detectionRange: 0
   minAttackRange: 0
-  Class: 0
+  Class: 1
   Type: 0
-  Race: 0
-  Pattern: 
+  Race: 6
+  Pattern: 00000000020000000b0000000c000000
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0
