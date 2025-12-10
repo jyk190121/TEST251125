@@ -63,13 +63,16 @@ public class NormalMosterFSM : MonoBehaviour
 
     NavMeshAgent agent;
 
+    //플레이어 레이어
+    LayerMask player = 7;
+
     public Animator anim;
 
     void Start()
     {
         state = MonsterState.Idle;
 
-        target = GameObject.FindWithTag("Player").transform;
+        //target = GameObject.FindWithTag("Player").transform;
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.enabled = false;
