@@ -62,24 +62,23 @@ public class ShopManager : MonoBehaviour
             }
 
             //손님이 다 나갔을 때 밤으로 만들자
-            if ()
-            {
-                isAction = true;
-            }
+            //if ()
+            //{
+            //    isAction = true;
+            //}
 
-            if(customerManager.GetCustomerAllExit() && isAction)
+            if(customerManager.GetCustomerAllExit() == null && isAction)
             {
                 ChangeDay();
             }
         }
 
         //밤인지
-        else if (dayManager.IsNight)
-        {
-            CloseShop();
-        }
+        //else if (dayManager.IsNight)
+        //{
+        //    CloseShop();
+        //}
 
-       
     }
 
     void OpenShop()
