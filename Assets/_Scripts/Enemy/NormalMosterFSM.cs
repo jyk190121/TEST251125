@@ -1,6 +1,7 @@
 using UnityEditor.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.TestTools;
 
 public class NormalMosterFSM : MonoBehaviour
 {
@@ -30,6 +31,9 @@ public class NormalMosterFSM : MonoBehaviour
     //몬스터 공격/인식 범위
     float attRange;
     float detRange;
+
+    //원거리
+    float minRangeRange;
 
     Type monsterType;   //몬스터 Melee/Range
     Race monsterRace;   //몬스터 종족
@@ -80,6 +84,8 @@ public class NormalMosterFSM : MonoBehaviour
         //범위
         attRange = monsterData.attackRange;
         detRange = monsterData.detectionRange;
+        //원거리
+        minRangeRange = monsterData.minAttackRange;
 
         //몬스터 정보
         monsterType = monsterData.Type;
@@ -157,5 +163,23 @@ public class NormalMosterFSM : MonoBehaviour
     {
 
     }
+    private void OnDrawGizmos()
+    {
+        //공격가능범위
+        if (attRange != 0)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, attRange);
+        }
+        //원거리 최소거리
+        if (minRangeRange != 0)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, minRangeRange);
+        }
 
+        //플레이어 찾을 수 있는 범위
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, detRange);
+    }
 }
