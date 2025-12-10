@@ -88,6 +88,7 @@ public class VillageSystemManager : MonoBehaviour
 
         if ( money >= cost )
         {
+            _MasterManager.Instance.DataManager.SpendMoney(cost);
             facility.isUnlocked = true;
             OnFacilityUnlocked?.Invoke(facilityID);
 

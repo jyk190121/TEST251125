@@ -20,6 +20,12 @@ public class SmithyUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI requirementsText;
     [SerializeField] private Button craftButton;
 
+    [Header("레시피 스탯 변화 정보")]
+    [SerializeField] private TextMeshProUGUI HPText;
+    [SerializeField] private TextMeshProUGUI AttText;
+    [SerializeField] private TextMeshProUGUI DefText;
+    [SerializeField] private TextMeshProUGUI SpeedText;
+
     [SerializeField] TextMeshProUGUI CloseButtonText;
 
     private SmithySystem craftingSystem;
@@ -42,7 +48,7 @@ public class SmithyUI : MonoBehaviour
         // ===== 제작 시스템 이벤트 구독 =====
         craftingSystem.OnCraftingComplete += HandleCraftingComplete;
 
-        CloseButtonText.text = $"안녕! [{KeySetting.GetKeyString(KeyInput.INTERACTIVE)}]";
+        CloseButtonText.text = $"안녕! [{KeySetting.GetKeyString(KeyInput.CANCLE)}]";
 
         // 초기 상태: 패널 비활성화
         if (smithyPanel != null)
@@ -51,9 +57,21 @@ public class SmithyUI : MonoBehaviour
         Debug.Log("[SmithyUI] 대장간 UI 초기화 완료");
     }
 
+    private void Update()
+    {
+        // 캔슬 키로 UI 닫기
+        if (Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
+        {
+            CloseUI();
+        }
+    }
+
     public void OpenUI()
     {
         if (smithyPanel == null)
+            return;
+
+        if (smithyPanel.activeSelf)
             return;
 
         smithyPanel.SetActive(true);
@@ -100,8 +118,8 @@ public class SmithyUI : MonoBehaviour
 
             GameObject buttonObj = Instantiate(recipeButtonPrefab, recipeListContainer);
             Button button = buttonObj.GetComponent<Button>();
-            Image buttonImage = buttonObj.GetComponent<Image>();
-            buttonImage.sprite = recipe.outputItem.icon;
+            Image itemImage = buttonObj.GetComponent<Image>();
+            itemImage.sprite = recipe.outputItem.icon;
 
             if (button != null)
             {
@@ -124,6 +142,9 @@ public class SmithyUI : MonoBehaviour
         // 레시피 이름 표시
         if (recipeNameText != null)
             recipeNameText.text = $"{recipe.recipeName}";
+
+        //스탯 변화 표시
+
 
         // 비용 표시
         if (recipeCostText != null)
