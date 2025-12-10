@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobID: 0
   mobName: "\uBBF8\uBBF9"
-  MobPrefab: {fileID: 0}
+  MobPrefab: {fileID: 2203997256558560351, guid: 82c9c370e9e97a8499c01e7893cc266e, type: 3}
   HP: 0
   Speed: 0
   Attack: 0
@@ -25,8 +25,8 @@ MonoBehaviour:
   minAttackRange: 0
   Class: 0
   Type: 0
-  Race: 0
-  Pattern: 
+  Race: 4
+  Pattern: 000000000200000006000000
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0
