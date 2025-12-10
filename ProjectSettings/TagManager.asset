@@ -15,7 +15,7 @@ TagManager:
   - Portal
   - Player
   - Trap
-  - 
+  - Monster
   - 
   - 
   - 
@@ -37,6 +37,7 @@ TagManager:
   - 
   - 
   - SuperMan
+  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
