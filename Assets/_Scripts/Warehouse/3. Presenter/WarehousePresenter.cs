@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WarehousePresenter : MonoBehaviour
@@ -21,6 +22,7 @@ public class WarehousePresenter : MonoBehaviour
     [Header("UI 영역 설정")]
     public RectTransform warehousePanelRect;    //창고 배경
     public ItemDropPopup dropPopup;             //팝업창
+    public ItemSplitPopup splitPopup;           //아이템 소분팝업
 
     private void Awake()
     {
@@ -49,6 +51,7 @@ public class WarehousePresenter : MonoBehaviour
         //시작 시 초기화
         HandleWarehouseUpdate();
         dropPopup.ClosePopup();
+        splitPopup.ClosePopup();
     }
 
     // Update is called once per frame
@@ -57,7 +60,8 @@ public class WarehousePresenter : MonoBehaviour
         //마우스 버튼을 땠는데 드래그 중이라면
         if (Input.GetMouseButtonUp(0) && dragStartIndex != -1)
         {
-            if (dropPopup.gameObject.activeSelf == false)
+            //드랍 팝업 및 소분팝업이 비활성화 상태라면
+            if (dropPopup.gameObject.activeSelf == false && splitPopup.gameObject.activeSelf == false)
             {
                 //강제로 드래그 종료 함수 호출 (-1: 인벤토리 밖으로 간주)
                 OnDragEnd(-1);
@@ -105,39 +109,155 @@ public class WarehousePresenter : MonoBehaviour
 
             //기록 초기화
             dragStartIndex = -1;
-        }           
+        }
 
         //인벤토리에서 창고로 드롭했을 때
         if (InventoryManager.Instance.GetDragStartIndex() != -1)
         {
             if (dropIndex == -1) return;
-            
+
             //인벤토리 매니저에서 드래그한 아이템 가져오기
             Item inventoryItem = InventoryManager.Instance.GetDraggedItem();
+            int inventoryCount = InventoryManager.Instance.GetDraggedItemCount();
+            int inventoryIndex = InventoryManager.Instance.GetDragStartIndex();
+
             if (inventoryItem == null) return;
 
-            //창고의 해당 슬롯에 있던 아이템 (교체용)
-            WarehouseSlotModel targetSlot = model.GetSlotsForView()[dropIndex];
-            Item warehouseItem = targetSlot.IsEmpty ? null : targetSlot.itemDate;
-            int warehouseItemCount = targetSlot.quantity;
-            int count = InventoryManager.Instance.GetDraggedItemCount();
-
-            //인벤토리에서 아이템 삭제
-            InventoryManager.Instance.UseItemForEquip();
-
-            //창고에 아이템 추가
-            //int count = InventoryManager.Instance.GetDraggedItemCount();
-            model.AddItemToSlot(dropIndex, new WarehouseSlotModel { itemDate = inventoryItem, quantity = count });
-
-            //창고 자리에 아이템이 있으면 인벤토리로 보내기
-            if (warehouseItem != null)
+            //소분 수량이 1보다 많으면 실행
+            if (inventoryCount > 1)
             {
-                InventoryManager.Instance.AddItem(warehouseItem, warehouseItemCount);
+                splitPopup.OpenPopup(inventoryItem, inventoryItem.itemName, inventoryCount, (amount) =>
+                {
+                    ProcessMoveFromInventory(dropIndex, inventoryIndex, inventoryItem, amount);
+                });
+            }
+            else
+            {
+                //1개면 바로 이동
+                ProcessMoveFromInventory(dropIndex, inventoryIndex, inventoryItem, 1);
+            }
+        }
+    }
+
+    private void ProcessMoveFromInventory(int dropIndex, int sourceInventoryIndex, Item inventoryItem, int inventoryCount)
+    {
+        if (inventoryItem == null) return;
+
+        //창고의 해당 슬롯에 있던 아이템 (교체용)
+        var slots = model.GetSlotsForView();        
+        WarehouseSlotModel targetSlot = model.GetSlotsForView()[dropIndex];
+        Item warehouseItem = targetSlot.IsEmpty ? null : targetSlot.itemDate;
+        int warehouseItemCount = targetSlot.quantity;
+
+        int totalMovedAmount = 0; //이동한 총 수량
+
+        //창고에 같은 아이템이 있으면 수량만 증가 (스택형 아이템일 경우)
+        if (warehouseItem != null && warehouseItem.itemID == inventoryItem.itemID)
+        {
+            //남은 공간 계산 (최대 수량 - 현재 수량)
+            int spaceLeft = warehouseItem.maxStack - warehouseItemCount;
+
+            //첫 번째 슬롯에 넣을 양
+            int amountToFirstSlot = Mathf.Min(spaceLeft, inventoryCount);
+
+            if (amountToFirstSlot > 0)
+            {
+                ////인벤토리에서 옮길 수 있는 수량 계산
+                //int amountToMove = Mathf.Min(spaceLeft, inventoryCount);
+
+                //창고 슬롯 수량 증가
+                model.AddItemToSlot(dropIndex, new WarehouseSlotModel
+                {
+                    itemDate = inventoryItem,
+                    quantity = warehouseItemCount + amountToFirstSlot
+                });
+
+                totalMovedAmount += amountToFirstSlot;
             }
 
-            //창고 화면 갱신
-            model.NotifyUpdate();
-        }        
+            //남은 수량 빈 칸 찾아 넣기
+            int remaining = inventoryCount - amountToFirstSlot;
+
+            if (remaining > 0)
+            {
+                //빈 슬롯 찾기
+                int emptySlotIndex = -1;
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    if (slots[i].IsEmpty)
+                    {
+                        emptySlotIndex = i;
+                        break;
+                    }
+                }
+
+                if (emptySlotIndex != -1)
+                {
+                    model.AddItemToSlot(emptySlotIndex, new WarehouseSlotModel
+                    {
+                        itemDate = inventoryItem,
+                        quantity = remaining
+                    });
+                }
+                else
+                {
+                    Debug.Log("창고 공간이 부족하여 일부만 이동했습니다.");
+                }
+            }
+        }
+
+        //빈 슬롯일 경우
+        else if (warehouseItem == null)
+        {
+            model.AddItemToSlot(dropIndex, new WarehouseSlotModel
+            {
+                itemDate = inventoryItem,
+                quantity = inventoryCount
+            });
+            totalMovedAmount = inventoryCount;
+        }
+
+        //다른 아이템일 경우
+        else
+        {
+            //창고 자리에 아이템이 있으면 인벤토리로 보내기
+            InventoryManager.Instance.AddItem(warehouseItem, warehouseItemCount);
+
+            //창고에 아이템 추가
+            model.AddItemToSlot(dropIndex, new WarehouseSlotModel
+            {
+                itemDate = inventoryItem,
+                quantity = inventoryCount
+            });
+
+            totalMovedAmount = inventoryCount;
+        }
+
+        if (totalMovedAmount > 0)
+        {
+            //인벤토리 아이템 감소            
+            InventoryManager.Instance.DecreaseItemAtIndex(sourceInventoryIndex, inventoryCount);
+        }
+
+        //인벤토리에서 아이템 삭제
+        //InventoryManager.Instance.UseItemForEquip();
+
+        //창고에 아이템 추가
+        //int count = InventoryManager.Instance.GetDraggedItemCount();
+        //model.AddItemToSlot(dropIndex, new WarehouseSlotModel { itemDate = inventoryItem, quantity = inventoryCount });
+
+        //창고 자리에 아이템이 있으면 인벤토리로 보내기
+        //if (warehouseItem != null)
+        //{
+        //    InventoryManager.Instance.AddItem(warehouseItem, warehouseItemCount);
+        //}
+
+        // 화면 갱신 및 드래그 종료
+        if (InventoryManager.Instance.GetDragStartIndex() != -1)
+            InventoryManager.Instance.CancelDrag();
+
+        //창고 화면 갱신
+        model.NotifyUpdate();    
     }
 
     //외부(퀵슬롯)에서 현재 드래그 시작 인덱스 조회 함수
@@ -159,6 +279,20 @@ public class WarehousePresenter : MonoBehaviour
     {
         if (dragStartIndex == -1) return 0;
         return model.GetSlotsForView()[dragStartIndex].quantity;
+    }
+
+    //드래그 중인 아이템 수량 감소 함수 (인벤토리에서 쓰기 위함)
+    public void DecreaseDraggedItemAmount(int amount)
+    {
+        if (dragStartIndex == -1) return;
+        //모델에게 해당 슬롯에서 amount만큼 감소시키라고
+        model.DecreaseItemAmount(dragStartIndex, amount);
+    }
+
+    //인덱스 기반 수량 감소 (인벤토리에서 쓰기 위함)
+    public void DecreaseItemAtIndex(int index, int amount)
+    {
+        model.DecreaseItemAmount(index, amount);
     }
 
     public void UseItemForMove()
@@ -188,6 +322,7 @@ public class WarehousePresenter : MonoBehaviour
         model.NotifyUpdate();   //화면을 원래대로 복구
     }
 
+    //아이템을 바닥에 드랍 시 팝업
     private void ShowDropPopup()
     {
         //현재 잡고 있는 아이템 데이터 가져오기

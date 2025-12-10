@@ -17,13 +17,16 @@ public class MonsterTest : MonoBehaviour
         room = roomController;
     }
 
+    /*
     public void TakeDamage(int dmg)
     {
         currentHP -= dmg;
 
         if (currentHP <= 0) Die();
     }
+    */
 
+    /*
     void Die()
     {
         if (room != null)
@@ -33,6 +36,6 @@ public class MonsterTest : MonoBehaviour
 
         gameObject.SetActive(false);
     }
-
+    */
 
 }

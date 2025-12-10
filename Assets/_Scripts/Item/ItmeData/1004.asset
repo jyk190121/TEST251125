@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8829d3539dece74b96949f1d189af8e, type: 3}
+  m_Name: 1004
+  m_EditorClassIdentifier: 
+  itemID: 1004
+  itemName: "\uB8EC \uB3C4\uAD6C"
+  icon: {fileID: 21300000, guid: b9a847102a75c8c429a8f749008df6c2, type: 3}
+  description: 
+  isStackable: 1
+  maxStack: 5
+  buyPrice: 6750
+  sellPrice: 1650
+  type: 0
+  rarity: 0
+  dropMonsters: []
+  equipmentType: 0
+  equipmentSlot: 0
+  tier: 0
+  attack: 0
+  defense: 0
+  speed: 0
+  hpPlus: 0
+  healAmount: 0
+  coolDown: 0

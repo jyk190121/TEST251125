@@ -91,4 +91,9 @@ public class DataManager : MonoBehaviour
     {
         return EquipWeapon;
     }
+
+    public void ChangeHP(int amount)
+    {
+        player.HP -= amount;
+    }
 }
