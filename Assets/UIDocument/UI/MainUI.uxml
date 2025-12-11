@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/TestUSS.uss?fileID=7433441132597879392&amp;guid=cabcba318ecef1e479441d0d788fcd6b&amp;type=3#TestUSS" />
+    <ui:VisualElement name="BackGround" style="flex-grow: 1; background-image: url(&quot;project://database/Assets/_Sprites/StartView.png?fileID=21300000&amp;guid=6bf15c40da3a8574a9f0bc99a9e20904&amp;type=3#StartView&quot;);">
+        <ui:Button name="StartBtn" class="Button" style="top: 732px; left: 879px; height: 46px; width: 155px; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0; border-left-color: rgba(149, 149, 149, 0); border-right-color: rgba(149, 149, 149, 0); border-top-color: rgba(149, 149, 149, 0); border-bottom-color: rgba(149, 149, 149, 0); margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0;" />
+        <ui:Button name="OptionBtn" class="Button_option" style="position: absolute; top: 796px; left: 918px; height: 42px; width: 70px; border-left-width: 0; border-bottom-width: 0; border-top-width: 0; border-right-width: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0;" />
+        <ui:Button name="ExitBtn" class="Button_exit" style="position: absolute; top: 860px; left: 905px; padding-left: 0; padding-bottom: 0; padding-right: 0; padding-top: 0; border-top-width: 0; border-bottom-width: 0; border-left-width: 0; border-right-width: 0; margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; height: 33px; width: 105px;" />
+    </ui:VisualElement>
+</ui:UXML>

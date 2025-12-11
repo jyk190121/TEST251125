@@ -1,0 +1,40 @@
+.Button {
+    position: absolute;
+    background-image: url("project://database/Assets/_Sprites/StartGame.png?fileID=2800000&guid=521f18d5deca20a4ca05f7ab4cee9364&type=3#StartGame");
+    -unity-slice-scale: 0;
+}
+
+.Button:hover {
+    transition-duration: 0.2s;
+    scale: 1.1 1.2;
+    background-image: url("project://database/Assets/_Sprites/StartGame.png?fileID=2800000&guid=521f18d5deca20a4ca05f7ab4cee9364&type=3#StartGame");
+}
+
+.Button:active {
+    background-image: url("project://database/Assets/_Sprites/StartGame_2.png?fileID=21300000&guid=df8469b9e3fea7848ab65485d853ca9a&type=3#StartGame_2");
+    background-color: rgb(255, 255, 255);
+}
+
+.Button_option {
+    background-image: url("project://database/Assets/_Sprites/Option_1.png?fileID=2800000&guid=e1f09bfc6ec850b4c80d2c5073d81935&type=3#Option_1");
+}
+
+.Button_option:hover {
+    scale: 1.2 1.2;
+}
+
+.Button_option:active {
+    background-image: url("project://database/Assets/_Sprites/Option_2.png?fileID=2800000&guid=daee0ec7042843f43bc2c8f6405b2a87&type=3#Option_2");
+}
+
+.Button_exit {
+    background-image: url("project://database/Assets/_Sprites/Exit_1.png?fileID=2800000&guid=45968d4e530885d4483ab522b2a65f83&type=3#Exit_1");
+}
+
+.Button_exit:hover {
+    scale: 1.2 1;
+}
+
+.Button_exit:active {
+    background-image: url("project://database/Assets/_Sprites/Exit_2.png?fileID=2800000&guid=29974ca89c8bd7a41b2b48866531a2df&type=3#Exit_2");
+}
