@@ -27,6 +27,8 @@ public class RoomController : MonoBehaviour
 
     private List<GameObject> aliveMonsters = new List<GameObject>();
 
+    public bool IsBoss = false;
+
 
     public void SetDoorActive(bool up, bool down, bool left, bool right)
     {
@@ -49,6 +51,11 @@ public class RoomController : MonoBehaviour
             GameObject monster = Instantiate(monsterPrefabs[rand], point.position, Quaternion.identity);
             aliveMonsters.Add(monster);
             //monster.GetComponent<MonsterTest>().SetupRoom(this);
+
+            if (monster.layer == LayerMask.NameToLayer("Boss"))
+            {
+                IsBoss = true;
+            }
         }
 
     }
