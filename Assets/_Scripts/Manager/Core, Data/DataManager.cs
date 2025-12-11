@@ -15,7 +15,7 @@ public class DataManager : MonoBehaviour
     int dungeonCleared = 0;
 
     public static Action OnEquipmentChanged;
-    //public static Action OnStatChanged;
+    public static Action OnStatChanged;
 
     public void Initialize()
     {
@@ -24,15 +24,17 @@ public class DataManager : MonoBehaviour
     }
 
     //플레이어 아이템 장착시 스탯 변경
-    public void playerStatChanged(int att, int def, int hp, int mspd = 0)
+    public void playerStatChanged(StatStruct stat)
     {
         //이후 장비 관련 변수 추가시 수정 필요
-        player.HP = modelstat.HP + hp;
-        player.MaxHP = modelstat.HP + hp;
-        player.ATT = modelstat.ATT + att;
-        player.Defend = modelstat.Defend + def;
-        player.moveSpeed = modelstat.moveSpeed + mspd;
-        player.attackSpeed = modelstat.attackSpeed + mspd;
+        player.HP = modelstat.HP + stat.hp;
+        player.MaxHP = modelstat.HP + stat.hp;
+        player.ATT = modelstat.ATT + stat.att;
+        player.Defend = modelstat.Defend + stat.def;
+        player.moveSpeed = modelstat.moveSpeed + stat.spd;
+        player.attackSpeed = modelstat.attackSpeed + stat.spd;
+
+        OnStatChanged?.Invoke();
     }
 
     //체력 회복
