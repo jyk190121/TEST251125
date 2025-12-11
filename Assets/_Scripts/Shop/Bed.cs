@@ -18,8 +18,11 @@ public class Bed : MonoBehaviour
     public Image image;         // 키입력하는 동안 띄울 이미지
     public Image key;           // 상호작용 키 알려줄 이미지
 
-    PlayerController player;    // 플레이어 스크립트( 임시 )
+    CharacterController player; // 플레이어 스크립트( 임시 )
+
     DayManager dayManager;      // 자고 일어나면 시간 가기
+
+    Rigidbody rb;
 
     private void Start()
     {
@@ -35,8 +38,11 @@ public class Bed : MonoBehaviour
         image.color = new Color(0, 150f, 0, 100f);
         //Outline outline = image.GetComponent<Outline>();
         //outline.effectDistance = new Vector2(5f, 5f);
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
 
         dayManager = GameObject.Find("TestManager").GetComponent<DayManager>();
+
+        rb = GetComponent<Rigidbody>();
     }
     void Update()
     {
@@ -64,58 +70,70 @@ public class Bed : MonoBehaviour
 
         //image.fillAmount = keyTimer;
 
-        // 플레이어가 침대 근처에 있으면 상호작용 키 누름 시간 체크
-        if (playerIn)
+        if(Vector3.Distance(player.transform.position, transform.position) < 5f)
         {
-            if (Input.GetKey(KeySetting.keys[KeyInput.INTERACTIVE]))
+            // 플레이어가 침대 근처에 있으면 상호작용 키 누름 시간 체크
+            if (playerIn)
             {
-                keyTimer += Time.deltaTime;
-                key.gameObject.SetActive(false);
-                image.gameObject.SetActive(true);
-                image.fillAmount = keyTimer;
-
-                //print($"KeyTimer : {keyTimer}");
-                //print($"fillAmount : {image.fillAmount}");
-
-                //잠들기 전 위치를 받아옴
-                inBedPos = player.transform.position;
-
-                if (keyTimer >= keyDownTime)
+                if (Input.GetKey(KeySetting.keys[KeyInput.INTERACTIVE]))
                 {
+                    keyTimer += Time.deltaTime;
+                    key.gameObject.SetActive(false);
+                    image.gameObject.SetActive(true);
+                    image.fillAmount = keyTimer;
+
+                    //print($"KeyTimer : {keyTimer}");
+                    //print($"fillAmount : {image.fillAmount}");
+
+                    //잠들기 전 위치를 받아옴
+                    inBedPos = player.transform.position;
+
+                    if (keyTimer >= keyDownTime)
+                    {
+                        image.gameObject.SetActive(false);
+                        SleepPlayer();
+                    }
+                }
+                else
+                {
+                    keyTimer = 0f;
+                    //image.fillAmount = 0f;
                     image.gameObject.SetActive(false);
-                    SleepPlayer();
                 }
             }
-            else
-            {
-                keyTimer = 0f;
-                //image.fillAmount = 0f;
-                image.gameObject.SetActive(false);
-            }
         }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.CompareTag("Player"))
-        {
-            playerIn = true;
-            player = collision.collider.GetComponent<PlayerController>();
-            key.gameObject.SetActive(true);
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.collider.CompareTag("Player"))
+        else
         {
             playerIn = false;
             keyTimer = 0f;
-            player = null;
             image.gameObject.SetActive(false);
             key.gameObject.SetActive(false);
         }
+
     }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.collider.CompareTag("Player"))
+    //    {
+    //        rb.isKinematic = false;
+    //        playerIn = true;
+    //        //player = collision.collider.GetComponent<PlayerController>();
+    //        key.gameObject.SetActive(true);
+    //    }
+    //}
+
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    if (collision.collider.CompareTag("Player"))
+    //    {
+    //        rb.isKinematic = true;
+    //        playerIn = false;
+    //        keyTimer = 0f;
+    //        image.gameObject.SetActive(false);
+    //        key.gameObject.SetActive(false);
+    //    }
+    //}
 
     void SleepPlayer()
     {

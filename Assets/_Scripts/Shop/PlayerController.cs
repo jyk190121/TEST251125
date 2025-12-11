@@ -15,10 +15,12 @@ public class PlayerController : MonoBehaviour
         //pos.Normalize();
 
         //transform.position += pos * speed * Time.deltaTime;
+        Vector3 pos = transform.position;
 
-        //if(transform.position.y > 0)
-        //{
-            
-        //}
+        if (pos.y > 0)
+        {
+            pos.y = 0;
+            transform.position = pos;
+        }
     }
 }
