@@ -90,6 +90,8 @@ public class WoodenHatUI : MonoBehaviour
         if (woodenHatPanel.activeSelf)
             return;
 
+        _MasterManager.Instance.UIManager.SetRightPanelActive(false);
+
         woodenHatPanel.SetActive(true);
         SelectTab(true);  // 기본 탭: 포션 제작
     }
@@ -100,6 +102,7 @@ public class WoodenHatUI : MonoBehaviour
             return;
 
         woodenHatPanel.SetActive(false);
+        _MasterManager.Instance.UIManager.SetRightPanelActive(true);
     }
 
     private void SelectTab(bool isPotion)

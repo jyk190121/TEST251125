@@ -515,6 +515,7 @@ GameObject:
   - component: {fileID: 632545899539290968}
   - component: {fileID: 6304118175395421531}
   - component: {fileID: 4646514487854030466}
+  - component: {fileID: 7210342566083884089}
   m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -581,6 +582,27 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7210342566083884089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5421852483414981443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5080e1833dd4738499feff836e252bb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftPanel: {fileID: 5089197370903086657}
+  rightPanel: {fileID: 4458693774957277845}
+  playerGoldText: {fileID: 8611495357194388248}
+  playerHpText: {fileID: 5854948123533111182}
+  playerPortionText: {fileID: 5089553230220232427}
+  playerRollText: {fileID: 4896110370492345169}
+  playerSubAttackText: {fileID: 5562667582794100818}
+  playerMainAttackText: {fileID: 5073830010915916709}
+  playerInventoryText: {fileID: 0}
 --- !u!1 &5892421067951352994
 GameObject:
   m_ObjectHideFlags: 0

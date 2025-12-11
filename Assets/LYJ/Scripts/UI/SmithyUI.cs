@@ -10,6 +10,10 @@ public class SmithyUI : MonoBehaviour
 {
     [SerializeField] private GameObject smithyPanel;
 
+    // 탭 버튼
+    [SerializeField] private Button WeaponButton;
+    [SerializeField] private Button ArmorButton;
+
     [Header("레시피 목록")]
     [SerializeField] private Transform recipeListContainer;
     [SerializeField] private GameObject recipeButtonPrefab;
@@ -31,6 +35,8 @@ public class SmithyUI : MonoBehaviour
 
     private SmithySystem craftingSystem;
     private int selectedRecipeID;
+    private bool isFirstTab = true;  // true: 무기, false: 장비
+
     private List<Button> createdButtons = new List<Button>();  // 생성된 버튼 추적
 
     private void Start()
@@ -43,6 +49,12 @@ public class SmithyUI : MonoBehaviour
             return;
         }
         // ===== 버튼 이벤트 연결 =====
+        if (WeaponButton != null)
+            WeaponButton.onClick.AddListener(() => SelectTab(true));  // 무기 탭
+
+        if (ArmorButton != null)
+            ArmorButton.onClick.AddListener(() => SelectTab(false));  // 장비 탭
+
         if (craftButton != null)
             craftButton.onClick.AddListener(OnCraftButtonClicked);
 
@@ -52,6 +64,7 @@ public class SmithyUI : MonoBehaviour
         CloseButtonText.text = $"안녕! [{KeySetting.GetKeyString(KeyInput.CANCLE)}]";
 
         // 초기 상태: 패널 비활성화
+
         if (smithyPanel != null)
             smithyPanel.SetActive(false);
 
@@ -75,6 +88,8 @@ public class SmithyUI : MonoBehaviour
         if (smithyPanel.activeSelf)
             return;
 
+        _MasterManager.Instance.UIManager.SetRightPanelActive(false);
+
         smithyPanel.SetActive(true);
         PopulateRecipeList();
     }
@@ -85,6 +100,19 @@ public class SmithyUI : MonoBehaviour
             return;
 
         smithyPanel.SetActive(false);
+        _MasterManager.Instance.UIManager.SetRightPanelActive(true);
+    }
+
+    private void SelectTab(bool isPotion)
+    {
+        isFirstTab = isPotion;
+        selectedRecipeID = 0;  // 선택 초기화
+
+        // 탭 UI 시각화 업데이트
+        //UpdateTabHighlight();
+
+        // 레시피 목록 갱신
+        PopulateRecipeList();
     }
 
     /// <summary>

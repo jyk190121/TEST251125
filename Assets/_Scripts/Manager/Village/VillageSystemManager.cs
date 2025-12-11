@@ -66,7 +66,7 @@ public class VillageSystemManager : MonoBehaviour
         {
             return facility.isUnlocked;
         }
-        return false;
+        return true;
     }
 
     public bool TryUnlockFacility(string facilityID)
