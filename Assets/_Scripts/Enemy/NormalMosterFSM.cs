@@ -3,6 +3,8 @@ using UnityEditor.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.TestTools;
+using System.Collections.Generic;
+using System.Collections;
 
 public class NormalMosterFSM : MonoBehaviour
 {
@@ -39,7 +41,9 @@ public class NormalMosterFSM : MonoBehaviour
     Type monsterType;   //몬스터 Melee/Range
     Race monsterRace;   //몬스터 종족
 
-    MonsterPattern[] patterns;  //패턴 목록
+    NormalPattern[] normalPatterns;  //패턴 목록
+    SpecialPattern[] specialPatterns;
+
 
     //몬스터 공격 세부
     float windupTime;  //공격준비(바람잡기)
@@ -68,6 +72,22 @@ public class NormalMosterFSM : MonoBehaviour
     LayerMask player = 7;
 
     public Animator anim;
+
+    public GameObject[] hitbox;
+    public void EnableHitbox()
+    {
+        for (int i = 0; i < hitbox.Length; i++)
+        {
+            hitbox[i].SetActive(true);
+        }
+    }
+    public void DisableHitbox()
+    {
+        for (int i = 0; i < hitbox.Length; i++)
+        {
+            hitbox[i].SetActive(false);
+        }
+    }
 
     void Start()
     {
@@ -99,7 +119,8 @@ public class NormalMosterFSM : MonoBehaviour
         //몬스터 정보
         monsterType = monsterData.Type;
         monsterRace = monsterData.Race;
-        patterns = monsterData.Pattern;
+        normalPatterns = monsterData.NormalPatterns;
+        specialPatterns = monsterData.SpecialPatterns;
         //패턴 파라미터
         windupTime = monsterData.windupTime;
         recoveryTime = monsterData.recoveryTime;
@@ -122,7 +143,7 @@ public class NormalMosterFSM : MonoBehaviour
         // Agent Speed
         agent.speed = speed;
 
-        
+        agent.isStopped = true;
 
     }
 
@@ -157,18 +178,83 @@ public class NormalMosterFSM : MonoBehaviour
 
     void Idle()
     {
+        anim.SetBool("isIdle", true);
 
+        //타겟 탐색
+        if (target == null)
+        {
+            GameObject p = GameObject.FindWithTag("Player");
+            if (p != null) target = p.transform;
+            else return;
+        }
+
+        //타겟과 몬스터의 거리
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        //감지범위에 들어오면 Move
+        if (distance <= detRange)
+        {
+            anim.SetBool("isIdle", false);
+            state = MonsterState.Move;
+            print("Idle -> Move 전환");
+        }
     }
 
     void Move()
     {
+        if (target == null) return;
 
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        anim.SetBool("isMove", true);
+
+        agent.isStopped = false;
+        agent.SetDestination(target.position);
+
+        if (distance <= attRange)
+        {
+            anim.SetBool("isMove", false);
+            agent.isStopped = true;
+            state = MonsterState.Attack;
+        }
     }
 
     void Attack()
     {
+        //쿨타임 체크
+        if (timer > 0f)
+        {
+            timer -= Time.deltaTime;
+            state = MonsterState.Idle;
+            return;
+        }
 
+        //타겟 없으면 패스
+        if (target == null)
+        {
+            // 필요하면 여기서 플레이어 다시 찾기
+            state = MonsterState.Idle;
+            return;
+        }
+
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        //공격 범위 밖이면 다시 쫒기
+        if (distance > attRange)
+        {
+            state = MonsterState.Move;
+            return;
+        }
+
+        //사용할 패턴 하나 선택
+        //MonsterPattern selectedPattern = ChoosePattern(distance);
+        //선택된 패턴 실행
+        //StartCoroutine(ExecutePattern(selectedPattern));
     }
+
+    
+
+    
 
     void GetHit()
     {

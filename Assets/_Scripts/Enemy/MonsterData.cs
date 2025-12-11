@@ -23,40 +23,36 @@ public enum Race
     Rhino
 }
 
-public enum MonsterPattern
+public enum NormalPattern
 {
     /*───────────────────────────────*
-     *  기본 행동 패턴 (공통)
+     *  기본 공격 패턴 (공통)
      *───────────────────────────────*/
-    Chase,              // 추적
-    Patrol,             // 순찰
     MeleeAttack,        // 일반 근접 공격
     RangedAttack,       // 일반 원거리 공격(투사체 기본)
+}
 
+public enum SpecialPattern
+{
     /*───────────────────────────────*
      *  특수 공격 패턴 (특정 몬스터)
      *───────────────────────────────*/
-    JumpAttack,         // 슬라임 점프 공격(현재 슬라임에겐 점프 모션이 없다)
-    AOE,                // 골렘 발구르기 같은 범위 공격(이또한 현재 모션이 없고 계획에도 없음)
-    MimicTrap,          // 미믹 기습
-    RangedShot,         // 투사체 여러발, 탄막 등
-    Laser,              // 드론/비홀더 등 고정 방향 레이저
-    Explode,            // 자폭형 몬스터 폭발(해당 패턴을 사용할 몹이 존재하지 않음)
+    AOE = 100,                // 골렘 발구르기 같은 범위 공격
+    MimicTrap = 200,          // 미믹 기습
+    Laser = 300,              // 드론/비홀더 등 고정 방향 레이저
 
     /*───────────────────────────────*
      *  보스 전용 패턴
      *───────────────────────────────*/
-    Breath,             // 드래곤 브레스
-    Charge,             // 코뿔소 돌진 / 드래곤 박치기
-    Roar,               // 드래곤 Scream, 코뿔소 Shout (광역 포효)
-    JumpSmash,          // 드래곤 점프 후 착지 공격(필요시)
-    Claw,               // 드래곤 발톱 공격 (선택)
-    Horn,               // 박치기 (Charge로 통합 가능)
+    Breath = 400,             // 드래곤 브레스
+    Charge = 401,             // 코뿔소 돌진 / 드래곤 박치기
+    Roar = 402,               // 드래곤 Scream, 코뿔소 Shout (광역 포효)
+    JumpSmash = 403,          // 드래곤 점프 후 착지 공격(필요시)
 
     /*───────────────────────────────*
      *  연출 / 특수 동작
      *───────────────────────────────*/
-    PhaseChange         // 보스 페이즈 전환 연출 (필요하면)
+    PhaseChange = 500        // 보스 페이즈 전환 연출 (필요하면)
 }
 
 
@@ -128,8 +124,19 @@ public class MonsterData : ScriptableObject
      *  패턴 목록
      *───────────────────────────────────────────────*/
     [Header(" 행동 패턴 목록")]
-    [Tooltip("몬스터가 사용할 공격 패턴들 (FSM이 이 배열 기준으로 공격 선택)")]
-    public MonsterPattern[] Pattern;
+    [Tooltip("몬스터가 사용할 일반공격 패턴들 (FSM이 이 배열 기준으로 공격 선택)")]
+    public NormalPattern[] NormalPatterns;
+    [Tooltip("몬스터가 사용할 특수공격 패턴들")]
+    public SpecialPattern[] SpecialPatterns;
+
+
+    
+    /*───────────────────────────────────────────────*
+     *  애니메이터 Attack 패턴 번호
+     *───────────────────────────────────────────────*/
+    [Header(" 이 몬스터가 사용할 애니메이터 특수, 일반 PatternID 리스트")]
+    [Tooltip("Animator의 Pattern(int) 값. 랜덤으로 하나 선택됨.")]
+    public int[] NormalpatternIDs;
 
 
     /*───────────────────────────────────────────────*
