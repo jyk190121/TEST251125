@@ -43,6 +43,9 @@ public class MonsterDataEditor : Editor
     SerializedProperty recoveryTime;
     SerializedProperty poise;
 
+    //특수 패턴 파라미터
+    SerializedProperty specialCoolTime;
+
     // ---- 근접 ----
     SerializedProperty attackRadius;
     SerializedProperty attackAngle;
@@ -130,6 +133,9 @@ public class MonsterDataEditor : Editor
         windupTime = serializedObject.FindProperty("windupTime");
         recoveryTime = serializedObject.FindProperty("recoveryTime");
         poise = serializedObject.FindProperty("poise");
+
+        //특수 패턴
+        specialCoolTime = serializedObject.FindProperty("specialCoolTime");
 
         // 근접
         attackRadius = serializedObject.FindProperty("attackRadius");
@@ -320,6 +326,7 @@ public class MonsterDataEditor : Editor
         EditorGUILayout.PropertyField(windupTime);
         EditorGUILayout.PropertyField(recoveryTime);
         EditorGUILayout.PropertyField(poise);
+        EditorGUILayout.PropertyField(specialCoolTime);
         EditorGUILayout.Space(8);
 
 

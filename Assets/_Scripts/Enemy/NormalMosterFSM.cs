@@ -44,6 +44,8 @@ public class NormalMosterFSM : MonoBehaviour
     NormalPattern[] normalPatterns;  //패턴 목록
     SpecialPattern[] specialPatterns;
 
+    int[] normalPatternIDs;
+
 
     //몬스터 공격 세부
     float windupTime;  //공격준비(바람잡기)
@@ -121,6 +123,9 @@ public class NormalMosterFSM : MonoBehaviour
         monsterRace = monsterData.Race;
         normalPatterns = monsterData.NormalPatterns;
         specialPatterns = monsterData.SpecialPatterns;
+        
+        normalPatternIDs = monsterData.NormalpatternIDs;
+        
         //패턴 파라미터
         windupTime = monsterData.windupTime;
         recoveryTime = monsterData.recoveryTime;
@@ -251,6 +256,7 @@ public class NormalMosterFSM : MonoBehaviour
         //선택된 패턴 실행
         //StartCoroutine(ExecutePattern(selectedPattern));
     }
+
 
     
 
