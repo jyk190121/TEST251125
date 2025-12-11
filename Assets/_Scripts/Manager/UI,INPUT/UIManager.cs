@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
         PlayerRollText.text = $"{KeySetting.keys[KeyInput.ROLL]}";
         PlayerSubAttackText.text = $"{KeySetting.keys[KeyInput.SUBATTACK]}";
         PlayerMainAttackText.text = $"{KeySetting.keys[KeyInput.MAINATTACK]}";
-        PlayerInvetoryText.text = $"{KeySetting.keys[KeyInput.INVENTORY]}";
+        //PlayerInvetoryText.text = $"{KeySetting.keys[KeyInput.INVENTORY]}";
     }
 
     public void Initialize()
