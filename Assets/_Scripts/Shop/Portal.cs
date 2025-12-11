@@ -10,9 +10,17 @@ public class HomePortal : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        CharacterController cc = other.GetComponent<CharacterController>();
+
+       
+
         if (other.CompareTag("Player"))
         {
+            cc.enabled = false;
             other.transform.position = pos.transform.position;
+            cc.enabled = true;
+
+            cc.Move(Vector3.zero);
         }
     }
 }
