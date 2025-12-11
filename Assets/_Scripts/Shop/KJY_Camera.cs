@@ -14,7 +14,7 @@ public class KJY_Camera : MonoBehaviour
     void Start()
     {
         movingHome = false;
-        dis = 0.1f;
+        dis = 2f;
     }
 
     // Update is called once per frame
