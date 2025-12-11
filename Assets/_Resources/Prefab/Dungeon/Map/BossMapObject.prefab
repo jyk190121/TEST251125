@@ -320,7 +320,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1229415001152743332}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1418,6 +1418,7 @@ MonoBehaviour:
   isStartRoom: 0
   isBossRoom: 0
   isRestRoom: 0
+  IsBoss: 0
 --- !u!1 &6383567739828079065
 GameObject:
   m_ObjectHideFlags: 0
@@ -1591,7 +1592,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5756c540645884e4890e8557d2593685, type: 2}
+  - {fileID: 2100000, guid: a15d48f9b4e917347b8720b686104167, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
