@@ -1418,6 +1418,7 @@ MonoBehaviour:
   isStartRoom: 0
   isBossRoom: 0
   isRestRoom: 0
+  IsBoss: 0
 --- !u!1 &6383567739828079065
 GameObject:
   m_ObjectHideFlags: 0
