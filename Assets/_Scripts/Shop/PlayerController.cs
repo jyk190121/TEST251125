@@ -1,18 +1,24 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    float speed = 2f;
+    //float speed = 2f;
 
     // Update is called once per frame
     void Update()
     {
-        float ver = Input.GetAxis("Vertical");      //앞뒤
-        float hor = Input.GetAxis("Horizontal");    //좌우
-        Vector3 pos = new Vector3(hor, 0, ver);
+        //float ver = Input.GetAxis("Vertical");      //앞뒤
+        //float hor = Input.GetAxis("Horizontal");    //좌우
+        //Vector3 pos = new Vector3(hor, 0, ver);
 
-        pos.Normalize();
+        //pos.Normalize();
 
-        transform.position += pos * speed * Time.deltaTime;
+        //transform.position += pos * speed * Time.deltaTime;
+
+        //if(transform.position.y > 0)
+        //{
+            
+        //}
     }
 }

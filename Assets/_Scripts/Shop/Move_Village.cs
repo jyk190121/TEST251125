@@ -11,13 +11,8 @@ public class Move_Village : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             print("플레이어 나가기");
-            GameSceneManager.game.LoadScene("Shop_VillageSceneTest");
+            GameSceneManager.game.LoadScene("Villiage");
         }
 
-        //if (other.gameObject.layer == LayerMask.NameToLayer("Customer"))
-        //{
-        //    print("손님 들어오게 처리");
-        //    other.gameObject.transform.position = new Vector3(-0.9f, 0.98f, -10.48f);
-        //}
     }
 }
