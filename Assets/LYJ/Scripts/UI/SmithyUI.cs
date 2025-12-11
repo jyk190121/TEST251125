@@ -132,6 +132,9 @@ public class SmithyUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 레시피 선택 시 상세 정보 표시
+    /// </summary>
     private void SelectRecipe(int recipeID)
     {
         selectedRecipeID = recipeID;
