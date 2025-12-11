@@ -1,14 +1,18 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class DungeonCamera : MonoBehaviour
 {
     //던전 씬의 카메라에 붙여서 던전 이동에 따른 카메라 움직임
-    Camera cam;
+    //Camera cam;
     [SerializeField] int cameraHeigth = 23;
+
+    CinemachineCamera cam;
 
     private void Start()
     {
-        cam = GetComponent<Camera>();
+        //cam = GetComponent<Camera>();
+        cam = GetComponent<CinemachineCamera>();
         cam.transform.position = new Vector3(0, cameraHeigth, 0);
         cam.transform.rotation = Quaternion.Euler(90, 0, 0);
     }

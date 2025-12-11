@@ -23,6 +23,8 @@ public class WoodenHatUI : MonoBehaviour
 
     [Header("레시피 상세 정보")]
     [SerializeField] private TextMeshProUGUI recipeNameText;
+    [SerializeField] Image recipeImage;
+    [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private TextMeshProUGUI recipeCostText;
     [SerializeField] private TextMeshProUGUI requirementsText;
     [SerializeField] private Button craftButton;
@@ -46,7 +48,7 @@ public class WoodenHatUI : MonoBehaviour
             return;
         }
 
-        // ===== UI 버튼 이벤트 연결 =====
+        // ===== 버튼 이벤트 연결 =====
         if (craftTabButton != null)
             craftTabButton.onClick.AddListener(() => SelectTab(true));  // 포션 탭
 
@@ -187,10 +189,8 @@ public class WoodenHatUI : MonoBehaviour
             // 버튼 생성
             GameObject buttonObj = Instantiate(recipeButtonPrefab, recipeListContainer);
             Button button = buttonObj.GetComponent<Button>();
-            TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
-
-            if (buttonText != null)
-                buttonText.text = "";
+            Image itemImage = buttonObj.GetComponent<Image>();
+            itemImage.sprite = recipe.outputItem.icon;
 
             if (button != null)
             {
@@ -219,19 +219,25 @@ public class WoodenHatUI : MonoBehaviour
             return;
         }
 
-        // ===== 레시피 정보 UI에 표시 =====
-
-        // 1. 레시피 이름
+        // 레시피 이름
         if (recipeNameText != null)
         {
             recipeNameText.text = $"{recipe.recipeName}";
         }
 
-        // 2. 제작 비용
+        //아이템 아이콘 표시
+        if (recipeImage != null)
+            recipeImage.sprite = recipe.outputItem.icon;
+
+        //설명 표시
+        if (descriptionText != null)
+            descriptionText.text = recipe.outputItem.description;
+
+        // 제작 비용
         if (recipeCostText != null)
             recipeCostText.text = $"{recipe.goldCost}";
 
-        // 3. 필요 재료
+        // 필요 재료
         if (requirementsText != null)
         {
             string requirementsStr = "";
@@ -259,7 +265,7 @@ public class WoodenHatUI : MonoBehaviour
             requirementsText.text = requirementsStr;
         }
 
-        // 4. 제작/강화 버튼 활성화 및 텍스트 설정
+        // 제작/강화 버튼 활성화 및 텍스트 설정
         if (craftButton != null)
         {
             bool canCraft = craftingSystem.CanCraft(recipeID);

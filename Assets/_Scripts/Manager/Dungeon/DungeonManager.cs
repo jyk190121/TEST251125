@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public enum RoomType
@@ -37,6 +38,9 @@ public class DungeonManager : MonoBehaviour
     private List<Vector2Int> roomPositions = new();
     private Dictionary<Vector2Int, GameObject> spawnedRooms = new();
 
+    public CinemachineCamera bossCam;
+    public Vector3 bossCamOffset = new Vector3(0f, 5f, -10f);
+
     private readonly Vector2Int[] dirs = new Vector2Int[]
     {
         new Vector2Int(1,0),
@@ -63,6 +67,28 @@ public class DungeonManager : MonoBehaviour
         var (bossPos, restPos, parents) = BFSFindSpecialRooms();
         SpawnRooms(bossPos, restPos);
         SetupDoors();
+
+        SetupBossCameraPosition(bossPos);
+    }
+
+    void SetupBossCameraPosition(Vector2Int bossGridPos)
+    {
+        Vector3 bossCenterWorldPos = new Vector3(
+            bossGridPos.x * roomSpacingX,
+            // X 좌표: 그리드 X 위치에 방 간격 X를 곱하여 월드 X 위치를 계산합니다.
+            0f,
+            // Y 좌표: 던전 맵이 X-Z 평면이므로 0으로 고정합니다.
+            bossGridPos.y * roomSpacingZ
+        // Z 좌표: 그리드 Y 위치에 방 간격 Z를 곱하여 월드 Z 위치를 계산합니다.
+        );
+
+        Vector3 cameraPosition = bossCenterWorldPos + bossCamOffset;
+
+        bossCam.transform.position = cameraPosition;
+
+        bossCam.transform.rotation = Quaternion.LookRotation(bossCenterWorldPos - cameraPosition);
+
+        bossCam.Priority = 0;
     }
 
     // ------------------------------------
