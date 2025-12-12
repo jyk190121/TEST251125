@@ -19,6 +19,7 @@ MonoBehaviour:
     amount: 1
   - materialItem: {fileID: 11400000, guid: 4d452987748e7cc48b0c395bbf55421d, type: 2}
     amount: 5
+  - materialItem: {fileID: 11400000, guid: d8bc19542ae81f14e829b524afa21fa7, type: 2}
+    amount: 1
   goldCost: 4000
   outputItem: {fileID: 11400000, guid: 09e769a36fc8c87448c6d8bfa2b146ad, type: 2}
-  requiredBaseEquipment: {fileID: 11400000, guid: d8bc19542ae81f14e829b524afa21fa7, type: 2}
