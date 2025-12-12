@@ -1,8 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using TMPro;
 using System;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class InventorySlotView : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler, IPointerClickHandler
 {
@@ -37,7 +37,7 @@ public class InventorySlotView : MonoBehaviour, IBeginDragHandler, IDragHandler,
         {
             iconImage.sprite = slotData.itemData.icon;
             iconImage.enabled = true;
-            iconImage.color = Color.white; //[중요] 투명도 복구
+            iconImage.color = Color.white; //투명도 복구
 
             //수량이 1보다 클 때만 숫자 표시
             amountText.text = slotData.quantity > 1 ? slotData.quantity.ToString() : "";
@@ -61,6 +61,9 @@ public class InventorySlotView : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
         //드래그 시 아이템 반 투명 상태
         iconImage.color = new Color(1, 1, 1, 0.5f);
+
+        //아이콘이 마우스 입력을 가로채지 않도록 raycastTarget을 꺼준다.
+        //iconImage.raycastTarget = false;        
     }
 
     //드래그 이벤트
@@ -90,6 +93,9 @@ public class InventorySlotView : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
         //아이템 투명도 복구
         iconImage.color = new Color(1, 1, 1, 1f);
+
+        //raycastTarget 복구
+        //iconImage.raycastTarget = true;
 
         //드래그 종료, 매니저 호출 (-1을 보내서 초기화 유도)
         InventoryManager.Instance.OnDragEnd(-1);
@@ -133,9 +139,9 @@ public class InventorySlotView : MonoBehaviour, IBeginDragHandler, IDragHandler,
         //빈 오브젝트 생성
         ghostIconObject = new GameObject("GhostIcon");
 
-        //캔버스 최상단을 부모로 설정 (다른 슬롯에 가려지지 않도록)
-        Canvas canvas = GetComponentInParent<Canvas>();
-        ghostIconObject.transform.SetParent(canvas.transform, false); // 부모 설정
+        //인벤토리 패널 최상단을 부모로 설정 (다른 슬롯에 가려지지 않도록)        
+        InventoryView inventoryView = GetComponentInParent<InventoryView>();        
+        ghostIconObject.transform.SetParent(inventoryView.transform, false); // 부모 설정
 
         //부모 설정 후 위치를 현재 슬롯 아이콘 위치로 지정
         ghostIconObject.transform.position = iconImage.transform.position;
