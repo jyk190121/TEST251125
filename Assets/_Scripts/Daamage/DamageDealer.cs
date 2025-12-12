@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,27 +10,32 @@ public class DamageDealer : MonoBehaviour
 
     //이 데미지를 발생시킨 주체
     private GameObject damageOwner;
+    PlayerControll PC;
 
+    //중복 공격 방지
+    //List 대신 HashSet인 이유
+    //성능적인 측면에서 훨씬 유리함. List는 처음부터 끝까지 검색하지만, HashSet은 해시 함수로 메모리 주소를 즉시 계산-> 담긴거 하나하나 다 확인 안하고 필요한거만 찾음, 일정한 시간내에 검색
+    //또한 HashSet은 중복된 항목을 저장하지 않는다! 맞은 놈은 또 다시 HashSet에 담기지 않는다
+    private HashSet<GameObject> hitTargets = new HashSet<GameObject>();
 
     private void OnEnable()
     {
-        // 1. 공격 주체를 부모 오브젝트(플레이어 본체)로 설정
-        // 이 무기 콜라이더의 Root 오브젝트가 플레이어 본체여야 합니다.
         damageOwner = transform.root.gameObject;
 
-        // 2. 플레이어 스탯을 가져와 초기 데미지 설정
-
+        // 플레이어 스탯을 가져와 초기 데미지 설정
         if (gameObject.layer == 7) // 플레이어 레이어
         {
             PlayerModel player = _MasterManager.Instance.DataManager.GetStat();
-            baseDamage += player.ATT;
+            baseDamage = player.ATT;
+            Debug.Log($"{baseDamage} 무기 데미지 설정 완료");
+
+            PC = damageOwner.GetComponent<PlayerControll>();
         }
-        if(gameObject.layer == 9) //몬스터 레이어
+        if(gameObject.layer == 10) //몬스터 레이어
         {
 
         }
     }
-
     //데미지 출처를 설정하는 함수 -> 투사체용
     public void SetOwner(GameObject owner)
     {
@@ -42,12 +48,35 @@ public class DamageDealer : MonoBehaviour
         baseDamage = damage;
     }
 
+    public void ResetHitTargets()
+    {
+        hitTargets.Clear();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        IHitResponder responder = other.GetComponent<IHitResponder>();
 
+        //플레이어 확인 및 공격중인지 확인
+        if (gameObject.layer == 7)
+        {
+            PC = damageOwner.GetComponent<PlayerControll>();
+            bool checkAttack = PC.OnAttack();
+            if (!checkAttack)  return; 
+
+        }
+
+        //이미 맞은놈이면 리턴
+        if (hitTargets.Contains(other.gameObject)) return;
+        //맞은게 나야? 쟤야?
+        if (other.gameObject.layer == damageOwner.layer) return;
+        
+        //맞은 애
+        IHitResponder responder = other.GetComponent<IHitResponder>();
         if(responder != null)
         {
+            //hashSet에 맞은 놈 추가
+            hitTargets.Add(other.gameObject);
+
             //때린 사람 -> 맞은 사람 방향
             Vector3 hitDir = (other.transform.position - damageOwner.transform.position).normalized;
 

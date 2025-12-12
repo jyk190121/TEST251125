@@ -1,7 +1,8 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Animations;
-using Unity.VisualScripting;
 
 //PlayerMove에서 입력받은 값에 따라 실행되는 함수를 정리한 스크립트
 public class PlayerControll : MonoBehaviour, IHitResponder
@@ -50,6 +51,8 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     float bow = 1.5f;
     float spear = 0.69f;
 
+    //공격용 무기의 DamageDealer를 받는 리스트
+    private List<DamageDealer> meleeWeaponDealers = new List<DamageDealer>();
 
     //임의로 사용할 무기 정보 값
     public int weaponnumber = 1;
@@ -66,6 +69,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         CC = GetComponent<CharacterController>();   
         model = _MasterManager.Instance.DataManager.GetStat();
         Debug.Log("모델" + model);
+        meleeWeaponDealers.AddRange(GetComponentsInChildren<DamageDealer>(true));
     }
 
     public void Update()
@@ -121,6 +125,13 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             needsRotationRevert = false;
         }
 
+        if (comboInputBuffer != 0)
+        {
+            foreach (var dealer in meleeWeaponDealers)
+            {
+                dealer.ResetHitTargets();
+            }
+        }
         ComboInputBuffer();
     }
 
@@ -142,7 +153,6 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         if (!isMove) return;
         isMove = false;
         PAC.HandleMovementAnim(isMove);
-        Debug.Log("정지");
     }
     public void Move(Vector3 dir)
     {
@@ -182,6 +192,10 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             {
                 comboTime = 1; // 1타 시작
                 comboInputBuffer = 0;
+                foreach (var dealer in meleeWeaponDealers)
+                {
+                    dealer.ResetHitTargets();
+                }
             }
             else
             {
@@ -211,6 +225,10 @@ public class PlayerControll : MonoBehaviour, IHitResponder
                 targetRotation = originalRotation * Quaternion.Euler(0, BowAttackAngle, 0);
                 shouldRotate = true;
                 needsRotationRevert = true;
+            }
+            foreach (var dealer in meleeWeaponDealers)
+            {
+                dealer.ResetHitTargets();
             }
         }
 
@@ -253,6 +271,14 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
         isAttacking = true;
         isCharge = true;
+
+        if (weaponnumber != 1)
+        {
+            foreach (var dealer in meleeWeaponDealers)
+            {
+                dealer.ResetHitTargets();
+            }
+        }
 
         Quaternion targetRotation = transform.rotation; // 부모의 현재 회전을 기준으로 시작
         bool shouldRotate = false;
@@ -343,20 +369,21 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
             comboTime++; // 다음 콤보 카운트 증가
 
+            PAC.HandleAttack(weaponnumber, comboTime);
+
             // 콤보 횟수 리셋 (3타 후 다시 1타로)
             if (comboTime > 3)
             {
                 comboTime = 1;
             }
-
-            PAC.HandleAttack(weaponnumber, comboTime);
         }
     }
 
     //화살 발사
     void fireArrow()
     {
-        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.transform.position, transform.rotation);
+        Quaternion arrowrotation = transform.rotation;
+        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.transform.position, arrowSpawnPoint.transform.rotation);
     
         DamageDealer dealer = arrow.GetComponent<DamageDealer>();
 
@@ -373,4 +400,13 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             projectile.Launch();
         }
     }
+
+    //공격중 반환
+    public bool OnAttack()
+    {
+        if (isCharge) return false;
+        else if (!isAttacking) return false;
+        else return true;
+    }
+
 }

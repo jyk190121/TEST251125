@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 7673144128907159645}
   - component: {fileID: 1628972781333928421}
   - component: {fileID: 9158316484408934382}
-  - component: {fileID: 6143310545194932623}
   - component: {fileID: 3384614034756083215}
+  - component: {fileID: 6143310545194932623}
   m_Layer: 0
   m_Name: BottomDoor
   m_TagString: Untagged
@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad7b348b13ccea2409fcc8c625236cd3, type: 2}
+  - {fileID: 2100000, guid: c08ba9a471f659b44be6d4efaa8fda25, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,20 +111,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &6143310545194932623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 958064446323640660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 955fa6e1f065ecf46a4a0e918c7ffc1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveDirection: 3
-  portalEffect: {fileID: 0}
 --- !u!65 &3384614034756083215
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -146,6 +132,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6143310545194932623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958064446323640660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 955fa6e1f065ecf46a4a0e918c7ffc1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDirection: 3
 --- !u!1 &3130518526125324075
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,8 +157,8 @@ GameObject:
   - component: {fileID: 6456633921217287649}
   - component: {fileID: 8473719206096589269}
   - component: {fileID: 3660858901824674786}
-  - component: {fileID: 5093254894935802345}
   - component: {fileID: 4200115392295110383}
+  - component: {fileID: 5093254894935802345}
   m_Layer: 0
   m_Name: TopDoor
   m_TagString: Untagged
@@ -213,7 +212,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad7b348b13ccea2409fcc8c625236cd3, type: 2}
+  - {fileID: 2100000, guid: c08ba9a471f659b44be6d4efaa8fda25, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -257,20 +256,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &5093254894935802345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3130518526125324075}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 955fa6e1f065ecf46a4a0e918c7ffc1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveDirection: 2
-  portalEffect: {fileID: 0}
 --- !u!65 &4200115392295110383
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -292,6 +277,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5093254894935802345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3130518526125324075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 955fa6e1f065ecf46a4a0e918c7ffc1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDirection: 2
 --- !u!1 &5114715344399388685
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,8 +337,8 @@ GameObject:
   - component: {fileID: 7445398213286712328}
   - component: {fileID: 1014702337716198032}
   - component: {fileID: 5730883272815196757}
-  - component: {fileID: 5411113793150719588}
   - component: {fileID: 3325618622602127339}
+  - component: {fileID: 5411113793150719588}
   m_Layer: 0
   m_Name: RightDoor
   m_TagString: Untagged
@@ -394,7 +392,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad7b348b13ccea2409fcc8c625236cd3, type: 2}
+  - {fileID: 2100000, guid: c08ba9a471f659b44be6d4efaa8fda25, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -438,20 +436,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &5411113793150719588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5740248614739415699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 955fa6e1f065ecf46a4a0e918c7ffc1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveDirection: 1
-  portalEffect: {fileID: 0}
 --- !u!65 &3325618622602127339
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -473,6 +457,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5411113793150719588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5740248614739415699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 955fa6e1f065ecf46a4a0e918c7ffc1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDirection: 1
 --- !u!1 &7984011923061317144
 GameObject:
   m_ObjectHideFlags: 0
@@ -485,8 +482,8 @@ GameObject:
   - component: {fileID: 3557677638358285786}
   - component: {fileID: 3850717039797651081}
   - component: {fileID: 8610335505323708700}
-  - component: {fileID: 8597557613389963994}
   - component: {fileID: 1731921991922020488}
+  - component: {fileID: 8597557613389963994}
   m_Layer: 0
   m_Name: LeftDoor
   m_TagString: Untagged
@@ -540,7 +537,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad7b348b13ccea2409fcc8c625236cd3, type: 2}
+  - {fileID: 2100000, guid: c08ba9a471f659b44be6d4efaa8fda25, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -584,20 +581,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &8597557613389963994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7984011923061317144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 955fa6e1f065ecf46a4a0e918c7ffc1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveDirection: 0
-  portalEffect: {fileID: 0}
 --- !u!65 &1731921991922020488
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -619,3 +602,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 0.7}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8597557613389963994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7984011923061317144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 955fa6e1f065ecf46a4a0e918c7ffc1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveDirection: 0

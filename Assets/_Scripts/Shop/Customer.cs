@@ -57,6 +57,12 @@ public class Customer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CustomerMove();
+    }
+
+
+    void CustomerMove()
+    {
         if (!gameObject) return;
 
         switch (state)
@@ -73,6 +79,10 @@ public class Customer : MonoBehaviour
 
             case CustomerState.SelectItem:
                 StartCoroutine(SelectItem());
+                if (Vector3.Distance(transform.position, itemPos.position) < 1f)
+                {
+                    transform.rotation = Quaternion.Euler(0, 180, 0);
+                }
                 break;
 
             case CustomerState.BuyingItem:
@@ -104,10 +114,11 @@ public class Customer : MonoBehaviour
 
         itemCheck = true;
 
-        //등록된 아이템 리스트 확인 (이동x)
-        print("아이템 확인");
         agent.SetDestination(itemPos.position);
-        //아이템 확인 5초대기
+
+        //등록된 아이템 확인 및 이동 5초대기
+        print("아이템 확인");
+
         yield return new WaitForSeconds(5f);
         int r = Random.Range(1, 31);
 
@@ -142,6 +153,7 @@ public class Customer : MonoBehaviour
             
             while(true)
             {
+                transform.rotation = Quaternion.identity;
                 print($"{gameObject.name} 돈 지불 대기");
                 yield return new WaitForSeconds(5f);
 

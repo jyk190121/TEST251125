@@ -1,42 +1,34 @@
-using TMPro;
 using UnityEngine;
+
 public class UIManager : MonoBehaviour
 {
-    //Left UP Panel
-    [SerializeField] TextMeshProUGUI PlayerGoldText;
-    [SerializeField] TextMeshProUGUI PlayerHpText;
+    private PlayerUI uiPanel;
 
-    //RIGHT UP Panel
-    [SerializeField] TextMeshProUGUI PlayerPortionText;
-    [SerializeField] TextMeshProUGUI PlayerRollText;
-    [SerializeField] TextMeshProUGUI PlayerSubAttackText;
-    [SerializeField] TextMeshProUGUI PlayerMainAttackText;
-    [SerializeField] TextMeshProUGUI PlayerInvetoryText;
-
-    //필요한 정보
-    PlayerModel player;             //플레이어 정보
-
-
-    void Start()
+    private void Start()
     {
-        player = _MasterManager.Instance.DataManager.GetStat();     //최초 플레이어 정보 초기화
+        uiPanel = FindAnyObjectByType<PlayerUI>();
+
+        if (uiPanel == null)
+            Debug.LogError("[UIManager] UIPanel을 찾을 수 없습니다");
     }
 
-    void Update()
+    public void SetPlayerUIActive(bool active)
     {
-        PlayerGoldText.text = $"{player.Money}";
-        PlayerHpText.text = $"{player.HP} / {player.MaxHP}";
-
-        // 단축키 UI 텍스트 업데이트
-        PlayerPortionText.text = $"{KeySetting.keys[KeyInput.PENDANT]}";
-        PlayerRollText.text = $"{KeySetting.keys[KeyInput.ROLL]}";
-        PlayerSubAttackText.text = $"{KeySetting.keys[KeyInput.SUBATTACK]}";
-        PlayerMainAttackText.text = $"{KeySetting.keys[KeyInput.MAINATTACK]}";
-        PlayerInvetoryText.text = $"{KeySetting.keys[KeyInput.INVENTORY]}";
+        SetLeftPanelActive(active);
+        SetRightPanelActive(active);
     }
+
+    public void SetLeftPanelActive(bool active) => uiPanel?.SetLeftPanelActive(active);
+    public void SetRightPanelActive(bool active) => uiPanel?.SetRightPanelActive(active);
+
 
     public void Initialize()
     {
+        // 초기 패널 상태 설정
+        SetLeftPanelActive(false);
+        SetRightPanelActive(false);
 
+        Debug.Log("[UIManager] 초기화 완료");
     }
 }
+

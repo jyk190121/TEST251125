@@ -3,6 +3,8 @@ using UnityEditor.Analytics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.TestTools;
+using System.Collections.Generic;
+using System.Collections;
 
 public class NormalMosterFSM : MonoBehaviour
 {
@@ -39,7 +41,14 @@ public class NormalMosterFSM : MonoBehaviour
     Type monsterType;   //몬스터 Melee/Range
     Race monsterRace;   //몬스터 종족
 
-    MonsterPattern[] patterns;  //패턴 목록
+    NormalPattern[] normalPatterns;  //패턴 목록
+    SpecialPattern[] specialPatterns;
+
+    int[] normalPatternIDs;
+
+    float specialCoolTime;
+
+    float specialTimer = 0f;
 
     //몬스터 공격 세부
     float windupTime;  //공격준비(바람잡기)
@@ -68,6 +77,22 @@ public class NormalMosterFSM : MonoBehaviour
     LayerMask player = 7;
 
     public Animator anim;
+
+    public GameObject[] atthitbox;
+    public void EnableHitbox()
+    {
+        for (int i = 0; i < atthitbox.Length; i++)
+        {
+            atthitbox[i].SetActive(true);
+        }
+    }
+    public void DisableHitbox()
+    {
+        for (int i = 0; i < atthitbox.Length; i++)
+        {
+            atthitbox[i].SetActive(false);
+        }
+    }
 
     void Start()
     {
@@ -99,7 +124,13 @@ public class NormalMosterFSM : MonoBehaviour
         //몬스터 정보
         monsterType = monsterData.Type;
         monsterRace = monsterData.Race;
-        patterns = monsterData.Pattern;
+        normalPatterns = monsterData.NormalPatterns;
+        specialPatterns = monsterData.SpecialPatterns;
+        
+        normalPatternIDs = monsterData.NormalpatternIDs;
+        
+        specialCoolTime = monsterData.specialCoolTime;
+
         //패턴 파라미터
         windupTime = monsterData.windupTime;
         recoveryTime = monsterData.recoveryTime;
@@ -122,7 +153,7 @@ public class NormalMosterFSM : MonoBehaviour
         // Agent Speed
         agent.speed = speed;
 
-        
+        agent.isStopped = true;
 
     }
 
@@ -134,6 +165,17 @@ public class NormalMosterFSM : MonoBehaviour
             print("값 받아옴");
 
         }
+        
+        //쿨타임 감소
+        if (timer > 0)   //일반공격 쿨타임
+        {
+            timer -= Time.deltaTime;
+        }
+        if (specialTimer > 0)  //특공 쿨타임
+        {
+            specialTimer -= Time.deltaTime;
+        }
+
         switch (state)
         {
             case MonsterState.Idle:
@@ -157,15 +199,126 @@ public class NormalMosterFSM : MonoBehaviour
 
     void Idle()
     {
+        anim.SetBool("isIdle", true);
 
+        //타겟 탐색
+        if (target == null)
+        {
+            GameObject p = GameObject.FindWithTag("Player");
+            if (p != null) target = p.transform;
+            else return;
+        }
+
+        //타겟과 몬스터의 거리
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        //감지범위에 들어오면 Move
+        if (distance <= detRange)
+        {
+            anim.SetBool("isIdle", false);
+            state = MonsterState.Move;
+            print("Idle -> Move 전환");
+        }
     }
 
     void Move()
     {
+        if (target == null) return;
 
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        anim.SetBool("isMove", true);
+
+        agent.isStopped = false;
+        agent.SetDestination(target.position);
+
+        if (distance <= attRange)
+        {
+            anim.SetBool("isMove", false);
+            agent.isStopped = true;
+            state = MonsterState.Attack;
+        }
     }
 
     void Attack()
+    {
+        float distance = Vector3.Distance(transform.position, target.position);
+
+        // 1) 특수 먼저 검사
+        if (specialTimer <= 0f && specialPatterns.Length > 0)
+        {
+            StartCoroutine(ExecuteSpecialPattern());
+            return;
+        }
+
+        // 2) 아니면 일반 공격 검사
+        if (timer <= 0f && normalPatternIDs.Length > 0)
+        {
+            StartCoroutine(ExecuteNormalAttack());
+            return;
+        }
+
+        // 둘 다 불가능하면 Idle로 전환
+        state = MonsterState.Idle;
+    }
+   
+    IEnumerator ExecuteSpecialPattern()
+    {
+        state = MonsterState.Attack;
+        //특수패턴 랜덤 선택
+        SpecialPattern sp = specialPatterns[Random.Range(0, specialPatterns.Length)];
+        int id = (int)sp;
+
+        anim.SetInteger("Patton", id);
+        anim.SetTrigger("Attack");
+
+        yield return new WaitForSeconds(windupTime);
+
+        switch (sp)
+        {
+            case SpecialPattern.AOE:
+                Aoe();
+                break;
+            case SpecialPattern.Laser:
+                StartLaser();
+                break;
+
+        }
+    }
+
+    IEnumerator ExecuteNormalAttack()
+        {
+            state = MonsterState.Attack;
+
+            // 랜덤 normal ID 선택
+            int id = normalPatternIDs[Random.Range(0, normalPatternIDs.Length)];
+
+            anim.SetInteger("Pattern", id);
+            anim.SetTrigger("Attack");
+
+            // 준비 동작
+            yield return new WaitForSeconds(windupTime);
+
+            // 판정 처리
+            EnableHitbox();
+            yield return new WaitForSeconds(0.2f);
+            DisableHitbox();
+
+            // 후딜
+            yield return new WaitForSeconds(recoveryTime);
+
+            // 쿨타임 리셋
+            timer = coolTime;
+
+            state = MonsterState.Idle;
+        }
+
+    void Aoe()
+    {
+
+    }
+
+    void StartLaser()
     {
 
     }
@@ -187,5 +340,8 @@ public class NormalMosterFSM : MonoBehaviour
         //원거리 최소거리
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, monsterData.minAttackRange);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, aoeRange); //AOE범위 확인
     }
 }

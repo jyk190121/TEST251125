@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class DungeonTrigger : MonoBehaviour
@@ -6,6 +7,8 @@ public class DungeonTrigger : MonoBehaviour
     public MoveDir moveDirection;
 
     private RoomController room;
+
+    private DungeonCamera cam;
 
     //public ParticleSystem portalEffect;
     //private MeshRenderer portalRenderer;
@@ -24,6 +27,7 @@ public class DungeonTrigger : MonoBehaviour
 
         //room = GetComponentInParent<RoomController>();
 
+        cam = FindAnyObjectByType<DungeonCamera>();
     }
 
     private void Update()
@@ -121,9 +125,10 @@ public class DungeonTrigger : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-             DungeonCamera cam = Camera.main.GetComponent<DungeonCamera>();
-             PlayerDungeonPortal player = other.GetComponent<PlayerDungeonPortal>();
 
+             
+             PlayerDungeonPortal player = other.GetComponent<PlayerDungeonPortal>();
+            
 
              switch (moveDirection)
              {

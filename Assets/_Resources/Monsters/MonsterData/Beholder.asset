@@ -26,10 +26,13 @@ MonoBehaviour:
   Class: 0
   Type: 1
   Race: 3
-  Pattern: 0000000003000000
+  NormalPatterns: 01000000
+  SpecialPatterns: 2c010000
+  NormalpatternIDs: 00000000
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0
+  specialCoolTime: 3
   attackRadius: 1
   attackAngle: 60
   aoeRange: 2

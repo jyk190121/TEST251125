@@ -90,6 +90,8 @@ public class WoodenHatUI : MonoBehaviour
         if (woodenHatPanel.activeSelf)
             return;
 
+        _MasterManager.Instance.UIManager.SetRightPanelActive(false);
+
         woodenHatPanel.SetActive(true);
         SelectTab(true);  // 기본 탭: 포션 제작
     }
@@ -100,6 +102,7 @@ public class WoodenHatUI : MonoBehaviour
             return;
 
         woodenHatPanel.SetActive(false);
+        _MasterManager.Instance.UIManager.SetRightPanelActive(true);
     }
 
     private void SelectTab(bool isPotion)
@@ -171,8 +174,6 @@ public class WoodenHatUI : MonoBehaviour
             return;
         }
 
-        int recipeCount = 0;
-
         foreach (var recipe in allRecipes.Values)
         {
             if (recipe == null)
@@ -198,11 +199,8 @@ public class WoodenHatUI : MonoBehaviour
                 int recipeID = recipe.recipeID;
                 button.onClick.AddListener(() => SelectRecipe(recipeID));
                 createdButtons.Add(button);
-                recipeCount++;
             }
         }
-
-        Debug.Log($"[WoodenHatUI] {recipeCount}개의 레시피 버튼 생성 완료 ({(isPocionTab ? "포션" : "강화")} 탭)");
     }
 
     /// <summary>
@@ -249,11 +247,9 @@ public class WoodenHatUI : MonoBehaviour
                 {
                     if (material.materialItem != null)
                     {
-                        // TODO: 실제 플레이어 보유량을 InventoryManager에서 가져오기
-                        // int playerQuantity = InventoryManager.Instance.GetItemQuantity(material.materialItem.itemID);
-                        // requirementsStr += $"- {material.materialItem.itemName} x{material.amount} (보유: {playerQuantity})\n";
-
-                        requirementsStr += $"- {material.materialItem.itemName} x{material.amount}\n";
+                        // 재료 보유량을 InventoryManager에서 가져오기
+                        int playerQuantity = _MasterManager.Instance.InventoryManager.GetItemCount(material.materialItem);
+                        requirementsStr += $"- {material.materialItem.itemName} x{material.amount} \n        (보유: {playerQuantity})\n";
                     }
                 }
             }
