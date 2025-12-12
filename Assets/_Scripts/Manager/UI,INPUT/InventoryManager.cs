@@ -65,7 +65,7 @@ public class InventoryManager : MonoBehaviour
     private void Update()
     {
         //A키를 누르면 테스트 아이템 A 획득
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             if (testItemA != null)
             {
@@ -75,7 +75,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //B키를 누르면 테스트 아이템 B 획득
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             if (testItemB != null)
             {
@@ -85,7 +85,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //C키를 누르면 테스트 아이템 C 획득
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha8))
         {
             if (testItemB != null)
             {
@@ -95,7 +95,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //D키를 누르면 테스트 아이템 C 획득
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             if (testItemB != null)
             {
@@ -105,7 +105,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //C키를 누르면 테스트 아이템 C 획득
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             if (testItemB != null)
             {
@@ -533,8 +533,8 @@ public class InventoryManager : MonoBehaviour
     //외부에서 아이템 획득 시 호출
     public bool AddItem(Item item, int count = 1)
     {
-        model.AddItem(item, count);
-        return true;
+        return model.AddItem(item, count);
+        //return true;
     }
 
     //외부에서 아이템 사용 시 호출 (장비 강화, 소모품 사용 등)

@@ -110,6 +110,7 @@ public class InventoryModel
                 count -= amountToAdd;
 
             }
+
             else
             {
                 //빈 자리가 없는데 아직 넣을 아이템이 남음 (인벤토리 꽉 참)
