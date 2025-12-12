@@ -3787,6 +3787,7 @@ GameObject:
   - component: {fileID: 490654280}
   - component: {fileID: 490654279}
   - component: {fileID: 490654278}
+  - component: {fileID: 490654282}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3880,6 +3881,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &490654282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490654277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c349a535d4701a44695de6514a53f59f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  directionalLight: {fileID: 2036210505}
+  streetLights: {fileID: 593624958}
+  dayIntensity: 1.2
+  dayColor: {r: 1, g: 1, b: 1, a: 1}
+  nightIntensity: 0.4
+  nightColor: {r: 0.3, g: 0.3, b: 0.6, a: 1}
 --- !u!1 &497014925
 GameObject:
   m_ObjectHideFlags: 0
