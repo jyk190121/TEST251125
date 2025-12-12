@@ -4,7 +4,6 @@ using TMPro;
 /// <summary>
 /// 마을의 모든 시설 상호작용을 담당
 /// 플레이어가 범위 내에 들어오면 프롬프트 표시
-/// G 키를 눌러 상호작용
 /// </summary>
 public class FacilityInteraction : MonoBehaviour
 {
@@ -66,7 +65,12 @@ public class FacilityInteraction : MonoBehaviour
             if (!isPlayerInRange)
             {
                 isPlayerInRange = true;
-                ShowPrompt();
+
+                VillageSystemManager systemManager = VillageSystemManager.Instance;
+
+                if (!systemManager.IsFacilityUnlocked(facilityID)) return;
+
+                else ShowPrompt();
             }
 
             // G 키 입력 확인
