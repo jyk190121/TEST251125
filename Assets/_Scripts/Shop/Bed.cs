@@ -22,13 +22,13 @@ public class Bed : MonoBehaviour
 
     DayManager dayManager;              // 자고 일어나면 시간 가기
 
-    float detectRadius;            // 침대 주변 감지 범위
+    float detectRadius;                 // 침대 주변 감지 범위
 
 
     private void Start()
     {
         keyDownTime = 1f;
-        sleepDuration = 5f;
+        sleepDuration = 2f;
         playerIn = false;
         isSleeping = false;
         keyTimer = 0f;

@@ -40,7 +40,7 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
-    //모든 손님이 나감 or 없음
+    //모든 손님이 나감
     public bool GetCustomerAllExit()
     {
         if (createCheck)
@@ -49,6 +49,7 @@ public class CustomerManager : MonoBehaviour
             {
                 return customers[customers.Length - 1];
             }
+            createCheck = false;
         }
         return false;
     }
