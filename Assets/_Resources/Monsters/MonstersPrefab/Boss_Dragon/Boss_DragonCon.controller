@@ -37,13 +37,13 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -6183514579650856948}
-    m_Position: {x: 356.59094, y: 117.13068, z: 0}
+    m_Position: {x: 310, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2838219208819009087}
     m_Position: {x: 490, y: -20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4537558065454045247}
-    m_Position: {x: 270, y: -20, z: 0}
+    m_Position: {x: 510, y: -90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5098921648977397246}
     m_Position: {x: 813.2387, y: -8.096588, z: 0}
@@ -61,7 +61,7 @@ AnimatorStateMachine:
     m_Position: {x: 358.75003, y: 225.08524, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6001073476435377621}
-    m_Position: {x: 670, y: -100, z: 0}
+    m_Position: {x: 310, y: 20, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8591325209593022588}
     m_Position: {x: 120, y: 220, z: 0}
@@ -239,7 +239,13 @@ AnimatorController:
   m_PrefabAsset: {fileID: 0}
   m_Name: Boss_DragonCon
   serializedVersion: 5
-  m_AnimatorParameters: []
+  m_AnimatorParameters:
+  - m_Name: Scream
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
