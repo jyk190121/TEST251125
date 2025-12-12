@@ -44,9 +44,8 @@ public class ShopManager : MonoBehaviour
     void Update()
     {
         //낮인지
-        if(dayManager.IsDay)
+        if(dayManager.IsDay && isAction)
         {
-
             //상호작용 키로 상점 오픈하기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && pos_palyer.playerIsSales)
             {
@@ -87,7 +86,7 @@ public class ShopManager : MonoBehaviour
         pos_palyer.shopOpenCheck = true;
         pos_palyer.posUpdate();
 
-        StartCoroutine( customerManager.CreateCustomer(6));
+        StartCoroutine( customerManager.CreateCustomer(5));
     }
 
     void CloseShop()
