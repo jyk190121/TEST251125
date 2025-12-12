@@ -65,7 +65,7 @@ public class InventoryManager : MonoBehaviour
     private void Update()
     {
         //A키를 누르면 테스트 아이템 A 획득
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             if (testItemA != null)
             {
@@ -75,7 +75,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //B키를 누르면 테스트 아이템 B 획득
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             if (testItemB != null)
             {
@@ -85,7 +85,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //C키를 누르면 테스트 아이템 C 획득
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.Alpha8))
         {
             if (testItemB != null)
             {
@@ -95,7 +95,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //D키를 누르면 테스트 아이템 C 획득
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             if (testItemB != null)
             {
@@ -105,7 +105,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //C키를 누르면 테스트 아이템 C 획득
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             if (testItemB != null)
             {
@@ -136,7 +136,7 @@ public class InventoryManager : MonoBehaviour
     //드래그 시작 시 호출
     public void OnDragStart(int index)
     {
-        dragStartIndex = index;
+        dragStartIndex = index;        
     }
 
     //드래그 아이템을 쓰레기통으로
@@ -151,6 +151,7 @@ public class InventoryManager : MonoBehaviour
 
         //팝업
         //ShowDropPopup();
+        //Debug.Log("쓰레기통에 버려 삭제되었습니다.");
 
 
         //처리가 끝났으니 드래그 상태 초기화        
@@ -222,6 +223,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    //창고로 아이템 이동
     private void ProcessMoveFromWarehouse(int dropIndex, int sourceWarehouseIndex, Item warehouseItem, int warehouseCount)
     {
         if (warehouseItem == null) return;
@@ -531,8 +533,8 @@ public class InventoryManager : MonoBehaviour
     //외부에서 아이템 획득 시 호출
     public bool AddItem(Item item, int count = 1)
     {
-        model.AddItem(item, count);
-        return true;
+        return model.AddItem(item, count);
+        //return true;
     }
 
     //외부에서 아이템 사용 시 호출 (장비 강화, 소모품 사용 등)

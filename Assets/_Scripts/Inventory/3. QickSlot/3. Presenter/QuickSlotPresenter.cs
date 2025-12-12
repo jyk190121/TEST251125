@@ -46,7 +46,7 @@ public class QuickSlotPresenter : MonoBehaviour
     private void Update()
     {
         //숫자 1번 키 입력 시 아이템 사용
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             UseQuickSlotItem(SLOT_INDEX);
         }
@@ -73,7 +73,7 @@ public class QuickSlotPresenter : MonoBehaviour
         if (oldItem != null)
         {
             //기존 아이템이 있으면 인벤토리로 돌려보냄
-            InventoryManager.Instance.AddItem(oldItem, 1);
+            InventoryManager.Instance.AddItem(oldItem, 0);
         }
 
         //인벤토리에 새로운 아이템 등록

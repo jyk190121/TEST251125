@@ -298,6 +298,50 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: QuickSlot
+      rect:
+        serializedVersion: 2
+        x: 1520
+        y: 704
+        width: 90
+        height: 91
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3970b0f2732d476478902e84f70be981
+      internalID: -1213621660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Quantity
+      rect:
+        serializedVersion: 2
+        x: 1588
+        y: 682
+        width: 45
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eff45659b8537a64bb800d8c6d87b658
+      internalID: 1283594972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline:
     - - {x: -626, y: -402}
       - {x: 62, y: -402}
@@ -339,6 +383,8 @@ TextureImporter:
       InvenEquipPanel: 1157087521
       Inventory: -515541120
       InventorySlot: -571773791
+      Quantity: 1283594972
+      QuickSlot: -1213621660
       State: -1821996223
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
