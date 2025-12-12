@@ -18,6 +18,8 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     bool isMove = false;
     bool isAttacking = false;
     bool isCharge = false;
+    //활쏘는 동안 가만히
+    bool isBow = false;
     int comboTime = 0;
 
 
@@ -109,6 +111,8 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             if (attackTimer <= 0f)
             {
                 isAttacking = false;
+                isBow = false;
+
                 comboInputBuffer = 0;
 
                 if (comboTime > 0)
@@ -156,7 +160,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     }
     public void Move(Vector3 dir)
     {
-        if (isRolling || isCharge) return;
+        if (isRolling || isCharge || isBow) return;
 
         isMove = true;
         PAC.HandleMovementAnim(isMove);
@@ -185,6 +189,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         //}
         Quaternion targetRotation = transform.rotation; // 부모의 현재 회전을 기준으로 시작
         bool shouldRotate = false;
+        isMove = false;
 
         if (weaponnumber == 1) // 검 공격
         {
@@ -225,6 +230,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
                 targetRotation = originalRotation * Quaternion.Euler(0, BowAttackAngle, 0);
                 shouldRotate = true;
                 needsRotationRevert = true;
+                isBow = true;
             }
             foreach (var dealer in meleeWeaponDealers)
             {
@@ -271,7 +277,8 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
         isAttacking = true;
         isCharge = true;
-
+        isMove = false;
+        
         if (weaponnumber != 1)
         {
             foreach (var dealer in meleeWeaponDealers)
@@ -302,6 +309,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             targetRotation = originalRotation * Quaternion.Euler(0, BowAttackAngle, 0);
             shouldRotate = true;
             needsRotationRevert = true;
+            isBow = true;
         }
         // 부모 오브젝트의 회전을 적용
         if (shouldRotate)
@@ -337,6 +345,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         if(weaponnumber == 3)
         {
             fireArrow();
+            isBow = true;
         }
     }
 
