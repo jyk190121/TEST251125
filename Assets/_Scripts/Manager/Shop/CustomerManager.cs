@@ -60,7 +60,7 @@ public class CustomerManager : MonoBehaviour
 
         if (customers == null) return false;
 
-        // 모든 손님이 true(나갔음)인지 확인
+        // 모든 손님이 나갔는지 확인
         return customers.All(c => c == null);
     }
 }
