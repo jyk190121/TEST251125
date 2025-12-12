@@ -369,13 +369,29 @@ public class InventoryManager : MonoBehaviour
         //장비 아이템
         if (item.type == ItemType.Equipment)
         {
-            //EquipManager의 장착 함수 소출
-            bool isEquipped = EquipManager.Instance.TryEquipItem(item);
+            //장착 시도하고 결과 받아오기 (성공여부, 벗은아이템)
+            var result = EquipManager.Instance.TryEquipItem(item);
 
-            if (isEquipped)
+            if (result.success)
             {
-                //장착 성공 시 인벤토리에서 해당 슬롯 비우기
-                model.RemoveItem(index);
+                //벗은 아이템이 있다면 "방금 사용한 그 자리(index)"에 넣기 (Swap)
+                if (result.unequippedItem != null)
+                {
+                    //새 슬롯 데이터 생성
+                    InventorySlotModel swapSlot = new InventorySlotModel();
+                    swapSlot.Set(result.unequippedItem, 1);
+
+                    //AddItem(검색) 대신 AddItemToSlot(강제 주입) 사용
+                    model.AddItemToSlot(index, swapSlot);
+
+                    //화면 갱신
+                    model.NotifyUpdate();
+                }
+                //빈 슬롯이었다면 그냥 삭제
+                else
+                {
+                    model.RemoveItem(index);
+                }
             }
         }
 
