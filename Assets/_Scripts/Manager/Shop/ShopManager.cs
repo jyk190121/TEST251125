@@ -19,7 +19,7 @@ using static DayManager;
 public class ShopManager : MonoBehaviour
 {
     DayManager dayManager;          //낮, 밤 체크용
-    public bool isAction;           //행동을 했는지
+    public bool isAction;           
     POS_playerSalas pos_palyer;     //포스기
     CustomerManager customerManager;
 
@@ -44,9 +44,8 @@ public class ShopManager : MonoBehaviour
     void Update()
     {
         //낮인지
-        if(dayManager.IsDay)
+        if(dayManager.IsDay && !isAction)
         {
-
             //상호작용 키로 상점 오픈하기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && pos_palyer.playerIsSales)
             {
@@ -62,8 +61,6 @@ public class ShopManager : MonoBehaviour
             {
                 isAction = true;
             }
-
-         
 
         }
 
@@ -87,7 +84,7 @@ public class ShopManager : MonoBehaviour
         pos_palyer.shopOpenCheck = true;
         pos_palyer.posUpdate();
 
-        StartCoroutine( customerManager.CreateCustomer(6));
+        StartCoroutine( customerManager.CreateCustomer(5));
     }
 
     void CloseShop()
