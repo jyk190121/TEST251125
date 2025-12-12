@@ -41,6 +41,9 @@ public class DungeonManager : MonoBehaviour
     public CinemachineCamera bossCam;
     public Vector3 bossCamOffset = new Vector3(0f, 5f, -10f);
 
+    public GameObject Player;
+    public Vector3 PlayerPos = new Vector3(0f, 0f, 0f);
+
     private readonly Vector2Int[] dirs = new Vector2Int[]
     {
         new Vector2Int(1,0),
