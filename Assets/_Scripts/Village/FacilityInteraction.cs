@@ -96,6 +96,7 @@ public class FacilityInteraction : MonoBehaviour
         {
             Debug.Log("[FacilityInteraction] 문라이터 입장!");
             // 나중에: SceneManager.LoadScene("ShopScene");
+            GameSceneManager.game.LoadScene("ShopScene");
             return;
         }
 
@@ -104,6 +105,7 @@ public class FacilityInteraction : MonoBehaviour
         {
             Debug.Log("[FacilityInteraction] 던전 입장!");
             // 나중에: SceneManager.LoadScene("DungeonScene");
+            GameSceneManager.game.LoadScene("DungeonTest");
             return;
         }
 
