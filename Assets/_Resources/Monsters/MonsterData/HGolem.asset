@@ -20,22 +20,22 @@ MonoBehaviour:
   Attack: 0
   Defense: 0
   CoolTime: 0
-  attackRange: 0
-  detectionRange: 0
+  attackRange: 2.5
+  detectionRange: 100
   minAttackRange: 0
   Class: 0
   Type: 0
   Race: 1
-  NormalPatterns: 
-  SpecialPatterns: 
-  NormalpatternIDs: 
+  NormalPatterns: 00000000
+  SpecialPatterns: 64000000
+  NormalpatternIDs: 00000000
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0
-  specialCoolTime: 3
+  specialCoolTime: 4
   attackRadius: 1
   attackAngle: 60
-  aoeRange: 2
+  aoeRange: 4
   aoeDamageMultiplier: 1.5
   projectileSpeed: 8
   projectileLifeTime: 3
