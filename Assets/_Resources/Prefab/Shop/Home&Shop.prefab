@@ -3294,7 +3294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 8743926880561840966}
   key: {fileID: 8462022827968527715}
-  itemSplitPopup: {fileID: 5188336930894935381}
+  itemWarehousePanel: {fileID: 0}
 --- !u!1 &7169246361765548055
 GameObject:
   m_ObjectHideFlags: 0

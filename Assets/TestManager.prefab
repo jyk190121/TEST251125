@@ -184,6 +184,10 @@ MonoBehaviour:
   maxRooms: 10
   roomSpacingX: 20
   roomSpacingZ: 15
+  bossCam: {fileID: 0}
+  bossCamOffset: {x: 0, y: 5, z: -10}
+  player: {fileID: 0}
+  playerPos: {x: 0, y: 0, z: 0}
 --- !u!114 &2919799946323326699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,14 +282,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fb4171dfbfd1b74bbb153862866bb33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Prefab: {fileID: 5421852483414981443, guid: c9dd7e40d916a3741bf6d6e55523e55c, type: 3}
-  PlayerGoldText: {fileID: 0}
-  PlayerHpText: {fileID: 0}
-  PlayerPortionText: {fileID: 0}
-  PlayerRollText: {fileID: 0}
-  PlayerSubAttackText: {fileID: 0}
-  PlayerMainAttackText: {fileID: 0}
-  PlayerInvetoryText: {fileID: 0}
 --- !u!114 &7822020973296577162
 MonoBehaviour:
   m_ObjectHideFlags: 0
