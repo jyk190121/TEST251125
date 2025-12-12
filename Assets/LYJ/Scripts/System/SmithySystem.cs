@@ -66,23 +66,6 @@ public class SmithySystem : CraftingSystemBase
         if (!baseConditions)
             return false;
 
-        // 대장간 특수 조건
-        if (recipe is SmithyRecipe smithyRecipe)
-        {
-            // TODO: requiredBaseEquipment가 null이 아니면, 플레이어가 소유했는지 확인
-            // if (blacksmithRecipe.requiredBaseEquipment != null)
-            // {
-            //     bool hasBaseEquipment = InventoryManager.HasItem(blacksmithRecipe.requiredBaseEquipment.itemID);
-            //     if (!hasBaseEquipment)
-            //     {
-            //         Debug.LogWarning($"[SmithySystem] 필수 기본 장비 미보유: {blacksmithRecipe.requiredBaseEquipment.itemName}");
-            //         return false;
-            //     }
-            // }
-
-            return true;
-        }
-
         return true;
     }
 }
