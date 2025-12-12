@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 /// <summary>
 /// 손님생성해주는 역할
@@ -11,6 +12,7 @@ public class CustomerManager : MonoBehaviour
     public Transform createPos;     //손님 생성 위치
 
     bool createCheck;               //손님이 생성된 적이 있는가
+    //bool[] customerExit;            //모든 손님이 나갔는가
 
     GameObject[] customers;         //손님들
 
@@ -30,6 +32,7 @@ public class CustomerManager : MonoBehaviour
     {
         customers = new GameObject[r];
         createCheck = true;
+        //customerExit = new bool[r];
 
         for (int i = 0; i < r; i++)
         {
@@ -38,6 +41,7 @@ public class CustomerManager : MonoBehaviour
 
             yield return new WaitForSeconds(5f);
         }
+
     }
 
     //모든 손님이 나감
@@ -45,12 +49,26 @@ public class CustomerManager : MonoBehaviour
     {
         if (createCheck)
         {
+            createCheck = false;
+            print("여긴 타니?");
             if (customers != null)
             {
-                return customers[customers.Length - 1];
+                //return customers[customers.Length - 1];
+                //return customers.All(c => c == true);
+                return false;
             }
-            createCheck = false;
+
+            if (customers.All(c => c == null)) return true;
+
         }
         return false;
+
+        //if (!createCheck && customers != null)
+        //{
+        //    // 모든 손님이 true(나갔음)인지 확인
+        //    return customers.All(c => c == true);
+        //}
+        //return false;
+
     }
 }
