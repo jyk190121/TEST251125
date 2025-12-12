@@ -75,19 +75,19 @@ public class NormalMosterFSM : MonoBehaviour
 
     public Animator anim;
 
-    public GameObject[] hitbox;
+    public GameObject[] atthitbox;
     public void EnableHitbox()
     {
-        for (int i = 0; i < hitbox.Length; i++)
+        for (int i = 0; i < atthitbox.Length; i++)
         {
-            hitbox[i].SetActive(true);
+            atthitbox[i].SetActive(true);
         }
     }
     public void DisableHitbox()
     {
-        for (int i = 0; i < hitbox.Length; i++)
+        for (int i = 0; i < atthitbox.Length; i++)
         {
-            hitbox[i].SetActive(false);
+            atthitbox[i].SetActive(false);
         }
     }
 
