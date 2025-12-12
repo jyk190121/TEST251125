@@ -61,6 +61,9 @@ public class NormalMosterFSM : MonoBehaviour
     float aoeDamageMultiplier;
 
     //세부 - 원거리
+    public Transform firePoint;          // 원거리 발사 위치
+    public GameObject projectilePrefab;  // 발사체 프리팹
+
     float projectileSpeed;
     int projectileCount;
     float shotInterval;
@@ -79,6 +82,8 @@ public class NormalMosterFSM : MonoBehaviour
     public Animator anim;
 
     public GameObject[] atthitbox;
+
+    public GameObject aoeHitbox;
     public void EnableHitbox()
     {
         for (int i = 0; i < atthitbox.Length; i++)
@@ -287,36 +292,82 @@ public class NormalMosterFSM : MonoBehaviour
     }
 
     IEnumerator ExecuteNormalAttack()
+    {
+        state = MonsterState.Attack;
+
+        // 1) 랜덤 Normal Pattern 선택
+        int rand = Random.Range(0, normalPatterns.Length);
+        NormalPattern pattern = normalPatterns[rand];
+        int animID = normalPatternIDs[rand];
+
+        // 2) 애니메이션 출력
+        anim.SetInteger("Pattern", animID);
+        anim.SetTrigger("Attack");
+
+        // 준비시간
+        yield return new WaitForSeconds(windupTime);
+
+        // 3) 패턴별 공격 실행
+        switch (pattern)
         {
-            state = MonsterState.Attack;
+            case NormalPattern.MeleeAttack:
+                yield return StartCoroutine(DoMeleeAttack());
+                break;
 
-            // 랜덤 normal ID 선택
-            int id = normalPatternIDs[Random.Range(0, normalPatternIDs.Length)];
-
-            anim.SetInteger("Pattern", id);
-            anim.SetTrigger("Attack");
-
-            // 준비 동작
-            yield return new WaitForSeconds(windupTime);
-
-            // 판정 처리
-            EnableHitbox();
-            yield return new WaitForSeconds(0.2f);
-            DisableHitbox();
-
-            // 후딜
-            yield return new WaitForSeconds(recoveryTime);
-
-            // 쿨타임 리셋
-            timer = coolTime;
-
-            state = MonsterState.Idle;
+            case NormalPattern.RangedAttack:
+                yield return StartCoroutine(DoRangedAttack());
+                break;
         }
+
+        // 4) 후딜레이
+        yield return new WaitForSeconds(recoveryTime);
+
+        // 5) 쿨타임 리셋
+        timer = coolTime;
+
+        state = MonsterState.Idle;
+    }
+    IEnumerator DoMeleeAttack()
+    {
+        EnableHitbox();
+        yield return new WaitForSeconds(0.2f);
+        DisableHitbox();
+    }
+    IEnumerator DoRangedAttack()
+    {
+        if (projectilePrefab == null || firePoint == null)
+            yield break;
+
+        Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+
+        yield return null;
+    }
 
     void Aoe()
     {
-
+        StartCoroutine(AoeRoutine());
     }
+
+    IEnumerator AoeRoutine()
+    {
+        // 1) 켜기
+        aoeHitbox.SetActive(true);
+
+        // 2) 유지
+        yield return new WaitForSeconds(1f);
+
+        // 3) 끄기
+        aoeHitbox.SetActive(false);
+
+        // 4) 후딜 (패턴 공통)
+        yield return new WaitForSeconds(recoveryTime);
+
+        // 특수 쿨타임
+        specialTimer = specialCoolTime;
+
+        state = MonsterState.Idle;
+    }
+
 
     void StartLaser()
     {
@@ -332,11 +383,32 @@ public class NormalMosterFSM : MonoBehaviour
     {
 
     }
+
+    void OnAnimatorMove()
+    {
+        if (anim.applyRootMotion == false) return;
+
+        // 1) deltaPosition에서 Y만 적용하고 XZ는 막는다
+        Vector3 delta = anim.deltaPosition;
+        delta.x = 0f;
+        delta.z = 0f;
+
+        transform.position += delta;
+
+        // 2) 회전은 그대로 적용 (공격 시 자연스러운 방향전환)
+        transform.rotation *= anim.deltaRotation;
+    }
+
+
     private void OnDrawGizmos()
     {
-        //공격가능범위
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, monsterData.attackRange);
+        if (monsterData.attackRange > 0)
+        {
+            //공격가능범위
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, monsterData.attackRange);
+        }
+        
         //원거리 최소거리
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, monsterData.minAttackRange);
