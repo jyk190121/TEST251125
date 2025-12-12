@@ -41,34 +41,26 @@ public class CustomerManager : MonoBehaviour
 
             yield return new WaitForSeconds(5f);
         }
-
+        createCheck = false;
     }
 
     //모든 손님이 나감
     public bool GetCustomerAllExit()
     {
-        if (createCheck)
-        {
-            createCheck = false;
-            print("여긴 타니?");
-            if (customers != null)
-            {
-                //return customers[customers.Length - 1];
-                //return customers.All(c => c == true);
-                return false;
-            }
-
-            if (customers.All(c => c == null)) return true;
-
-        }
-        return false;
-
-        //if (!createCheck && customers != null)
+        //if (createCheck)
         //{
-        //    // 모든 손님이 true(나갔음)인지 확인
-        //    return customers.All(c => c == true);
+        //    //return customers[customers.Length - 1];
+        //    return customers.All(c => c == null);
+
         //}
         //return false;
 
+        // 손님 생성중이면 false
+        if (createCheck) return false;
+
+        if (customers == null) return false;
+
+        // 모든 손님이 true(나갔음)인지 확인
+        return customers.All(c => c == null);
     }
 }
