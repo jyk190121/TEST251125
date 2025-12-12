@@ -18,14 +18,15 @@ using static DayManager;
 /// </summary>
 public class ShopManager : MonoBehaviour
 {
-    DayManager dayManager;          //낮, 밤 체크용
+    DayManager dayManager;                 //낮, 밤 체크용
     public bool isAction;           
-    POS_playerSalas pos_palyer;     //포스기
+    POS_playerSalas pos_palyer;            //포스기
     CustomerManager customerManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+       
         dayManager = FindAnyObjectByType<DayManager>();
         pos_palyer = FindAnyObjectByType<POS_playerSalas>();
         customerManager = FindAnyObjectByType<CustomerManager>();
@@ -81,7 +82,6 @@ public class ShopManager : MonoBehaviour
 
     void OpenShop()
     {
-        isAction = false;
         pos_palyer.shopOpenCheck = true;
         pos_palyer.posUpdate();
 
