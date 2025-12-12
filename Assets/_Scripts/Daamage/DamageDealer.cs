@@ -20,21 +20,18 @@ public class DamageDealer : MonoBehaviour
 
     private void OnEnable()
     {
-        // 1. 공격 주체를 부모 오브젝트(플레이어 본체)로 설정
-        // 이 무기 콜라이더의 Root 오브젝트가 플레이어 본체여야 합니다.
         damageOwner = transform.root.gameObject;
 
-        // 2. 플레이어 스탯을 가져와 초기 데미지 설정
-
+        // 플레이어 스탯을 가져와 초기 데미지 설정
         if (gameObject.layer == 7) // 플레이어 레이어
         {
             PlayerModel player = _MasterManager.Instance.DataManager.GetStat();
             baseDamage = player.ATT;
             Debug.Log($"{baseDamage} 무기 데미지 설정 완료");
 
-            PlayerControll PC = damageOwner.GetComponent<PlayerControll>();
+            PC = damageOwner.GetComponent<PlayerControll>();
         }
-        if(gameObject.layer == 9) //몬스터 레이어
+        if(gameObject.layer == 10) //몬스터 레이어
         {
 
         }
@@ -58,12 +55,14 @@ public class DamageDealer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         //플레이어 확인 및 공격중인지 확인
         if (gameObject.layer == 7)
         {
             PC = damageOwner.GetComponent<PlayerControll>();
             bool checkAttack = PC.OnAttack();
             if (!checkAttack)  return; 
+
         }
 
         //이미 맞은놈이면 리턴

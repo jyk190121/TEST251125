@@ -125,6 +125,13 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             needsRotationRevert = false;
         }
 
+        if (comboInputBuffer != 0)
+        {
+            foreach (var dealer in meleeWeaponDealers)
+            {
+                dealer.ResetHitTargets();
+            }
+        }
         ComboInputBuffer();
     }
 
@@ -265,9 +272,12 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         isAttacking = true;
         isCharge = true;
 
-        foreach (var dealer in meleeWeaponDealers)
+        if (weaponnumber != 1)
         {
-            dealer.ResetHitTargets();
+            foreach (var dealer in meleeWeaponDealers)
+            {
+                dealer.ResetHitTargets();
+            }
         }
 
         Quaternion targetRotation = transform.rotation; // 부모의 현재 회전을 기준으로 시작
@@ -355,10 +365,6 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     {
         if (comboInputBuffer > 0)
         {
-            foreach (var dealer in meleeWeaponDealers)
-            {
-                dealer.ResetHitTargets();
-            }
             comboInputBuffer--;           // 저장된 값 소모
 
             comboTime++; // 다음 콤보 카운트 증가
@@ -376,7 +382,8 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     //화살 발사
     void fireArrow()
     {
-        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.transform.position, transform.rotation);
+        Quaternion arrowrotation = transform.rotation;
+        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.transform.position, arrowSpawnPoint.transform.rotation);
     
         DamageDealer dealer = arrow.GetComponent<DamageDealer>();
 
