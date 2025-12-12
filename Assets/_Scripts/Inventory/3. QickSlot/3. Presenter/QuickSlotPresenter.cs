@@ -46,7 +46,7 @@ public class QuickSlotPresenter : MonoBehaviour
     private void Update()
     {
         //숫자 1번 키 입력 시 아이템 사용
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             UseQuickSlotItem(SLOT_INDEX);
         }

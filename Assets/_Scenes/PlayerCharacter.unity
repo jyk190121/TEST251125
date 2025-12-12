@@ -435,7 +435,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1034593095182371587, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1158497853650667521, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_Layer
@@ -447,7 +447,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1212693842469154941, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1282773168401259625, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_Layer
@@ -691,7 +691,7 @@ PrefabInstance:
       objectReference: {fileID: 8544041544418109196, guid: a83b8716fdaec944096a22d6f4e08962, type: 3}
     - target: {fileID: 5672606562929598894, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: weaponnumber
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5843825483355459583, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_Layer
@@ -868,6 +868,10 @@ PrefabInstance:
     - target: {fileID: 8985817051795060416, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8985817051795060416, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9113768210361079850, guid: a82c8667e7154914d8677e26a25bec16, type: 3}
       propertyPath: m_Layer
