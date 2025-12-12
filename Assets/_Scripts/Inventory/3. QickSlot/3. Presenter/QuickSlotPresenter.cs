@@ -73,7 +73,7 @@ public class QuickSlotPresenter : MonoBehaviour
         if (oldItem != null)
         {
             //기존 아이템이 있으면 인벤토리로 돌려보냄
-            InventoryManager.Instance.AddItem(oldItem, 1);
+            InventoryManager.Instance.AddItem(oldItem, 0);
         }
 
         //인벤토리에 새로운 아이템 등록
