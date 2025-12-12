@@ -30,6 +30,8 @@ public class PlayerAnimController : MonoBehaviour
 
     readonly int hashCharge = Animator.StringToHash("Charge");
 
+    readonly int hashSpearCharge = Animator.StringToHash("SpearChargeAttack");
+
     //무기 구분
     readonly int hashWeapon = Animator.StringToHash("WeaponType");
 
@@ -76,5 +78,10 @@ public class PlayerAnimController : MonoBehaviour
     public void HandleCombo(int buffer)
     {
         anim.SetInteger(hashCombo, buffer);
+    }
+
+    public void HandleSpearChargeAttack(bool attack)
+    {
+        anim.SetBool(hashSpearCharge, attack);
     }
 }
