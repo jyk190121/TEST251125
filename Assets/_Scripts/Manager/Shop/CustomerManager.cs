@@ -6,11 +6,12 @@ using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {
-    [HideInInspector]
     public GameObject customer;     //손님 프리팹
     [HideInInspector]
     public Transform createPos;     //손님 생성 위치
-    
+
+    bool createCheck;               //손님이 생성된 적이 있는가
+
     GameObject[] customers;         //손님들
 
     //임시
@@ -19,27 +20,37 @@ public class CustomerManager : MonoBehaviour
     //    StartCoroutine(CreateCustomer(4));
     //}
 
+    private void Start()
+    {
+        createCheck = false;
+    }
+
     //손님 생성
     public IEnumerator CreateCustomer(int r)
     {
         customers = new GameObject[r];
+        createCheck = true;
 
         for (int i = 0; i < r; i++)
         {
-            customers[i] = Instantiate(customer, createPos.position , Quaternion.identity);
-            customers[i].name = $"손님 {i+1}";
+            customers[i] = Instantiate(customer, createPos.position, Quaternion.identity);
+            customers[i].name = $"손님 {i + 1}";
 
             yield return new WaitForSeconds(5f);
         }
     }
 
-    //모든 손님이 나감 or 없음
-    public GameObject GetCustomerAllExit()
+    //모든 손님이 나감
+    public bool GetCustomerAllExit()
     {
-        if (customers != null)
+        if (createCheck)
         {
-            return customers[customers.Length -1];
+            if (customers != null)
+            {
+                return customers[customers.Length - 1];
+            }
+            createCheck = false;
         }
-        return null;
+        return false;
     }
 }

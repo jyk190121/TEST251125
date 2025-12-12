@@ -19,7 +19,7 @@ using static DayManager;
 public class ShopManager : MonoBehaviour
 {
     DayManager dayManager;          //낮, 밤 체크용
-    public bool isAction;           //행동을 했는지
+    public bool isAction;           
     POS_playerSalas pos_palyer;     //포스기
     CustomerManager customerManager;
 
@@ -30,7 +30,6 @@ public class ShopManager : MonoBehaviour
         pos_palyer = FindAnyObjectByType<POS_playerSalas>();
         customerManager = FindAnyObjectByType<CustomerManager>();
 
-        isAction = false;
         pos_palyer.image.gameObject.SetActive(false);
         pos_palyer.shopOpenCheck = false;
         //UI로 상호작용키 띄워주기
@@ -45,48 +44,47 @@ public class ShopManager : MonoBehaviour
     void Update()
     {
         //낮인지
-        if(dayManager.IsDay)
+        if(dayManager.IsDay && !isAction)
         {
-
             //상호작용 키로 상점 오픈하기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && pos_palyer.playerIsSales)
             {
                 if(!pos_palyer.shopOpenCheck)
                 {
                     OpenShop();
-                }
-                else if (pos_palyer.shopOpenCheck)
-                {
                     //item 판매 (손님위치 - 계산대인지체크)
                 }
             }
 
             //손님이 다 나갔을 때 밤으로 만들자
-            //if ()
-            //{
-            //    isAction = true;
-            //}
-
-            if(customerManager.GetCustomerAllExit() == null && isAction)
+            if (customerManager.GetCustomerAllExit())
             {
-                ChangeDay();
+                isAction = true;
             }
+
         }
 
         //밤인지
-        //else if (dayManager.IsNight)
-        //{
-        //    CloseShop();
-        //}
+        else if (dayManager.IsNight && isAction)
+        {
+            CloseShop();
+        }
+
+        //낮, 밤 변경
+        if (isAction)
+        {
+            ChangeDay();
+        }
 
     }
 
     void OpenShop()
     {
+        isAction = false;
         pos_palyer.shopOpenCheck = true;
         pos_palyer.posUpdate();
 
-        StartCoroutine( customerManager.CreateCustomer(3));
+        StartCoroutine( customerManager.CreateCustomer(5));
     }
 
     void CloseShop()

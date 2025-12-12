@@ -46,6 +46,9 @@ public class NormalMosterFSM : MonoBehaviour
 
     int[] normalPatternIDs;
 
+    float specialCoolTime;
+
+    float specialTimer = 0f;
 
     //몬스터 공격 세부
     float windupTime;  //공격준비(바람잡기)
@@ -75,19 +78,19 @@ public class NormalMosterFSM : MonoBehaviour
 
     public Animator anim;
 
-    public GameObject[] hitbox;
+    public GameObject[] atthitbox;
     public void EnableHitbox()
     {
-        for (int i = 0; i < hitbox.Length; i++)
+        for (int i = 0; i < atthitbox.Length; i++)
         {
-            hitbox[i].SetActive(true);
+            atthitbox[i].SetActive(true);
         }
     }
     public void DisableHitbox()
     {
-        for (int i = 0; i < hitbox.Length; i++)
+        for (int i = 0; i < atthitbox.Length; i++)
         {
-            hitbox[i].SetActive(false);
+            atthitbox[i].SetActive(false);
         }
     }
 
@@ -126,6 +129,8 @@ public class NormalMosterFSM : MonoBehaviour
         
         normalPatternIDs = monsterData.NormalpatternIDs;
         
+        specialCoolTime = monsterData.specialCoolTime;
+
         //패턴 파라미터
         windupTime = monsterData.windupTime;
         recoveryTime = monsterData.recoveryTime;
@@ -160,6 +165,17 @@ public class NormalMosterFSM : MonoBehaviour
             print("값 받아옴");
 
         }
+        
+        //쿨타임 감소
+        if (timer > 0)   //일반공격 쿨타임
+        {
+            timer -= Time.deltaTime;
+        }
+        if (specialTimer > 0)  //특공 쿨타임
+        {
+            specialTimer -= Time.deltaTime;
+        }
+
         switch (state)
         {
             case MonsterState.Idle:
@@ -226,41 +242,86 @@ public class NormalMosterFSM : MonoBehaviour
 
     void Attack()
     {
-        //쿨타임 체크
-        if (timer > 0f)
-        {
-            timer -= Time.deltaTime;
-            state = MonsterState.Idle;
-            return;
-        }
-
-        //타겟 없으면 패스
-        if (target == null)
-        {
-            // 필요하면 여기서 플레이어 다시 찾기
-            state = MonsterState.Idle;
-            return;
-        }
-
         float distance = Vector3.Distance(transform.position, target.position);
 
-        //공격 범위 밖이면 다시 쫒기
-        if (distance > attRange)
+        // 1) 특수 먼저 검사
+        if (specialTimer <= 0f && specialPatterns.Length > 0)
         {
-            state = MonsterState.Move;
+            StartCoroutine(ExecuteSpecialPattern());
             return;
         }
 
-        //사용할 패턴 하나 선택
-        //MonsterPattern selectedPattern = ChoosePattern(distance);
-        //선택된 패턴 실행
-        //StartCoroutine(ExecutePattern(selectedPattern));
+        // 2) 아니면 일반 공격 검사
+        if (timer <= 0f && normalPatternIDs.Length > 0)
+        {
+            StartCoroutine(ExecuteNormalAttack());
+            return;
+        }
+
+        // 둘 다 불가능하면 Idle로 전환
+        state = MonsterState.Idle;
+    }
+   
+    IEnumerator ExecuteSpecialPattern()
+    {
+        state = MonsterState.Attack;
+        //특수패턴 랜덤 선택
+        SpecialPattern sp = specialPatterns[Random.Range(0, specialPatterns.Length)];
+        int id = (int)sp;
+
+        anim.SetInteger("Patton", id);
+        anim.SetTrigger("Attack");
+
+        yield return new WaitForSeconds(windupTime);
+
+        switch (sp)
+        {
+            case SpecialPattern.AOE:
+                Aoe();
+                break;
+            case SpecialPattern.Laser:
+                StartLaser();
+                break;
+
+        }
     }
 
+    IEnumerator ExecuteNormalAttack()
+        {
+            state = MonsterState.Attack;
 
-    
+            // 랜덤 normal ID 선택
+            int id = normalPatternIDs[Random.Range(0, normalPatternIDs.Length)];
 
-    
+            anim.SetInteger("Pattern", id);
+            anim.SetTrigger("Attack");
+
+            // 준비 동작
+            yield return new WaitForSeconds(windupTime);
+
+            // 판정 처리
+            EnableHitbox();
+            yield return new WaitForSeconds(0.2f);
+            DisableHitbox();
+
+            // 후딜
+            yield return new WaitForSeconds(recoveryTime);
+
+            // 쿨타임 리셋
+            timer = coolTime;
+
+            state = MonsterState.Idle;
+        }
+
+    void Aoe()
+    {
+
+    }
+
+    void StartLaser()
+    {
+
+    }
 
     void GetHit()
     {
@@ -279,5 +340,8 @@ public class NormalMosterFSM : MonoBehaviour
         //원거리 최소거리
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, monsterData.minAttackRange);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, aoeRange); //AOE범위 확인
     }
 }
