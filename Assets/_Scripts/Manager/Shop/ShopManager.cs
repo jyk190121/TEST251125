@@ -19,7 +19,7 @@ using static DayManager;
 public class ShopManager : MonoBehaviour
 {
     DayManager dayManager;          //낮, 밤 체크용
-    public bool isAction;           //행동을 했는지
+    public bool isAction;           
     POS_playerSalas pos_palyer;     //포스기
     CustomerManager customerManager;
 
@@ -62,8 +62,6 @@ public class ShopManager : MonoBehaviour
             {
                 isAction = true;
             }
-
-         
 
         }
 
