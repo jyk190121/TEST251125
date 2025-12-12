@@ -31,21 +31,21 @@ public class EquipManager : MonoBehaviour
     //====================================================
 
     //인벤토리에서 더블클릭 등으로 장착을 시도할 때 호출
-    public bool TryEquipItem(Item newItem)
+    public (bool success, Item unequippedItem) TryEquipItem(Item newItem)
     {
-        //장비 아이템인지 확인
-        if (newItem.type != ItemType.Equipment) return false;
+        if (newItem.type != ItemType.Equipment) return (false, null);
 
-        //이 아이템이 들어갈 슬롯 번호를 찾음
         int targetIndex = GetSlotIndexByEnum(newItem.equipmentSlot);
 
         if (targetIndex != -1)
         {
-            //실제 장착 실행
-            EquipItemToSlot(targetIndex, newItem);
-            return true;
+            // 장착 실행하고, 벗은 아이템을 받아옴
+            Item oldItem = EquipItemToSlot(targetIndex, newItem);
+
+            // 성공했음과 벗은 아이템을 같이 보고
+            return (true, oldItem);
         }
-        return false;
+        return (false, null);
     }
 
     //드래그 앤 드롭으로 장착할 때 호출 (View에서 호출됨)
@@ -63,32 +63,54 @@ public class EquipManager : MonoBehaviour
             return;
         }
 
+        Item oldItem = EquipItemToSlot(slotIndex, draggedItem);
+
         //장착 실행
         EquipItemToSlot(slotIndex, draggedItem);
 
         //인벤토리에서 해당 아이템 소모(삭제) 처리
         //(단순 삭제가 아니라 장착 처리를 위해 인벤토리에서 빼는 함수)
         InventoryManager.Instance.UseItemForEquip();
-    }
 
-    //실제 데이터 교체 및 스왑 처리
-    private void EquipItemToSlot(int index, Item newItem)
-    {
-        //기존에 끼고 있던 아이템이 있는지 확인
-        Item oldItem = model.GetEquip(index);
-
-        //모델 데이터 갱신 (새 아이템 장착)
-        model.SetEquip(index, newItem);
-
-        //기존 아이템이 있었다면 인벤토리로 되돌려줌 (스왑)
         if (oldItem != null)
         {
             InventoryManager.Instance.AddItem(oldItem);
         }
+    }
 
-        //UI 및 스탯 갱신
+    //실제 데이터 교체 및 스왑 처리
+    //private void EquipItemToSlot(int index, Item newItem)
+    //{
+    //    //기존에 끼고 있던 아이템이 있는지 확인
+    //    Item oldItem = model.GetEquip(index);
+
+    //    //모델 데이터 갱신 (새 아이템 장착)
+    //    model.SetEquip(index, newItem);
+
+    //    //기존 아이템이 있었다면 인벤토리로 되돌려줌 (스왑)
+    //    if (oldItem != null)
+    //    {
+    //        InventoryManager.Instance.AddItem(oldItem);            
+    //    }
+
+    //    //UI 및 스탯 갱신
+    //    RefreshUI();
+    //    //UpdateStatToPlayer();
+    //}
+
+    private Item EquipItemToSlot(int index, Item newItem)
+    {
+        Item oldItem = model.GetEquip(index);
+        model.SetEquip(index, newItem);
+
+        // [삭제] 여기서 인벤토리로 보내던 코드를 지웁니다! (InventoryManager.Instance.AddItem...)
+        // 이유는? 인벤토리 매니저가 직접 제어하게 하기 위해서입니다.
+
         RefreshUI();
         //UpdateStatToPlayer();
+
+        // 벗은 아이템을 반환 (없으면 null)
+        return oldItem;
     }
 
     //====================================================
