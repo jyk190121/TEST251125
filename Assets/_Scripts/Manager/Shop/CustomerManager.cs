@@ -5,6 +5,7 @@ using UnityEngine;
 /// 손님생성해주는 역할
 /// /// </summary>
 
+[RequireComponent(typeof(CustomerManager))]
 public class CustomerManager : MonoBehaviour
 {
     public GameObject customer;     //손님 프리팹
