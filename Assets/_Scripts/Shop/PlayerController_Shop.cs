@@ -1,3 +1,4 @@
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,11 +11,13 @@ public class PlayerController_Shop : MonoBehaviour
     float moveSpeed = 0.5f;
     public bool isSleeping;
     Camera mainCamera;
+    CharacterController cc;
 
     private void Start()
     {
         pc = GetComponent<PlayerControll>();
         mainCamera = Camera.main;
+        cc = pc.GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -63,7 +66,7 @@ public class PlayerController_Shop : MonoBehaviour
             camRight.Normalize();
 
             Vector3 move = (camForward * moveZ + camRight * moveX).normalized * moveSpeed;
-    
+
             // 애니메이션
             if (move.sqrMagnitude > 0.01f) pc.Move(move * Time.deltaTime);
             else pc.Idle();
