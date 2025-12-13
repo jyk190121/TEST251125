@@ -24,7 +24,7 @@ public class Bed : MonoBehaviour
     ShopManager shopManager;
 
     float detectRadius;                 // 침대 주변 감지 범위
-
+    public GameObject bag;              // 가방 (잘때만 벗자)
 
     private void Start()
     {
@@ -56,6 +56,7 @@ public class Bed : MonoBehaviour
         {
             sleepTimer += Time.deltaTime;
             image.gameObject.SetActive(false);
+            bag.gameObject.SetActive(false);
 
             if (sleepTimer >= sleepDuration)
             {
@@ -204,6 +205,7 @@ public class Bed : MonoBehaviour
     void WakeUpPlayer()
     {
         isSleeping = false;
+        bag.SetActive(true);
         Debug.Log("플레이어가 일어났습니다.");
 
         // 플레이어 움직임을 다시 활성화
