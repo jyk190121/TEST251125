@@ -48,8 +48,10 @@ public class ShopManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //print($"플레이어 판매대에 있는 상태 {pos_palyer.playerIsSales}");
+
         //낮인지
-        if(dayManager.IsDay && !isAction)
+        if (dayManager.IsDay && !isAction)
         {
             //상호작용 키로 상점 오픈하기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && pos_palyer.playerIsSales)
@@ -58,6 +60,7 @@ public class ShopManager : MonoBehaviour
                 {
                     OpenShop();
                     //item 판매 (손님위치 - 계산대인지체크)
+
                 }
             }
 
@@ -81,13 +84,14 @@ public class ShopManager : MonoBehaviour
     {
         pos_palyer.shopOpenCheck = true;
         pos_palyer.posUpdate();
-        StartCoroutine( customerManager.CreateCustomer(5));
+        StartCoroutine( customerManager.CreateCustomer(2));
     }
 
     void CloseShop()
     {
         isAction = false;
         pos_palyer.shopOpenCheck = false;
+        //pos_palyer.playerIsSales = false;
         pos_palyer.posUpdate();
         pos_palyer.image.gameObject.SetActive(false);
         print("밤됫대");

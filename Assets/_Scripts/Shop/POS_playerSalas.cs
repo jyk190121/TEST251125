@@ -26,8 +26,8 @@ public class POS_playerSalas : MonoBehaviour
         if(other.CompareTag("Player") && dayManager.IsDay)
         {
             //판매 UI 열기
-            image.gameObject.SetActive(true);
             playerIsSales = true;
+            image.gameObject.SetActive(true);
         }
     }
 
@@ -35,11 +35,11 @@ public class POS_playerSalas : MonoBehaviour
     {
         DayManager dayManager = FindAnyObjectByType<DayManager>();
 
-        if (other.CompareTag("Player") && dayManager.IsDay)
+        if (other.CompareTag("Player"))
         {
             //판매 UI 닫기
-            image.gameObject.SetActive(false);
             playerIsSales = false;
+            image.gameObject.SetActive(false);
         }
     }
 }
