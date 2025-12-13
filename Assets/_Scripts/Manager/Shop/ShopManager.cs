@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using static DayManager;
 /// <summary>
 /// 1. 밤/낮을 구분해주는 기능 (DayManager)
@@ -13,15 +12,19 @@ using static DayManager;
 /// 
 /// 4. 손님 존재여부 파악
 ///  - 손님이 있을 때 : 플레이어가 계산대 앞에서 상호작용 버튼으로 판매
-///  - 손님이 없을 때 : UI 안띄움?
+///  - 손님이 없을 때 : UI 안띄움? 현재는 그렇게..
 ///  
 /// </summary>
+/// 
+[RequireComponent(typeof(ShopManager))]
 public class ShopManager : MonoBehaviour
 {
-    DayManager dayManager;                 //낮, 밤 체크용
-    public bool isAction;           
+    public DayManager dayManager;           //낮, 밤 체크용
+    public bool isAction;                   //판매활동했는지
     POS_playerSalas pos_palyer;            //포스기
     CustomerManager customerManager;
+    //public GameObject light_Shop;
+    Light_Shop light_Shop;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,6 +33,7 @@ public class ShopManager : MonoBehaviour
         dayManager = FindAnyObjectByType<DayManager>();
         pos_palyer = FindAnyObjectByType<POS_playerSalas>();
         customerManager = FindAnyObjectByType<CustomerManager>();
+        light_Shop = FindAnyObjectByType<Light_Shop>();
 
         pos_palyer.image.gameObject.SetActive(false);
         pos_palyer.shopOpenCheck = false;
@@ -45,9 +49,8 @@ public class ShopManager : MonoBehaviour
     void Update()
     {
         //낮인지
-        if(dayManager.IsDay)
+        if(dayManager.IsDay && !isAction)
         {
-
             //상호작용 키로 상점 오픈하기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && pos_palyer.playerIsSales)
             {
@@ -59,22 +62,16 @@ public class ShopManager : MonoBehaviour
             }
 
             //손님이 다 나갔을 때 밤으로 만들자
-            if (customerManager.GetCustomerAllExit())
+            if (customerManager.GetCustomerAllExit() && pos_palyer.shopOpenCheck)
             {
                 isAction = true;
             }
 
         }
 
-        //밤인지
-        else if (dayManager.IsNight && isAction)
+        else if (isAction)
         {
             CloseShop();
-        }
-
-        //낮, 밤 변경
-        if (isAction)
-        {
             ChangeDay();
         }
 
@@ -84,8 +81,7 @@ public class ShopManager : MonoBehaviour
     {
         pos_palyer.shopOpenCheck = true;
         pos_palyer.posUpdate();
-
-        StartCoroutine( customerManager.CreateCustomer(6));
+        StartCoroutine( customerManager.CreateCustomer(5));
     }
 
     void CloseShop()
@@ -94,12 +90,11 @@ public class ShopManager : MonoBehaviour
         pos_palyer.shopOpenCheck = false;
         pos_palyer.posUpdate();
         pos_palyer.image.gameObject.SetActive(false);
-        
-        dayManager.ChangeTimeOfDay(TimeOfDay.Night);
         print("밤됫대");
     }
 
-    void ChangeDay()
+    //낯 밤 변경 및 조명 변경
+    public void ChangeDay()
     {
         if (dayManager.IsDay)
         {
@@ -109,5 +104,17 @@ public class ShopManager : MonoBehaviour
         {
             dayManager.ChangeTimeOfDay(TimeOfDay.Day);
         }
+
+        switch (dayManager.CurrentTime)
+        {
+            case TimeOfDay.Day:
+                light_Shop.OnLight();
+                break;
+
+            case TimeOfDay.Night:
+                light_Shop.OffLight();
+                break;
+        }
     }
+
 }
