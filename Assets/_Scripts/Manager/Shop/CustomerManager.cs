@@ -13,7 +13,6 @@ public class CustomerManager : MonoBehaviour
     public Transform createPos;     //손님 생성 위치
 
     bool createCheck;               //손님이 생성된 적이 있는가
-    //bool[] customerExit;            //모든 손님이 나갔는가
 
     GameObject[] customers;         //손님들
 
