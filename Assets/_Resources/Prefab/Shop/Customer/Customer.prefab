@@ -341,6 +341,7 @@ GameObject:
   - component: {fileID: 1694388104864216425}
   - component: {fileID: 3658188331310900700}
   - component: {fileID: 6498051433798858519}
+  - component: {fileID: 4775579597922195891}
   m_Layer: 0
   m_Name: Customer
   m_TagString: Untagged
@@ -436,6 +437,23 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4775579597922195891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694388104871626409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cc8bbdfe4246fe4d8a9da87d85cd4d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entered: {fileID: 0}
+  exited: {fileID: 0}
+  itemPos: {fileID: 0}
+  salesPos: {fileID: 0}
+  itemPayCheck: 0
 --- !u!1 &1694388104871626411
 GameObject:
   m_ObjectHideFlags: 0

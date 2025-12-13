@@ -32,6 +32,8 @@ public class Customer : MonoBehaviour
     NavMeshAgent agent;
     CustomerState state;
 
+    Animator anim;             //손님 애니메이션
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -50,8 +52,9 @@ public class Customer : MonoBehaviour
         exited = GameObject.Find("ExitPos").GetComponent<Transform>();
         itemPos = GameObject.Find("ItemPos").GetComponent<Transform>();
         salesPos = GameObject.Find("SalesPos").GetComponent<Transform>();
-        EnterShop();
+        anim = GetComponent<Animator>();
 
+        EnterShop();
     }
 
     // Update is called once per frame
@@ -64,6 +67,7 @@ public class Customer : MonoBehaviour
     void CustomerMove()
     {
         if (!gameObject) return;
+        anim.SetFloat("Speed", agent.velocity.sqrMagnitude);
 
         switch (state)
         {
@@ -120,6 +124,7 @@ public class Customer : MonoBehaviour
         print("아이템 확인");
 
         yield return new WaitForSeconds(5f);
+
         int r = Random.Range(1, 31);
 
         //마음에 안드는 경우 바로 나가자
