@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class POS_playerSalas : MonoBehaviour
 {
     public Image image;
-    public Transform salasPos;      //손님이 왔을 때 확인 여부
 
     public TextMeshProUGUI key;     //상호작용 키
     public TextMeshProUGUI sales;   //문구

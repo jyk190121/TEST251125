@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 /// <summary>
@@ -154,29 +155,52 @@ public class Customer : MonoBehaviour
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             //플레이어가 POS기 앞에 서서 해당아이템 판매 확인 (계산 중) 후 이동
+            //agent.enabled = false;
+
+            //while(true)
+            //{
+            //    transform.rotation = Quaternion.identity;
+            //    print($"{gameObject.name} 돈 지불 대기");
+
+            //    yield return new WaitForSeconds(5f);
+
+            //    if (itemPayCheck)
+            //    {
+            //        print($"{gameObject.name} 돈 지불 완료");
+            //        break;
+            //    }
+            //    else
+            //    {
+            //        print($"플레이어가 판매하지 않아 {gameObject.name}이 떠났다..");
+            //        break;
+            //    }
+            //}
+
+            //state = CustomerState.LeavingShop;
+
             agent.enabled = false;
-            
-            while(true)
+
+            float waitTime = 5f;
+            float elapsed = 0f;
+
+            while (elapsed < waitTime)
             {
                 transform.rotation = Quaternion.identity;
-                print($"{gameObject.name} 돈 지불 대기");
-
-                yield return new WaitForSeconds(5f);
-
                 if (itemPayCheck)
                 {
                     print($"{gameObject.name} 돈 지불 완료");
-                    break;
+                    state = CustomerState.LeavingShop;
+                    yield break;
                 }
-                else
-                {
-                    print($"플레이어가 판매하지 않아 {gameObject.name}이 떠났다..");
-                    break;
-                }
+
+                elapsed += Time.deltaTime;
+                yield return null;
             }
 
+            print($"플레이어가 판매하지 않아 {gameObject.name}이 떠났다..");
             state = CustomerState.LeavingShop;
-          
+
+
         }
         else
         {

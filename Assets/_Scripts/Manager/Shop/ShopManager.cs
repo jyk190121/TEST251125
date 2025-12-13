@@ -1,5 +1,6 @@
 using UnityEngine;
 using static DayManager;
+using static DataManager;
 /// <summary>
 /// 1. 밤/낮을 구분해주는 기능 (DayManager)
 ///  - 낮 : 플레이어가 계산대 앞에서 상호작용 키로 판매시작 / 아이템 들고 온 손님 존재할 땐 : 판매
@@ -21,8 +22,11 @@ public class ShopManager : MonoBehaviour
 {
     public DayManager dayManager;           //낮, 밤 체크용
     public bool isAction;                   //판매활동했는지
-    POS_playerSalas pos_palyer;            //포스기
+    POS_playerSalas pos_palyer;             //포스기
+    SalesCustomer salesCustomer;            //손님 계산대 앞에 있는지 여부
     CustomerManager customerManager;
+    DataManager dataManager;
+
     //public GameObject light_Shop;
     Light_Shop light_Shop;
 
@@ -34,6 +38,8 @@ public class ShopManager : MonoBehaviour
         pos_palyer = FindAnyObjectByType<POS_playerSalas>();
         customerManager = FindAnyObjectByType<CustomerManager>();
         light_Shop = FindAnyObjectByType<Light_Shop>();
+        salesCustomer = FindAnyObjectByType<SalesCustomer>();
+        dataManager = FindAnyObjectByType<DataManager>();
 
         pos_palyer.image.gameObject.SetActive(false);
         pos_palyer.shopOpenCheck = false;
@@ -59,8 +65,18 @@ public class ShopManager : MonoBehaviour
                 if(!pos_palyer.shopOpenCheck)
                 {
                     OpenShop();
-                    //item 판매 (손님위치 - 계산대인지체크)
+                }
 
+                //print($"판매대 앞에 손님 존재 : {salesCustomer.HasCustomer()}");
+
+                //item 판매 (손님위치 - 계산대인지체크)
+                if (salesCustomer.HasCustomer())
+                {
+                    //골드 100 획득 (임시)
+                    dataManager.EarnMoney(100);
+
+                    //손님 계산완료처리
+                    customerManager.CustomerBuyItem();
                 }
             }
 
@@ -84,7 +100,7 @@ public class ShopManager : MonoBehaviour
     {
         pos_palyer.shopOpenCheck = true;
         pos_palyer.posUpdate();
-        StartCoroutine( customerManager.CreateCustomer(2));
+        StartCoroutine( customerManager.CreateCustomer(10));
     }
 
     void CloseShop()
