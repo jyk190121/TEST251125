@@ -15,6 +15,8 @@ public class CustomerManager : MonoBehaviour
     bool createCheck;               //손님이 생성된 적이 있는가
 
     GameObject[] customers;         //손님들
+    SalesCustomer salesCustomer;    //계산여부
+
 
     //임시
     //void Start()
@@ -25,6 +27,7 @@ public class CustomerManager : MonoBehaviour
     private void Start()
     {
         createCheck = false;
+        salesCustomer = FindAnyObjectByType<SalesCustomer>();
     }
 
     //손님 생성
@@ -62,5 +65,17 @@ public class CustomerManager : MonoBehaviour
 
         // 모든 손님이 나갔는지 확인
         return customers.All(c => c == null);
+    }
+
+
+
+    //손님 계산완료처리
+    public void CustomerBuyItem()
+    {
+        Customer buyCustomer = salesCustomer.GetCurrentCustomer();
+
+        if (buyCustomer == null) return;
+
+        buyCustomer.itemPayCheck = true;
     }
 }
