@@ -11,7 +11,7 @@ public class Warehouse : MonoBehaviour
     public Image image;                      // 키입력하는 동안 띄울 이미지
     public Image key;                        // 상호작용 키 알려줄 이미지
 
-    CharacterController player;            // 플레이어 스크립트( 임시 )
+    CharacterController player;              // 플레이어 스크립트( 임시 )
 
     //public ItemSplitPopup itemSplitPopup;  //창고 UI 캔버스 열기/닫기
     public GameObject itemWarehousePanel;    //창고 UI 판넬

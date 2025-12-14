@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 /// <summary>
@@ -32,6 +33,8 @@ public class Customer : MonoBehaviour
     NavMeshAgent agent;
     CustomerState state;
 
+    Animator anim;             //손님 애니메이션
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -50,8 +53,9 @@ public class Customer : MonoBehaviour
         exited = GameObject.Find("ExitPos").GetComponent<Transform>();
         itemPos = GameObject.Find("ItemPos").GetComponent<Transform>();
         salesPos = GameObject.Find("SalesPos").GetComponent<Transform>();
-        EnterShop();
+        anim = GetComponent<Animator>();
 
+        EnterShop();
     }
 
     // Update is called once per frame
@@ -64,6 +68,7 @@ public class Customer : MonoBehaviour
     void CustomerMove()
     {
         if (!gameObject) return;
+        anim.SetFloat("Speed", agent.velocity.sqrMagnitude);
 
         switch (state)
         {
@@ -104,7 +109,7 @@ public class Customer : MonoBehaviour
 
     void EnterShop()
     {
-        print("가게로 가자");
+        //print("가게로 가자");
         state = CustomerState.EnteringShop;
         agent.SetDestination(entered.position);
     }
@@ -120,6 +125,7 @@ public class Customer : MonoBehaviour
         print("아이템 확인");
 
         yield return new WaitForSeconds(5f);
+
         int r = Random.Range(1, 31);
 
         //마음에 안드는 경우 바로 나가자
@@ -149,28 +155,52 @@ public class Customer : MonoBehaviour
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             //플레이어가 POS기 앞에 서서 해당아이템 판매 확인 (계산 중) 후 이동
+            //agent.enabled = false;
+
+            //while(true)
+            //{
+            //    transform.rotation = Quaternion.identity;
+            //    print($"{gameObject.name} 돈 지불 대기");
+
+            //    yield return new WaitForSeconds(5f);
+
+            //    if (itemPayCheck)
+            //    {
+            //        print($"{gameObject.name} 돈 지불 완료");
+            //        break;
+            //    }
+            //    else
+            //    {
+            //        print($"플레이어가 판매하지 않아 {gameObject.name}이 떠났다..");
+            //        break;
+            //    }
+            //}
+
+            //state = CustomerState.LeavingShop;
+
             agent.enabled = false;
-            
-            while(true)
+
+            float waitTime = 5f;
+            float elapsed = 0f;
+
+            while (elapsed < waitTime)
             {
                 transform.rotation = Quaternion.identity;
-                print($"{gameObject.name} 돈 지불 대기");
-                yield return new WaitForSeconds(5f);
-
                 if (itemPayCheck)
                 {
                     print($"{gameObject.name} 돈 지불 완료");
-                    break;
+                    state = CustomerState.LeavingShop;
+                    yield break;
                 }
-                else
-                {
-                    print($"플레이어가 판매하지 않아 {gameObject.name}이 떠났다..");
-                    break;
-                }
+
+                elapsed += Time.deltaTime;
+                yield return null;
             }
 
+            print($"플레이어가 판매하지 않아 {gameObject.name}이 떠났다..");
             state = CustomerState.LeavingShop;
-          
+
+
         }
         else
         {

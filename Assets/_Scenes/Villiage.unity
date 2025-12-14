@@ -5743,7 +5743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8499481067421247384, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8499481067421247384, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: PlayerHpText
@@ -9881,6 +9881,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smithyPanel: {fileID: 36087471}
+  UpButton: {fileID: 0}
+  DownButton: {fileID: 0}
   recipeListContainer: {fileID: 150035074}
   recipeButtonPrefab: {fileID: 2052689885952776728, guid: e8d269de40ef05f4583960d5bae4b407, type: 3}
   recipeNameText: {fileID: 253826870}
