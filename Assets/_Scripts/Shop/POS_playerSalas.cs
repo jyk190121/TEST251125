@@ -11,6 +11,7 @@ public class POS_playerSalas : MonoBehaviour
     public TextMeshProUGUI sales;   //문구
     public bool shopOpenCheck;      //상점 열었는지 확인
     public bool playerIsSales;      //플레이어가 판매대에 있는지
+   
 
     public void posUpdate()
     {
@@ -22,7 +23,7 @@ public class POS_playerSalas : MonoBehaviour
     {
         DayManager dayManager = FindAnyObjectByType<DayManager>();
 
-        if(other.CompareTag("Player") && dayManager.IsDay)
+        if (other.CompareTag("Player") && dayManager.IsDay)
         {
             //판매 UI 열기
             playerIsSales = true;

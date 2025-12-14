@@ -16,6 +16,7 @@ public class _MasterManager : MonoBehaviour
     public EnemyManager EnemyManager { get; private set; }
     public ResourceManager ResourceManager { get; private set; }
     public SoundManager SoundManager { get; private set; }
+    public GameSceneManager GameSceneManager { get; private set; }
 
     void Awake()
     {
@@ -45,7 +46,7 @@ public class _MasterManager : MonoBehaviour
         ResourceManager = GetComponent<ResourceManager>();
         InventoryManager = GetComponent<InventoryManager>();
         SoundManager = GetComponent<SoundManager>();
-        InventoryManager = GetComponent<InventoryManager>();
+        GameSceneManager = GetComponent<GameSceneManager>();
 
         // 1. ������ ���
         ResourceManager.Initialize();
