@@ -26,6 +26,7 @@ public class ShopManager : MonoBehaviour
     SalesCustomer salesCustomer;            //손님 계산대 앞에 있는지 여부
     CustomerManager customerManager;
     DataManager dataManager;
+    SoundManager soundManager;
 
     //public GameObject light_Shop;
     Light_Shop light_Shop;
@@ -40,6 +41,7 @@ public class ShopManager : MonoBehaviour
         light_Shop = FindAnyObjectByType<Light_Shop>();
         salesCustomer = FindAnyObjectByType<SalesCustomer>();
         dataManager = FindAnyObjectByType<DataManager>();
+        soundManager = FindAnyObjectByType<SoundManager>();
 
         pos_palyer.image.gameObject.SetActive(false);
         pos_palyer.shopOpenCheck = false;
@@ -49,6 +51,8 @@ public class ShopManager : MonoBehaviour
         //sales.text = "판매 시작";
 
         pos_palyer.posUpdate();
+
+
     }
 
     // Update is called once per frame
@@ -59,6 +63,7 @@ public class ShopManager : MonoBehaviour
         //낮인지
         if (dayManager.IsDay && !isAction)
         {
+
             //상호작용 키로 상점 오픈하기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && pos_palyer.playerIsSales)
             {
@@ -72,6 +77,7 @@ public class ShopManager : MonoBehaviour
                 //item 판매 (손님위치 - 계산대인지체크)
                 if (salesCustomer.HasCustomer())
                 {
+                    soundManager.PlaySFXIndex(0);
                     //골드 100 획득 (임시)
                     dataManager.EarnMoney(100);
 
@@ -101,10 +107,13 @@ public class ShopManager : MonoBehaviour
         pos_palyer.shopOpenCheck = true;
         pos_palyer.posUpdate();
         StartCoroutine( customerManager.CreateCustomer(10));
+        soundManager.StopBGM();
+        soundManager.PlayBGMIndex(1);
     }
 
     void CloseShop()
     {
+        soundManager.StopBGM();
         isAction = false;
         pos_palyer.shopOpenCheck = false;
         //pos_palyer.playerIsSales = false;
