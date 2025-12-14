@@ -78,6 +78,7 @@ public class ShopManager : MonoBehaviour
                 if (salesCustomer.HasCustomer())
                 {
                     soundManager.PlaySFXIndex(0);
+                    
                     //골드 100 획득 (임시)
                     dataManager.EarnMoney(100);
 
