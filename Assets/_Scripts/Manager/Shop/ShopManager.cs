@@ -64,7 +64,7 @@ public class ShopManager : MonoBehaviour
         {
             if(!soundManager.PlayingBGM())
             {
-                soundManager.PlayBGMIndex(0);
+                soundManager.PlayBGM("Shop_Jingle_Calmer_Loop");
             }
 
             //상호작용 키로 상점 오픈하기

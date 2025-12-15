@@ -130,6 +130,8 @@ public class InventoryManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.I))
         {
+            if (inventory.gameObject == null) return;
+
             inventory.gameObject.SetActive(!inventory.gameObject.activeSelf);
         }
 

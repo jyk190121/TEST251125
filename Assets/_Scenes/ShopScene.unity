@@ -934,6 +934,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: bea3dd0bb4fba744fb28fcb6728331f2, type: 3}
     - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: 'bgmClips.Array.data[2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: 'bgmClips.Array.data[3]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: 'sfxClips.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}

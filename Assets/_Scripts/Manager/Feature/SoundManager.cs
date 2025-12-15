@@ -21,7 +21,6 @@ public class SoundManager : MonoBehaviour
     [Range(0f, 1f)]
     public float sfxVolume;         // SFX 볼륨
 
-
     Dictionary<string, AudioClip> bgmDict = new();
     Dictionary<string, AudioClip> sfxDict = new();
 
