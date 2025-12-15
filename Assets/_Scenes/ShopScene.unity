@@ -675,7 +675,6 @@ GameObject:
   - component: {fileID: 1588621555}
   - component: {fileID: 1588621560}
   - component: {fileID: 1588621561}
-  - component: {fileID: 1588621562}
   m_Layer: 0
   m_Name: Temp
   m_TagString: Untagged
@@ -837,34 +836,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dayManager: {fileID: 0}
   isAction: 0
---- !u!114 &1588621562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1588621554}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b8fd5732d89c1b41b17683118f053d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  capacity: 30
-  warehouseView: {fileID: 903534168110609001}
-  warehousePanelRect: {fileID: 186590600}
-  dropPopup: {fileID: 1600823535}
-  splitPopup: {fileID: 903534168110609003}
---- !u!114 &1600823535 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4364153217046358574, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-  m_PrefabInstance: {fileID: 2124846071}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c00b4cb18e1d0354b9919c3b0b5e5be7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2124846071
 PrefabInstance:
   m_ObjectHideFlags: 0

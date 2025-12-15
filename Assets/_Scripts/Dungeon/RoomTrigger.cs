@@ -20,6 +20,8 @@ public class RoomEnterTrigger : MonoBehaviour
                 if (!room.isSpawned)
                 {
                     room.SpawnMonstersOnce();
+                    room.OnPlayerEnterRoom();
+
                     if (room.IsBoss)
                     {
                         StartCoroutine(cam.CameraChange());

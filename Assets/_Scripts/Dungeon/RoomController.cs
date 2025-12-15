@@ -38,6 +38,41 @@ public class RoomController : MonoBehaviour
         doorRight?.SetActive(right);
     }
 
+    void SetDoorInteractable(GameObject door, bool enable)
+    {
+        if (door == null) return;
+
+        Collider col = door.GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = enable;
+        }
+    }
+
+    public void SetAllDoorsInteractable(bool enable)
+    {
+        SetDoorInteractable(doorUp, enable);
+        SetDoorInteractable(doorDown, enable);
+        SetDoorInteractable(doorLeft, enable);
+        SetDoorInteractable(doorRight, enable);
+    }
+
+    public void OnPlayerEnterRoom()
+    {
+        // 시작방 / 휴식방은 항상 문 열림
+        if (isStartRoom || isRestRoom)
+        {
+            SetAllDoorsInteractable(true);
+            return;
+        }
+
+        // 전투방은 입장 시 문 잠금
+        SetAllDoorsInteractable(false);
+
+        // 몬스터 1회 스폰
+        SpawnMonstersOnce();
+    }
+
     public void SpawnMonster()
     {
         if (isStartRoom || isRestRoom) return; // 스타트, 쉬는방 제외
@@ -69,7 +104,7 @@ public class RoomController : MonoBehaviour
         SpawnMonster();             // 기존 몬스터 생성 함수 호출
     }
 
-    
+
     public void ClearDungeon(GameObject monster)
     {
         if (isCleared) return;
@@ -79,13 +114,13 @@ public class RoomController : MonoBehaviour
             aliveMonsters.Remove(monster);
         }
 
-        // 모두 죽으면 문 열기
+        // 모두 죽으면 문 작동 가능
         if (aliveMonsters.Count == 0)
         {
             isCleared = true;
+            SetAllDoorsInteractable(true);
             Debug.Log("방 클리어! 문 열림");
-            SetDoorActive(true, true, true, true);
         }
     }
-    
+
 }
