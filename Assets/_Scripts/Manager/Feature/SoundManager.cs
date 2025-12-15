@@ -80,5 +80,11 @@ public class SoundManager : MonoBehaviour
         sfxSource.Play();
     }
 
+    //재생중인 BGM있는지 체크
+    public bool PlayingBGM()
+    {
+        if (bgmSource.isPlaying) return true;
+        else return false;
+    }
 }
 
