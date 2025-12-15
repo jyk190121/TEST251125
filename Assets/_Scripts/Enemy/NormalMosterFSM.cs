@@ -5,6 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.TestTools;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEditor;
 
 public class NormalMosterFSM : MonoBehaviour
 {
@@ -189,7 +190,7 @@ public class NormalMosterFSM : MonoBehaviour
                 break;
             case MonsterState.GetHit:
                 GetHit();
-                break;
+                 break;
             case MonsterState.Die:
                 Die();
                 break;
@@ -242,6 +243,8 @@ public class NormalMosterFSM : MonoBehaviour
 
     void Attack()
     {
+        agent.isStopped = true;
+
         float distance = Vector3.Distance(transform.position, target.position);
 
         // 1) 특수 먼저 검사
@@ -323,14 +326,58 @@ public class NormalMosterFSM : MonoBehaviour
 
     }
 
+    public void TakeDamage(DamageData data)
+    {
+        //예외 처리
+        if (state == MonsterState.GetHit || state == MonsterState.Die) return;
+        
+        //HP감소 처리
+        currentHP -= data.damageAmount;
+
+        if (currentHP > 0)
+        {
+            state = MonsterState.GetHit;
+        }
+        else
+        {
+            state = MonsterState.Die;
+        }
+    }
+
     void GetHit()
     {
+        agent.isStopped = true;
 
+        StartCoroutine(GetHitProc());
+        //피격시 애니메이션
+        anim.SetTrigger("Hit");
+        // 2. 피격 확인 로그 출력
+        //Debug.Log($"몬스터가 피해를 입었습니다! [주체: {data.damageSource}, 피해량: {data.damageAmount}, 남은 체력: {currentHP}]");
+        Debug.Log($"몬스터가 피해를 입었습니다! [남은 체력: {currentHP}]");
+    }
+
+    IEnumerator GetHitProc()
+    {
+        anim.SetTrigger("Hit");
+        // 1프레임 대기 → 상태 전환 보장
+        yield return null;
+
+        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
+        float hitAnimTime = info.length;
+
+        // 히트 애니메이션 재생 시간만큼 대기
+        yield return new WaitForSeconds(hitAnimTime);
+
+        state = MonsterState.Idle;
     }
 
     void Die()
     {
+        //몬스터 삭제, 아이템 드랍
+        anim.SetTrigger("Die");
 
+
+        //아이템 드랍시스템 구축
     }
     private void OnDrawGizmos()
     {
