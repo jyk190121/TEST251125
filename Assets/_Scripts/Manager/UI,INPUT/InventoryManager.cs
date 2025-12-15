@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -20,6 +21,9 @@ public class InventoryManager : MonoBehaviour
 
     //Model (Inspector에 안 보임)
     private InventoryModel model;
+
+   
+
 
     [Header("드래그 상태")]
     //드래그 시작한 슬롯 번호 (-1: 아무것도 안 잡음)
@@ -59,11 +63,21 @@ public class InventoryManager : MonoBehaviour
         HandleInventoryUpdate();
         dropPopup.ClosePopup();
         inventory = transform.GetChild(0).gameObject.GetComponent<Inventory>();
+        model.InitSlots(capacity);
     }
 
     //임시 아이템 업로드 코드
     private void Update()
     {
+
+        //F1키를 누르면 아이템 정렬
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            model.SortInventory(ItemType.Potion);
+            Debug.Log("아이템 획득: " + testItemA.itemName);
+            model.NotifyUpdate();
+        }
+
         //A키를 누르면 테스트 아이템 A 획득
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
@@ -574,6 +588,8 @@ public class InventoryManager : MonoBehaviour
         add { model.OnInventoryUpdated += value; }
         remove { model.OnInventoryUpdated -= value; }
     }
+
+
 
     public void Initialize()
     {
