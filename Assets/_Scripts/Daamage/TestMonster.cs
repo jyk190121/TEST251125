@@ -5,12 +5,10 @@ public class TestMonster : MonoBehaviour, IHitResponder
 {
     [Header("몬스터 설정")]
     [SerializeField]
-    private float currentHealth = 10f;
+    private float currentHealth = 100f;
 
     // 몬스터의 레이어 설정 (Unity Inspector에서 9번 레이어로 설정해야 합니다.)
-    private const int MonsterLayer = 11;
-
-    private RoomController room;
+    private const int MonsterLayer = 10;
 
     private void Awake()
     {
@@ -18,10 +16,7 @@ public class TestMonster : MonoBehaviour, IHitResponder
         // Hierarchy에서 이 오브젝트를 선택하고 Inspector에서 Layer를 9번(Monster)으로 설정해야 합니다.
         gameObject.layer = MonsterLayer;
         Debug.Log("몬스터 레이어 지정");
-
-        room = GetComponentInParent<RoomController>();
     }
-
 
     // IHitResponder 인터페이스 구현
     public void TakeDamage(DamageData data)
@@ -45,12 +40,6 @@ public class TestMonster : MonoBehaviour, IHitResponder
     public void Die()
     {
         Debug.Log("몬스터 사망!");
-
-        if (room != null)
-        {
-            room.ClearDungeon(gameObject);
-        }
-
         // 테스트를 위해 오브젝트를 비활성화합니다.
         gameObject.SetActive(false);
         // 실제 게임에서는 파티클, 애니메이션, 드롭 아이템 등의 처리가 필요합니다.

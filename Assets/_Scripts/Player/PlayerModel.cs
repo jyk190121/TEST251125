@@ -27,7 +27,7 @@ public class PlayerModel
             100,
             100,
             1000,
-            5,
+            25,
             5,
             12
         );
