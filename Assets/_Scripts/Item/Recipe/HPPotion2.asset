@@ -9,14 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 864a6c22d7c6b3d418e411bfa54898df, type: 3}
   m_Name: HPPotion2
   m_EditorClassIdentifier: Assembly-CSharp::AlchemyRecipe
-  recipeID: 3002
-  recipeName: "HP \uD3EC\uC158 2"
-  inputMaterials:
-  - materialItem: {fileID: 11400000, guid: 8f420ecf5ae80a1448aba1394d7f6375, type: 2}
-    amount: 2
-  goldCost: 800
-  outputItem: {fileID: 11400000, guid: 1ca85e52b23b08c479c630bf0458de0a, type: 2}
-  quantityPerCraft: 1
+  recipeID: 0
+  recipeName: 
+  inputMaterials: []
+  goldCost: 0
+  outputItem: {fileID: 0}
