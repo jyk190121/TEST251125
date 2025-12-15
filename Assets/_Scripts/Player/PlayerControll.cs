@@ -18,6 +18,15 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     bool isMove = false;
     bool isAttacking = false;
     bool isCharge = false;
+    //활쏘는 동안 가만히
+    bool isBow = false;
+    //창 돌진
+    bool isSpearCharge = false;
+    bool isSpearChargeAttack = false;
+    float SpearChargedTime = 0f;
+    Vector3 SpearDir;
+    float speartime = 0f;
+
     int comboTime = 0;
 
 
@@ -74,6 +83,31 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
     public void Update()
     {
+        //창찌르기 차지공격
+        if (isSpearCharge && SpearChargedTime < 2f)
+        {
+            SpearChargedTime += Time.deltaTime;
+        }
+        if (!isSpearCharge && SpearChargedTime >= 0f)
+        {
+            SpearChargedTime -= Time.deltaTime;
+            //임의로 이동 막기 위해서
+            isSpearChargeAttack = true;
+            CC.Move(SpearDir * Time.deltaTime * 8f);
+            PAC.HandleSpearChargeAttack(isSpearChargeAttack);
+        }
+        
+
+        if(SpearChargedTime < 0f && speartime < 0.8)
+        {
+            speartime += Time.deltaTime;
+        }
+        else if(speartime > 0.8)
+        {
+            speartime = 0f;
+            isSpearChargeAttack = false;
+        }
+
 
         if (isRolling)
         {
@@ -109,6 +143,8 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             if (attackTimer <= 0f)
             {
                 isAttacking = false;
+                isBow = false;
+
                 comboInputBuffer = 0;
 
                 if (comboTime > 0)
@@ -118,9 +154,11 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             }
         }
 
+
         //공격 후 정면 복구
-        if (needsRotationRevert && !isAttacking && !isMove && !isCharge)
+        if (needsRotationRevert && !isAttacking && !isMove && !isCharge && !isSpearChargeAttack)
         {
+            PAC.HandleSpearChargeAttack(false);
             transform.rotation = originalRotation;
             needsRotationRevert = false;
         }
@@ -156,14 +194,14 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     }
     public void Move(Vector3 dir)
     {
-        if (isRolling || isCharge) return;
-
+        if (isRolling || isCharge || isBow || isSpearChargeAttack) return;
+        SpearDir = dir;
         isMove = true;
         PAC.HandleMovementAnim(isMove);
         // 수평 이동
         Vector3 move = dir.normalized * model.moveSpeed;
         CC.Move(move * Time.deltaTime);
-
+        
         // 회전
         if (!isAttacking)
         {
@@ -185,6 +223,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         //}
         Quaternion targetRotation = transform.rotation; // 부모의 현재 회전을 기준으로 시작
         bool shouldRotate = false;
+        isMove = false;
 
         if (weaponnumber == 1) // 검 공격
         {
@@ -225,6 +264,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
                 targetRotation = originalRotation * Quaternion.Euler(0, BowAttackAngle, 0);
                 shouldRotate = true;
                 needsRotationRevert = true;
+                isBow = true;
             }
             foreach (var dealer in meleeWeaponDealers)
             {
@@ -268,10 +308,12 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     {
         if (isRolling || isAttacking) return;
         //if (weapon == null) return;
+        PAC.HandleMovementAnim(false);
 
         isAttacking = true;
         isCharge = true;
-
+        isMove = false;
+        
         if (weaponnumber != 1)
         {
             foreach (var dealer in meleeWeaponDealers)
@@ -296,12 +338,14 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             targetRotation = originalRotation * Quaternion.Euler(0, SpearAttackAngle, 0);
             shouldRotate = true;
             needsRotationRevert = true;
+            isSpearCharge = true;
         }
         if (weaponnumber == 3)
         {
             targetRotation = originalRotation * Quaternion.Euler(0, BowAttackAngle, 0);
             shouldRotate = true;
             needsRotationRevert = true;
+            isBow = true;
         }
         // 부모 오브젝트의 회전을 적용
         if (shouldRotate)
@@ -332,11 +376,13 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         Debug.Log("서브어택");
         if(!isCharge) return;
         isCharge = false;
+        isSpearCharge = false;
 
         PAC.HandleCharge(isCharge, weaponnumber);
         if(weaponnumber == 3)
         {
             fireArrow();
+            isBow = true;
         }
     }
 

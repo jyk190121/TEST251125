@@ -17,7 +17,7 @@ public class PlayerDungeonPortal : MonoBehaviour
     public void LeftMove(Collider player)
     {
         CC.enabled = false;
-        player.transform.position += new Vector3(-10, 0, 0);
+        player.transform.position += new Vector3(-20, 0, 0);
         CC.enabled = true;
     }
 
@@ -25,7 +25,7 @@ public class PlayerDungeonPortal : MonoBehaviour
     public void RightMove(Collider player)
     {
         CC.enabled = false;
-        player.transform.position += new Vector3(10, 0, 0);
+        player.transform.position += new Vector3(20, 0, 0);
         CC.enabled = true;
     }
 
@@ -33,7 +33,7 @@ public class PlayerDungeonPortal : MonoBehaviour
     public void UpMove(Collider player)
     {
         CC.enabled = false;
-        player.transform.position += new Vector3(0, 0, 8);
+        player.transform.position += new Vector3(0, 0, 18);
         CC.enabled = true;
     }
 
@@ -41,7 +41,7 @@ public class PlayerDungeonPortal : MonoBehaviour
     public void DownMove(Collider player)
     {
         CC.enabled = false;
-        player.transform.position += new Vector3(0, 0, -8);
+        player.transform.position += new Vector3(0, 0, -18);
         CC.enabled = true;
     }
 }
