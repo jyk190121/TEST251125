@@ -1,5 +1,6 @@
 using UnityEngine;
 using static DayManager;
+using static DataManager;
 /// <summary>
 /// 1. 밤/낮을 구분해주는 기능 (DayManager)
 ///  - 낮 : 플레이어가 계산대 앞에서 상호작용 키로 판매시작 / 아이템 들고 온 손님 존재할 땐 : 판매
@@ -21,8 +22,12 @@ public class ShopManager : MonoBehaviour
 {
     public DayManager dayManager;           //낮, 밤 체크용
     public bool isAction;                   //판매활동했는지
-    POS_playerSalas pos_palyer;            //포스기
+    POS_playerSalas pos_palyer;             //포스기
+    SalesCustomer salesCustomer;            //손님 계산대 앞에 있는지 여부
     CustomerManager customerManager;
+    DataManager dataManager;
+    SoundManager soundManager;
+
     //public GameObject light_Shop;
     Light_Shop light_Shop;
 
@@ -34,6 +39,9 @@ public class ShopManager : MonoBehaviour
         pos_palyer = FindAnyObjectByType<POS_playerSalas>();
         customerManager = FindAnyObjectByType<CustomerManager>();
         light_Shop = FindAnyObjectByType<Light_Shop>();
+        salesCustomer = FindAnyObjectByType<SalesCustomer>();
+        dataManager = FindAnyObjectByType<DataManager>();
+        soundManager = FindAnyObjectByType<SoundManager>();
 
         pos_palyer.image.gameObject.SetActive(false);
         pos_palyer.shopOpenCheck = false;
@@ -42,22 +50,44 @@ public class ShopManager : MonoBehaviour
         //손님이 아이템을 가져오면 '판매' 라는 문구 로 변경
         //sales.text = "판매 시작";
 
+        soundManager.StopBGM();
         pos_palyer.posUpdate();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        //print($"플레이어 판매대에 있는 상태 {pos_palyer.playerIsSales}");
+
         //낮인지
-        if(dayManager.IsDay && !isAction)
+        if (dayManager.IsDay && !isAction)
         {
+            if(!soundManager.PlayingBGM())
+            {
+                soundManager.PlayBGMIndex(0);
+            }
+
             //상호작용 키로 상점 오픈하기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && pos_palyer.playerIsSales)
             {
                 if(!pos_palyer.shopOpenCheck)
                 {
                     OpenShop();
-                    //item 판매 (손님위치 - 계산대인지체크)
+                }
+
+                //print($"판매대 앞에 손님 존재 : {salesCustomer.HasCustomer()}");
+
+                //item 판매 (손님위치 - 계산대인지체크)
+                if (salesCustomer.HasCustomer())
+                {
+                    soundManager.PlaySFXIndex(0);
+                    
+                    //골드 100 획득 (임시)
+                    dataManager.EarnMoney(100);
+
+                    //손님 계산완료처리
+                    customerManager.CustomerBuyItem();
                 }
             }
 
@@ -74,20 +104,27 @@ public class ShopManager : MonoBehaviour
             CloseShop();
             ChangeDay();
         }
-
+        //밤인지 (밤엔 음악끄기)
+        else if(dayManager.IsNight)
+        {
+            soundManager.StopBGM();
+        }
     }
 
     void OpenShop()
     {
         pos_palyer.shopOpenCheck = true;
         pos_palyer.posUpdate();
-        StartCoroutine( customerManager.CreateCustomer(5));
+        StartCoroutine( customerManager.CreateCustomer(10));
+        soundManager.StopBGM();
+        soundManager.PlayBGMIndex(1);
     }
 
     void CloseShop()
     {
         isAction = false;
         pos_palyer.shopOpenCheck = false;
+        //pos_palyer.playerIsSales = false;
         pos_palyer.posUpdate();
         pos_palyer.image.gameObject.SetActive(false);
         print("밤됫대");
