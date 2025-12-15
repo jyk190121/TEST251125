@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class SoundManager : MonoBehaviour
 {
@@ -49,8 +49,8 @@ public class SoundManager : MonoBehaviour
     [Range(0f, 1f)]
     public float sfxVolume;         // SFX 볼륨
 
-    Dictionary<string, AudioClip> bgmDict = new Dictionary<string, AudioClip>();
-    Dictionary<string, AudioClip> sfxDict = new Dictionary<string, AudioClip>();;
+    Dictionary<string, AudioClip[]> bgmDict = new Dictionary<string, AudioClip[]>();
+    Dictionary<string, AudioClip[]> sfxDict = new Dictionary<string, AudioClip[]>();
 
     public void Initialize()
     {
@@ -71,21 +71,13 @@ public class SoundManager : MonoBehaviour
     }
 
     // BGM
-    public void PlayBGM(string name)
+    public void PlayBGM(string name, int index)
     {
-        if (!bgmDict.TryGetValue(name, out AudioClip clip)) return;
-        if (clip.length == 0) return;
+        if (!bgmDict.TryGetValue(name, out AudioClip[] clips)) return;
+        if (clips == null) return;
+        if (index < 0 || index >= clips.Length) return;
 
-        bgmSource.clip = clip;
-        bgmSource.loop = true;
-        bgmSource.Play();
-    }
-
-    public void PlayBGNIndex(string name, int index)
-    {
-        if (!bgmDict.TryGetValue(name, out AudioClip clip)) return;
-        //if(name, AudioClip[])
-        bgmSource.clip = BGMClips1[index];
+        bgmSource.clip = clips[index];
         bgmSource.loop = true;
         bgmSource.Play();
     }
@@ -97,13 +89,16 @@ public class SoundManager : MonoBehaviour
     }
 
     // SFX
-    public void PlaySFX(string name)
+    public void PlaySFX(string name, int index)
     {
-        if (!sfxDict.ContainsKey(name)) return;
+        if (!sfxDict.TryGetValue(name, out AudioClip[] clips)) return;
+        if (clips == null) return;
+        if (index < 0 || index >= clips.Length) return;
 
-        sfxSource.PlayOneShot(sfxDict[name]);
+        sfxSource.clip = clips[index];
+        sfxSource.loop = false;
+        sfxSource.PlayOneShot(sfxSource.clip);
     }
-
 
     //재생중인 BGM있는지 체크
     public bool PlayingBGM()
@@ -112,30 +107,14 @@ public class SoundManager : MonoBehaviour
         else return false;
     }
 
-    void AddBGM(string pos, AudioClip[] clips)
+    void AddBGM(string name, AudioClip[] clips)
     {
-        if (clips == null) return;
-
-        for (int i = 0; i < clips.Length; i++)
-        {
-            if (clips[i] == null) continue;
-
-            string name = $"{pos}_BGM{i + 1}";
-            bgmDict[name] = clips[i];
-        }
+        bgmDict[name] = clips;
     }
 
-    void AddSFX(string pos, AudioClip[] clips)
+    void AddSFX(string name, AudioClip[] clips)
     {
-        if (clips == null) return;
-
-        for (int i = 0; i < clips.Length; i++)
-        {
-            if (clips[i] == null) continue;
-
-            string name = $"{pos}_SFX{i + 1}";
-            sfxDict[name] = clips[i];
-        }
+        sfxDict[name] = clips;
     }
 }
 
