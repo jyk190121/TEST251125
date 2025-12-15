@@ -1,9 +1,9 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static DayManager;
+
 /// <summary>
-/// 1.플레이어와 상호작용 - Collision 
+/// 1.플레이어와 상호작용 - Collision
+/// => CharacterController 사용으로 Distance로 변경
 /// </summary>
 public class Bed : MonoBehaviour
 {
@@ -20,10 +20,11 @@ public class Bed : MonoBehaviour
 
     CharacterController player;         // 플레이어 스크립트( 임시 )
 
-    DayManager dayManager;              // 자고 일어나면 시간 가기
+    //DayManager dayManager;              // 자고 일어나면 시간 가기
+    ShopManager shopManager;
 
     float detectRadius;                 // 침대 주변 감지 범위
-
+    public GameObject bag;              // 가방 (잘때만 벗자)
 
     private void Start()
     {
@@ -41,7 +42,9 @@ public class Bed : MonoBehaviour
         //outline.effectDistance = new Vector2(5f, 5f);
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
 
-        dayManager = GameObject.Find("TestManager").GetComponent<DayManager>();
+        //dayManager = GameObject.Find("TestManager").GetComponent<DayManager>();
+        shopManager = FindAnyObjectByType<ShopManager>();
+
         detectRadius = 2f;
     }
     void Update()
@@ -53,23 +56,27 @@ public class Bed : MonoBehaviour
         {
             sleepTimer += Time.deltaTime;
             image.gameObject.SetActive(false);
+            bag.gameObject.SetActive(false);
 
             if (sleepTimer >= sleepDuration)
             {
-                if(dayManager.IsDay)
+                if (shopManager.dayManager.IsDay)
                 {
-                    dayManager.ChangeTimeOfDay(TimeOfDay.Night);
+                    shopManager.ChangeDay();
+                    //dayManager.ChangeTimeOfDay(DayManager.TimeOfDay.Night);
                 }
-                else if(dayManager.IsNight)
+                else if (shopManager.dayManager.IsNight)
                 {
-                    dayManager.ChangeTimeOfDay(TimeOfDay.Day);
+                    shopManager.isAction = false;
+                    shopManager.ChangeDay();
+                    //dayManager.ChangeTimeOfDay(DayManager.TimeOfDay.Day);
                 }
                 WakeUpPlayer();
             }
             return;
         }
 
-        // ★ 플레이어가 침대 주변 detectRadius 반경 안에 있는지 검사
+        // ★ 플레이어가 침대 주변 반경 안에 있는지 검사
         playerIn = Vector3.Distance(player.transform.position, transform.position) < detectRadius;
 
         // 주변에 없으면 UI 초기화
@@ -198,6 +205,7 @@ public class Bed : MonoBehaviour
     void WakeUpPlayer()
     {
         isSleeping = false;
+        bag.SetActive(true);
         Debug.Log("플레이어가 일어났습니다.");
 
         // 플레이어 움직임을 다시 활성화
