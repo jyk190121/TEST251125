@@ -844,6 +844,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -53700875243229429, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: shopBGMClips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -53700875243229429, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: 'shopBGMClips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 58c1e6bdef4197049a4ccbed765c7c69, type: 3}
+    - target: {fileID: -53700875243229429, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: 'shopBGMClips.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: c06da7eed68fcfb47aafc46f9a06e6c2, type: 3}
+    - target: {fileID: -53700875243229429, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: 'dungeonBGMClips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
     - target: {fileID: 1122407842628781802, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: m_Name
       value: TestManager
@@ -860,6 +876,10 @@ PrefabInstance:
       propertyPath: warehousePanelRect
       value: 
       objectReference: {fileID: 186590600}
+    - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6357051562726047180, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
