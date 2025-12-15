@@ -699,6 +699,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1874306219191485101}
   - component: {fileID: 3210425618424909978}
+  - component: {fileID: -8954952650348541603}
   m_Layer: 0
   m_Name: PolyGolem
   m_TagString: Untagged
@@ -745,6 +746,19 @@ CapsuleCollider:
   m_Height: 4
   m_Direction: 1
   m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &-8954952650348541603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8456632441884022478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aba04b7da49fa2469692c9e57d0fb8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHealth: 10
 --- !u!1 &8582688217542871011
 GameObject:
   m_ObjectHideFlags: 0

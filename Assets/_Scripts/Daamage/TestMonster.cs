@@ -5,10 +5,10 @@ public class TestMonster : MonoBehaviour, IHitResponder
 {
     [Header("몬스터 설정")]
     [SerializeField]
-    private float currentHealth = 100f;
+    private float currentHealth = 10f;
 
     // 몬스터의 레이어 설정 (Unity Inspector에서 9번 레이어로 설정해야 합니다.)
-    private const int MonsterLayer = 10;
+    private const int MonsterLayer = 11;
 
     private void Awake()
     {
