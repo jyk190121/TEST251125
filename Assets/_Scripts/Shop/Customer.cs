@@ -104,7 +104,7 @@ public class Customer : MonoBehaviour
 
     void EnterShop()
     {
-        print("가게로 가자");
+        //print("가게로 가자");
         state = CustomerState.EnteringShop;
         agent.SetDestination(entered.position);
     }
@@ -155,6 +155,7 @@ public class Customer : MonoBehaviour
             {
                 transform.rotation = Quaternion.identity;
                 print($"{gameObject.name} 돈 지불 대기");
+
                 yield return new WaitForSeconds(5f);
 
                 if (itemPayCheck)
