@@ -20,7 +20,9 @@ public class Recipe : ScriptableObject
 [CreateAssetMenu(fileName = "NewSmithyRecipe", menuName = "Recipe/Smithy Recipe")]
 public class SmithyRecipe : Recipe
 {
-
+    [Header("대장간 특화")]
+    [Tooltip("이 장비를 만들기 위해 필요한 '이전 단계' 장비")]
+    public Item requiredBaseEquipment; // null이면 기본 제작
 }
 
 // === 연금술 레시피 ===

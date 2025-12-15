@@ -36,10 +36,10 @@ public abstract class CraftingSystemBase : MonoBehaviour
 
         foreach (var material in recipe.inputMaterials)
         {
-            // InventoryManager에서 플레이어 보유 재료 확인
-            int playerQuantity = _MasterManager.Instance.InventoryManager.GetItemCount(material.materialItem);
-            if (playerQuantity < material.amount)
-                return false;
+            // TODO: InventoryManager에서 플레이어 보유 재료 확인
+            // int playerQuantity = InventoryManager.Instance.GetItemQuantity(material.materialItem.itemID);
+            // if (playerQuantity < material.amount)
+            //     return false;
         }
         return true;
     }
@@ -69,17 +69,17 @@ public abstract class CraftingSystemBase : MonoBehaviour
             return false;
         }
 
-        // InventoryManager에서 재료 차감
-        foreach (var material in recipe.inputMaterials)
-        {
-            _MasterManager.Instance.InventoryManager.ConsumeItem(material.materialItem.itemID, material.amount);
-        }
+        // TODO: InventoryManager에서 재료 차감
+        // foreach (var material in recipe.inputMaterials)
+        // {
+        //     InventoryManager.RemoveItem(material.materialItem.itemID, material.amount);
+        // }
 
         // DataManager에서 골드 차감
         _MasterManager.Instance.DataManager.SpendMoney(recipe.goldCost);
 
-        // InventoryManager에서 결과 아이템 추가
-        _MasterManager.Instance.InventoryManager.AddItem(recipe.outputItem, 1);
+        // TODO: InventoryManager에서 결과 아이템 추가
+        // InventoryManager.AddItem(recipe.outputItem, 1);
 
         Debug.Log($"[CraftingSystemBase] 제작 완료: {recipe.outputItem.itemName}");
         OnCraftingComplete?.Invoke(recipe.outputItem.itemID, 1);

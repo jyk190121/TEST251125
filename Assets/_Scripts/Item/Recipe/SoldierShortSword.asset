@@ -12,8 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 864a6c22d7c6b3d418e411bfa54898df, type: 3}
   m_Name: SoldierShortSword
   m_EditorClassIdentifier: Assembly-CSharp::SmithyRecipe
+<<<<<<< HEAD
   recipeID: 0
   recipeName: 
   inputMaterials: []
   goldCost: 0
   outputItem: {fileID: 11400000, guid: e7c63945d43a58b4db31cfbdbe8d3d59, type: 2}
+=======
+  recipeID: 2002
+  recipeName: "\uBCD1\uC0AC\uC758 \uB2E8\uAC80"
+  inputMaterials:
+  - materialItem: {fileID: 11400000, guid: 20add37243396cd4b9eb8b54e6acb91a, type: 2}
+    amount: 1
+  - materialItem: {fileID: 11400000, guid: 4d452987748e7cc48b0c395bbf55421d, type: 2}
+    amount: 5
+  goldCost: 4000
+  outputItem: {fileID: 11400000, guid: 09e769a36fc8c87448c6d8bfa2b146ad, type: 2}
+  requiredBaseEquipment: {fileID: 11400000, guid: d8bc19542ae81f14e829b524afa21fa7, type: 2}
+>>>>>>> parent of 785ae3d (올모스트 던)

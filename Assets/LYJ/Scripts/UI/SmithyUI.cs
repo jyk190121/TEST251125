@@ -11,8 +11,8 @@ public class SmithyUI : MonoBehaviour
     [SerializeField] private GameObject smithyPanel;
 
     // 탭 버튼
-    [SerializeField] private Button UpButton;
-    [SerializeField] private Button DownButton;
+    [SerializeField] private Button WeaponButton;
+    [SerializeField] private Button ArmorButton;
 
     [Header("레시피 목록")]
     [SerializeField] private Transform recipeListContainer;
@@ -49,11 +49,11 @@ public class SmithyUI : MonoBehaviour
             return;
         }
         // ===== 버튼 이벤트 연결 =====
-        if (UpButton != null)
-            UpButton.onClick.AddListener(() => SelectTab(true));  // 무기 탭
+        if (WeaponButton != null)
+            WeaponButton.onClick.AddListener(() => SelectTab(true));  // 무기 탭
 
-        if (DownButton != null)
-            DownButton.onClick.AddListener(() => SelectTab(false));  // 장비 탭
+        if (ArmorButton != null)
+            ArmorButton.onClick.AddListener(() => SelectTab(false));  // 장비 탭
 
         if (craftButton != null)
             craftButton.onClick.AddListener(OnCraftButtonClicked);
@@ -91,8 +91,6 @@ public class SmithyUI : MonoBehaviour
         _MasterManager.Instance.UIManager.SetRightPanelActive(false);
 
         smithyPanel.SetActive(true);
-
-        UpdateTabHighlight();
         PopulateRecipeList();
     }
 
@@ -105,39 +103,16 @@ public class SmithyUI : MonoBehaviour
         _MasterManager.Instance.UIManager.SetRightPanelActive(true);
     }
 
-    private void SelectTab(bool isFirst)
+    private void SelectTab(bool isPotion)
     {
-        isFirstTab = isFirst;
+        isFirstTab = isPotion;
         selectedRecipeID = 0;  // 선택 초기화
 
         // 탭 UI 시각화 업데이트
-        UpdateTabHighlight();
+        //UpdateTabHighlight();
 
         // 레시피 목록 갱신
         PopulateRecipeList();
-    }
-
-    /// <summary>
-    /// 현재 선택된 탭을 시각적으로 표시
-    /// </summary>
-    private void UpdateTabHighlight()
-    {
-        if (isFirstTab)
-        {
-            // 다운 버튼 활성화
-            if (UpButton != null)
-                UpButton.interactable = false;
-            if (DownButton != null)
-                DownButton.interactable = true;
-        }
-        else
-        {
-            // 업 버튼 활성화
-            if (UpButton != null)
-                UpButton.interactable = true;
-            if (DownButton != null)
-                DownButton.interactable = false;
-        }
     }
 
     /// <summary>
@@ -155,7 +130,6 @@ public class SmithyUI : MonoBehaviour
             }
             Destroy(child.gameObject);
         }
-        createdButtons.Clear();
 
         var recipes = craftingSystem.GetAllRecipes();
 
@@ -169,17 +143,6 @@ public class SmithyUI : MonoBehaviour
         foreach (var recipe in recipes.Values)
         {
             if (recipe == null)
-                continue;
-
-            Item items = recipe.outputItem;
-            var type = items.equipmentType;
-
-            // 무기만 표시
-            if (isFirstTab && !(type is EquipmentType.Weapon))
-                continue;
-
-            // 장비만 표시
-            if (!isFirstTab && !(type is EquipmentType.Armor))
                 continue;
 
             GameObject buttonObj = Instantiate(recipeButtonPrefab, recipeListContainer);
@@ -244,9 +207,11 @@ public class SmithyUI : MonoBehaviour
                 {
                     if (material.materialItem != null)
                     {
-                        // 재료 보유량을 InventoryManager에서 가져오기
-                        int playerQuantity = _MasterManager.Instance.InventoryManager.GetItemCount(material.materialItem);
-                        requirementsStr += $"- {material.materialItem.itemName} x{material.amount} \n        (보유: {playerQuantity})\n";
+                        // TODO: 실제 플레이어 보유량을 InventoryManager에서 가져오기
+                        // int playerQuantity = InventoryManager.Instance.GetItemQuantity(material.materialItem.itemID);
+                        // requirementsStr += $"- {material.materialItem.itemName} x{material.amount} (보유: {playerQuantity})\n";
+
+                        requirementsStr += $"- {material.materialItem.itemName} x{material.amount}\n";
                     }
                 }
             }
@@ -257,6 +222,7 @@ public class SmithyUI : MonoBehaviour
 
             requirementsText.text = requirementsStr;
         }
+
 
         // 제작 버튼 활성화/비활성화
         if (craftButton != null)
@@ -276,6 +242,8 @@ public class SmithyUI : MonoBehaviour
         if (success)
         {
             var recipe = craftingSystem.GetRecipe(selectedRecipeID);
+            // TODO: recipe.resultItemName이 Recipe SO에 있는지 확인
+            // Debug.Log($"[SmithyUI] 제작 시도: {recipe.outputItem.itemName}");
         }
         else
         {
