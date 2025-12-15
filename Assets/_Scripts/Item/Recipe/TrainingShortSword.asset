@@ -9,18 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 864a6c22d7c6b3d418e411bfa54898df, type: 3}
   m_Name: TrainingShortSword
   m_EditorClassIdentifier: Assembly-CSharp::SmithyRecipe
-  recipeID: 2001
-  recipeName: "\uD6C8\uB828\uC6A9 \uB2E8\uAC80"
-  inputMaterials:
-  - materialItem: {fileID: 11400000, guid: af39ae62b0a512e4eb9a142ff7914cd0, type: 2}
-    amount: 10
-  - materialItem: {fileID: 11400000, guid: e81cf065c2dff944dbf974dfdd293ea2, type: 2}
-    amount: 4
-  - materialItem: {fileID: 11400000, guid: 563c4d607c18dd849bd3dbedaa38cef6, type: 2}
-    amount: 6
-  goldCost: 1000
-  outputItem: {fileID: 11400000, guid: d8bc19542ae81f14e829b524afa21fa7, type: 2}
-  requiredBaseEquipment: {fileID: 0}
+  recipeID: 0
+  recipeName: 
+  inputMaterials: []
+  goldCost: 0
+  outputItem: {fileID: 0}
