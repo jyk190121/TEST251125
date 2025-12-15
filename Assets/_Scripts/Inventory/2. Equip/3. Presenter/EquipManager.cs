@@ -126,16 +126,15 @@ public class EquipManager : MonoBehaviour
         //인벤토리로 복귀 시도
         //(인벤토리가 꽉 찼으면 해제 불가능하게 처리)
         //AddItem은 성공 여부(bool)를 반환한다고 가정
-        bool addedToInventory = InventoryManager.Instance.AddItem(item);
+        bool addedToInventory = InventoryManager.Instance.AddItem(item);                
 
-        if (addedToInventory) // 인벤토리에 잘 들어갔다면
-        {
+        if (addedToInventory) //인벤토리에 잘 들어갔다면
+        {           
             //모델에서 장비 제거
             model.Unequip(slotIndex);
-
+            
             // 갱신
-            RefreshUI();
-            //UpdateStatToPlayer();
+            RefreshUI();            
         }
         else
         {

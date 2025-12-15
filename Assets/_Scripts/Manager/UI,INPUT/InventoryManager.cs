@@ -11,6 +11,7 @@ public class InventoryManager : MonoBehaviour
 
     [Header("View 연결")]
     public InventoryView inventoryView;
+    public Inventory inventory;                        //인벤토리창 On/Off
 
     [Header("테스트용 아이템 연결")]
     public Item testItemA;              //인스펙터에서 아이템(임시) 연결
@@ -22,9 +23,6 @@ public class InventoryManager : MonoBehaviour
     //Model (Inspector에 안 보임)
     private InventoryModel model;
 
-   
-
-
     [Header("드래그 상태")]
     //드래그 시작한 슬롯 번호 (-1: 아무것도 안 잡음)
     private int dragStartIndex = -1;
@@ -32,9 +30,7 @@ public class InventoryManager : MonoBehaviour
     [Header("UI 영역 설정")]
     public RectTransform inventoryPanelRect;    //인벤토리 배경 (이 밖으로 나가면 팝업)
     public ItemDropPopup dropPopup;             //팝업창 스크립트
-    public ItemSplitPopup splitPopup;           //아이템 소분팝업
-
-    Inventory inventory;                        //인벤토리창 On/Off
+    public ItemSplitPopup splitPopup;           //아이템 소분팝업    
 
     private void Awake()
     {
@@ -62,7 +58,7 @@ public class InventoryManager : MonoBehaviour
         //시작 시 초기화
         HandleInventoryUpdate();
         dropPopup.ClosePopup();
-        inventory = transform.GetChild(0).gameObject.GetComponent<Inventory>();
+        //inventory = transform.GetChild(0).gameObject.GetComponent<Inventory>();i
         model.InitSlots(capacity);
     }
 
@@ -79,7 +75,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //A키를 누르면 테스트 아이템 A 획득
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             if (testItemA != null)
             {
@@ -89,7 +85,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //B키를 누르면 테스트 아이템 B 획득
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             if (testItemB != null)
             {
@@ -99,7 +95,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //C키를 누르면 테스트 아이템 C 획득
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha8))
         {
             if (testItemB != null)
             {
@@ -109,7 +105,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //D키를 누르면 테스트 아이템 C 획득
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             if (testItemB != null)
             {
@@ -119,7 +115,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //C키를 누르면 테스트 아이템 C 획득
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             if (testItemB != null)
             {
@@ -563,8 +559,8 @@ public class InventoryManager : MonoBehaviour
     //외부에서 아이템 획득 시 호출
     public bool AddItem(Item item, int count = 1)
     {
-        model.AddItem(item, count);
-        return true;
+        return model.AddItem(item, count);
+        //return true;
     }
 
     //외부에서 아이템 사용 시 호출 (장비 강화, 소모품 사용 등)
