@@ -1,18 +1,23 @@
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController_Shop : MonoBehaviour
 {
     //float speed = 2f;
     //public bool isSleeping;
 
-    PlayerControll PC;
-    float moveSpeed = 1f;
+    PlayerControll pc;
+    float moveSpeed = 0.5f;
     public bool isSleeping;
-
+    Camera mainCamera;
+    CharacterController cc;
 
     private void Start()
     {
-        PC = GetComponent<PlayerControll>();
+        pc = GetComponent<PlayerControll>();
+        mainCamera = Camera.main;
+        cc = pc.GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -31,49 +36,47 @@ public class PlayerController_Shop : MonoBehaviour
 
 
         // 방향키 입력은 KeySetting 기반으로 수정
-        if (Input.GetKey(KeySetting.keys[KeyInput.UP])) moveZ = 1;
-        if (Input.GetKey(KeySetting.keys[KeyInput.DOWN])) moveZ = -1;
-        if (Input.GetKey(KeySetting.keys[KeyInput.LEFT])) moveX = -1;
-        if (Input.GetKey(KeySetting.keys[KeyInput.RIGHT])) moveX = 1;
+        if (Input.GetKey(KeySetting.keys[KeyInput.UP]))    moveZ  =  moveSpeed;
+        if (Input.GetKey(KeySetting.keys[KeyInput.DOWN]))  moveZ  = -moveSpeed;
+        if (Input.GetKey(KeySetting.keys[KeyInput.LEFT]))  moveX  = -moveSpeed;
+        if (Input.GetKey(KeySetting.keys[KeyInput.RIGHT])) moveX  =  moveSpeed;
 
-        Vector3 dir = new Vector3(moveX, 0, moveZ);     //방향 설정
-        dir.y = 0f;
-        dir = dir.normalized;
+        //Vector3 dir = new Vector3(moveX, 0, moveZ);     //방향 설정
+        //dir.y = 0f;
+        //dir = dir.normalized;
 
         if (!isSleeping)
         {
-            if (dir != Vector3.zero)
+            //캐릭터 뜨는거 보정
+            if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1.5f))
             {
-                PC.Move(dir * moveSpeed * Time.deltaTime);
+                Vector3 pos = transform.position;
+                pos.y = hit.point.y;
+                transform.position = pos;
             }
 
-            if (dir == new Vector3(0, 0, 0))
-            {
-                PC.Idle();
-            }
+            //이동 시에도 보정값
+            Vector3 camForward = mainCamera.transform.forward;
+            Vector3 camRight = mainCamera.transform.right;
 
-            if (Input.GetKeyDown(KeySetting.keys[KeyInput.MAINATTACK]))
-            {
-                PC.Attack();
-            }
+            camForward.y = 0f;
+            camRight.y = 0f;
 
-            if (Input.GetKeyDown(KeySetting.keys[KeyInput.SUBATTACK]))
-            {
-                PC.SubCharge();
-            }
-            else if (Input.GetKeyUp(KeySetting.keys[KeyInput.SUBATTACK]))
-            {
-                PC.SubAttack();
-            }
+            camForward.Normalize();
+            camRight.Normalize();
 
-            Vector3 rolldir = transform.forward;
+            Vector3 move = (camForward * moveZ + camRight * moveX).normalized * moveSpeed;
+
+            // 애니메이션
+            if (move.sqrMagnitude > 0.01f) pc.Move(move * Time.deltaTime);
+            else pc.Idle();
 
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.ROLL]))
             {
-                PC.Roll(rolldir);
+                pc.Roll(transform.forward);
             }
         }
-      
 
     }
+
 }
