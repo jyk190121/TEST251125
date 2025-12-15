@@ -36,6 +36,7 @@ public class InventoryView : MonoBehaviour
         for (int i = 0; i < uiSlots.Length; i++)
         {
             uiSlots[i].UpdateView(dataSlots[i]);
+            Debug.Log(dataSlots[i].IsEmpty);
         }
     }
 }

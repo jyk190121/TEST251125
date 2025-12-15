@@ -1,11 +1,16 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InventoryModel
 {
     //내부 저장소: 딕셔너리 (Key: 슬롯 인덱스)
     private Dictionary<int, InventorySlotModel> slots = new Dictionary<int, InventorySlotModel>();
+
+    //인벤토리 정리용 리스트
+    private SortedList<int, List<InventorySlotModel>> sortedInventory = new SortedList<int, List<InventorySlotModel>>();
 
     public int Capacity { get; private set; }
 
@@ -17,7 +22,15 @@ public class InventoryModel
         this.Capacity = capacity;
     }
 
-    //View가 그리기 쉽도록 딕셔너리를 배열로 변환하여 반환
+    public void InitSlots(int capacity)
+    {
+        for (int i = 0; i < capacity; i++)
+        {
+            slots.Add(i, new InventorySlotModel());
+        }
+    }
+
+    //뷰가 그리기 쉽도록 딕셔너리를 배열로 변환하여 반환
     public InventorySlotModel[] GetSlotsForView()
     {
         InventorySlotModel[] viewArray = new InventorySlotModel[Capacity];
@@ -228,7 +241,7 @@ public class InventoryModel
             slots.Remove(index);
         }
 
-        //데이터가 변했으니 View(화면)도 갱신
+        //데이터가 변했으니 화면 갱신 알림
         OnInventoryUpdated?.Invoke();
     }
 
@@ -270,8 +283,66 @@ public class InventoryModel
             }
         }
 
-        //데이터가 변했으니 View(화면)도 갱신하라고 알림 (Observer Pattern)
+        //데이터가 변했으니 화면 갱신 알림
         OnInventoryUpdated?.Invoke();
         return true; //성공적으로 삭제함
+    }
+
+    public void SortInventory(ItemType type)
+    {
+        //기존 sortedInventory를 초기화합니다.
+        sortedInventory.Clear();
+
+        foreach (var sortSlot in slots.Values) // slots는 Dictionary이므로 Values 컬렉션을 순회합니다.
+        {
+            if (sortSlot != null && !sortSlot.IsEmpty && sortSlot.itemData != null) // null 체크 추가
+            {
+                //아이템 ID를 기반으로 1000으로 나눠 아이템 종류를 확인
+                int majorKey = sortSlot.itemData.itemID / 1000;
+
+                //나눈 키값으로 아이템을 새로운 인벤토리 리스트에 저장
+                if (!sortedInventory.ContainsKey(majorKey))
+                {
+                    sortedInventory.Add(majorKey, new List<InventorySlotModel>());
+                }
+                sortedInventory[majorKey].Add(sortSlot);
+            }
+        }
+
+        //우선 순위 정렬할 리스트 초기화
+        List<InventorySlotModel> invenList = new List<InventorySlotModel>();
+
+        //입력받은 enum값을 기준으로 리스트에서 가지고 온다
+        if (sortedInventory.ContainsKey((int)type + 1))
+        {
+            invenList = sortedInventory[(int)(type + 1)];
+            sortedInventory.Remove((int)(type + 1));
+        }
+
+        //위에서 받아온 리스트 재정렬
+        invenList.Sort((a, b) => a.itemData.itemID.CompareTo(b.itemData.itemID));
+
+        //나머지 남은 아이템 정렬
+        foreach (var sortinven in sortedInventory)
+        {
+            sortinven.Value.Sort((a, b) => a.itemData.itemID.CompareTo(b.itemData.itemID));
+            invenList.AddRange(sortinven.Value);
+        }
+
+        int i = 0;
+
+        for (i = 0; i < invenList.Count; i++)
+        {            
+            AddItemToSlot(i, invenList[i]);
+        }
+
+        for(int j = i ; j < slots.Count; j++)
+        {
+            //InventorySlotModel temp = new InventorySlotModel();
+            //temp.Clear();
+            //AddItemToSlot(i, temp);
+            RemoveItem(j);
+
+        }        
     }
 }
