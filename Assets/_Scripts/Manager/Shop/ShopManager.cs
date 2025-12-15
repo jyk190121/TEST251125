@@ -52,7 +52,6 @@ public class ShopManager : MonoBehaviour
 
         pos_palyer.posUpdate();
 
-
     }
 
     // Update is called once per frame
@@ -63,6 +62,10 @@ public class ShopManager : MonoBehaviour
         //낮인지
         if (dayManager.IsDay && !isAction)
         {
+            if(!soundManager.PlayingBGM())
+            {
+                soundManager.PlayBGMIndex(0);
+            }
 
             //상호작용 키로 상점 오픈하기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && pos_palyer.playerIsSales)
@@ -78,6 +81,7 @@ public class ShopManager : MonoBehaviour
                 if (salesCustomer.HasCustomer())
                 {
                     soundManager.PlaySFXIndex(0);
+                    
                     //골드 100 획득 (임시)
                     dataManager.EarnMoney(100);
 
@@ -99,7 +103,11 @@ public class ShopManager : MonoBehaviour
             CloseShop();
             ChangeDay();
         }
-
+        //밤인지 (밤엔 음악끄기)
+        else if(dayManager.IsNight)
+        {
+            soundManager.StopBGM();
+        }
     }
 
     void OpenShop()
@@ -113,7 +121,6 @@ public class ShopManager : MonoBehaviour
 
     void CloseShop()
     {
-        soundManager.StopBGM();
         isAction = false;
         pos_palyer.shopOpenCheck = false;
         //pos_palyer.playerIsSales = false;
