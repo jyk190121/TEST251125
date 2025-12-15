@@ -50,6 +50,7 @@ public class ShopManager : MonoBehaviour
         //손님이 아이템을 가져오면 '판매' 라는 문구 로 변경
         //sales.text = "판매 시작";
 
+        soundManager.StopBGM();
         pos_palyer.posUpdate();
 
     }
