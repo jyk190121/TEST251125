@@ -20,7 +20,7 @@ public class RegisteredItem : MonoBehaviour
     
     public void InventoryList()
     {
-        inventory.
+        //inventory.
     }
 
     

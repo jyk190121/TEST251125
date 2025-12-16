@@ -16,6 +16,8 @@ public class Warehouse : MonoBehaviour
     //public ItemSplitPopup itemSplitPopup;  //창고 UI 캔버스 열기/닫기
     public GameObject itemWarehousePanel;    //창고 UI 판넬
 
+    public GameObject inventoeyPanel;        //인벤토리 UI 판넬
+
     bool openWarehousePanel;                 //창고 UI 열려있는지 
 
     float detectRadius;                      //창고 주변 감지 범위
@@ -42,6 +44,7 @@ public class Warehouse : MonoBehaviour
         if(Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
         {
             itemWarehousePanel.SetActive(false);
+            inventoeyPanel.SetActive(false);
             openWarehousePanel = false;
         }
 
@@ -58,6 +61,7 @@ public class Warehouse : MonoBehaviour
             key.gameObject.SetActive(false);
             itemWarehousePanel.SetActive(false);
             openWarehousePanel = false;
+            inventoeyPanel.SetActive(false);
             return;
         }
 
@@ -82,6 +86,7 @@ public class Warehouse : MonoBehaviour
                 print("창고개방");
                 //itemSplitPopup.gameObject.SetActive(true);
                 itemWarehousePanel.SetActive(true);
+                inventoeyPanel.SetActive(true);
                 openWarehousePanel = true;
             }
         }
