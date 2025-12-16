@@ -1,4 +1,5 @@
 using UnityEditor;
+using UnityEditor.Build.Content;
 using UnityEngine;
 
 //
@@ -21,6 +22,7 @@ public class ItemDataEditor : Editor
     SerializedProperty itemID;
     SerializedProperty itemName;
     SerializedProperty icon;
+    SerializedProperty itemPrefab;
     SerializedProperty description;
 
     SerializedProperty type;
@@ -63,6 +65,7 @@ public class ItemDataEditor : Editor
         itemID = serializedObject.FindProperty("itemID");
         itemName = serializedObject.FindProperty("itemName");
         icon = serializedObject.FindProperty("icon");
+        itemPrefab = serializedObject.FindProperty("itemPrefab");
         description = serializedObject.FindProperty("description");
 
         type = serializedObject.FindProperty("type");
@@ -106,6 +109,7 @@ public class ItemDataEditor : Editor
         EditorGUILayout.PropertyField(itemID);
         EditorGUILayout.PropertyField(itemName);
         EditorGUILayout.PropertyField(icon);
+        EditorGUILayout.PropertyField(itemPrefab);
         EditorGUILayout.PropertyField(description);
 
         EditorGUILayout.Space(10);

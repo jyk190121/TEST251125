@@ -2003,6 +2003,7 @@ GameObject:
   - component: {fileID: 8361094556079305013}
   - component: {fileID: 1618807706784563091}
   - component: {fileID: 2016498121983341310}
+  - component: {fileID: 3846003760402762235}
   m_Layer: 7
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -2118,6 +2119,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &3846003760402762235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4361047247619547267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39bc9062ea2033948a48ac93fe6e42ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponlist: []
 --- !u!1 &4433756766690965229
 GameObject:
   m_ObjectHideFlags: 0
