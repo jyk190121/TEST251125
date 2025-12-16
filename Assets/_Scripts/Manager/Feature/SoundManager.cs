@@ -103,6 +103,7 @@ public class SoundManager : MonoBehaviour
     //재생중인 BGM있는지 체크
     public bool PlayingBGM()
     {
+        if (bgmSource == null) return false;
         if (bgmSource.isPlaying) return true;
         else return false;
     }
