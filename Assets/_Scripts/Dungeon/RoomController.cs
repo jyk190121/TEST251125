@@ -11,6 +11,8 @@ public class RoomController : MonoBehaviour
     public GameObject doorLeft;
     public GameObject doorRight;
 
+    public List<Collider> doorColliders = new List<Collider>();
+
     [Header("몬스터 스폰 포인트")]
     public List<Transform> spawnPoints;
 
@@ -29,6 +31,14 @@ public class RoomController : MonoBehaviour
 
     public bool IsBoss = false;
 
+    private void Start()
+    {
+        if (isStartRoom || isRestRoom)
+        {
+            isCleared = true; // 자동 클리어
+            UnlockDoors();    // 문을 열어 통과 가능하게 합니다.
+        }
+    }
 
     public void SetDoorActive(bool up, bool down, bool left, bool right)
     {
@@ -52,6 +62,8 @@ public class RoomController : MonoBehaviour
             aliveMonsters.Add(monster);
             //monster.GetComponent<MonsterTest>().SetupRoom(this);
 
+            monster.GetComponent<TestMonster>()?.SetupRoom(this);
+
             if (monster.layer == LayerMask.NameToLayer("Boss"))
             {
                 IsBoss = true;
@@ -65,6 +77,8 @@ public class RoomController : MonoBehaviour
         if (isSpawned) return;       // 이미 스폰했으면 더 이상 스폰 안 함
 
         isSpawned = true;            // 스폰 표시
+
+        LockDoors();
 
         SpawnMonster();             // 기존 몬스터 생성 함수 호출
     }
@@ -84,8 +98,36 @@ public class RoomController : MonoBehaviour
         {
             isCleared = true;
             Debug.Log("방 클리어! 문 열림");
-            SetDoorActive(true, true, true, true);
+            UnlockDoors();
         }
     }
-    
+
+    public void LockDoors()
+    {
+        
+        if (isCleared) return;
+
+        foreach (var collider in doorColliders)
+        {
+            if (collider != null)
+            {
+                collider.enabled = true;
+            }
+        }
+    }
+
+    public void UnlockDoors()
+    {
+        
+        if (!isCleared) return;
+
+        foreach (var collider in doorColliders)
+        {
+            if (collider != null)
+            {   
+                collider.enabled = false;
+            }
+        }
+    }
+
 }
