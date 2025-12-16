@@ -353,7 +353,7 @@ public class InventoryModel
             RemoveItem(j);
         }
 
-        //변경 사항 알림
+        //인벤토리 업데이트 알림
         OnInventoryUpdated?.Invoke();
     }
 }
