@@ -16,6 +16,7 @@ public class Item : ScriptableObject
     public int itemID;              //아이템 고유 ID
     public string itemName;         //아이템 이름
     public Sprite icon;             //아이템 아이콘(이미지)
+    public GameObject itemPrefab;   //아이템 프리팹
     [TextArea(3, 5)]
     public string description;      //아이템 설명
 

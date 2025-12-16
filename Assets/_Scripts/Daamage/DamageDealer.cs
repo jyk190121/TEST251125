@@ -31,9 +31,10 @@ public class DamageDealer : MonoBehaviour
 
             PC = damageOwner.GetComponent<PlayerControll>();
         }
-        if(gameObject.layer == 10) //몬스터 레이어
+        if(gameObject.layer == 11) //몬스터 레이어
         {
-
+            MonsterData monster = damageOwner.GetComponent<NormalMosterFSM>().monsterData;
+            baseDamage = monster.Attack;
         }
     }
     //데미지 출처를 설정하는 함수 -> 투사체용
