@@ -53,6 +53,12 @@ public class Warehouse : MonoBehaviour
         playerIn = Vector3.Distance(player.transform.position, transform.position) < detectRadius;
 
         // 주변에 없으면 UI 초기화
+        if (!playerIn && openWarehousePanel)
+        {
+            openWarehousePanel = false;
+            inventoeyPanel.SetActive(false);
+        }
+
         if (!playerIn)
         {
             playerIn = false;
@@ -60,15 +66,12 @@ public class Warehouse : MonoBehaviour
             image.gameObject.SetActive(false);
             key.gameObject.SetActive(false);
             itemWarehousePanel.SetActive(false);
-            openWarehousePanel = false;
-            inventoeyPanel.SetActive(false);
+
             return;
         }
-
+       
         // 주변에 있으면 상호작용 키 노출
-        if(!openWarehousePanel) key.gameObject.SetActive(true);
-
-
+        if (!openWarehousePanel) key.gameObject.SetActive(true);
 
         // 상호작용 키 입력 확인
         if (Input.GetKey(KeySetting.keys[KeyInput.INTERACTIVE]))
