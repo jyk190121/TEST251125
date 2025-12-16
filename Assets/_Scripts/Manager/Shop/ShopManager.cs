@@ -1,6 +1,5 @@
 using UnityEngine;
 using static DayManager;
-using static DataManager;
 /// <summary>
 /// 1. 밤/낮을 구분해주는 기능 (DayManager)
 ///  - 낮 : 플레이어가 계산대 앞에서 상호작용 키로 판매시작 / 아이템 들고 온 손님 존재할 땐 : 판매
@@ -34,14 +33,15 @@ public class ShopManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       
-        dayManager = FindAnyObjectByType<DayManager>();
-        pos_palyer = FindAnyObjectByType<POS_playerSalas>();
+
+        //dayManager = FindAnyObjectByType<DayManager>();
+        dayManager = _MasterManager.Instance.DayManager;
+        dataManager = _MasterManager.Instance.DataManager;
         customerManager = FindAnyObjectByType<CustomerManager>();
+        soundManager = FindAnyObjectByType<SoundManager>();
+        pos_palyer = FindAnyObjectByType<POS_playerSalas>();
         light_Shop = FindAnyObjectByType<Light_Shop>();
         salesCustomer = FindAnyObjectByType<SalesCustomer>();
-        dataManager = FindAnyObjectByType<DataManager>();
-        soundManager = FindAnyObjectByType<SoundManager>();
 
         pos_palyer.image.gameObject.SetActive(false);
         pos_palyer.shopOpenCheck = false;
