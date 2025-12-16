@@ -23,6 +23,7 @@ public class PlayerFallController : MonoBehaviour
     private bool isFall = false; // 낭떠러지 처리 중인지 확인하는 플래그
 
     CharacterController cc;
+    private PlayerMove playerMove;
 
     float saveTimer = 0.8f;
 
@@ -30,6 +31,7 @@ public class PlayerFallController : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         TrapLayer = LayerMask.NameToLayer(TrapLayerName);
+        playerMove = GetComponent<PlayerMove>();
         lastSafePosition = transform.position;
         initialScale = transform.localScale;
     }
@@ -59,6 +61,10 @@ public class PlayerFallController : MonoBehaviour
    IEnumerator FallAndRespawn()
    {
         isFall = true;
+
+        if (playerMove != null)
+            playerMove.enabled = false;
+
         cc.enabled = false;
 
         float timer = 0f;
@@ -80,6 +86,9 @@ public class PlayerFallController : MonoBehaviour
         transform.localScale = initialScale;
 
         cc.enabled = true;
+
+        if (playerMove != null)
+            playerMove.enabled = true;
 
         isFall = false;
     }

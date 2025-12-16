@@ -289,12 +289,14 @@ public class InventoryModel
         return true; //성공적으로 삭제함
     }
 
+    //인벤토리 정렬
     public void SortInventory(ItemType type)
     {
-        //기존 sortedInventory를 초기화합니다.
+        //기존 sortedInventory를 초기화
         sortedInventory.Clear();
 
-        foreach (var sortSlot in slots.Values) // slots는 Dictionary이므로 Values 컬렉션을 순회합니다.
+        //slots는 Dictionary이므로 Values 컬렉션을 순회
+        foreach (var sortSlot in slots.Values)
         {
             if (sortSlot != null && !sortSlot.IsEmpty && sortSlot.itemData != null) // null 체크 추가
             {
@@ -330,20 +332,28 @@ public class InventoryModel
             invenList.AddRange(sortinven.Value);
         }
 
+        //기존 slots 딕셔너리를 완전히 비움
+        slots.Clear();
+
+        //i 초기화
         int i = 0;
 
+        //인벤토리 앞에서부터 아이템 정렬 시작
         for (i = 0; i < invenList.Count; i++)
         {            
             AddItemToSlot(i, invenList[i]);
         }
 
+        //기존 아이템들 딕셔너리에서 제거
         for(int j = i ; j < slots.Count; j++)
         {
             //InventorySlotModel temp = new InventorySlotModel();
             //temp.Clear();
             //AddItemToSlot(i, temp);
             RemoveItem(j);
+        }
 
-        }        
+        //변경 사항 알림
+        OnInventoryUpdated?.Invoke();
     }
 }

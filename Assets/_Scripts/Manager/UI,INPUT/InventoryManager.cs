@@ -11,6 +11,7 @@ public class InventoryManager : MonoBehaviour
 
     [Header("View 연결")]
     public InventoryView inventoryView;
+    public Inventory inventory;                        //인벤토리창 On/Off
 
     [Header("테스트용 아이템 연결")]
     public Item testItemA;              //인스펙터에서 아이템(임시) 연결
@@ -22,9 +23,6 @@ public class InventoryManager : MonoBehaviour
     //Model (Inspector에 안 보임)
     private InventoryModel model;
 
-   
-
-
     [Header("드래그 상태")]
     //드래그 시작한 슬롯 번호 (-1: 아무것도 안 잡음)
     private int dragStartIndex = -1;
@@ -32,9 +30,7 @@ public class InventoryManager : MonoBehaviour
     [Header("UI 영역 설정")]
     public RectTransform inventoryPanelRect;    //인벤토리 배경 (이 밖으로 나가면 팝업)
     public ItemDropPopup dropPopup;             //팝업창 스크립트
-    public ItemSplitPopup splitPopup;           //아이템 소분팝업
-
-    Inventory inventory;                        //인벤토리창 On/Off
+    public ItemSplitPopup splitPopup;           //아이템 소분팝업    
 
     private void Awake()
     {
@@ -62,7 +58,7 @@ public class InventoryManager : MonoBehaviour
         //시작 시 초기화
         HandleInventoryUpdate();
         dropPopup.ClosePopup();
-        inventory = transform.GetChild(0).gameObject.GetComponent<Inventory>();
+        //inventory = transform.GetChild(0).gameObject.GetComponent<Inventory>();i
         model.InitSlots(capacity);
     }
 
