@@ -61,6 +61,9 @@ public class Warehouse : MonoBehaviour
 
         if (!playerIn)
         {
+            if (image == null) return;
+            if (key == null) return;
+            if (itemWarehousePanel == null) return;
             playerIn = false;
             keyTimer = 0f;
             image.gameObject.SetActive(false);
