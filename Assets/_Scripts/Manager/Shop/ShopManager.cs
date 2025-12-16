@@ -65,7 +65,8 @@ public class ShopManager : MonoBehaviour
         {
             if(!soundManager.PlayingBGM())
             {
-                soundManager.PlayBGMIndex(0);
+                //soundManager.PlayShopBGMIndex(0);
+                soundManager.PlayBGM("진영", 0);
             }
 
             //상호작용 키로 상점 오픈하기
@@ -81,8 +82,9 @@ public class ShopManager : MonoBehaviour
                 //item 판매 (손님위치 - 계산대인지체크)
                 if (salesCustomer.HasCustomer())
                 {
-                    soundManager.PlaySFXIndex(0);
-                    
+                    //soundManager.PlaySFXIndex(0);
+                    soundManager.PlaySFX("진영", 0);
+
                     //골드 100 획득 (임시)
                     dataManager.EarnMoney(100);
 
@@ -117,7 +119,7 @@ public class ShopManager : MonoBehaviour
         pos_palyer.posUpdate();
         StartCoroutine( customerManager.CreateCustomer(10));
         soundManager.StopBGM();
-        soundManager.PlayBGMIndex(1);
+        soundManager.PlayBGM("진영", 1);
     }
 
     void CloseShop()
