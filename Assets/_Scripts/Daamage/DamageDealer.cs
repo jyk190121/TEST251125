@@ -31,7 +31,7 @@ public class DamageDealer : MonoBehaviour
 
             PC = damageOwner.GetComponent<PlayerControll>();
         }
-        if(gameObject.layer == 10) //몬스터 레이어
+        if(gameObject.layer == 11) //몬스터 레이어
         {
 
         }
