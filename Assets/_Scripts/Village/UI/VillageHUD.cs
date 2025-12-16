@@ -1,5 +1,6 @@
-using UnityEngine;
+using System;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -65,11 +66,13 @@ public class VillageHUD : MonoBehaviour
 
     private void OnTimeChanged(DayManager.TimeOfDay newTime)
     {
+        _MasterManager.Instance.SoundManager.StopBGM();
         UpdateDisplay();
     }
 
     private void OnDayChanged(int newDay)
     {
+        _MasterManager.Instance.SoundManager.StopBGM();
         UpdateDisplay();
     }
 
@@ -86,6 +89,9 @@ public class VillageHUD : MonoBehaviour
             directionalLight.intensity = dayIntensity;
             directionalLight.color = dayColor;
             streetLights.SetActive(false);
+
+            //사운드
+            _MasterManager.Instance.SoundManager.PlayBGM("유정", 0);
         }
         else
         {
@@ -93,6 +99,9 @@ public class VillageHUD : MonoBehaviour
             directionalLight.intensity = nightIntensity;
             directionalLight.color = nightColor;
             streetLights.SetActive(true);
+
+            //사운드
+            _MasterManager.Instance.SoundManager.PlayBGM("유정", 1);
         }
 
         Debug.Log($"[VillageHUD] 업데이트: {dayManager.CurrentDay}일 " +
