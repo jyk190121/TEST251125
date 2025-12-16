@@ -14437,6 +14437,18 @@ MonoBehaviour:
   maxZ: 23
   minY: -1
   maxY: 10
+--- !u!114 &1936087566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936087550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d20fab0ab576ce4aa70007dc5e7c178, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1942451722
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14447,7 +14459,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 197495426929271994, guid: 48a4726f5b0e3b149b360b95e3a14ccc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.6
+      value: 11.7
       objectReference: {fileID: 0}
     - target: {fileID: 197495426929271994, guid: 48a4726f5b0e3b149b360b95e3a14ccc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -14455,7 +14467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 197495426929271994, guid: 48a4726f5b0e3b149b360b95e3a14ccc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.64
+      value: 1.35
       objectReference: {fileID: 0}
     - target: {fileID: 197495426929271994, guid: 48a4726f5b0e3b149b360b95e3a14ccc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -14528,6 +14540,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7715939311421269407, guid: 48a4726f5b0e3b149b360b95e3a14ccc, type: 3}
       insertIndex: 7
       addedObject: {fileID: 1936087558}
+    - targetCorrespondingSourceObject: {fileID: 7715939311421269407, guid: 48a4726f5b0e3b149b360b95e3a14ccc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1936087566}
   m_SourcePrefab: {fileID: 100100000, guid: 48a4726f5b0e3b149b360b95e3a14ccc, type: 3}
 --- !u!1 &1947574930
 GameObject:
