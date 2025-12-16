@@ -9,6 +9,10 @@ public class ItemSplitPopup : MonoBehaviour
     [Header("팝업 UI")]
     public TMP_InputField inputField;       //아이템 수량 입력
     public Slider quantitySlider;           //아이템 수량 슬라이더
+    public Button minButton;                //아이템 최소 수량 버튼
+    public Button maxButton;                //아이템 최대 수량 버튼
+    public Button minusButton;              //아이템 수량 감소 버튼
+    public Button plusButton;               //아이템 수량 증가 버튼
     public Button yesButton;                //확인 버튼
     public Button noButton;                 //취소 버튼
     public TextMeshProUGUI titleText;       //아이템 이름 표시
@@ -30,6 +34,10 @@ public class ItemSplitPopup : MonoBehaviour
         quantitySlider.onValueChanged.AddListener(OnSliderValueChanged);
 
         //버튼 이벤트
+        minButton.onClick.AddListener(OnMinButtonClick);
+        maxButton.onClick.AddListener(OnMaxButtonClick);
+        minusButton.onClick.AddListener(OnMinusButtonClick);
+        plusButton.onClick.AddListener(OnPlusButtonClick);
         yesButton.onClick.AddListener(OnConfirm);
         noButton.onClick.AddListener(ClosePopup);
     }
@@ -52,6 +60,40 @@ public class ItemSplitPopup : MonoBehaviour
         inputField.text = "1";
     }
 
+    private void OnMinButtonClick()
+    {
+        inputField.text = "1";
+    }
+
+    private void OnMaxButtonClick()
+    {
+        inputField.text = maxQuantity.ToString();
+    }
+
+    private void OnMinusButtonClick()
+    {
+        if(int.TryParse(inputField.text, out int currentValue))
+        {
+            inputField.text = (currentValue - 1).ToString();
+            if (currentValue <= 1)
+            {
+                inputField.text = "1";
+            }
+        }
+    }
+
+    private void OnPlusButtonClick()
+    {
+        if(int.TryParse(inputField.text, out int currentValue))
+        {            
+            inputField.text = (currentValue + 1 ).ToString();
+            if (currentValue >= maxQuantity)
+            {
+                inputField.text = $"{maxQuantity}";
+            }
+        }
+    }
+
     //슬라이드 이동 시 inputField 값 변경
     private void OnSliderValueChanged(float value)
     {
@@ -63,7 +105,7 @@ public class ItemSplitPopup : MonoBehaviour
     {
         if (int.TryParse(value, out int result))
         {
-            //최대 / 최소 범위 체한
+            //최대 & 최소 범위 체한
             result = Mathf.Clamp(result, 1, maxQuantity);
 
             //텍스트가 다르면 갱신
@@ -76,7 +118,7 @@ public class ItemSplitPopup : MonoBehaviour
         else
         {
             //숫자가 아니면 1로 초기화 (문자 입력 시)
-            inputField.text = "1";
+            inputField.text = "0";
         }
     }
 
