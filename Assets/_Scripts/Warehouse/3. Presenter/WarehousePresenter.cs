@@ -20,6 +20,7 @@ public class WarehousePresenter : MonoBehaviour
     private int dragStartIndex = -1;
 
     [Header("UI 영역 설정")]
+    public Transform ghostIconParent;           //고스트 아이콘 부모 패널
     public RectTransform warehousePanelRect;    //창고 배경
     public ItemDropPopup dropPopup;             //팝업창
     public ItemSplitPopup splitPopup;           //아이템 소분팝업
