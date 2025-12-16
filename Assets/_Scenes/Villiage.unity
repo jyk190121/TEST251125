@@ -503,8 +503,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AlchemyRecipes:
-  - {fileID: 11400000, guid: e622b3b6a046d5b41b641fbaafe32b59, type: 2}
-  - {fileID: 11400000, guid: 8c276eac5111a104f9cf066154a561c6, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   EnchantRecipes: []
 --- !u!114 &29817954
 MonoBehaviour:
@@ -3775,6 +3775,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 443240434}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!224 &462019020 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4509568152076949483, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+  m_PrefabInstance: {fileID: 733790192}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &490654277
 GameObject:
   m_ObjectHideFlags: 0
@@ -5567,6 +5572,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2775220438893777077, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: splitPopup
+      value: 
+      objectReference: {fileID: 1528505831}
+    - target: {fileID: 2775220438893777077, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: warehousePanelRect
+      value: 
+      objectReference: {fileID: 462019020}
     - target: {fileID: 6357051562726047180, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -9570,15 +9583,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SmithyRecipes:
-  - {fileID: 11400000, guid: 2293680da53bf16479c166aee1eff6f8, type: 2}
-  - {fileID: 11400000, guid: af3aad662ecc12d43822ad75e70175cc, type: 2}
-  - {fileID: 11400000, guid: fc40389364fccbe488c9dd921909d4a2, type: 2}
-  - {fileID: 11400000, guid: e0473c9af77de044ba4b989451ecafca, type: 2}
-  - {fileID: 11400000, guid: fbf96781c02c5d14980dc3151a654225, type: 2}
-  - {fileID: 11400000, guid: 498cebd4f42b0ab46a9cbcea9433dc3b, type: 2}
-  - {fileID: 11400000, guid: 559f37f254335cc499eda74a389b79dd, type: 2}
-  - {fileID: 11400000, guid: ef687537f8fbe4046a08421aa8a184ed, type: 2}
-  - {fileID: 11400000, guid: 82e16127ac433694f9c958051304f2f2, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1304662573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11234,6 +11247,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 824848520}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &1528505831 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2792910991417896483, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+  m_PrefabInstance: {fileID: 733790192}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ae72b63cf5b6a84f91001339981f9de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1539487547
 GameObject:
   m_ObjectHideFlags: 0

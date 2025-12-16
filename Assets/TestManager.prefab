@@ -241,11 +241,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmSource: {fileID: 6664478791948072366}
   sfxSource: {fileID: 3571932401655655142}
-  bgmClips:
+  BGMClips1:
   - {fileID: 8300000, guid: f9d0fd2d9c2a4054d9868df46983f7db, type: 3}
   - {fileID: 8300000, guid: bea3dd0bb4fba744fb28fcb6728331f2, type: 3}
-  sfxClips:
+  SFXClips1:
   - {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
+  BGMClips2: []
+  SFXClips2: []
+  BGMClips3: []
+  SFXClips3: []
+  BGMClips4: []
+  SFXClips4: []
+  BGMClips5: []
+  SFXClips5: []
+  BGMClips6: []
+  SFXClips6: []
   masterVolume: 1
   bgmVolume: 1
   sfxVolume: 1
