@@ -292,7 +292,7 @@ public class DungeonManager : MonoBehaviour
             );
 
             // 생성된 플레이어의 이름을 설정하여 씬에서 쉽게 식별하도록 합니다.
-            spawnedPlayer.name = "Player_Spawned_In_StartRoom";
+            spawnedPlayer.name = "Player";
 
             // 플레이어 스폰 위치를 확인하기 위한 로그입니다.
             Debug.Log($"플레이어 프리팹을 시작 방 (World: {finalSpawnPosition})에 성공적으로 생성했습니다.");
