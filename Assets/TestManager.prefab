@@ -28,6 +28,7 @@ GameObject:
   - component: {fileID: 5867166246293917673}
   - component: {fileID: 6664478791948072366}
   - component: {fileID: 3571932401655655142}
+  - component: {fileID: -53700875243229429}
   m_Layer: 5
   m_Name: TestManager
   m_TagString: Untagged
@@ -514,6 +515,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+<<<<<<< HEAD
 --- !u!1 &2726599151842463479
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,11 +562,15 @@ CanvasRenderer:
   m_GameObject: {fileID: 2726599151842463479}
   m_CullTransparentMesh: 1
 --- !u!114 &8331544139207068381
+=======
+--- !u!114 &-53700875243229429
+>>>>>>> Develop
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   m_GameObject: {fileID: 2726599151842463479}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -978,6 +984,29 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+=======
+  m_GameObject: {fileID: 1122407842628781802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7471fba2da6fa884097a367f469cef26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bgmSource: {fileID: 6664478791948072366}
+  sfxSource: {fileID: 3571932401655655142}
+  playerSFXClips:
+  - {fileID: 0}
+  monsterSFXClips:
+  - {fileID: 0}
+  villiageBGMClips:
+  - {fileID: 0}
+  shopBGMClips:
+  - {fileID: 0}
+  dungeonBGMClips:
+  - {fileID: 0}
+  masterVolume: 1
+  bgmVolume: 1
+  sfxVolume: 1
+>>>>>>> Develop
 --- !u!1 &9076564967756922066
 GameObject:
   m_ObjectHideFlags: 0
