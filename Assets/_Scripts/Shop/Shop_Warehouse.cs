@@ -16,6 +16,8 @@ public class Warehouse : MonoBehaviour
     //public ItemSplitPopup itemSplitPopup;  //창고 UI 캔버스 열기/닫기
     public GameObject itemWarehousePanel;    //창고 UI 판넬
 
+    public GameObject inventoeyPanel;        //인벤토리 UI 판넬
+
     bool openWarehousePanel;                 //창고 UI 열려있는지 
 
     float detectRadius;                      //창고 주변 감지 범위
@@ -42,6 +44,7 @@ public class Warehouse : MonoBehaviour
         if(Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
         {
             itemWarehousePanel.SetActive(false);
+            inventoeyPanel.SetActive(false);
             openWarehousePanel = false;
         }
 
@@ -50,21 +53,28 @@ public class Warehouse : MonoBehaviour
         playerIn = Vector3.Distance(player.transform.position, transform.position) < detectRadius;
 
         // 주변에 없으면 UI 초기화
+        if (!playerIn && openWarehousePanel)
+        {
+            openWarehousePanel = false;
+            inventoeyPanel.SetActive(false);
+        }
+
         if (!playerIn)
         {
+            if (image == null) return;
+            if (key == null) return;
+            if (itemWarehousePanel == null) return;
             playerIn = false;
             keyTimer = 0f;
             image.gameObject.SetActive(false);
             key.gameObject.SetActive(false);
             itemWarehousePanel.SetActive(false);
-            openWarehousePanel = false;
+
             return;
         }
-
+       
         // 주변에 있으면 상호작용 키 노출
-        if(!openWarehousePanel) key.gameObject.SetActive(true);
-
-
+        if (!openWarehousePanel) key.gameObject.SetActive(true);
 
         // 상호작용 키 입력 확인
         if (Input.GetKey(KeySetting.keys[KeyInput.INTERACTIVE]))
@@ -82,6 +92,7 @@ public class Warehouse : MonoBehaviour
                 print("창고개방");
                 //itemSplitPopup.gameObject.SetActive(true);
                 itemWarehousePanel.SetActive(true);
+                inventoeyPanel.SetActive(true);
                 openWarehousePanel = true;
             }
         }

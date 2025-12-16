@@ -82,14 +82,20 @@ public class ShopManager : MonoBehaviour
                 //item 판매 (손님위치 - 계산대인지체크)
                 if (salesCustomer.HasCustomer())
                 {
-                    //soundManager.PlaySFXIndex(0);
-                    soundManager.PlaySFX("진영", 0);
+                    Customer buyCustomer = salesCustomer.GetCurrentCustomer();
 
-                    //골드 100 획득 (임시)
-                    dataManager.EarnMoney(100);
+                    //한손님당 한번만 계산하도록
+                    if(!buyCustomer.itemPayCheck)
+                    {
+                        //soundManager.PlaySFXIndex(0);
+                        soundManager.PlaySFX("진영", 0);
 
-                    //손님 계산완료처리
-                    customerManager.CustomerBuyItem();
+                        //골드 100 획득 (임시)
+                        dataManager.EarnMoney(100);
+
+                        //손님 계산완료처리
+                        customerManager.CustomerBuyItem();
+                    }
                 }
             }
 
@@ -110,6 +116,17 @@ public class ShopManager : MonoBehaviour
         else if(dayManager.IsNight)
         {
             soundManager.StopBGM();
+        }
+
+        switch (dayManager.CurrentTime)
+        {
+            case TimeOfDay.Day:
+                light_Shop.OnLight();
+                break;
+
+            case TimeOfDay.Night:
+                light_Shop.OffLight();
+                break;
         }
     }
 
@@ -143,17 +160,5 @@ public class ShopManager : MonoBehaviour
         {
             dayManager.ChangeTimeOfDay(TimeOfDay.Day);
         }
-
-        switch (dayManager.CurrentTime)
-        {
-            case TimeOfDay.Day:
-                light_Shop.OnLight();
-                break;
-
-            case TimeOfDay.Night:
-                light_Shop.OffLight();
-                break;
-        }
     }
-
 }

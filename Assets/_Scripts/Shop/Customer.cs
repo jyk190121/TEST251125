@@ -38,7 +38,10 @@ public class Customer : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        agent.avoidancePriority = Random.Range(0, 100);
+        //agent.avoidancePriority = Random.Range(0, 100);
+
+        //AI 충돌 무시처리
+        agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -224,6 +227,12 @@ public class Customer : MonoBehaviour
         {
             Physics.IgnoreCollision(GetComponent<Collider>(), collision.collider);
         }
+
+        //if(collision.gameObject.layer == LayerMask.NameToLayer("Customer"))
+        //{
+        //    Physics.IgnoreCollision(GetComponent<Collider>(), collision.collider);
+        //    print("충돌 삭제");
+        //}
     }
 }
 
