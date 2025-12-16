@@ -11,6 +11,7 @@ public class InventoryManager : MonoBehaviour
 
     [Header("View 연결")]
     public InventoryView inventoryView;
+    public Inventory inventory;         //인벤토리창 On/Off
 
     [Header("테스트용 아이템 연결")]
     public Item testItemA;              //인스펙터에서 아이템(임시) 연결
@@ -22,19 +23,26 @@ public class InventoryManager : MonoBehaviour
     //Model (Inspector에 안 보임)
     private InventoryModel model;
 
-   
-
-
     [Header("드래그 상태")]
     //드래그 시작한 슬롯 번호 (-1: 아무것도 안 잡음)
     private int dragStartIndex = -1;
+    
+    //아이템 정렬 순서 변수
+    private int currentSortIndex = 0;
+
+    //클릭할 때마다 바뀔 정렬 타입 순서
+    //0: Material, 1: Weapon, 2: Potion
+    private readonly ItemType[] sortOrder = new ItemType[]
+    {
+        ItemType.Material,
+        ItemType.Equipment,
+        ItemType.Potion
+    };
 
     [Header("UI 영역 설정")]
     public RectTransform inventoryPanelRect;    //인벤토리 배경 (이 밖으로 나가면 팝업)
     public ItemDropPopup dropPopup;             //팝업창 스크립트
-    public ItemSplitPopup splitPopup;           //아이템 소분팝업
-
-    Inventory inventory;                        //인벤토리창 On/Off
+    public ItemSplitPopup splitPopup;           //아이템 소분팝업    
 
     private void Awake()
     {
@@ -55,6 +63,9 @@ public class InventoryManager : MonoBehaviour
         //슬롯이 클릭되면 -> HandleSlotClick 실행
         inventoryView.OnSlotClicked += HandleSlotClick;
 
+        //정렬 버튼이 클릭되면 -> HandleSortSequence 실행
+        inventoryView.OnSortRequest += HandleSortSequence;
+
     }
 
     private void Start()
@@ -62,7 +73,7 @@ public class InventoryManager : MonoBehaviour
         //시작 시 초기화
         HandleInventoryUpdate();
         dropPopup.ClosePopup();
-        inventory = transform.GetChild(0).gameObject.GetComponent<Inventory>();
+        //inventory = transform.GetChild(0).gameObject.GetComponent<Inventory>();i
         model.InitSlots(capacity);
     }
 
@@ -73,8 +84,7 @@ public class InventoryManager : MonoBehaviour
         //F1키를 누르면 아이템 정렬
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            model.SortInventory(ItemType.Potion);
-            Debug.Log("아이템 획득: " + testItemA.itemName);
+            model.SortInventory(ItemType.Material);
             model.NotifyUpdate();
         }
 
@@ -560,6 +570,24 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    //아이템 정렬 아이콘 클릭될 때마다 실행
+    private void HandleSortSequence()
+    {
+        //현재 순서에 맞는 타입 호출
+        ItemType targetType = sortOrder[currentSortIndex];
+
+        Debug.Log($"[{currentSortIndex + 1}번째 클릭] {targetType} 위주로 정렬합니다.");
+
+        //모델에게 정렬
+        model.SortInventory(targetType);
+
+        //화면 갱신
+        model.NotifyUpdate();
+
+        //다음 순서
+        currentSortIndex = (currentSortIndex + 1) % sortOrder.Length;
+    }
+
     //외부에서 아이템 획득 시 호출
     public bool AddItem(Item item, int count = 1)
     {
@@ -588,8 +616,6 @@ public class InventoryManager : MonoBehaviour
         add { model.OnInventoryUpdated += value; }
         remove { model.OnInventoryUpdated -= value; }
     }
-
-
 
     public void Initialize()
     {

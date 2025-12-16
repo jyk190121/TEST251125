@@ -9,17 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 864a6c22d7c6b3d418e411bfa54898df, type: 3}
   m_Name: HunterBow
   m_EditorClassIdentifier: Assembly-CSharp::SmithyRecipe
-  recipeID: 2006
-  recipeName: "\uC0AC\uB0E5\uAFBC\uC758 \uD65C"
-  inputMaterials:
-  - materialItem: {fileID: 11400000, guid: 20add37243396cd4b9eb8b54e6acb91a, type: 2}
-    amount: 1
-  - materialItem: {fileID: 11400000, guid: 4d452987748e7cc48b0c395bbf55421d, type: 2}
-    amount: 5
-  - materialItem: {fileID: 11400000, guid: bd34eec483df3934c944544cd7f6a654, type: 2}
-    amount: 1
-  goldCost: 4000
-  outputItem: {fileID: 11400000, guid: 5ea98b649da8096458bb69e4c9bccdc5, type: 2}
+  recipeID: 0
+  recipeName: 
+  inputMaterials: []
+  goldCost: 0
+  outputItem: {fileID: 0}
