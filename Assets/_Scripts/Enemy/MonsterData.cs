@@ -60,7 +60,7 @@ public enum SpecialPattern
 [System.Serializable]
 public struct DropItem
 {
-    public Item itemData;
+    public GameObject itemPrefab;
     public float chance;
     public int minCount;
     public int maxCount;

@@ -280,25 +280,6 @@ public class NormalMosterFSM : MonoBehaviour
         }
     }
 
-    void OnAnimatorMove()
-    {
-        if (!anim.applyRootMotion) return;
-
-        Vector3 delta = anim.deltaPosition;
-        delta.y = 0f;
-
-        transform.position += delta;
-        transform.rotation *= anim.deltaRotation;
-    }
-
-    void SyncAgent()
-    {
-        agent.Warp(transform.position);
-        agent.velocity = Vector3.zero;
-    }
-
-
-
     /*───────────────────────────────*
      * Attack 분기
      *───────────────────────────────*/
@@ -393,7 +374,6 @@ public class NormalMosterFSM : MonoBehaviour
 
         // RootMotion 종료 → NavMesh 복귀
         anim.applyRootMotion = false;
-        SyncAgent();
 
         // 후딜
         yield return new WaitForSeconds(recoveryTime);
@@ -471,7 +451,6 @@ public class NormalMosterFSM : MonoBehaviour
         // 4️⃣ 종료 처리
         // ─────────────────────────
         anim.applyRootMotion = false;
-        SyncAgent();
 
         specialTimer = specialCoolTime;
         isActing = false;
@@ -554,7 +533,6 @@ public class NormalMosterFSM : MonoBehaviour
 
         //  RootMotion 종료 → NavMesh로 복귀
         anim.applyRootMotion = false;
-        SyncAgent();
 
         state = MonsterState.Idle;
     }

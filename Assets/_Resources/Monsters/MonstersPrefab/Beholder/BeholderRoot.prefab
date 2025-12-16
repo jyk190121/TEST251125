@@ -65,9 +65,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3738658714061326752}
-  - component: {fileID: 7131119540164804322}
+  - component: {fileID: 7390536641791371040}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -88,8 +88,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3857841071205104206}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &7131119540164804322
-SphereCollider:
+--- !u!136 &7390536641791371040
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,11 +103,13 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 2
   m_Radius: 0.45
+  m_Height: 10
+  m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2454018494901938041
 PrefabInstance:
