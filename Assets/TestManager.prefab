@@ -525,7 +525,9 @@ MonoBehaviour:
   SFXClips4: []
   BGMClips5: []
   SFXClips5: []
-  BGMClips6: []
+  BGMClips6:
+  - {fileID: 8300000, guid: 3309ef9c1203f154b9647b8b8b0f0b99, type: 3}
+  - {fileID: 8300000, guid: 65c9682e5ac21d6459e7f7de3f5c2b1b, type: 3}
   SFXClips6: []
   masterVolume: 1
   bgmVolume: 1
@@ -1230,7 +1232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &615849417283287207
 RectTransform:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ public class _MasterManager : MonoBehaviour
 
     // ��� �Ŵ���
     public DataManager DataManager { get; private set; }
-    public SaveLoadManager SaveLoadManager { get; private set; }
+    public SaveManager SaveManager { get; private set; }
     public DayManager DayManager { get; private set; }
     public UIManager UIManager { get; private set; }
     public InventoryManager InventoryManager { get; private set; }
@@ -36,7 +36,7 @@ public class _MasterManager : MonoBehaviour
     void InitializeManagers()
     {
         DataManager = GetComponent<DataManager>();
-        SaveLoadManager = GetComponent<SaveLoadManager>();
+        SaveManager = GetComponent<SaveManager>();
         DayManager = GetComponent<DayManager>();
         UIManager = GetComponent<UIManager>();
         InputManager = GetComponent<InputManager>();
@@ -51,7 +51,7 @@ public class _MasterManager : MonoBehaviour
         // 1. ������ ���
         ResourceManager.Initialize();
         DataManager.Initialize();
-        SaveLoadManager.Initialize();
+        SaveManager.Initialize();
 
         // 2. UI / �Է�
         InputManager.Initialize();

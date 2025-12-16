@@ -33,8 +33,8 @@ public class DayManager : MonoBehaviour
 
         isInitialized = true;
 
-        currentTime = TimeOfDay.Day;
-        currentDay = 1;
+        currentTime = _MasterManager.Instance.DataManager.currentTime;
+        currentDay = _MasterManager.Instance.DataManager.currentDay;
 
         Debug.Log($"[DayManager] 초기화 완료: {currentDay}일, {currentTime}");
     }

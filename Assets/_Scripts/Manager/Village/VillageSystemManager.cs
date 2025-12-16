@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using UnityEditor.Overlays;
 
 /// <summary>
 /// 마을의 시설 관리와 상태를 담당하는 Manager
@@ -93,6 +94,8 @@ public class VillageSystemManager : MonoBehaviour
             OnFacilityUnlocked?.Invoke(facilityID);
 
             Debug.Log($"[VillageSystemManager] 시설 해금: {facility.facilityName}");
+            DataManager data = _MasterManager.Instance.DataManager;
+            _MasterManager.Instance.SaveManager.SaveGame(data);
             return true;
         }
         else

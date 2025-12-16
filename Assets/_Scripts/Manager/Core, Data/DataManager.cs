@@ -1,6 +1,7 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
-using System;
+using static DayManager;
 
 //유저 데이터를 저장하는 공간 - 던전 진행도/골드/체력 등
 public class DataManager : MonoBehaviour
@@ -17,10 +18,15 @@ public class DataManager : MonoBehaviour
     public static Action OnEquipmentChanged;
     public static Action OnStatChanged;
 
+    //세이브 정보
+    public TimeOfDay currentTime;
+    public int currentDay;
+
+
     public void Initialize()
     {
         modelstat = PlayerModel.SetStat();
-        player = PlayerModel.SetStat();     
+        player = PlayerModel.SetStat();
     }
 
     //플레이어 아이템 장착시 스탯 변경
@@ -41,7 +47,7 @@ public class DataManager : MonoBehaviour
     public void AddHP(int amount)
     {
         player.HP += amount;
-        if(player.HP > player.MaxHP)
+        if (player.HP > player.MaxHP)
         {
             player.HP = player.MaxHP;
         }
@@ -50,7 +56,7 @@ public class DataManager : MonoBehaviour
     public void MinusHP(int amount)
     {
         player.HP -= amount;
-        if(player.HP < 0)
+        if (player.HP < 0)
         {
             player.HP = 0;
         }
@@ -97,5 +103,11 @@ public class DataManager : MonoBehaviour
     public void ChangeHP(int amount)
     {
         player.HP -= amount;
+    }
+
+    public void GetData()
+    {
+        currentTime = _MasterManager.Instance.DayManager.CurrentTime;
+        currentDay = _MasterManager.Instance.DayManager.CurrentDay;
     }
 }
