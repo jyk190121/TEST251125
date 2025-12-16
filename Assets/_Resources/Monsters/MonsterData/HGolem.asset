@@ -19,7 +19,7 @@ MonoBehaviour:
   Speed: 3
   Attack: 10
   Defense: 0
-  CoolTime: 2
+  CoolTime: 3
   attackRange: 2
   detectionRange: 100
   minAttackRange: 0
@@ -35,7 +35,7 @@ MonoBehaviour:
   specialCoolTime: 5
   attackRadius: 1
   attackAngle: 60
-  aoeRange: 4
+  aoeRange: 8
   aoeDamageMultiplier: 1.5
   projectileSpeed: 8
   projectileLifeTime: 3
