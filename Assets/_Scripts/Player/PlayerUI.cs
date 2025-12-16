@@ -25,7 +25,7 @@ public class PlayerUI : MonoBehaviour
         playerRollText.text = $"{KeySetting.keys[KeyInput.ROLL]}";
         playerSubAttackText.text = $"{KeySetting.keys[KeyInput.SUBATTACK]}";
         playerMainAttackText.text = $"{KeySetting.keys[KeyInput.MAINATTACK]}";
-        //playerInventoryText.text = $"{KeySetting.keys[KeyInput.INVENTORY]}";
+        playerInventoryText.text = $"{KeySetting.keys[KeyInput.INVENTORY]}";
     }
 
     public void SetLeftPanelActive(bool active) => leftPanel.SetActive(active);

@@ -118,7 +118,7 @@ TextureImporter:
         width: 192
         height: 173
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -135,12 +135,12 @@ TextureImporter:
       name: DungeonEnd_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 869
-        width: 450
-        height: 209
+        x: 14
+        y: 927
+        width: 127
+        height: 128
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -157,12 +157,12 @@ TextureImporter:
       name: DungeonEnd_1
       rect:
         serializedVersion: 2
-        x: 555
-        y: 790
-        width: 273
-        height: 288
+        x: 582
+        y: 985
+        width: 113
+        height: 87
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -184,7 +184,7 @@ TextureImporter:
         width: 537
         height: 596
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -206,7 +206,7 @@ TextureImporter:
         width: 359
         height: 293
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -228,7 +228,7 @@ TextureImporter:
         width: 56
         height: 212
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -250,7 +250,7 @@ TextureImporter:
         width: 142
         height: 130
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -272,7 +272,7 @@ TextureImporter:
         width: 37
         height: 38
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -294,7 +294,7 @@ TextureImporter:
         width: 97
         height: 96
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -303,6 +303,94 @@ TextureImporter:
       bones: []
       spriteID: 75059177eb982a84296dde7b806b170e
       internalID: -754707985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonEnd_9
+      rect:
+        serializedVersion: 2
+        x: 712
+        y: 986
+        width: 94
+        height: 88
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee84c2ba5f98d71429126105af897c42
+      internalID: 1019763947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonEnd_10
+      rect:
+        serializedVersion: 2
+        x: 574
+        y: 823
+        width: 265
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 81ac383b286076640b98b166ae33f253
+      internalID: 301159216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonEnd_11
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 895
+        width: 42
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14cc5a556e5296d47982501719288ae0
+      internalID: -983161015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DungeonEnd_12
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 972
+        width: 284
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 908bd80d21d42994bbdea5747685916c
+      internalID: -699812377
       vertices: []
       indices: 
       edges: []
@@ -323,6 +411,9 @@ TextureImporter:
     nameFileIdTable:
       DungeonEnd_0: -1003885296
       DungeonEnd_1: -2055027360
+      DungeonEnd_10: 301159216
+      DungeonEnd_11: -983161015
+      DungeonEnd_12: -699812377
       DungeonEnd_2: -2130527076
       DungeonEnd_3: -72553548
       DungeonEnd_4: 201174038
@@ -330,6 +421,7 @@ TextureImporter:
       DungeonEnd_6: 1862008836
       DungeonEnd_7: 1606203756
       DungeonEnd_8: -754707985
+      DungeonEnd_9: 1019763947
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
