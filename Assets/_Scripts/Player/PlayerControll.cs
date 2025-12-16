@@ -10,6 +10,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     CharacterController CC;
     PlayerModel model;
     PlayerAnimController PAC;
+    PlayerDie PD;
 
     Item weapon;
     public GameObject arrowPrefab;
@@ -80,6 +81,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         Debug.Log("모델" + model);
         meleeWeaponDealers.AddRange(GetComponentsInChildren<DamageDealer>(true));
         Debug.Log(model.ATT);
+        PD = GetComponent<PlayerDie>();
     }
 
     public void Update()
@@ -404,7 +406,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     }
     public void Die()
     {
-
+        PD.Dead();
     }
 
     //칼 콤보 공격 처리
