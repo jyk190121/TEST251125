@@ -17,6 +17,9 @@ public class DataManager : MonoBehaviour
     public static Action OnEquipmentChanged;
     public static Action OnStatChanged;
 
+    //사망,던전 클리어, 펜던트 사용 이후의 복귀인가?
+    bool isReturn = false;
+
     public void Initialize()
     {
         modelstat = PlayerModel.SetStat();
@@ -97,5 +100,15 @@ public class DataManager : MonoBehaviour
     public void ChangeHP(int amount)
     {
         player.HP -= amount;
+    }
+
+    //True = 포탈 타고 복귀 false = 그냥 아무것도 발생하지 않는 복귀
+    public void ChangeReturn(bool Return)
+    {
+        isReturn = Return;
+    }
+    public bool GetReturn()
+    {
+        return isReturn;
     }
 }
