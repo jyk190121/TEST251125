@@ -453,6 +453,11 @@ MonoBehaviour:
   doorDown: {fileID: 4495905654102637271}
   doorLeft: {fileID: 6765524139529072027}
   doorRight: {fileID: 8972970793130582288}
+  doorColliders:
+  - {fileID: 5492122733929303149}
+  - {fileID: 8982217456904358358}
+  - {fileID: 4922749210408297119}
+  - {fileID: 135929394931591265}
   spawnPoints: []
   monsterPrefabs: []
   isSpawned: 0
@@ -1893,6 +1898,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+--- !u!64 &135929394931591265 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 3660858901824674786, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+  m_PrefabInstance: {fileID: 3688185135233528707}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1756059525452055720 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3130518526125324075, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
@@ -1901,6 +1911,16 @@ GameObject:
 --- !u!1 &4495905654102637271 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 958064446323640660, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+  m_PrefabInstance: {fileID: 3688185135233528707}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &4922749210408297119 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 8610335505323708700, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+  m_PrefabInstance: {fileID: 3688185135233528707}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &5492122733929303149 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 9158316484408934382, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
   m_PrefabInstance: {fileID: 3688185135233528707}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &6765524139529072027 stripped
@@ -1916,6 +1936,11 @@ Transform:
 --- !u!1 &8972970793130582288 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5740248614739415699, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+  m_PrefabInstance: {fileID: 3688185135233528707}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &8982217456904358358 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 5730883272815196757, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
   m_PrefabInstance: {fileID: 3688185135233528707}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4389853986211688939

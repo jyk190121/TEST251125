@@ -25,7 +25,7 @@ public class DungeonTrigger : MonoBehaviour
         // 초기 상태를 한 번 확인합니다.
         //CheckPortalStatus();
 
-        //room = GetComponentInParent<RoomController>();
+        room = GetComponentInParent<RoomController>();
 
         cam = FindAnyObjectByType<DungeonCamera>();
     }
@@ -125,37 +125,35 @@ public class DungeonTrigger : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-
              
              PlayerDungeonPortal player = other.GetComponent<PlayerDungeonPortal>();
-            
 
-             switch (moveDirection)
-             {
-                 case MoveDir.Left:
-                     cam.LeftMove();
-                     player.LeftMove(other);
-                     //room.SpawnMonster();
-                     break;
-                 case MoveDir.Right:
-                     cam.RightMove();
-                     player.RightMove(other);
-                     //room.SpawnMonster();
-                     break;
-                 case MoveDir.Up:
-                     cam.UpMove();
-                     player.UpMove(other);
-                     //room.SpawnMonster();
-                     break;
-                 case MoveDir.Down:
-                     cam.DownMove();
-                     player.DownMove(other);
-                     //room.SpawnMonster();
-                     break;
-             }
-
-             Debug.Log("던전이 클리어되어 플레이어가 이동했습니다.");
-
+            if (room != null && room.isCleared)
+            {
+                switch (moveDirection)
+                {
+                    case MoveDir.Left:
+                        cam.LeftMove();
+                        player.LeftMove(other);
+                        //room.SpawnMonster();
+                        break;
+                    case MoveDir.Right:
+                        cam.RightMove();
+                        player.RightMove(other);
+                        //room.SpawnMonster();
+                        break;
+                    case MoveDir.Up:
+                        cam.UpMove();
+                        player.UpMove(other);
+                        //room.SpawnMonster();
+                        break;
+                    case MoveDir.Down:
+                        cam.DownMove();
+                        player.DownMove(other);
+                        //room.SpawnMonster();
+                        break;
+                }
+            }
         }
     }
     
