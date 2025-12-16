@@ -182,7 +182,7 @@ public class NormalMosterFSM : MonoBehaviour
         deathFX = monsterData.deathFX;
 
         agent.speed = speed;
-        agent.isStopped = true;
+        agent.isStopped = false;
     }
 
     /*───────────────────────────────*
@@ -209,6 +209,8 @@ public class NormalMosterFSM : MonoBehaviour
      *───────────────────────────────*/
     void Idle()
     {
+        anim.applyRootMotion = false;
+
         anim.SetBool("isIdle", true);
 
         if (target == null)
@@ -231,6 +233,8 @@ public class NormalMosterFSM : MonoBehaviour
      *───────────────────────────────*/
     void Move()
     {
+        anim.applyRootMotion = false;
+
         if (target == null) return;
 
         anim.SetBool("isMove", true);
@@ -276,6 +280,24 @@ public class NormalMosterFSM : MonoBehaviour
         }
     }
 
+    void OnAnimatorMove()
+    {
+        if (!anim.applyRootMotion) return;
+
+        Vector3 delta = anim.deltaPosition;
+        delta.y = 0f;
+
+        transform.position += delta;
+        transform.rotation *= anim.deltaRotation;
+    }
+
+    void SyncAgent()
+    {
+        agent.Warp(transform.position);
+        agent.velocity = Vector3.zero;
+    }
+
+
 
     /*───────────────────────────────*
      * Attack 분기
@@ -284,6 +306,8 @@ public class NormalMosterFSM : MonoBehaviour
 
     void Attack()
     {
+        anim.applyRootMotion = true;
+
         agent.isStopped = true;
         if (isActing) return;
 
@@ -342,25 +366,43 @@ public class NormalMosterFSM : MonoBehaviour
         anim.SetInteger("Pattern", id);
         anim.SetTrigger("Attack");
 
-        yield return new WaitForSeconds(windupTime);
+        // 애니메이터 상태 반영 대기
+        yield return null;
+        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
 
         if (monsterType == Type.Melee)
         {
+            float total = info.length;
+
+            float hitTime = total * 0.4f;
+            float hitDuration = total * 0.2f;
+            float remainTime = total - (hitTime + hitDuration); // == 40%
+
+            yield return new WaitForSeconds(hitTime);
+
             EnableHitbox();
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(hitDuration);
             DisableHitbox();
+
+            yield return new WaitForSeconds(remainTime);
         }
-        else // Type.Range
+        else
         {
             yield return StartCoroutine(DoRangedAttack());
         }
 
+        // RootMotion 종료 → NavMesh 복귀
+        anim.applyRootMotion = false;
+        SyncAgent();
+
+        // 후딜
         yield return new WaitForSeconds(recoveryTime);
 
         timer = coolTime;
         isActing = false;
         state = MonsterState.Idle;
     }
+
     IEnumerator DoRangedAttack()
     {
         if (firePoint == null)
@@ -379,6 +421,7 @@ public class NormalMosterFSM : MonoBehaviour
     IEnumerator ExecuteSpecialPattern()
     {
         state = MonsterState.Attack;
+        anim.applyRootMotion = true;
 
         SpecialPattern sp = GetValidSpecialPattern();
         if (sp == default)
@@ -387,29 +430,54 @@ public class NormalMosterFSM : MonoBehaviour
             yield break;
         }
 
+        // 패턴 → 애니메이터 전달
         int id = (int)sp;
         anim.SetInteger("Pattern", id);
         anim.SetTrigger("Attack");
 
+        // Animator 상태 반영 대기 (★ 중요)
+        yield return null;
+
+        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
+        float animLength = info.length;
+
+        // ─────────────────────────
+        //  준비 시간 (windup)
+        // ─────────────────────────
         yield return new WaitForSeconds(windupTime);
 
+        // ─────────────────────────
+        //  특수 공격 로직 (짧게)
+        // ─────────────────────────
         switch (sp)
         {
             case SpecialPattern.AOE:
-                Aoe();
+                Aoe();          // 내부에서 잠깐 켜고 끄는 구조
                 break;
 
             case SpecialPattern.Laser:
-                StartLaser();
+                StartLaser();   // 레이저 FSM / 프리팹 쪽에서 처리
                 break;
         }
 
-        yield return new WaitForSeconds(recoveryTime);
+        // ─────────────────────────
+        // 3️⃣ 애니메이션 종료까지 대기
+        // (이미 지난 windup 제외)
+        // ─────────────────────────
+        float remainTime = Mathf.Max(0f, animLength - windupTime);
+        yield return new WaitForSeconds(remainTime);
+
+        // ─────────────────────────
+        // 4️⃣ 종료 처리
+        // ─────────────────────────
+        anim.applyRootMotion = false;
+        SyncAgent();
 
         specialTimer = specialCoolTime;
         isActing = false;
         state = MonsterState.Idle;
     }
+
 
     SpecialPattern GetValidSpecialPattern()
     {
@@ -475,12 +543,18 @@ public class NormalMosterFSM : MonoBehaviour
     IEnumerator GetHitProc()
     {
         state = MonsterState.GetHit;
+        anim.applyRootMotion = true; 
+
         anim.SetTrigger("Hit");
 
         yield return null;
 
         AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
         yield return new WaitForSeconds(info.length);
+
+        //  RootMotion 종료 → NavMesh로 복귀
+        anim.applyRootMotion = false;
+        SyncAgent();
 
         state = MonsterState.Idle;
     }
@@ -490,6 +564,8 @@ public class NormalMosterFSM : MonoBehaviour
      *───────────────────────────────*/
     void Die()
     {
+        anim.applyRootMotion = true;
+
         anim.SetTrigger("Die");
         StartCoroutine(DieProc());
     }
