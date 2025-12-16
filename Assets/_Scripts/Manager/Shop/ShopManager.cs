@@ -111,6 +111,17 @@ public class ShopManager : MonoBehaviour
         {
             soundManager.StopBGM();
         }
+
+        switch (dayManager.CurrentTime)
+        {
+            case TimeOfDay.Day:
+                light_Shop.OnLight();
+                break;
+
+            case TimeOfDay.Night:
+                light_Shop.OffLight();
+                break;
+        }
     }
 
     void OpenShop()
@@ -143,17 +154,5 @@ public class ShopManager : MonoBehaviour
         {
             dayManager.ChangeTimeOfDay(TimeOfDay.Day);
         }
-
-        switch (dayManager.CurrentTime)
-        {
-            case TimeOfDay.Day:
-                light_Shop.OnLight();
-                break;
-
-            case TimeOfDay.Night:
-                light_Shop.OffLight();
-                break;
-        }
     }
-
 }
