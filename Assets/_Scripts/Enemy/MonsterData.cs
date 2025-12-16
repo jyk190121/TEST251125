@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using UnityEngine;
 
 public enum Class
@@ -59,7 +60,7 @@ public enum SpecialPattern
 [System.Serializable]
 public struct DropItem
 {
-    public int dummy;
+    public Item itemData;
     public float chance;
     public int minCount;
     public int maxCount;

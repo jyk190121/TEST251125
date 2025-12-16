@@ -1647,6 +1647,11 @@ MonoBehaviour:
   doorDown: {fileID: 603938416115639754}
   doorLeft: {fileID: 7775126972128572038}
   doorRight: {fileID: 5369225272631311885}
+  doorColliders:
+  - {fileID: 8805315804326908784}
+  - {fileID: 5377873800818136779}
+  - {fileID: 8238256649635462530}
+  - {fileID: 4028434157885699964}
   spawnPoints:
   - {fileID: 7351865309483357091}
   - {fileID: 7852977970074412420}
@@ -1902,6 +1907,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3130518526125324075, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
   m_PrefabInstance: {fileID: 372149791905655966}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &4028434157885699964 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 3660858901824674786, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+  m_PrefabInstance: {fileID: 372149791905655966}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5019505136957723260 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4648551613745118946, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
@@ -1912,8 +1922,23 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5740248614739415699, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
   m_PrefabInstance: {fileID: 372149791905655966}
   m_PrefabAsset: {fileID: 0}
+--- !u!64 &5377873800818136779 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 5730883272815196757, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+  m_PrefabInstance: {fileID: 372149791905655966}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7775126972128572038 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7984011923061317144, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+  m_PrefabInstance: {fileID: 372149791905655966}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &8238256649635462530 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 8610335505323708700, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
+  m_PrefabInstance: {fileID: 372149791905655966}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &8805315804326908784 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 9158316484408934382, guid: 02096c51e3fa11f419f84fa37a941dc2, type: 3}
   m_PrefabInstance: {fileID: 372149791905655966}
   m_PrefabAsset: {fileID: 0}

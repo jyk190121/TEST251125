@@ -75,10 +75,11 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     void Start()
     {
         PAC = GetComponentInChildren<PlayerAnimController>();
-        CC = GetComponent<CharacterController>();   
+        CC = GetComponent<CharacterController>();
         model = _MasterManager.Instance.DataManager.GetStat();
         Debug.Log("모델" + model);
         meleeWeaponDealers.AddRange(GetComponentsInChildren<DamageDealer>(true));
+        Debug.Log(model.ATT);
     }
 
     public void Update()
