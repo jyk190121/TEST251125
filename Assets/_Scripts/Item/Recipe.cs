@@ -16,22 +16,6 @@ public class Recipe : ScriptableObject
     public Item outputItem;
 }
 
-// === 대장간 레시피 ===
-[CreateAssetMenu(fileName = "NewSmithyRecipe", menuName = "Recipe/Smithy Recipe")]
-public class SmithyRecipe : Recipe
-{
-
-}
-
-// === 연금술 레시피 ===
-[CreateAssetMenu(fileName = "NewAlchemyRecipe", menuName = "Recipe/Alchemy Recipe")]
-public class AlchemyRecipe : Recipe
-{
-    [Header("연금술 특화")]
-    [Tooltip("한 번에 만들 포션 개수")]
-    public int quantityPerCraft = 1;
-}
-
 // === 인챈트 레시피 ===
 [CreateAssetMenu(fileName = "NewEnchantRecipe", menuName = "Recipe/Enchant Recipe")]
 public class EnchantRecipe : Recipe

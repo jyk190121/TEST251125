@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 411f21e19dd6e024e8c961ffd3afa9a4, type: 3}
+  m_Name: 3002
+  m_EditorClassIdentifier: 
+  recipeID: 3002
+  recipeName: "HP\uBB3C\uC57D2"
+  inputMaterials:
+  - materialItem: {fileID: 11400000, guid: 8f420ecf5ae80a1448aba1394d7f6375, type: 2}
+    amount: 2
+  goldCost: 800
+  outputItem: {fileID: 11400000, guid: 1ca85e52b23b08c479c630bf0458de0a, type: 2}
+  quantityPerCraft: 1
