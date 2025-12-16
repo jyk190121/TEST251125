@@ -503,8 +503,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AlchemyRecipes:
-  - {fileID: 11400000, guid: e622b3b6a046d5b41b641fbaafe32b59, type: 2}
-  - {fileID: 11400000, guid: 8c276eac5111a104f9cf066154a561c6, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   EnchantRecipes: []
 --- !u!114 &29817954
 MonoBehaviour:
@@ -6130,7 +6130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6294,6 +6294,10 @@ PrefabInstance:
       propertyPath: testItemE
       value: 
       objectReference: {fileID: 11400000, guid: 1ca85e52b23b08c479c630bf0458de0a, type: 2}
+    - target: {fileID: 9076564967756922066, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 4193051725874536146, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
@@ -11051,15 +11055,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SmithyRecipes:
-  - {fileID: 11400000, guid: 2293680da53bf16479c166aee1eff6f8, type: 2}
-  - {fileID: 11400000, guid: af3aad662ecc12d43822ad75e70175cc, type: 2}
-  - {fileID: 11400000, guid: fc40389364fccbe488c9dd921909d4a2, type: 2}
-  - {fileID: 11400000, guid: e0473c9af77de044ba4b989451ecafca, type: 2}
-  - {fileID: 11400000, guid: fbf96781c02c5d14980dc3151a654225, type: 2}
-  - {fileID: 11400000, guid: 498cebd4f42b0ab46a9cbcea9433dc3b, type: 2}
-  - {fileID: 11400000, guid: 559f37f254335cc499eda74a389b79dd, type: 2}
-  - {fileID: 11400000, guid: ef687537f8fbe4046a08421aa8a184ed, type: 2}
-  - {fileID: 11400000, guid: 82e16127ac433694f9c958051304f2f2, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1304662573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15208,7 +15212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -16166,7 +16170,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
