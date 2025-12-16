@@ -17,7 +17,6 @@ public class FacilityInteraction : MonoBehaviour
     [SerializeField] private TextMeshProUGUI keyText;
     [SerializeField] private TextMeshProUGUI promptUIText;
     [SerializeField] private GameObject promptPanel;
-    [SerializeField] GameObject openPleasePanel;
 
     private Transform playerTransform;
     private bool isPlayerInRange = false;
