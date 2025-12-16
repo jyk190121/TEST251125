@@ -85,6 +85,7 @@ public class SoundManager : MonoBehaviour
     public void StopBGM()
     {
         //재생중인 BGM이 있을 경우만 멈춤
+        if (bgmSource == null) return;
         if (bgmSource.isPlaying) bgmSource.Stop();
     }
 
