@@ -137,7 +137,8 @@ GameObject:
   - component: {fileID: 994505607807779432}
   - component: {fileID: 4207182294324825549}
   - component: {fileID: 2127420070741915911}
-  m_Layer: 0
+  - component: {fileID: 4243083748720084056}
+  m_Layer: 7
   m_Name: Spear2 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,6 +216,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &4243083748720084056
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470310843120359634}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &494655629357736054
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +285,7 @@ GameObject:
   - component: {fileID: 280049411299719116}
   - component: {fileID: 3768726608280336489}
   - component: {fileID: 1416878684577221795}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shild3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -375,7 +403,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3495567012909653325}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: firePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -408,13 +436,15 @@ GameObject:
   - component: {fileID: 364875531593355705}
   - component: {fileID: 3656808314573266460}
   - component: {fileID: 1538929802491554518}
-  m_Layer: 0
+  - component: {fileID: 7810275185076020782}
+  - component: {fileID: 6461797557127364142}
+  m_Layer: 7
   m_Name: Spear1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &364875531593355705
 Transform:
   m_ObjectHideFlags: 0
@@ -487,6 +517,46 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7810275185076020782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034593095182371587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d9efe4e55385747bdd9e2e45af8dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 10
+--- !u!54 &6461797557127364142
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034593095182371587}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1041831046420761097
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,7 +600,7 @@ GameObject:
   - component: {fileID: 1990461514101631687}
   - component: {fileID: 3184134710914852194}
   - component: {fileID: 852489778447438248}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bow1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -648,7 +718,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2371775444117835735}
   - component: {fileID: 7331225484056067936}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -702,7 +772,8 @@ GameObject:
   - component: {fileID: 2179294002735969870}
   - component: {fileID: 2995372916339145195}
   - component: {fileID: 1041814230890220833}
-  m_Layer: 0
+  - component: {fileID: 8286527681844836726}
+  m_Layer: 7
   m_Name: Sword2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -782,6 +853,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &8286527681844836726
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546345412775324916}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1585595122216814286
 GameObject:
   m_ObjectHideFlags: 0
@@ -1381,7 +1479,7 @@ GameObject:
   - component: {fileID: 3284270577406493877}
   - component: {fileID: 1890325630413425424}
   - component: {fileID: 4458350793263366106}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shild2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1837,7 +1935,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3485822816892633517}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: firePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1905,6 +2003,7 @@ GameObject:
   - component: {fileID: 8361094556079305013}
   - component: {fileID: 1618807706784563091}
   - component: {fileID: 2016498121983341310}
+  - component: {fileID: 3846003760402762235}
   m_Layer: 7
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -1943,7 +2042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 8544041544418109196, guid: a83b8716fdaec944096a22d6f4e08962, type: 3}
   arrowSpawnPoint: {fileID: 2572585409456160129}
-  weaponnumber: 1
+  weaponnumber: 2
 --- !u!114 &1026088749870128124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2020,6 +2119,19 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &3846003760402762235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4361047247619547267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39bc9062ea2033948a48ac93fe6e42ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponlist: []
 --- !u!1 &4433756766690965229
 GameObject:
   m_ObjectHideFlags: 0
@@ -2124,7 +2236,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3476768101854474982}
   - component: {fileID: 5823005930379136457}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2284,7 +2396,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1514284926107679484}
   - component: {fileID: 598020775709201124}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SASHItBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2338,13 +2450,13 @@ GameObject:
   - component: {fileID: 4818842474911127087}
   - component: {fileID: 8462312243154606474}
   - component: {fileID: 5950622280500096320}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Shild1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4818842474911127087
 Transform:
   m_ObjectHideFlags: 0
@@ -2521,7 +2633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 305565973103010259}
   - component: {fileID: 1398846657561949361}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SASHItBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2575,7 +2687,7 @@ GameObject:
   - component: {fileID: 6428555879647687768}
   - component: {fileID: 7969412107347770365}
   - component: {fileID: 5295667323824885559}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bow2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2761,7 +2873,7 @@ GameObject:
   - component: {fileID: 6680989106781511932}
   - component: {fileID: 4116910599951575911}
   - component: {fileID: 436551847819446111}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 97.firststep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2945,7 +3057,8 @@ GameObject:
   - component: {fileID: 6179613264280809991}
   - component: {fileID: 7092533966735998370}
   - component: {fileID: 5010616709017504104}
-  m_Layer: 0
+  - component: {fileID: 7068249617016866530}
+  m_Layer: 7
   m_Name: Sword3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3023,6 +3136,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &7068249617016866530
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6812175100147640509}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6840506744387003904
 GameObject:
   m_ObjectHideFlags: 0
@@ -3216,7 +3356,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2633215788564939397}
   - component: {fileID: 1784776560286994074}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SHitBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3366,7 +3506,7 @@ GameObject:
   - component: {fileID: 8053491677463846323}
   - component: {fileID: 6371497911041331734}
   - component: {fileID: 9189855478964020956}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bow3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3452,7 +3592,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3799561232677298873}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: firePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3671,7 +3811,7 @@ GameObject:
   - component: {fileID: 7546802429824376079}
   - component: {fileID: 3162172485285598882}
   - component: {fileID: 1956245216652226000}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: 98.firststep
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3854,13 +3994,14 @@ GameObject:
   - component: {fileID: 5491793147314557875}
   - component: {fileID: 7769328986366879609}
   - component: {fileID: 8273916616619807757}
-  m_Layer: 0
+  - component: {fileID: 3765278811145556649}
+  m_Layer: 7
   m_Name: Sword1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8906184166754016278
 Transform:
   m_ObjectHideFlags: 0
@@ -3946,6 +4087,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseDamage: 5
+--- !u!54 &3765278811145556649
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8129788961030964908}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8370270816121075908
 GameObject:
   m_ObjectHideFlags: 0
@@ -3957,7 +4125,8 @@ GameObject:
   - component: {fileID: 9179176450623234686}
   - component: {fileID: 5245892899962908123}
   - component: {fileID: 8010162684489668881}
-  m_Layer: 0
+  - component: {fileID: 8428133072581758878}
+  m_Layer: 7
   m_Name: Spear3 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4035,6 +4204,33 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!54 &8428133072581758878
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8370270816121075908}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8607041692746658112
 GameObject:
   m_ObjectHideFlags: 0
@@ -4140,7 +4336,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7599800788810142198}
   - component: {fileID: 6828394091536860849}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SASHItBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4228,8 +4424,16 @@ PrefabInstance:
       value: Arrow
       objectReference: {fileID: 0}
     - target: {fileID: 8544041544418109196, guid: a83b8716fdaec944096a22d6f4e08962, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8544041544418109196, guid: a83b8716fdaec944096a22d6f4e08962, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8796279425611384005, guid: a83b8716fdaec944096a22d6f4e08962, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9068376256387022262, guid: a83b8716fdaec944096a22d6f4e08962, type: 3}
       propertyPath: m_LocalPosition.x
