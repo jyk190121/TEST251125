@@ -28,7 +28,6 @@ GameObject:
   - component: {fileID: 5867166246293917673}
   - component: {fileID: 6664478791948072366}
   - component: {fileID: 3571932401655655142}
-  - component: {fileID: -53700875243229429}
   m_Layer: 5
   m_Name: TestManager
   m_TagString: Untagged
@@ -242,11 +241,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bgmSource: {fileID: 6664478791948072366}
   sfxSource: {fileID: 3571932401655655142}
-  bgmClips:
+  BGMClips1:
   - {fileID: 8300000, guid: f9d0fd2d9c2a4054d9868df46983f7db, type: 3}
   - {fileID: 8300000, guid: bea3dd0bb4fba744fb28fcb6728331f2, type: 3}
-  sfxClips:
+  SFXClips1:
   - {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
+  BGMClips2: []
+  SFXClips2: []
+  BGMClips3: []
+  SFXClips3: []
+  BGMClips4: []
+  SFXClips4: []
+  BGMClips5: []
+  SFXClips5: []
+  BGMClips6: []
+  SFXClips6: []
   masterVolume: 1
   bgmVolume: 1
   sfxVolume: 1
@@ -515,33 +524,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-53700875243229429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1122407842628781802}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7471fba2da6fa884097a367f469cef26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgmSource: {fileID: 6664478791948072366}
-  sfxSource: {fileID: 3571932401655655142}
-  playerSFXClips:
-  - {fileID: 0}
-  monsterSFXClips:
-  - {fileID: 0}
-  villiageBGMClips:
-  - {fileID: 0}
-  shopBGMClips:
-  - {fileID: 0}
-  dungeonBGMClips:
-  - {fileID: 0}
-  masterVolume: 1
-  bgmVolume: 1
-  sfxVolume: 1
 --- !u!1 &9076564967756922066
 GameObject:
   m_ObjectHideFlags: 0
