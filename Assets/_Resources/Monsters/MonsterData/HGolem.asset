@@ -62,4 +62,16 @@ MonoBehaviour:
   attackFX: {fileID: 0}
   hitFX: {fileID: 0}
   deathFX: {fileID: 0}
-  DropTable: []
+  DropTable:
+  - itemPrefab: {fileID: 3272577696482075307, guid: c9aae4da81044ef4c830b1a0a34f98c5, type: 3}
+    chance: 0
+    minCount: 0
+    maxCount: 0
+  - itemPrefab: {fileID: 3272577696482075307, guid: 10e0c6b197e97a74cb22fad941f74dfa, type: 3}
+    chance: 0
+    minCount: 0
+    maxCount: 0
+  - itemPrefab: {fileID: 3272577696482075307, guid: e5bf0fb4e6c17a44c94b2c09c6478744, type: 3}
+    chance: 0
+    minCount: 0
+    maxCount: 0

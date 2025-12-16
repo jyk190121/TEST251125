@@ -37,7 +37,6 @@ public class NormalMosterFSM : MonoBehaviour
      * 기본 스탯
      *───────────────────────────────*/
     float currentHP;
-    float att;
     float speed;
     float def;
 
@@ -80,10 +79,7 @@ public class NormalMosterFSM : MonoBehaviour
     /*───────────────────────────────*
      * 근접 / 범위 공격
      *───────────────────────────────*/
-    float meleeRadius;
-    float meleeAngle;
     float aoeRange;
-    float aoeDamageMultiplier;
 
     /*───────────────────────────────*
      * 원거리 공격
@@ -138,7 +134,6 @@ public class NormalMosterFSM : MonoBehaviour
 
         // 기본 스탯
         currentHP = monsterData.HP;
-        att = monsterData.Attack;
         speed = monsterData.Speed;
         def = monsterData.Defense;
 
@@ -165,10 +160,7 @@ public class NormalMosterFSM : MonoBehaviour
         recoveryTime = monsterData.recoveryTime;
 
         // 근접 / 범위
-        meleeRadius = monsterData.attackRadius;
-        meleeAngle = monsterData.attackAngle;
         aoeRange = monsterData.aoeRange;
-        aoeDamageMultiplier = monsterData.aoeDamageMultiplier;
 
         // 원거리
         projectileSpeed = monsterData.projectileSpeed;
