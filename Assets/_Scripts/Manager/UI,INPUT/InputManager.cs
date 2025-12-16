@@ -6,24 +6,30 @@ using System.Collections.Generic;
 
 public enum KeyInput
 {
-    UP,             
-    DOWN,
-    LEFT,
-    RIGHT,
-    MAINATTACK,
-    SUBATTACK,
-    ROLL,
-    TouchNPC,
-    PENDANT,
-    SWITCHWEAPON,
-    OPTION,
-    INVENTORY,
+    UP,             //위로
+    DOWN,           //아래로
+    LEFT,           //왼쪽
+    RIGHT,          //오른쪽
+    MAINATTACK,     //일반공격
+    SUBATTACK,      //특수공격
+    ROLL,           //구르기
+    INTERACTIVE,    //상호작용
+    PENDANT,        //펜던트 사용
+    SWITCHWEAPON,   //무기 교체
+    OPTION,         //옵션 열기
+    INVENTORY,      //인벤토리 열기
+    CANCLE,
     KEYCOUNT
 }
 
 public static class KeySetting
 {
     public static Dictionary<KeyInput, KeyCode> keys = new Dictionary<KeyInput, KeyCode>();
+
+    public static string GetKeyString(KeyInput keyInput)
+    {
+        return keys[keyInput].ToString();  // "W", "Space", "I" 같은 스트링 반환
+    }
 }
 
 public class InputManager : MonoBehaviour
@@ -42,7 +48,8 @@ public class InputManager : MonoBehaviour
         KeyCode.B,      //펜던트 사용
         KeyCode.T,      //무기 교체
         KeyCode.Escape, //옵션 열기
-        KeyCode.I       //인벤토리 열기
+        KeyCode.I,      //인벤토리 열기
+        KeyCode.C
     };
 
     private void Awake()

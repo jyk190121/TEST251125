@@ -1,23 +1,26 @@
 using UnityEngine;
 /// <summary>
 /// 1. 상점 나가기 (마을로 이동) 
-/// 2. 손님 상점이동
+/// 2. 판매중일 떄 못나가게 하기
 /// </summary>
 
-public class NewMonoBehaviourScript : MonoBehaviour
+public class Move_Village : MonoBehaviour
 {
+    POS_playerSalas pos_palyer;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        pos_palyer = FindAnyObjectByType<POS_playerSalas>();
+
+        if (other.CompareTag("Player") && !pos_palyer.shopOpenCheck)
         {
             print("플레이어 나가기");
-            GameSceneManager.game.LoadScene("Shop_VillageSceneTest");
+            GameSceneManager.game.LoadScene("Villiage");
+        }
+        else
+        {
+            print("상점이 열려있어 못나감");
         }
 
-        //if(other.gameObject.layer == LayerMask.NameToLayer("Customer"))
-        //{
-        //    print("손님 들어오게 처리");
-        //    other.gameObject.transform.position = new Vector3(-0.9f, 0.98f, -10.48f);
-        //}
     }
 }

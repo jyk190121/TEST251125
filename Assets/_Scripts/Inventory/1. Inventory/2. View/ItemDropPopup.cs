@@ -23,7 +23,7 @@ public class ItemDropPopup : MonoBehaviour
         onYesCallback = onYes;
         onNoCallback = onNo;
 
-        // 버튼 이벤트 연결 (기존 연결 제거 후 재연결)
+        //버튼 이벤트 연결 (기존 연결 제거 후 재연결)
         yesButton.onClick.RemoveAllListeners();
         yesButton.onClick.AddListener(() => {
             onYesCallback?.Invoke();
@@ -36,7 +36,7 @@ public class ItemDropPopup : MonoBehaviour
             ClosePopup();
         });
 
-        // 패널 켜기
+        //패널 켜기
         gameObject.SetActive(true);
     }
 

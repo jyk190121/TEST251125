@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253642078dcbc9f49b55c18ef13d53ef, type: 3}
+  m_Name: Mimic
+  m_EditorClassIdentifier: 
+  mobID: 0
+  mobName: "\uBBF8\uBBF9"
+  MobPrefab: {fileID: 2203997256558560351, guid: 82c9c370e9e97a8499c01e7893cc266e, type: 3}
+  HP: 0
+  Speed: 0
+  Attack: 0
+  Defense: 0
+  CoolTime: 0
+  attackRange: 0
+  detectionRange: 0
+  minAttackRange: 0
+  Class: 0
+  Type: 0
+  Race: 4
+  Pattern: 000000000200000006000000
+  windupTime: 0.1
+  recoveryTime: 0.2
+  poise: 0
+  attackRadius: 1
+  attackAngle: 60
+  aoeRange: 2
+  aoeDamageMultiplier: 1.5
+  projectileSpeed: 8
+  projectileLifeTime: 3
+  projectileArc: 0
+  projectileCount: 1
+  predictionFactor: 0.5
+  shotInterval: 0.15
+  burstCount: 1
+  moveRange: 5
+  moveInterval: 1
+  laserWarningTime: 0.5
+  laserFireTime: 1
+  laserCooldown: 2
+  laserDamage: 20
+  laserLength: 8
+  laserDirections: 4
+  patternCooldown: 3
+  phaseTwoHpRate: 0.5
+  jumpAoeRadius: 3
+  screamRange: 10
+  chargeDistance: 10
+  chargeStoppingTime: 1
+  shoutRange: 8
+  attackFX: {fileID: 0}
+  hitFX: {fileID: 0}
+  deathFX: {fileID: 0}
+  DropTable: []

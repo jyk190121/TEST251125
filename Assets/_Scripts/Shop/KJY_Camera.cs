@@ -14,7 +14,7 @@ public class KJY_Camera : MonoBehaviour
     void Start()
     {
         movingHome = false;
-        dis = 0.1f;
+        dis = 2f;
     }
 
     // Update is called once per frame
@@ -37,16 +37,16 @@ public class KJY_Camera : MonoBehaviour
     {
         Camera.main.transform.position =
             Vector3.Lerp(Camera.main.transform.position,
-            new Vector3(-6, 10, 1.5f),
-            Time.deltaTime);
+            new Vector3(-2.2f, 8, -3.5f),
+            Time.deltaTime * 10f);
     }
 
     void MovingShop()
     {
         Camera.main.transform.position =
           Vector3.Lerp(Camera.main.transform.position,
-          new Vector3(-6, 10, -7.5f),
-          Time.deltaTime);
+          new Vector3(-2.2f, 8, -12.5f),
+          Time.deltaTime * 10f);
     }
 
 }

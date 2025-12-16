@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class InventoryView : MonoBehaviour
 {
+    [Header("정렬 버튼 아이콘")]
+    public SortIconListener sortIcon;
+
     public GameObject slotPrefab;
     public Transform contentArea; //Grid Layout Group이 있는 부모
 
@@ -10,6 +13,16 @@ public class InventoryView : MonoBehaviour
 
     //Presenter에게 클릭 신호 전달
     public event Action<int> OnSlotClicked;
+    public event Action OnSortRequest;
+    
+    private void Start()
+    {
+        if (sortIcon != null)
+        {
+            //정렬 아이콘 클릭 시 매니저 호출
+            sortIcon.OnClick += () => OnSortRequest?.Invoke();
+        }
+    }
 
     //초기화: 슬롯 UI 생성 (Array 기반)
     public void CreateSlots(int capacity)
@@ -35,7 +48,7 @@ public class InventoryView : MonoBehaviour
     {
         for (int i = 0; i < uiSlots.Length; i++)
         {
-            uiSlots[i].UpdateView(dataSlots[i]);
+            uiSlots[i].UpdateView(dataSlots[i]);            
         }
     }
 }

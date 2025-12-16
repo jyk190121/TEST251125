@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 public enum RoomType
@@ -37,6 +38,12 @@ public class DungeonManager : MonoBehaviour
     private List<Vector2Int> roomPositions = new();
     private Dictionary<Vector2Int, GameObject> spawnedRooms = new();
 
+    public CinemachineCamera bossCam;
+    public Vector3 bossCamOffset = new Vector3(0f, 5f, -10f);
+
+    public GameObject player;
+    public Vector3 playerPos = new Vector3(0f, 0f, 0f);
+
     private readonly Vector2Int[] dirs = new Vector2Int[]
     {
         new Vector2Int(1,0),
@@ -63,6 +70,30 @@ public class DungeonManager : MonoBehaviour
         var (bossPos, restPos, parents) = BFSFindSpecialRooms();
         SpawnRooms(bossPos, restPos);
         SetupDoors();
+
+        SetupBossCameraPosition(bossPos);
+
+        SpawnPlayer();
+    }
+
+    void SetupBossCameraPosition(Vector2Int bossGridPos)
+    {
+        Vector3 bossCenterWorldPos = new Vector3(
+            bossGridPos.x * roomSpacingX,
+            // X 좌표: 그리드 X 위치에 방 간격 X를 곱하여 월드 X 위치를 계산합니다.
+            0f,
+            // Y 좌표: 던전 맵이 X-Z 평면이므로 0으로 고정합니다.
+            bossGridPos.y * roomSpacingZ
+        // Z 좌표: 그리드 Y 위치에 방 간격 Z를 곱하여 월드 Z 위치를 계산합니다.
+        );
+
+        Vector3 cameraPosition = bossCenterWorldPos + bossCamOffset;
+
+        bossCam.transform.position = cameraPosition;
+
+        bossCam.transform.rotation = Quaternion.LookRotation(bossCenterWorldPos - cameraPosition);
+
+        bossCam.Priority = 0;
     }
 
     // ------------------------------------
@@ -161,9 +192,14 @@ public class DungeonManager : MonoBehaviour
     // ------------------------------------
     // 3. 프리팹 생성
     // ------------------------------------
+
+    private Vector2Int startRoomGridPos = Vector2Int.zero;
+
     void SpawnRooms(Vector2Int bossPos, Vector2Int restPos)
     {
         spawnedRooms.Clear();
+
+        startRoomGridPos = Vector2Int.zero;
 
         foreach (var pos in roomPositions)
         {
@@ -185,6 +221,14 @@ public class DungeonManager : MonoBehaviour
 
             GameObject room = Instantiate(prefabToUse, worldPos, Quaternion.identity);
             spawnedRooms[pos] = room;
+
+            RoomController controller = room.GetComponent<RoomController>();
+            if (controller != null)
+            {
+                controller.isStartRoom = (type == RoomType.Start);
+                controller.isRestRoom = (type == RoomType.Rest);
+                controller.isBossRoom = (type == RoomType.Boss);
+            }
         }
     }
 
@@ -212,6 +256,51 @@ public class DungeonManager : MonoBehaviour
                 left: spawnedRooms.ContainsKey(pos + Vector2Int.left),
                 right: spawnedRooms.ContainsKey(pos + Vector2Int.right)
             );
+        }
+    }
+
+    void SpawnPlayer()
+    {
+        // 1. 시작 방의 그리드 위치(Vector2Int.zero)를 월드 좌표로 변환합니다.
+        Vector3 startRoomCenterWorldPos = new Vector3(
+            // X 월드 좌표: 시작 방 그리드 X (0) * 방 간격 X
+            startRoomGridPos.x * roomSpacingX,
+            // Y 월드 좌표: 던전은 X-Z 평면이므로 기본 높이는 0f
+            0f,
+            // Z 월드 좌표: 시작 방 그리드 Y (0) * 방 간격 Z
+            startRoomGridPos.y * roomSpacingZ
+        );
+
+        // 2. 플레이어의 최종 스폰 월드 위치를 계산합니다.
+        // 시작 방의 중심 위치(`startRoomCenterWorldPos`)에,
+        // 미리 설정된 플레이어의 상대적 위치(`PlayerPos`)를 더하여 최종 위치를 결정합니다.
+        // 현재 `PlayerPos`는 (0, 0, 0)이므로, 결과적으로 시작 방의 중앙이 됩니다.
+        Vector3 finalSpawnPosition = startRoomCenterWorldPos + playerPos;
+
+        // 3. 플레이어 오브젝트(`Player` 프리팹)가 설정되어 있는지 확인합니다.
+        // if문은 `Player` 변수가 null이 아닌지 (즉, 프리팹이 할당되었는지) 검사하여, 
+        // 프리팹이 없을 경우 Instatiate를 시도하여 발생하는 에러(Null Reference Exception)를 방지합니다.
+        if (player != null)
+        {
+            // Instantiate 함수는 플레이어 프리팹을 씬에 복사(생성)하고, 
+            // `finalSpawnPosition` 위치에 `Quaternion.identity` (회전 없음)로 배치합니다.
+            // 생성된 플레이어 오브젝트의 인스턴스를 `spawnedPlayer` 변수에 저장합니다.
+            GameObject spawnedPlayer = Instantiate(
+                player,
+                finalSpawnPosition,
+                Quaternion.identity
+            );
+
+            // 생성된 플레이어의 이름을 설정하여 씬에서 쉽게 식별하도록 합니다.
+            spawnedPlayer.name = "Player_Spawned_In_StartRoom";
+
+            // 플레이어 스폰 위치를 확인하기 위한 로그입니다.
+            Debug.Log($"플레이어 프리팹을 시작 방 (World: {finalSpawnPosition})에 성공적으로 생성했습니다.");
+        }
+        // else문은 `Player` 변수에 프리팹이 할당되지 않았을 경우 실행됩니다.
+        else
+        {
+            Debug.LogError("Player GameObject (프리팹)가 DungeonManager에 할당되지 않았습니다. 인스턴스화 할 수 없습니다.");
         }
     }
 

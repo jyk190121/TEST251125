@@ -26,9 +26,9 @@ public class PlayerModel
         return new PlayerModel(
             100,
             100,
-            100,
+            1000,
             25,
-            10,
+            5,
             12
         );
     }

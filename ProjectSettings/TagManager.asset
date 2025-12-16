@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Manager
+  - Cut
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - Portal
   - Player
   - Trap
-  - 
-  - 
+  - Mark
+  - Boss
   - 
   - 
   - 
@@ -37,6 +38,7 @@ TagManager:
   - 
   - 
   - SuperMan
+  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
