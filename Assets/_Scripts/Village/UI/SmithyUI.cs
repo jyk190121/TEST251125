@@ -90,6 +90,10 @@ public class SmithyUI : MonoBehaviour
 
         _MasterManager.Instance.UIManager.SetRightPanelActive(false);
 
+        SelectTab(true);
+        int RecipeID = 2001;
+        SelectRecipe(RecipeID); // 선택 초기화
+
         smithyPanel.SetActive(true);
 
         UpdateTabHighlight();
@@ -108,7 +112,6 @@ public class SmithyUI : MonoBehaviour
     private void SelectTab(bool isFirst)
     {
         isFirstTab = isFirst;
-        selectedRecipeID = 0;  // 선택 초기화
 
         // 탭 UI 시각화 업데이트
         UpdateTabHighlight();

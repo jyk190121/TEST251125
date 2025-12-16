@@ -92,6 +92,9 @@ public class WoodenHatUI : MonoBehaviour
 
         _MasterManager.Instance.UIManager.SetRightPanelActive(false);
 
+        int RecipeID = 3001;
+        SelectRecipe(RecipeID); // 선택 초기화
+
         woodenHatPanel.SetActive(true);
         SelectTab(true);  // 기본 탭: 포션 제작
     }

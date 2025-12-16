@@ -1,11 +1,14 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
     [SerializeField] private GameObject leftPanel;
     [SerializeField] private GameObject rightPanel;
 
+    [SerializeField] Image weaponImage;
     [SerializeField] private TextMeshProUGUI playerGoldText;
     [SerializeField] private TextMeshProUGUI playerHpText;
     [SerializeField] private TextMeshProUGUI playerPortionText;
@@ -26,6 +29,8 @@ public class PlayerUI : MonoBehaviour
         playerSubAttackText.text = $"{KeySetting.keys[KeyInput.SUBATTACK]}";
         playerMainAttackText.text = $"{KeySetting.keys[KeyInput.MAINATTACK]}";
         playerInventoryText.text = $"{KeySetting.keys[KeyInput.INVENTORY]}";
+
+        weaponImage.sprite = _MasterManager.Instance.DataManager.EquipWeapon.icon;
     }
 
     public void SetLeftPanelActive(bool active) => leftPanel.SetActive(active);
