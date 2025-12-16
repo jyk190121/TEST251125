@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using TMPro;
 using System;
 
-public class WarehouseSlotView : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler//, IPointerClickHandler
+public class WarehouseSlotView : MonoBehaviour, IBeginDragHandler, IDragHandler, IDropHandler, IPointerClickHandler
 {
     [Header("UI 컴포넌트")]
     public Image iconImage;
@@ -42,6 +42,12 @@ public class WarehouseSlotView : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
             amountText.text = slotData.quantity > 1 ? slotData.quantity.ToString() : "";
         }
+    }
+
+    //슬롯 클릭시 인덱스값 전달
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        OnSlotClick?.Invoke(myIndex);
     }
 
     //아이템 드래그 이동

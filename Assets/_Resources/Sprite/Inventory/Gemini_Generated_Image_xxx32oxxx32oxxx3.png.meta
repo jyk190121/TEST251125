@@ -1,10 +1,7 @@
 fileFormatVersion: 2
-guid: 8362bf4ecc3a7ea4daaa02b04ce1533b
+guid: 748f70b425c2c294fb282e13ee60866d
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -6701641798444830039
-    second: buttonLong_blue_0
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -42,7 +39,7 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -51,7 +48,7 @@ TextureImporter:
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 2048
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -126,23 +123,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: buttonLong_blue_0
+      name: Gemini_Generated_Image_xxx32oxxx32oxxx3_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 190
-        height: 49
+        x: 85
+        y: 200
+        width: 1746
+        height: 1699
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 7, y: 11, z: 6, w: 7}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9a239c78a4cfef2a0800000000000000
-      internalID: -6701641798444830039
+      spriteID: 49c3ff504f7fd3f44b0d3d207e878520
+      internalID: 1800916435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Gemini_Generated_Image_xxx32oxxx32oxxx3_1
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 1082
+        width: 191
+        height: 194
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de5fe42b1a5aa384c9b616064fa40d7c
+      internalID: 636806000
       vertices: []
       indices: 
       edges: []
@@ -151,7 +170,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3cec2304208631a43a2b2abc7c4235ce
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -161,7 +180,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      buttonLong_blue_0: -6701641798444830039
+      Gemini_Generated_Image_xxx32oxxx32oxxx3_0: 1800916435
+      Gemini_Generated_Image_xxx32oxxx32oxxx3_1: 636806000
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
