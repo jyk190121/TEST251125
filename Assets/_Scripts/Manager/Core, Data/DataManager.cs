@@ -1,7 +1,6 @@
-using System;
 using Unity.VisualScripting;
 using UnityEngine;
-using static DayManager;
+using System;
 
 //유저 데이터를 저장하는 공간 - 던전 진행도/골드/체력 등
 public class DataManager : MonoBehaviour
@@ -18,15 +17,13 @@ public class DataManager : MonoBehaviour
     public static Action OnEquipmentChanged;
     public static Action OnStatChanged;
 
-    //세이브 정보
-    public TimeOfDay currentTime;
-    public int currentDay;
-
+    //사망,던전 클리어, 펜던트 사용 이후의 복귀인가?
+    bool isReturn = false;
 
     public void Initialize()
     {
         modelstat = PlayerModel.SetStat();
-        player = PlayerModel.SetStat();
+        player = PlayerModel.SetStat();     
     }
 
     //플레이어 아이템 장착시 스탯 변경
@@ -47,7 +44,7 @@ public class DataManager : MonoBehaviour
     public void AddHP(int amount)
     {
         player.HP += amount;
-        if (player.HP > player.MaxHP)
+        if(player.HP > player.MaxHP)
         {
             player.HP = player.MaxHP;
         }
@@ -56,7 +53,7 @@ public class DataManager : MonoBehaviour
     public void MinusHP(int amount)
     {
         player.HP -= amount;
-        if (player.HP < 0)
+        if(player.HP < 0)
         {
             player.HP = 0;
         }
@@ -105,9 +102,13 @@ public class DataManager : MonoBehaviour
         player.HP -= amount;
     }
 
-    public void GetData()
+    //True = 포탈 타고 복귀 false = 그냥 아무것도 발생하지 않는 복귀
+    public void ChangeReturn(bool Return)
     {
-        currentTime = _MasterManager.Instance.DayManager.CurrentTime;
-        currentDay = _MasterManager.Instance.DayManager.CurrentDay;
+        isReturn = Return;
+    }
+    public bool GetReturn()
+    {
+        return isReturn;
     }
 }
