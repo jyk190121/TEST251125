@@ -1468,6 +1468,7 @@ MonoBehaviour:
   - {fileID: 4270970697681155546}
   - {fileID: 266741814227328659}
   - {fileID: 5044133871530382445}
+  PortalPrefab: {fileID: 8383633192186671373, guid: 38a161e2ca691c64d820e60f6da5086a, type: 3}
   spawnPoints:
   - {fileID: 5086756271288131678}
   monsterPrefabs:
