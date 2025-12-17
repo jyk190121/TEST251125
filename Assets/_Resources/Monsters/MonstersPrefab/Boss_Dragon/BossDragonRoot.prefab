@@ -436,6 +436,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6237777640307270913}
   - component: {fileID: 9009553568486527315}
+  - component: {fileID: 7985912115819795479}
+  - component: {fileID: 4056643919476816306}
   m_Layer: 10
   m_Name: RHandAttHitBox
   m_TagString: Untagged
@@ -479,6 +481,46 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 100, z: 150}
   m_Center: {x: -50, y: 0, z: 0}
+--- !u!54 &7985912115819795479
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338482196410407540}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &4056643919476816306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338482196410407540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d9efe4e55385747bdd9e2e45af8dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 0
 --- !u!1 &1470649600323626940
 GameObject:
   m_ObjectHideFlags: 0
@@ -807,6 +849,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6838891733074946863}
   - component: {fileID: 2882555004430180403}
+  - component: {fileID: 2204827099019422877}
+  - component: {fileID: 2158988347930444782}
   m_Layer: 10
   m_Name: Jaw03AttHitBox
   m_TagString: Untagged
@@ -850,6 +894,46 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 175, y: 75, z: 100}
   m_Center: {x: 50, y: 0, z: 0}
+--- !u!54 &2204827099019422877
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5885601616512524290}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &2158988347930444782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5885601616512524290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d9efe4e55385747bdd9e2e45af8dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 0
 --- !u!1 &5927308674075040579
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,6 +1103,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3157981663917098376}
   - component: {fileID: 3475853800550366204}
+  - component: {fileID: 6247755038354841344}
+  - component: {fileID: 600915942149860178}
   m_Layer: 10
   m_Name: UpperHead02AttHitBox
   m_TagString: Untagged
@@ -1062,6 +1148,46 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 150, y: 50, z: 100}
   m_Center: {x: 40, y: 0, z: 0}
+--- !u!54 &6247755038354841344
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6260650503287988607}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &600915942149860178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6260650503287988607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d9efe4e55385747bdd9e2e45af8dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 0
 --- !u!1 &6297465096987610642
 GameObject:
   m_ObjectHideFlags: 0
@@ -1602,6 +1728,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2694445109166124344}
   - component: {fileID: 2072041157561234855}
+  - component: {fileID: 2222032939809691835}
+  - component: {fileID: 7480113340849911907}
   m_Layer: 10
   m_Name: RHandAttHitBox
   m_TagString: Untagged
@@ -1645,6 +1773,46 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 200, y: 100, z: 150}
   m_Center: {x: 50, y: 0, z: 0}
+--- !u!54 &2222032939809691835
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8948049494511391847}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &7480113340849911907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8948049494511391847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1d9efe4e55385747bdd9e2e45af8dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDamage: 0
 --- !u!1001 &9026020392129459860
 PrefabInstance:
   m_ObjectHideFlags: 0
