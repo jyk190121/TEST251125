@@ -38,7 +38,7 @@ public class CustomerManager : MonoBehaviour
         //customerExit = new bool[r];
 
         //손님 등장 주기 랜덤설정
-        float random = Random.Range(0, 5);
+        float random = Random.Range(3, 6);
 
         for (int i = 0; i < r; i++)
         {
