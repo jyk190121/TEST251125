@@ -24,6 +24,11 @@ public class InventoryModel
 
     public void InitSlots(int capacity)
     {
+        if (slots.Count > 0)
+        {
+            return;
+        }
+
         for (int i = 0; i < capacity; i++)
         {
             slots.Add(i, new InventorySlotModel());
