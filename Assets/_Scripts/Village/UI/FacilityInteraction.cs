@@ -113,6 +113,7 @@ public class FacilityInteraction : MonoBehaviour
         {
             if (linkedUIPanel != null)
             {
+                _MasterManager.Instance.UIManager.SetRightPanelActive(false);
                 linkedUIPanel.SetActive(true);
             }
             Debug.Log("[FacilityInteraction] 시설 구매 UI 열기");
@@ -128,12 +129,14 @@ public class FacilityInteraction : MonoBehaviour
             if (facilityID == "smithy")
             {
                 SmithyUI smithyUI = linkedUIPanel.GetComponent<SmithyUI>();
+                _MasterManager.Instance.UIManager.SetRightPanelActive(false);
                 smithyUI.OpenUI();
                 Debug.Log($"[FacilityInteraction] {facilityID} UI 열기");
             }
             else if (facilityID == "wooden_hat")
             {
                 WoodenHatUI woodenHatUI = linkedUIPanel.GetComponent<WoodenHatUI>();
+                _MasterManager.Instance.UIManager.SetRightPanelActive(false);
                 woodenHatUI.OpenUI();
                 Debug.Log($"[FacilityInteraction] {facilityID} UI 열기");
             }

@@ -1,16 +1,29 @@
+using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
+/// <summary>
+/// 등록하기 버튼 UI 띄우고 지우기
+/// </summary>
 public class DisplayStand : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public Image image;
+    public Image regiItemUI;
+    public TextMeshProUGUI key;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if(other.CompareTag("Player"))
+        {
+            image.gameObject.SetActive(true);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            image.gameObject.SetActive(false);
+            regiItemUI.gameObject.SetActive(false);
+        }
     }
 }
