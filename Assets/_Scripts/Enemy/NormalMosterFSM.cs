@@ -71,23 +71,17 @@ public class NormalMosterFSM : MonoBehaviour
     int[] normalPatternIDs;
 
     /*───────────────────────────────*
-     * 공통 패턴 파라미터
-     *───────────────────────────────*/
-    float windupTime;
-    float recoveryTime;
-
-    /*───────────────────────────────*
      * 근접 / 범위 공격
      *───────────────────────────────*/
     float aoeRange;
 
+    //원거리 투사체 레이저 프리팹
+    GameObject projectilePrefab;
+    GameObject laserPrefab;
+
     /*───────────────────────────────*
      * 원거리 공격
      *───────────────────────────────*/
-    float projectileSpeed;
-    int projectileCount;
-    float shotInterval;
-    int burstCount;
     public Transform firePoint;
 
     /*───────────────────────────────*
@@ -155,18 +149,13 @@ public class NormalMosterFSM : MonoBehaviour
         specialPatterns = monsterData.SpecialPatterns;
         normalPatternIDs = monsterData.NormalpatternIDs;
 
-        // 패턴 파라미터
-        windupTime = monsterData.windupTime;
-        recoveryTime = monsterData.recoveryTime;
-
         // 근접 / 범위
         aoeRange = monsterData.aoeRange;
 
-        // 원거리
-        projectileSpeed = monsterData.projectileSpeed;
-        projectileCount = monsterData.projectileCount;
-        shotInterval = monsterData.shotInterval;
-        burstCount = monsterData.burstCount;
+        //원거리 투사체 프리팹
+        projectilePrefab = monsterData.projectilePrefab;
+        //원거리 레이저 프리팹
+        laserPrefab = monsterData.laserPrefab;
 
         // FX
         attackFX = monsterData.attackFX;
@@ -234,20 +223,20 @@ public class NormalMosterFSM : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, target.position);
 
-        //  원거리 몹: 최소거리 유지 로직
+        /*───────────────────────────────*
+         * 원거리 몹
+         *───────────────────────────────*/
         if (monsterType == Type.Range)
         {
-            // 너무 가까우면 뒤로 빠지기(도망 목적지)
             if (distance < minRangeRange)
             {
                 Vector3 awayDir = (transform.position - target.position).normalized;
                 Vector3 retreatPos = transform.position + awayDir * (minRangeRange - distance + 0.5f);
 
                 agent.SetDestination(retreatPos);
-                return; // 계속 Move 유지
+                return;
             }
 
-            // 적정거리(최소거리 이상 & 공격거리 이하)면 공격
             if (distance <= attRange)
             {
                 anim.SetBool("isMove", false);
@@ -256,21 +245,36 @@ public class NormalMosterFSM : MonoBehaviour
                 return;
             }
 
-            // 공격거리 밖이면 다가가기
             agent.SetDestination(target.position);
             return;
         }
 
-        // 근접 몹: 기존대로
-        agent.SetDestination(target.position);
-
-        if (distance <= attRange)
+        /*───────────────────────────────*
+         * 근접 몹
+         *───────────────────────────────*/
+        if (distance < minRangeRange)
         {
-            anim.SetBool("isMove", false);
-            agent.isStopped = true;
-            state = MonsterState.Attack;
+            // 너무 붙어 있음 → 살짝만 거리 벌리기
+            Vector3 awayDir = (transform.position - target.position).normalized;
+            Vector3 adjustPos = transform.position + awayDir * 0.3f;
+
+            agent.SetDestination(adjustPos);
+            return;
         }
+
+        // 공격 사거리 밖 → 접근
+        if (distance > attRange)
+        {
+            agent.SetDestination(target.position);
+            return;
+        }
+
+        // 딱 공격 가능한 거리
+        anim.SetBool("isMove", false);
+        agent.isStopped = true;
+        state = MonsterState.Attack;
     }
+
 
     /*───────────────────────────────*
      * Attack 분기
@@ -367,9 +371,6 @@ public class NormalMosterFSM : MonoBehaviour
         // RootMotion 종료 → NavMesh 복귀
         anim.applyRootMotion = false;
 
-        // 후딜
-        yield return new WaitForSeconds(recoveryTime);
-
         timer = coolTime;
         isActing = false;
         state = MonsterState.Idle;
@@ -402,52 +403,42 @@ public class NormalMosterFSM : MonoBehaviour
             yield break;
         }
 
-        // 패턴 → 애니메이터 전달
-        int id = (int)sp;
-        anim.SetInteger("Pattern", id);
+        // 패턴 전달
+        anim.SetInteger("Pattern", (int)sp);
         anim.SetTrigger("Attack");
 
-        // Animator 상태 반영 대기 (★ 중요)
+        // Animator 반영 대기
         yield return null;
 
         AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
-        float animLength = info.length;
+        float total = info.length;
+        float hitTime = total * 0.4f;
 
-        // ─────────────────────────
-        //  준비 시간 (windup)
-        // ─────────────────────────
-        yield return new WaitForSeconds(windupTime);
+        // 준비 구간
+        yield return new WaitForSeconds(hitTime);
 
-        // ─────────────────────────
-        //  특수 공격 로직 (짧게)
-        // ─────────────────────────
+        // 특수 공격 발동
         switch (sp)
         {
             case SpecialPattern.AOE:
-                Aoe();          // 내부에서 잠깐 켜고 끄는 구조
+                Aoe();
                 break;
-
             case SpecialPattern.Laser:
-                StartLaser();   // 레이저 FSM / 프리팹 쪽에서 처리
+                StartLaser();
                 break;
         }
 
-        // ─────────────────────────
-        // 3️⃣ 애니메이션 종료까지 대기
-        // (이미 지난 windup 제외)
-        // ─────────────────────────
-        float remainTime = Mathf.Max(0f, animLength - windupTime);
-        yield return new WaitForSeconds(remainTime);
+        // 애니메이션 종료까지 대기
+        yield return new WaitForSeconds(total - hitTime);
 
-        // ─────────────────────────
-        // 4️⃣ 종료 처리
-        // ─────────────────────────
+        // 종료 처리
         anim.applyRootMotion = false;
 
         specialTimer = specialCoolTime;
         isActing = false;
         state = MonsterState.Idle;
     }
+
 
 
     SpecialPattern GetValidSpecialPattern()
@@ -475,7 +466,7 @@ public class NormalMosterFSM : MonoBehaviour
         if (aoeHitbox == null) return;
 
         aoeHitbox.SetActive(true);
-        StartCoroutine(DisableAoeAfterTime(0.3f));
+        StartCoroutine(DisableAoeAfterTime(0.5f));
     }
 
     IEnumerator DisableAoeAfterTime(float time)
