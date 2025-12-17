@@ -458,4 +458,9 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         else return true;
     }
 
+    //팬턴트 사용
+    public void UsePendent()
+    {
+        
+    }
 }

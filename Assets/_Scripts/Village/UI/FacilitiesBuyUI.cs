@@ -158,7 +158,6 @@ public class FacilitiesBuyUI : MonoBehaviour
     /// </summary>
     private void ClearDisplay()
     {
-        _MasterManager.Instance.UIManager.SetRightPanelActive(false);
         OnFacilitySelected("smithy");
     }
 

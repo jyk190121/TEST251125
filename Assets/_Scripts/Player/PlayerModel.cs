@@ -1,6 +1,7 @@
 using UnityEngine;
 
 //플레이어 기본 정보에 대한 데이터 스크립트
+[System.Serializable]
 public class PlayerModel
 {
     public int HP;
