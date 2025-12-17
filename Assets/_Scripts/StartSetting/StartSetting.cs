@@ -43,6 +43,7 @@ public class StartSetting : MonoBehaviour
 
         // 새 게임 시작: DataManager 초기화
         _MasterManager.Instance.DataManager.Initialize();
+        SaveManager.DeleteSaveData();
 
         Debug.Log("새 게임 시작!");
         GameSceneManager.game.LoadScene("Villiage");
@@ -71,7 +72,11 @@ public class StartSetting : MonoBehaviour
 
         Debug.Log("[StartSetting] 저장 데이터 확인됨, LoadGame 호출");
 
-        _MasterManager.Instance.SaveManager.LoadGame(_MasterManager.Instance.DataManager);
+        if (SaveManager.HasSaveData())
+        {
+            _MasterManager.Instance.SaveManager.LoadGame(_MasterManager.Instance.DataManager);
+            Debug.Log("[MasterManager] 저장된 게임 데이터 로드됨");
+        }
 
         Debug.Log("[StartSetting] LoadGame 완료, 씬 이동");
         _MasterManager.Instance.GameSceneManager.LoadScene("Villiage");

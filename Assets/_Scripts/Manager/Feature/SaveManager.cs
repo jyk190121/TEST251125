@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.IO;
+using UnityEngine;
+using static DataManager;
 
 public class SaveManager : MonoBehaviour
 {
@@ -87,9 +88,10 @@ public class SaveManager : MonoBehaviour
         playerStat.moveSpeed = saveData.playerMoveSpeed;
         playerStat.attackSpeed = saveData.playerAttackSpeed;
 
-        if (saveData.equippedWeapon != null)
+        // 무기 복구
+        if (saveData.equippedWeaponID != -1)
         {
-            Item weapon = saveData.equippedWeapon;
+            Item weapon = _MasterManager.Instance.ItemManager.GetItemByID(saveData.equippedWeaponID);
             if (weapon != null)
             {
                 dm.EquipWeapon = weapon;
@@ -100,19 +102,51 @@ public class SaveManager : MonoBehaviour
         dm.currentTime = (DayManager.TimeOfDay)saveData.currentTimeOfDay;
         dm.currentDay = saveData.currentDay;
 
-        DataManager.OnDataLoaded?.Invoke();
-
         // 던전 정보 복구
         dm.dungeonCleared = saveData.dungeonCleared;
 
         // 시설 정보 복구
         dm.facilities = saveData.facilities;
 
-        // 인벤토리 정보 복구
-        if (saveData.inventorySlots != null)
+        // 인벤토리 정보 복구 (핵심!)
+        if (saveData.inventorySlots != null && saveData.inventorySlots.Length > 0)
         {
-            dm.inventoryData.slots = saveData.inventorySlots;
+            // InventoryManager 초기화 (기존 데이터 초기화)
+            var inventoryManager = _MasterManager.Instance.InventoryManager;
+
+            // 모든 저장된 슬롯 데이터를 순회
+            for (int i = 0; i < saveData.inventorySlots.Length; i++)
+            {
+                var slotData = saveData.inventorySlots[i];
+
+                // 유효한 아이템 데이터만 처리
+                if (slotData.itemID != -1 && slotData.quantity > 0)
+                {
+                    // itemID로 Item 객체 다시 찾기
+                    Item item = _MasterManager.Instance.ItemManager.GetItemByID(slotData.itemID);
+
+                    if (item != null)
+                    {
+                        // InventoryManager에 아이템 추가
+                        inventoryManager.AddItem(item, slotData.quantity);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[SaveManager] ItemID {slotData.itemID}를 찾을 수 없습니다!");
+                    }
+                }
+            }
+
+            Debug.Log($"[SaveManager] 인벤토리 로드 완료: {saveData.inventorySlots.Length}개 슬롯");
         }
+        else
+        {
+            Debug.LogWarning("[SaveManager] 저장된 인벤토리 데이터가 없습니다");
+            // 빈 인벤토리로 초기화
+            dm.inventoryData.slots = new InventorySlotData[20];
+        }
+
+        DataManager.OnDataLoaded?.Invoke();
 
         Debug.Log($"[SaveManager] 데이터 로드 완료");
     }
@@ -123,7 +157,38 @@ public class SaveManager : MonoBehaviour
         var playerStat = dm.GetStat();
         var weapon = dm.GetWeapon();
 
-        return new GameSaveData
+        // InventoryManager에서 현재 슬롯 배열 가져오기
+        InventorySlotModel[] currentSlots = _MasterManager.Instance.InventoryManager
+            .GetSlotsForView();
+
+        // InventorySlotModel[] → InventorySlotData[] 변환
+        InventorySlotData[] inventorySlotsToSave = new InventorySlotData[currentSlots.Length];
+
+        for (int i = 0; i < currentSlots.Length; i++)
+        {
+            if (currentSlots[i] != null && !currentSlots[i].IsEmpty)
+            {
+                // Item 객체 대신 itemID만 저장
+                inventorySlotsToSave[i] = new InventorySlotData
+                {
+                    itemID = currentSlots[i].itemData.itemID,      // ID만 저장
+                    quantity = currentSlots[i].quantity
+                };
+
+                Debug.Log($"[SaveManager] 저장 인벤토리[{i}]: ItemID={currentSlots[i].itemData.itemID}, Qty={currentSlots[i].quantity}");
+            }
+            else
+            {
+                // 빈 슬롯
+                inventorySlotsToSave[i] = new InventorySlotData
+                {
+                    itemID = -1,
+                    quantity = 0
+                };
+            }
+        }
+
+        GameSaveData saveData = new GameSaveData
         {
             playerMoney = playerStat.Money,
             playerHP = playerStat.HP,
@@ -132,7 +197,7 @@ public class SaveManager : MonoBehaviour
             playerDefend = playerStat.Defend,
             playerMoveSpeed = playerStat.moveSpeed,
             playerAttackSpeed = playerStat.attackSpeed,
-            equippedWeapon = weapon,
+            equippedWeaponID = weapon != null ? weapon.itemID : -1,
 
             currentTimeOfDay = (int)dm.currentTime,
             currentDay = dm.currentDay,
@@ -140,8 +205,10 @@ public class SaveManager : MonoBehaviour
             dungeonCleared = dm.dungeonCleared,
 
             facilities = dm.facilities,
-            inventorySlots = dm.inventoryData.slots,
+            inventorySlots = inventorySlotsToSave,
         };
+
+        return saveData;
     }
 
     /// <summary>
