@@ -197,7 +197,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     }
     public void Move(Vector3 dir)
     {
-        if (isRolling || isCharge || isBow || isSpearChargeAttack) return;
+        if (isRolling || isCharge || isBow || isSpearChargeAttack || isAttacking) return;
         SpearDir = dir;
         isMove = true;
         PAC.HandleMovementAnim(isMove);

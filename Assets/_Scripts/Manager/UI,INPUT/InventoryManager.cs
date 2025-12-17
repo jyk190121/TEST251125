@@ -610,6 +610,14 @@ public class InventoryManager : MonoBehaviour
         //return true;
     }
 
+    //플레이어가 죽었을 때 호출
+    public void OnPlayerDeath()
+    {
+        //가장 위 5칸을 제외한 모든 인벤토리 아이템 제거
+        int safeSlotCount = 5;
+        model.RemoveSomeItemsOnDeath(safeSlotCount);
+    }
+
     //외부에서 아이템 사용 시 호출 (장비 강화, 소모품 사용 등)
     public void ConsumeItem(int itemID, int count)
     {
