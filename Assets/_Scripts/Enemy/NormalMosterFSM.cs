@@ -135,6 +135,9 @@ public class NormalMosterFSM : MonoBehaviour
         coolTime = monsterData.CoolTime;
         specialCoolTime = monsterData.specialCoolTime;
 
+        timer = coolTime;
+        specialTimer = specialCoolTime;
+
         // 거리
         attRange = monsterData.attackRange;
         detRange = monsterData.detectionRange;
@@ -172,15 +175,19 @@ public class NormalMosterFSM : MonoBehaviour
     void Update()
     {
         // 쿨타임 감소
-        if (timer > 0) timer -= Time.deltaTime;
-        if (specialTimer > 0) specialTimer -= Time.deltaTime;
+        if (state == MonsterState.Idle || state == MonsterState.Move)
+        {
+            if (timer > 0) timer -= Time.deltaTime;
+            if (specialTimer > 0) specialTimer -= Time.deltaTime;
+        }
+
 
         switch (state)
         {
             case MonsterState.Idle: Idle(); break;
             case MonsterState.Move: Move(); break;
-            case MonsterState.Attack: Attack(); break;
-            case MonsterState.GetHit:   break;
+            case MonsterState.Attack: Attack();  break;
+            case MonsterState.GetHit: break;
             case MonsterState.Die: Die();  break;
         }
     }
@@ -192,7 +199,8 @@ public class NormalMosterFSM : MonoBehaviour
     {
         anim.applyRootMotion = false;
 
-        anim.SetBool("isIdle", true);
+        agent.isStopped = true;
+        anim.SetBool("isMove", false);
 
         if (target == null)
         {
@@ -204,7 +212,6 @@ public class NormalMosterFSM : MonoBehaviour
         float distance = Vector3.Distance(transform.position, target.position);
         if (distance <= detRange)
         {
-            anim.SetBool("isIdle", false);
             state = MonsterState.Move;
         }
     }
@@ -256,7 +263,7 @@ public class NormalMosterFSM : MonoBehaviour
         {
             // 너무 붙어 있음 → 살짝만 거리 벌리기
             Vector3 awayDir = (transform.position - target.position).normalized;
-            Vector3 adjustPos = transform.position + awayDir * 0.3f;
+            Vector3 adjustPos = transform.position + awayDir * 1f;
 
             agent.SetDestination(adjustPos);
             return;
@@ -283,26 +290,40 @@ public class NormalMosterFSM : MonoBehaviour
 
     void Attack()
     {
+        if (isActing) return;
+
+        isActing = true;
+        agent.isStopped = true;
         anim.applyRootMotion = true;
 
-        agent.isStopped = true;
-        if (isActing) return;
+        // ⭐ 공격 시작 시 방향 고정
+        FaceTargetOnce();
 
         if (CanUseSpecial())
         {
-            isActing = true;
             StartCoroutine(ExecuteSpecialPattern());
             return;
         }
 
         if (CanUseNormal())
         {
-            isActing = true;
             StartCoroutine(ExecuteNormalAttack());
             return;
         }
 
+        isActing = false;
         state = MonsterState.Idle;
+    }
+    void FaceTargetOnce()
+    {
+        if (target == null) return;
+
+        Vector3 dir = target.position - transform.position;
+        dir.y = 0f;
+
+        if (dir.sqrMagnitude < 0.001f) return;
+
+        transform.rotation = Quaternion.LookRotation(dir);
     }
 
 
@@ -399,9 +420,11 @@ public class NormalMosterFSM : MonoBehaviour
         SpecialPattern sp = GetValidSpecialPattern();
         if (sp == default)
         {
+            isActing = false;
             state = MonsterState.Idle;
             yield break;
         }
+
 
         // 패턴 전달
         anim.SetInteger("Pattern", (int)sp);
@@ -498,8 +521,9 @@ public class NormalMosterFSM : MonoBehaviour
 
             return;
         }
-        else
-            StartCoroutine(GetHitProc());
+        if (state == MonsterState.GetHit) return;
+        StartCoroutine(GetHitProc());
+
     }
 
     IEnumerator GetHitProc()
@@ -537,7 +561,7 @@ public class NormalMosterFSM : MonoBehaviour
 
         // 나중에 연결
         // DropItem(transform.position, monsterData);
-
+        _MasterManager.Instance.DataManager.GetMonster(monsterData);
         Destroy(gameObject);
     }
 
