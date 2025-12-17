@@ -3,7 +3,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
-using UnityEditor.Experimental.GraphView;
 
 //전투 관련 데이터 처리(파밍한 아이템, 잡은 몬스터 보관했다가 Result Panel에 띄움)
 public class BattleRecord: MonoBehaviour
@@ -32,12 +31,12 @@ public class BattleRecord: MonoBehaviour
 
     //상단에 띄워야할 이미지 3가지
     public List<Sprite> sprites;
-
+    
 
     void Start()
     {
         _MasterManager.Instance.DataManager.RegisterBattleRecord(this);
-        
+        resultPanel.SetActive(false);
     }
 
     // 리스트에 몬스터 추가
