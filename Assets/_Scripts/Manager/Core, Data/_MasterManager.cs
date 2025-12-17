@@ -17,6 +17,8 @@ public class _MasterManager : MonoBehaviour
     public SoundManager SoundManager { get; private set; }
     public GameSceneManager GameSceneManager { get; private set; }
 
+    public ItemManager ItemManager { get; private set; }
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -45,9 +47,11 @@ public class _MasterManager : MonoBehaviour
         InventoryManager = GetComponent<InventoryManager>();
         SoundManager = GetComponent<SoundManager>();
         GameSceneManager = GetComponent<GameSceneManager>();
+        ItemManager = GetComponent<ItemManager>();
 
         // 1. 리소스 및 기본 데이터
         ResourceManager.Initialize();
+        ItemManager.Initialize();
         DataManager.Initialize();
         SaveManager.Initialize();
 
@@ -56,18 +60,11 @@ public class _MasterManager : MonoBehaviour
         UIManager.Initialize();
         InventoryManager.Initialize();
 
-        // 3. 게임 데이터 로드
-        if (SaveManager.HasSaveData())
-        {
-            SaveManager.LoadGame(DataManager);
-            Debug.Log("[MasterManager] 저장된 게임 데이터 로드됨");
-        }
-
-        // 4. 전투 / 적 / 던전
+        // 3. 전투 / 적 / 던전
         EnemyManager.Initialize();
         //DungeonManager.Initialize();
 
-        // 5. 사운드 / 카메라 / 시간
+        // 4. 사운드 / 카메라 / 시간
         SoundManager.Initialize();
         DayManager.Initialize();
 

@@ -640,8 +640,53 @@ public class InventoryManager : MonoBehaviour
         remove { model.OnInventoryUpdated -= value; }
     }
 
+    // SaveManager에서 호출할 수 있도록
+    public InventorySlotModel[] GetSlotsForView()
+    {
+        return model.GetSlotsForView();
+    }
+
     public void Initialize()
     {
+        Debug.Log("[InventoryManager] 초기화 시작");
 
+        // Model 생성 (Awake에서 이미 생성되지만, 안전을 위해)
+        if (model == null)
+        {
+            model = new InventoryModel(capacity);
+            Debug.LogWarning("[InventoryManager] Model이 null이었습니다. 새로 생성합니다.");
+        }
+
+        // View 초기화
+        if (inventoryView != null)
+        {
+            inventoryView.CreateSlots(capacity);
+            Debug.Log("[InventoryManager] InventoryView 초기화됨");
+        }
+        else
+        {
+            Debug.LogError("[InventoryManager] InventoryView가 연결되지 않았습니다!");
+        }
+
+        // 이벤트 연결 (이미 Awake에서 했지만, 안전을 위해 다시)
+        model.OnInventoryUpdated += HandleInventoryUpdate;
+        if (inventoryView != null)
+        {
+            inventoryView.OnSlotClicked += HandleSlotClick;
+            inventoryView.OnSortRequest += HandleSortSequence;
+        }
+
+        // 슬롯 초기화
+        model.InitSlots(capacity);
+
+        // 화면 갱신
+        HandleInventoryUpdate();
+
+        // 팝업 닫기
+        if (dropPopup != null) dropPopup.ClosePopup();
+        if (splitPopup != null) splitPopup.gameObject.SetActive(false);
+
+        Debug.Log("[InventoryManager] 초기화 완료");
     }
+
 }

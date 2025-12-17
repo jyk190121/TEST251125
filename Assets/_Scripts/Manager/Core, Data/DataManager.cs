@@ -62,25 +62,50 @@ public class DataManager : MonoBehaviour
     public static Action OnEquipmentChanged;
     public static Action OnStatChanged;
 
-
     public void Initialize()
     {
         // 기본값 설정
         modelstat = PlayerModel.SetStat();
         player = PlayerModel.SetStat();
 
+        // 시설 정보 초기화
+        if (facilities == null || facilities.Length == 0)
+        {
+            facilities = new FacilityData[2]
+            {
+            new FacilityData { facilityID = "smithy", isUnlocked = false },
+            new FacilityData { facilityID = "wooden_hat", isUnlocked = false }
+            };
+            Debug.Log("[DataManager] 시설 정보 초기화됨");
+        }
+
         // 인벤토리 초기화
         if (inventoryData == null)
         {
             inventoryData = new InventoryData();
             inventoryData.slots = new InventorySlotData[20];
+
+            for (int i = 0; i < inventoryData.slots.Length; i++)
+            {
+                inventoryData.slots[i] = new InventorySlotData();
+            }
+            Debug.Log("[DataManager] 인벤토리 초기화됨");
         }
 
-        Debug.Log("[DataManager] 초기화 완료");
+        // 기타 데이터 초기화
+        currentTime = DayManager.TimeOfDay.Day;
+        currentDay = 1;
+        dungeonCleared = 0;
+        EquipWeapon = null;
+        isReturn = false;
+
+        Debug.Log("[DataManager] 모든 데이터 초기화 완료");
     }
 
-    //플레이어 아이템 장착시 스탯 변경
-    public void playerStatChanged(StatStruct stat)
+
+
+//플레이어 아이템 장착시 스탯 변경
+public void playerStatChanged(StatStruct stat)
     {
         //이후 장비 관련 변수 추가시 수정 필요
         player.HP = modelstat.HP + stat.hp;
