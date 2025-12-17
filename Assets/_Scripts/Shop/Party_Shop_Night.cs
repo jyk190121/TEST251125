@@ -1,11 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
+[RequireComponent(typeof(Party_Shop_Night))]
 public class Party_Shop_Night : MonoBehaviour
 {
     //10번부턴 1회성
     public GameObject[] particleArray;
+    List<GameObject> particles;
     Transform pos;
     void Awake()
     {
@@ -15,41 +17,55 @@ public class Party_Shop_Night : MonoBehaviour
     //파티클 터트리자!
     public IEnumerator partyToNight()
     {
-        float x = Random.Range(-6, 4);
-        float z = Random.Range(-7, 4.5f);
-        pos.position = new Vector3(x, 1.8f, z);
+        float x = Random.Range(-2, 2);
+        //z값 2 or -8
+        float z = Random.Range(0, 2);
+        if (z == 0) z = 2;
+        else if (z == 1) z = -8;
+        pos.position = new Vector3(x, 1, z);
 
-        int randomParticle = Random.Range(0, particleArray.Length - 1);
+        int randomParticle = Random.Range(0, 10);
 
         //5~10
         int r = Random.Range(5, 11);
 
-        GameObject[] particles = new GameObject[particleArray.Length - 1];
+        particles = new List<GameObject>();
+        GameObject[] temp = new GameObject[particleArray.Length - 1];
 
         for(int i =0; i < particleArray.Length; i++)
         {
-            if (randomParticle + i >= particleArray.Length) break;
+            if (randomParticle + i >= particleArray.Length - 1) break;
 
-            particles[i] = Instantiate(particleArray[randomParticle + i], pos);
+            temp[i] = Instantiate(particleArray[randomParticle + i], pos);
+            particles.Add(temp[i]);
             yield return new WaitForSeconds(r);
-        }
 
+            if (particles != null && i > 1)
+            {
+                Destroy(particles[i]);
+                yield return new WaitForSeconds(r);
+            }
+        }
         yield return new WaitForSeconds(r);
 
-        for (int i = 0; i < particleArray.Length - 1; i++)
+        foreach (GameObject particle in particles)
         {
-            Destroy(particles[i]);
-            yield return new WaitForSeconds(r);
+            if (particle != null) Destroy(particle);
         }
+
     }
 
     public void StopParty()
     {
-        StopAllCoroutines();
+        if (particles == null) return;
 
-        foreach (Transform child in transform)
+        foreach (GameObject particle in particles)
         {
-            Destroy(child.gameObject);
+            if (particle != null) Destroy(particle);
         }
+
+        particles.Clear();
+
+        StopAllCoroutines();
     }
 }

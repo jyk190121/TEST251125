@@ -47,9 +47,9 @@ public class ShopManager : MonoBehaviour
         light_Shop = FindAnyObjectByType<Light_Shop>();
         salesCustomer = FindAnyObjectByType<SalesCustomer>();
         party = FindAnyObjectByType<Party_Shop_Night>();
-
         pos_palyer.image.gameObject.SetActive(false);
         pos_palyer.shopOpenCheck = false;
+        partyPlay = true;
         //UI로 상호작용키 띄워주기
         pos_palyer.key.text = $"{KeySetting.GetKeyString(KeyInput.INTERACTIVE)}";
         //손님이 아이템을 가져오면 '판매' 라는 문구 로 변경
@@ -67,24 +67,26 @@ public class ShopManager : MonoBehaviour
         //낮인지
         if (dayManager.IsDay && !isAction)
         {
-            if(soundManager.PlayingBGM() && !isPlayingDay)
+            if (soundManager.PlayingBGM() && !isPlayingDay)
             {
                 //soundManager.PlayShopBGMIndex(0);
                 soundManager.StopBGM();
                 soundManager.PlayBGM("진영", 0);
                 isPlayingDay = true;
                 isPlayingNight = false;
+                //partyPlay = true;
+            }
+
+            if (!partyPlay)
+            {
+                party.StopParty();
                 partyPlay = true;
             }
 
             //상호작용 키로 상점 오픈하기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && pos_palyer.playerIsSales)
             {
-                if (!partyPlay)
-                {
-                    party.StopParty();
-                    partyPlay = true;
-                }
+              
                 if(!pos_palyer.shopOpenCheck)
                 {
                     OpenShop();
@@ -128,6 +130,12 @@ public class ShopManager : MonoBehaviour
         //밤인지 (밤엔 음악끄기)
         else if(dayManager.IsNight)
         {
+            if (partyPlay)
+            {
+                partyPlay = false;
+                StartCoroutine(party.partyToNight());
+            }
+
             if (soundManager.PlayingBGM() && !isPlayingNight)
             {
                 //soundManager.PlayShopBGMIndex(0);
@@ -135,12 +143,6 @@ public class ShopManager : MonoBehaviour
                 soundManager.PlayBGM("진영", 2);
                 isPlayingDay = false;
                 isPlayingNight = true;
-                
-                if(partyPlay)
-                {
-                    partyPlay = false;
-                    StartCoroutine(party.partyToNight());
-                }
             }
         }
 
