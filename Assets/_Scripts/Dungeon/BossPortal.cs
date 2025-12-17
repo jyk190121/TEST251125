@@ -47,7 +47,7 @@ public class BossPortal : MonoBehaviour
                 }
             }
         }
-        else
+        if (!isPlayerIn || Input.GetKeyUp(KeySetting.keys[KeyInput.INTERACTIVE]))
         {
             // 키를 떼거나 포탈을 나가면 타이머 초기화
             timer = 0f;
@@ -60,6 +60,7 @@ public class BossPortal : MonoBehaviour
 
     private void ReturnToTown()
     {
+        SceneManager.LoadScene(SceneName);
         // 데이터 저장 및 상태 변경
         DataManager dataManager = _MasterManager.Instance.DataManager;
         if (dataManager != null)
@@ -68,7 +69,6 @@ public class BossPortal : MonoBehaviour
         }
 
         Debug.Log("3초 유지 완료! 마을로 이동합니다.");
-        SceneManager.LoadScene(SceneName);
     }
 
     private void OnTriggerEnter(Collider other)
