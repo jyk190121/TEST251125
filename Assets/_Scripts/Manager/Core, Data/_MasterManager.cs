@@ -11,7 +11,6 @@ public class _MasterManager : MonoBehaviour
     public UIManager UIManager { get; private set; }
     public InventoryManager InventoryManager { get; private set; }
     public InputManager InputManager { get; private set; }
-    public BattleManager BattleManager { get; private set; }
     public DungeonManager DungeonManager { get; private set; }
     public EnemyManager EnemyManager { get; private set; }
     public ResourceManager ResourceManager { get; private set; }
@@ -40,7 +39,6 @@ public class _MasterManager : MonoBehaviour
         DayManager = GetComponent<DayManager>();
         UIManager = GetComponent<UIManager>();
         InputManager = GetComponent<InputManager>();
-        BattleManager = GetComponent<BattleManager>();
         //DungeonManager = GetComponent<DungeonManager>();
         EnemyManager = GetComponent<EnemyManager>();
         ResourceManager = GetComponent<ResourceManager>();
@@ -60,7 +58,6 @@ public class _MasterManager : MonoBehaviour
 
         // 3. ���� / ���� / ��
         EnemyManager.Initialize();
-        BattleManager.Initialize();
         //DungeonManager.Initialize();
 
         // 4. ����/ī�޶�/�ð�
