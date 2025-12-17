@@ -44,7 +44,8 @@ public class BossPortal : MonoBehaviour
                 // 2. 3초를 채웠을 때
                 if (timer >= holdDuration)
                 {
-                    ReturnToTown();
+                    _MasterManager.Instance.DataManager.SetisClear(true);
+                    _MasterManager.Instance.DataManager.ChangeReturn(true);
                 }
             }
         }
@@ -59,18 +60,18 @@ public class BossPortal : MonoBehaviour
         }
     }
 
-    private void ReturnToTown()
-    {
-        SceneManager.LoadScene(SceneName);
-        // 데이터 저장 및 상태 변경
-        DataManager dataManager = _MasterManager.Instance.DataManager;
-        if (dataManager != null)
-        {
-            dataManager.ChangeReturn(true);
-        }
+    //private void ReturnToTown()
+    //{
+    //    SceneManager.LoadScene(SceneName);
+    //    // 데이터 저장 및 상태 변경
+    //    DataManager dataManager = _MasterManager.Instance.DataManager;
+    //    if (dataManager != null)
+    //    {
+    //        dataManager.ChangeReturn(true);
+    //    }
 
-        Debug.Log("3초 유지 완료! 마을로 이동합니다.");
-    }
+    //    Debug.Log("3초 유지 완료! 마을로 이동합니다.");
+    //}
 
     private void OnTriggerEnter(Collider other)
     {

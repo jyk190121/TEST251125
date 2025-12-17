@@ -15,7 +15,7 @@ public class GameSaveData
     public int playerDefend;
     public float playerMoveSpeed;
     public float playerAttackSpeed;
-    public Item equippedWeapon;
+    public int equippedWeaponID;
 
     // ===== 시간 정보 =====
     public int currentTimeOfDay;

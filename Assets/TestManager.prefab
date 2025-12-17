@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 8499481067421247384}
   - component: {fileID: 7822020973296577162}
   - component: {fileID: 5867166246293917673}
+  - component: {fileID: 8953611080248387524}
   - component: {fileID: 6664478791948072366}
   - component: {fileID: 3571932401655655142}
   m_Layer: 5
@@ -145,6 +146,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EquipWeapon: {fileID: 0}
+  currentTime: 0
+  currentDay: 1
+  dungeonCleared: 0
+  facilities:
+  - facilityID: smithy
+    isUnlocked: 0
+  - facilityID: wooden_hat
+    isUnlocked: 0
+  inventoryData:
+    slots: []
 --- !u!114 &964143774971882242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9f4b2420d63a14f914829458945dab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  resultPanel: {fileID: 0}
 --- !u!114 &1785559834161393492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,6 +346,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d03b1b03dc2c6314ba88b80b8c156b63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8953611080248387524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122407842628781802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77c4279ff91b05f40b1912c274eaad64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!82 &6664478791948072366
