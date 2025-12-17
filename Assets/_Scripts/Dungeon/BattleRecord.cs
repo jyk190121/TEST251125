@@ -57,7 +57,18 @@ public class BattleRecord: MonoBehaviour
         {
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
             {
+                _MasterManager.Instance.DataManager.SetisClear(false);
+                _MasterManager.Instance.DataManager.SetisPendant(false);
                 GameSceneManager.game.LoadScene("Villiage");
+            }
+        }
+        if (Key_Retry)
+        {
+            if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]))
+            {
+                _MasterManager.Instance.DataManager.SetisClear(false);
+                _MasterManager.Instance.DataManager.SetisPendant(false);
+                GameSceneManager.game.ReloadCurrentScene();
             }
         }
 
