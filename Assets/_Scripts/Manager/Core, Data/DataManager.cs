@@ -60,8 +60,18 @@ public class DataManager : MonoBehaviour
 
     public void Initialize()
     {
+        // 기본값 설정
         modelstat = PlayerModel.SetStat();
-        player = PlayerModel.SetStat();     
+        player = PlayerModel.SetStat();
+
+        // 인벤토리 초기화
+        if (inventoryData == null)
+        {
+            inventoryData = new InventoryData();
+            inventoryData.slots = new InventorySlotData[20];
+        }
+
+        Debug.Log("[DataManager] 초기화 완료");
     }
 
     //플레이어 아이템 장착시 스탯 변경
@@ -137,7 +147,7 @@ public class DataManager : MonoBehaviour
 
     // ===== 던전 =====
     //던전 클리어 정보 갱신
-    public void DugeonClear(int clearLevel)
+    public void DungeonClear(int clearLevel)
     {
         dungeonCleared = clearLevel;
 

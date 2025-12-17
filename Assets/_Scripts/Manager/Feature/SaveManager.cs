@@ -87,9 +87,20 @@ public class SaveManager : MonoBehaviour
         playerStat.moveSpeed = saveData.playerMoveSpeed;
         playerStat.attackSpeed = saveData.playerAttackSpeed;
 
+        if (saveData.equippedWeapon != null)
+        {
+            Item weapon = saveData.equippedWeapon;
+            if (weapon != null)
+            {
+                dm.EquipWeapon = weapon;
+            }
+        }
+
         // 시간 정보 복구
         dm.currentTime = (DayManager.TimeOfDay)saveData.currentTimeOfDay;
         dm.currentDay = saveData.currentDay;
+
+        DataManager.OnDataLoaded?.Invoke();
 
         // 던전 정보 복구
         dm.dungeonCleared = saveData.dungeonCleared;
@@ -121,7 +132,7 @@ public class SaveManager : MonoBehaviour
             playerDefend = playerStat.Defend,
             playerMoveSpeed = playerStat.moveSpeed,
             playerAttackSpeed = playerStat.attackSpeed,
-            equippedWeaponID = weapon != null ? weapon.itemID : -1,
+            equippedWeapon = weapon,
 
             currentTimeOfDay = (int)dm.currentTime,
             currentDay = dm.currentDay,
@@ -165,6 +176,12 @@ public class SaveManager : MonoBehaviour
 
     public void Initialize()
     {
+        // 저장 폴더 존재 확인 및 생성
+        if (!Directory.Exists(SavePath))
+        {
+            Directory.CreateDirectory(SavePath);
+        }
 
+        Debug.Log("[SaveManager] 초기화 완료");
     }
 }
