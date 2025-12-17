@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using UnityEditor.Overlays;
 
 /// <summary>
 /// 마을의 시설 관리와 상태를 담당하는 Manager
@@ -58,6 +59,30 @@ public class VillageSystemManager : MonoBehaviour
             unlockCost = 500,
             isUnlocked = false
         };
+
+        DataManager.OnDataLoaded += UpdateFacilitiesFromData;
+
+        Debug.Log("[VillageSystemManager] 초기화 완료");
+    }
+
+    /// <summary>
+    /// 저장된 데이터로 시설 해금 정보 갱신
+    /// </summary>
+    private void UpdateFacilitiesFromData()
+    {
+        var dm = _MasterManager.Instance.DataManager;
+
+        if (dm.facilities != null)
+        {
+            // DataManager의 시설 정보를 VillageSystemManager에 동기화
+            foreach (var facilityData in dm.facilities)
+            {
+                if (facilities.TryGetValue(facilityData.facilityID, out var facility))
+                {
+                    facility.isUnlocked = facilityData.isUnlocked;
+                }
+            }
+        }
     }
 
     public bool IsFacilityUnlocked(string facilityID)
@@ -90,6 +115,10 @@ public class VillageSystemManager : MonoBehaviour
         {
             _MasterManager.Instance.DataManager.SpendMoney(cost);
             facility.isUnlocked = true;
+
+            // DataManager에도 저장
+            _MasterManager.Instance.DataManager.UnlockFacility(facilityID);
+
             OnFacilityUnlocked?.Invoke(facilityID);
 
             Debug.Log($"[VillageSystemManager] 시설 해금: {facility.facilityName}");

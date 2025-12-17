@@ -6,7 +6,7 @@ public class _MasterManager : MonoBehaviour
 
     // ��� �Ŵ���
     public DataManager DataManager { get; private set; }
-    public SaveLoadManager SaveLoadManager { get; private set; }
+    public SaveManager SaveManager { get; private set; }
     public DayManager DayManager { get; private set; }
     public UIManager UIManager { get; private set; }
     public InventoryManager InventoryManager { get; private set; }
@@ -35,7 +35,7 @@ public class _MasterManager : MonoBehaviour
     void InitializeManagers()
     {
         DataManager = GetComponent<DataManager>();
-        SaveLoadManager = GetComponent<SaveLoadManager>();
+        SaveManager = GetComponent<SaveManager>();
         DayManager = GetComponent<DayManager>();
         UIManager = GetComponent<UIManager>();
         InputManager = GetComponent<InputManager>();
@@ -46,24 +46,30 @@ public class _MasterManager : MonoBehaviour
         SoundManager = GetComponent<SoundManager>();
         GameSceneManager = GetComponent<GameSceneManager>();
 
-        // 1. ������ ���
+        // 1. 리소스 및 기본 데이터
         ResourceManager.Initialize();
         DataManager.Initialize();
-        SaveLoadManager.Initialize();
+        SaveManager.Initialize();
 
-        // 2. UI / �Է�
+        // 2. UI / 입력
         InputManager.Initialize();
         UIManager.Initialize();
         InventoryManager.Initialize();
 
-        // 3. ���� / ���� / ��
+        // 3. 게임 데이터 로드
+        if (SaveManager.HasSaveData())
+        {
+            SaveManager.LoadGame(DataManager);
+            Debug.Log("[MasterManager] 저장된 게임 데이터 로드됨");
+        }
+
+        // 4. 전투 / 적 / 던전
         EnemyManager.Initialize();
         //DungeonManager.Initialize();
 
-        // 4. ����/ī�޶�/�ð�
+        // 5. 사운드 / 카메라 / 시간
         SoundManager.Initialize();
         DayManager.Initialize();
-
 
         Debug.Log("게임 매니저 초기화 완료");
     }

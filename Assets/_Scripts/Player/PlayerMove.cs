@@ -57,7 +57,7 @@ public class PlayerMove : MonoBehaviour
         //던전 안이면
         if (Input.GetKeyDown(KeySetting.keys[KeyInput.PENDANT]))
         {
-
+            PC.UsePendent();
         }
         if (Input.GetKeyDown(KeySetting.keys[KeyInput.SWITCHWEAPON]))
         {
