@@ -22,6 +22,8 @@ public class GetItem : MonoBehaviour
         {
             if (_MasterManager.Instance.InventoryManager.AddItem(item))
             {
+                //파밍한 아이템 정보도 데이터 매니저에 저장 -> 안에 있는 BattelRecord로 전송
+                _MasterManager.Instance.DataManager.GetItem(item);
                 Destroy(this.gameObject);
             }
         }
