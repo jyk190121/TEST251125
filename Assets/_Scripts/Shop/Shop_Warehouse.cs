@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Warehouse : MonoBehaviour
+[RequireComponent(typeof (Shop_Warehouse))]
+public class Shop_Warehouse : MonoBehaviour
 {
 
     float keyDownTime;                       // 상호작용을 위한 시간
@@ -16,7 +17,7 @@ public class Warehouse : MonoBehaviour
     //public ItemSplitPopup itemSplitPopup;  //창고 UI 캔버스 열기/닫기
     public GameObject itemWarehousePanel;    //창고 UI 판넬
 
-    public GameObject inventoeyPanel;        //인벤토리 UI 판넬
+    GameObject inventoeyPanel;        //인벤토리 UI 판넬
 
     bool openWarehousePanel;                 //창고 UI 열려있는지 
 
@@ -31,6 +32,7 @@ public class Warehouse : MonoBehaviour
         key.gameObject.SetActive(false);
         image.fillAmount = 0f;
         image.color = new Color(0, 0, 150f, 50f);
+        inventoeyPanel = FindAnyObjectByType<ShopManager>().inventoeyPanel;
 
         //itemSplitPopup = FindAnyObjectByType<ItemSplitPopup>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
@@ -41,12 +43,12 @@ public class Warehouse : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
-        {
-            itemWarehousePanel.SetActive(false);
-            inventoeyPanel.SetActive(false);
-            openWarehousePanel = false;
-        }
+        //if(Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
+        //{
+        //    itemWarehousePanel.SetActive(false);
+        //    inventoeyPanel.SetActive(false);
+        //    openWarehousePanel = false;
+        //}
 
 
         // 플레이어가 창고 주변 detectRadius 반경 안에 있는지 검사

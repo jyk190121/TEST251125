@@ -19,6 +19,8 @@ using static DayManager;
 [RequireComponent(typeof(ShopManager))]
 public class ShopManager : MonoBehaviour
 {
+    public GameObject inventoeyPanel;       //인벤토리 UI 판넬
+
     public DayManager dayManager;           //낮, 밤 체크용
     public bool isAction;                   //판매활동했는지
     bool isPlayingDay;                      //재생중인 노래가 있는지 (낮)
@@ -26,6 +28,7 @@ public class ShopManager : MonoBehaviour
     POS_playerSalas pos_palyer;             //포스기
     SalesCustomer salesCustomer;            //손님 계산대 앞에 있는지 여부
     DisplayStand itemDisplay;               //아이템 UI 열고 닫기
+    Shop_Warehouse warehouse;               //창고판넬도 취소키로 꺼주자
     CustomerManager customerManager;
     DataManager dataManager;
     SoundManager soundManager;
@@ -49,6 +52,7 @@ public class ShopManager : MonoBehaviour
         salesCustomer = FindAnyObjectByType<SalesCustomer>();
         party = FindAnyObjectByType<Party_Shop_Night>();
         itemDisplay = FindAnyObjectByType<DisplayStand>();
+        warehouse = FindAnyObjectByType<Shop_Warehouse>();
 
         pos_palyer.image.gameObject.SetActive(false);
         pos_palyer.shopOpenCheck = false;
@@ -61,12 +65,9 @@ public class ShopManager : MonoBehaviour
         //soundManager.StopBGM();
         pos_palyer.posUpdate();
     }
-
     // Update is called once per frame
     void Update()
     {
-        //print($"플레이어 판매대에 있는 상태 {pos_palyer.playerIsSales}");
-
         //낮인지
         if (dayManager.IsDay && !isAction)
         {
@@ -83,14 +84,14 @@ public class ShopManager : MonoBehaviour
             if (!partyPlay)
             {
                 party.StopParty();
-                partyPlay = true;
+                //partyPlay = true;
             }
 
             //상호작용 키로 상점 오픈하기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && pos_palyer.playerIsSales)
             {
-              
-                if(!pos_palyer.shopOpenCheck)
+
+                if (!pos_palyer.shopOpenCheck)
                 {
                     OpenShop();
                 }
@@ -103,7 +104,7 @@ public class ShopManager : MonoBehaviour
                     Customer buyCustomer = salesCustomer.GetCurrentCustomer();
 
                     //한손님당 한번만 계산하도록
-                    if(!buyCustomer.itemPayCheck)
+                    if (!buyCustomer.itemPayCheck)
                     {
                         //soundManager.PlaySFXIndex(0);
                         soundManager.PlaySFX("진영", 0);
@@ -130,6 +131,7 @@ public class ShopManager : MonoBehaviour
                 itemDisplay.image.gameObject.SetActive(false);
                 //아이템 등록 열기
                 itemDisplay.regiItemUI.gameObject.SetActive(true);
+                inventoeyPanel.SetActive(true);
             }
         }
 
@@ -139,7 +141,7 @@ public class ShopManager : MonoBehaviour
             ChangeDay();
         }
         //밤인지 (밤엔 음악끄기)
-        else if(dayManager.IsNight)
+        else if (dayManager.IsNight)
         {
             if (partyPlay)
             {
@@ -168,13 +170,28 @@ public class ShopManager : MonoBehaviour
                 light_Shop.OffLight();
                 break;
         }
+        
+        //취소 버튼
+        if (Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
+        {
+            if (itemDisplay != null)
+            {
+                itemDisplay.image.gameObject.SetActive(false);
+                itemDisplay.regiItemUI.gameObject.SetActive(false);
+            }
+            if (warehouse != null)
+            {
+                warehouse.itemWarehousePanel.SetActive(false);
+            }
+            inventoeyPanel.SetActive(false);
+        }
     }
 
     void OpenShop()
     {
         pos_palyer.shopOpenCheck = true;
         pos_palyer.posUpdate();
-        StartCoroutine( customerManager.CreateCustomer(10));
+        StartCoroutine(customerManager.CreateCustomer(10));
         soundManager.StopBGM();
         soundManager.PlayBGM("진영", 1);
     }

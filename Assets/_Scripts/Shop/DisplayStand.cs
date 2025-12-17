@@ -20,10 +20,14 @@ public class DisplayStand : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+
         if (other.CompareTag("Player"))
         {
+            GameObject inventory = FindAnyObjectByType<ShopManager>().inventoeyPanel;
+
             image.gameObject.SetActive(false);
             regiItemUI.gameObject.SetActive(false);
+            inventory.SetActive(false);
         }
     }
 }
