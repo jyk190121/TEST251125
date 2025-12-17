@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.SceneManagement;
 
 //PlayerMove에서 입력받은 값에 따라 실행되는 함수를 정리한 스크립트
 public class PlayerControll : MonoBehaviour, IHitResponder
@@ -11,6 +12,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     PlayerModel model;
     PlayerAnimController PAC;
     PlayerDie PD;
+    BattleRecord BR;
 
     Item weapon;
     public GameObject arrowPrefab;
@@ -82,6 +84,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         meleeWeaponDealers.AddRange(GetComponentsInChildren<DamageDealer>(true));
         Debug.Log(model.ATT);
         PD = GetComponent<PlayerDie>();
+        BR = FindAnyObjectByType<BattleRecord>();
     }
 
     public void Update()
@@ -458,4 +461,16 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         else return true;
     }
 
+    //팬턴트 사용
+    public void UsePendent()
+    {
+        if (_MasterManager.Instance.DataManager.HojuMoney() < 200) return;
+
+        _MasterManager.Instance.DataManager.SpendMoney(200);
+
+        Debug.Log("200원 나감");
+
+        _MasterManager.Instance.DataManager.SetisPendant(true);
+        _MasterManager.Instance.DataManager.ChangeReturn(true);
+    }
 }

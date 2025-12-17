@@ -7,7 +7,7 @@ public class BossPortal : MonoBehaviour
 {
     [Header("설정")]
     [SerializeField] private string SceneName = "Villiage";
-    [SerializeField] private float holdDuration = 3.0f; // 필요 유지 시간
+    [SerializeField] private float holdDuration; // 필요 유지 시간
 
     private float timer = 0f;
     private bool isPlayerIn = false;
@@ -20,6 +20,7 @@ public class BossPortal : MonoBehaviour
     {
         image.gameObject.SetActive(false);
         key.gameObject.SetActive(false);
+        holdDuration = 3.0f;
         image.fillAmount = 0f;
     }
 
@@ -36,18 +37,19 @@ public class BossPortal : MonoBehaviour
                 timer += Time.deltaTime;
                 key.gameObject.SetActive(false);
                 image.gameObject.SetActive(true);
-                image.fillAmount = timer;
+                image.fillAmount = (timer / holdDuration);
 
                 Debug.Log($"복귀 중... {timer:F1}초");
 
                 // 2. 3초를 채웠을 때
                 if (timer >= holdDuration)
                 {
-                    ReturnToTown();
+                    _MasterManager.Instance.DataManager.SetisClear(true);
+                    _MasterManager.Instance.DataManager.ChangeReturn(true);
                 }
             }
         }
-        else
+        if (!isPlayerIn || Input.GetKeyUp(KeySetting.keys[KeyInput.INTERACTIVE]))
         {
             // 키를 떼거나 포탈을 나가면 타이머 초기화
             timer = 0f;
@@ -58,18 +60,18 @@ public class BossPortal : MonoBehaviour
         }
     }
 
-    private void ReturnToTown()
-    {
-        // 데이터 저장 및 상태 변경
-        DataManager dataManager = _MasterManager.Instance.DataManager;
-        if (dataManager != null)
-        {
-            dataManager.ChangeReturn(true);
-        }
+    //private void ReturnToTown()
+    //{
+    //    SceneManager.LoadScene(SceneName);
+    //    // 데이터 저장 및 상태 변경
+    //    DataManager dataManager = _MasterManager.Instance.DataManager;
+    //    if (dataManager != null)
+    //    {
+    //        dataManager.ChangeReturn(true);
+    //    }
 
-        Debug.Log("3초 유지 완료! 마을로 이동합니다.");
-        SceneManager.LoadScene(SceneName);
-    }
+    //    Debug.Log("3초 유지 완료! 마을로 이동합니다.");
+    //}
 
     private void OnTriggerEnter(Collider other)
     {
