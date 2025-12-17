@@ -19,6 +19,12 @@ public class DataManager : MonoBehaviour
 
     //사망,던전 클리어, 펜던트 사용 이후의 복귀인가?
     bool isReturn = false;
+    bool isPendant = false;
+    bool isClear = false;
+
+    // 던전 내의 전투 데이터 저장
+    BattleRecord BR;
+
 
     public void Initialize()
     {
@@ -106,9 +112,38 @@ public class DataManager : MonoBehaviour
     public void ChangeReturn(bool Return)
     {
         isReturn = Return;
+        if (isReturn)
+        {
+            BR.OpenResultPanel(isPendant, isClear);
+        }
     }
     public bool GetReturn()
     {
         return isReturn;
+    }
+    public void SetisPendant(bool Pendant)
+    {
+        isPendant = Pendant;
+    }
+    public void SetisClear(bool Clear)
+    {
+        isClear = Clear;
+    }
+
+
+    //전투 기록 초기화
+    public void RegisterBattleRecord(BattleRecord newBR)
+    {
+        BR = newBR;
+    }
+    //사냥한 몬스터 값 추가
+    public void GetMonster(MonsterData MD)
+    {
+        BR.AddMonster(MD);
+    }
+    //얻은 아이템 값 추가
+    public void GetItem(Item item)
+    {
+        BR.AddItem(item);
     }
 }
