@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Animations;
-using UnityEngine.SceneManagement;
+
 
 //PlayerMove에서 입력받은 값에 따라 실행되는 함수를 정리한 스크립트
 public class PlayerControll : MonoBehaviour, IHitResponder
@@ -475,7 +475,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
         BR.OpenResultPanel(false, true);
 
-        SceneManager.LoadScene("Villiage");
+        GameSceneManager.game.LoadScene("Villiage");
 
     }
 }
