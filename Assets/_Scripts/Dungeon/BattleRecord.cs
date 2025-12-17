@@ -36,6 +36,7 @@ public class BattleRecord: MonoBehaviour
     void Start()
     {
         _MasterManager.Instance.DataManager.RegisterBattleRecord(this);
+        resultPanel.SetActive(false);
     }
 
     // 리스트에 몬스터 추가
