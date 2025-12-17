@@ -20,6 +20,14 @@ public class DataManager : MonoBehaviour
     // ===== 던전 정보 =====
     public int dungeonCleared = 0;
 
+    //사망,던전 클리어, 펜던트 사용 이후의 복귀인가?
+    bool isReturn = false;
+    bool isPendant = false;
+    bool isClear = false;
+
+    // 던전 내의 전투 데이터 저장
+    BattleRecord BR;
+
     // ===== 마을 시설 정보 =====
     [System.Serializable]
     public class FacilityData
@@ -54,9 +62,6 @@ public class DataManager : MonoBehaviour
     public static Action OnEquipmentChanged;
     public static Action OnStatChanged;
 
-    // ===== 기타 =====
-    //사망,던전 클리어, 펜던트 사용 이후의 복귀인가?
-    bool isReturn = false;
 
     public void Initialize()
     {
@@ -157,6 +162,44 @@ public class DataManager : MonoBehaviour
 
     public int GetDungeonCleared() => dungeonCleared;
 
+    //True = 포탈 타고 복귀 false = 그냥 아무것도 발생하지 않는 복귀
+    public void ChangeReturn(bool Return)
+    {
+        isReturn = Return;
+        if (isReturn)
+        {
+            BR.OpenResultPanel(isPendant, isClear);
+        }
+    }
+    public bool GetReturn()
+    {
+        return isReturn;
+    }
+    public void SetisPendant(bool Pendant)
+    {
+        isPendant = Pendant;
+    }
+    public void SetisClear(bool Clear)
+    {
+        isClear = Clear;
+    }
+
+    //전투 기록 초기화
+    public void RegisterBattleRecord(BattleRecord newBR)
+    {
+        BR = newBR;
+    }
+    //사냥한 몬스터 값 추가
+    public void GetMonster(MonsterData MD)
+    {
+        BR.AddMonster(MD);
+    }
+    //얻은 아이템 값 추가
+    public void GetItem(Item item)
+    {
+        BR.AddItem(item);
+    }
+
     // ===== 마을 시설 =====
     public bool IsFacilityUnlocked(string facilityID)
     {
@@ -205,16 +248,6 @@ public class DataManager : MonoBehaviour
         currentDay = day;
         // 저장 시점: 날짜 변경 후
         AutoSave();
-    }
-
-    //True = 포탈 타고 복귀 false = 그냥 아무것도 발생하지 않는 복귀
-    public void ChangeReturn(bool Return)
-    {
-        isReturn = Return;
-    }
-    public bool GetReturn()
-    {
-        return isReturn;
     }
 
     // ===== 자동 저장 =====
