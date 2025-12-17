@@ -29,7 +29,7 @@ public class FacilitiesBuyUI : MonoBehaviour
     private VillageSystemManager villageSystemManager;
     private string selectedFacilityID;
 
-    private void Start()
+    private void Awake()
     {
         villageSystemManager = VillageSystemManager.Instance;
 
@@ -49,11 +49,15 @@ public class FacilitiesBuyUI : MonoBehaviour
         if (purchaseButton != null)
             purchaseButton.onClick.AddListener(OnPurchaseButtonClicked);
 
-        // 초기 상태: 대장간 선택
-        ClearDisplay();
 
         CloseButtonText.text = $"닫기 [{KeySetting.GetKeyString(KeyInput.CANCLE)}]";
     }
+
+    private void OnEnable()
+    {
+        ClearDisplay();
+    }
+
 
     private void Update()
     {
