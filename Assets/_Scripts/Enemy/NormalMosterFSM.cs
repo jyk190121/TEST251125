@@ -91,30 +91,14 @@ public class NormalMosterFSM : MonoBehaviour
     GameObject hitFX;
     GameObject deathFX;
 
-    /*───────────────────────────────*
-     * 히트박스
-     *───────────────────────────────*/
-    public GameObject[] atthitbox;
-
     public GameObject aoeHitbox;
-
-    public void EnableHitbox()
-    {
-        foreach (var hb in atthitbox)
-            hb.SetActive(true);
-    }
-
-    public void DisableHitbox()
-    {
-        foreach (var hb in atthitbox)
-            hb.SetActive(false);
-    }
 
     /*───────────────────────────────*
      * 초기화
      *───────────────────────────────*/
     void Start()
     {
+
         if (monsterData == null)
         {
             Debug.LogError("MonsterData가 할당되지 않았습니다.");
@@ -377,9 +361,7 @@ public class NormalMosterFSM : MonoBehaviour
 
             yield return new WaitForSeconds(hitTime);
 
-            EnableHitbox();
             yield return new WaitForSeconds(hitDuration);
-            DisableHitbox();
 
             yield return new WaitForSeconds(remainTime);
         }
@@ -562,6 +544,13 @@ public class NormalMosterFSM : MonoBehaviour
         // DropItem(transform.position, monsterData);
         _MasterManager.Instance.DataManager.GetMonster(monsterData);
         Destroy(gameObject);
+    }
+
+    //공격중 반환
+    public bool OnAttack()
+    {
+        if (state == MonsterState.Attack) return true;
+        else return false;
     }
 
 
