@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof (Shop_Warehouse))]
 public class Shop_Warehouse : MonoBehaviour
 {
 

@@ -39,7 +39,7 @@ public class ShopManager : MonoBehaviour
     Light_Shop light_Shop;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    void Start()
     {
 
         //dayManager = FindAnyObjectByType<DayManager>();
@@ -170,7 +170,7 @@ public class ShopManager : MonoBehaviour
                 light_Shop.OffLight();
                 break;
         }
-
+        
         //취소 버튼
         if (Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
         {
