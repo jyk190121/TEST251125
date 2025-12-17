@@ -60,7 +60,7 @@ public enum SpecialPattern
 [System.Serializable]
 public struct DropItem
 {
-    public Item itemData;
+    public GameObject itemPrefab;
     public float chance;
     public int minCount;
     public int maxCount;
@@ -165,45 +165,17 @@ public class MonsterData : ScriptableObject
      *  근접 공격 전용
      *───────────────────────────────────────────────*/
     [Header(" 근접 공격 관련")]
-    [Tooltip("근접 공격 판정의 반경")]
-    public float attackRadius = 1f;
-
-    [Tooltip("전방 공격 범위 각도 (예: 60도)")]
-    public float attackAngle = 60f;
 
     [Space(5)]
     [Tooltip("AOE(발구르기 등) 범위")]
     public float aoeRange = 2f;
 
-    [Tooltip("AOE 피해 배율 (기본 공격력 × 배율)")]
-    public float aoeDamageMultiplier = 1.5f;
 
+    //원거리 투사체 프리팹
+    public GameObject projectilePrefab;
 
-    /*───────────────────────────────────────────────*
-     *  원거리 투사체 전용 (비홀더 등)
-     *───────────────────────────────────────────────*/
-    [Header(" 투사체 몬스터 전용")]
-    [Tooltip("투사체 속도")]
-    public float projectileSpeed = 8f;
-
-    [Tooltip("투사체 생존 시간")]
-    public float projectileLifeTime = 3f;
-
-    [Tooltip("투사체 곡선 정도 (0 = 직선)")]
-    public float projectileArc = 0f;
-
-    [Tooltip("탄막 패턴용: 투사체 개수 (1 = 단일, 3 = 3-Way)")]
-    public int projectileCount = 1;
-
-    [Tooltip("예측샷을 사용할 때, 예측 보정 값")]
-    public float predictionFactor = 0.5f;
-
-    [Tooltip("연사 패턴용: 단발 사이 시간")]
-    public float shotInterval = 0.15f;
-
-    [Tooltip("연발 공격 시 총 발사 횟수")]
-    public int burstCount = 1;
-
+    //원거리 레이저 프리팹
+    public GameObject laserPrefab;
 
     /*───────────────────────────────────────────────*
      *  드론(레이저) 전용
@@ -214,25 +186,6 @@ public class MonsterData : ScriptableObject
 
     [Tooltip("랜덤 이동 간 대기 시간")]
     public float moveInterval = 1f;
-
-    [Space(5)]
-    [Tooltip("레이저 발사 전 경고 시간")]
-    public float laserWarningTime = 0.5f;
-
-    [Tooltip("레이저 유지 시간")]
-    public float laserFireTime = 1f;
-
-    [Tooltip("레이저 쿨타임")]
-    public float laserCooldown = 2f;
-
-    [Tooltip("레이저 데미지")]
-    public float laserDamage = 20f;
-
-    [Tooltip("레이저 길이(레이캐스트 길이)")]
-    public float laserLength = 8f;
-
-    [Tooltip("레이저 발사 방향 개수 (4 = 기본 4방향, 8 = 8방향 등)")]
-    public int laserDirections = 4;
 
 
     /*───────────────────────────────────────────────*
