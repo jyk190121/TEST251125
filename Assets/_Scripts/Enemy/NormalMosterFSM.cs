@@ -358,7 +358,6 @@ public class NormalMosterFSM : MonoBehaviour
      *───────────────────────────────*/
     IEnumerator ExecuteNormalAttack()
     {
-        state = MonsterState.Attack;
 
         int id = normalPatternIDs[Random.Range(0, normalPatternIDs.Length)];
         anim.SetInteger("Pattern", id);
@@ -414,7 +413,6 @@ public class NormalMosterFSM : MonoBehaviour
      *───────────────────────────────*/
     IEnumerator ExecuteSpecialPattern()
     {
-        state = MonsterState.Attack;
         anim.applyRootMotion = true;
 
         SpecialPattern sp = GetValidSpecialPattern();
@@ -429,6 +427,7 @@ public class NormalMosterFSM : MonoBehaviour
         // 패턴 전달
         anim.SetInteger("Pattern", (int)sp);
         anim.SetTrigger("Attack");
+        print((int)sp);
 
         // Animator 반영 대기
         yield return null;
