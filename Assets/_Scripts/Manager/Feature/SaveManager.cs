@@ -21,24 +21,20 @@ public class SaveManager : MonoBehaviour
     /// <summary>
     /// 게임 저장
     /// </summary>
-    public void SaveGame(DataManager Data)
+    public void SaveGame(DataManager dataManager)
     {
         try
         {
-            // 1단계: 디렉토리 생성
             if (!Directory.Exists(SavePath))
                 Directory.CreateDirectory(SavePath);
 
-            // 2단계: JSON 직렬화
-            string json = JsonUtility.ToJson(Data, true);
+            // DataManager → GameSaveData로 변환
+            GameSaveData saveData = ConvertDataManagerToSaveData(dataManager);
 
-            // 3단계: 전체 경로 생성
+            string json = JsonUtility.ToJson(saveData, true);
             string fullPath = Path.Combine(SavePath, SAVE_FILE);
-
-            // 4단계: 파일 저장
             File.WriteAllText(fullPath, json);
 
-            // 5단계: 저장 로그
             Debug.Log("게임 저장 완료: " + fullPath);
         }
         catch (System.Exception e)
@@ -50,37 +46,91 @@ public class SaveManager : MonoBehaviour
     /// <summary>
     /// 플레이어 데이터 로드
     /// </summary>
-    public DataManager LoadData()
+    public void LoadGame(DataManager dataManager)
     {
         try
         {
-            // 1단계: 전체 경로 생성
             string fullPath = Path.Combine(SavePath, SAVE_FILE);
 
-            // 2단계: 파일 존재 확인
             if (!File.Exists(fullPath))
             {
                 Debug.Log("저장 데이터가 없습니다: " + fullPath);
-                return null;
+                return;
             }
 
-            // 3단계: 파일 읽기
             string json = File.ReadAllText(fullPath);
+            GameSaveData saveData = JsonUtility.FromJson<GameSaveData>(json);
 
-            // 4단계: JSON 역직렬화
-            DataManager Data = JsonUtility.FromJson<DataManager>(json);
+            // GameSaveData → DataManager로 변환 (직접 수정)
+            ConvertSaveDataToDataManager(saveData, dataManager);
 
-            // 5단계: 로드 로그
             Debug.Log("게임 로드 완료: " + fullPath);
-
-            // 6단계: 데이터 반환
-            return Data;
         }
         catch (System.Exception e)
         {
             Debug.LogError("로드 오류: " + e.Message);
-            return null;
         }
+    }
+
+    /// <summary>
+    /// GameSaveData → DataManager 변환
+    /// </summary>
+    private void ConvertSaveDataToDataManager(GameSaveData saveData, DataManager dm)
+    {
+        // 플레이어 정보 복구
+        var playerStat = dm.GetStat();
+        playerStat.Money = saveData.playerMoney;
+        playerStat.HP = saveData.playerHP;
+        playerStat.MaxHP = saveData.playerMaxHP;
+        playerStat.ATT = saveData.playerATT;
+        playerStat.Defend = saveData.playerDefend;
+        playerStat.moveSpeed = saveData.playerMoveSpeed;
+        playerStat.attackSpeed = saveData.playerAttackSpeed;
+
+        // 시간 정보 복구
+        dm.currentTime = (DayManager.TimeOfDay)saveData.currentTimeOfDay;
+        dm.currentDay = saveData.currentDay;
+
+        // 던전 정보 복구
+        dm.dungeonCleared = saveData.dungeonCleared;
+
+        // 시설 정보 복구
+        dm.facilities = saveData.facilities;
+
+        // 인벤토리 정보 복구
+        if (saveData.inventorySlots != null)
+        {
+            dm.inventoryData.slots = saveData.inventorySlots;
+        }
+
+        Debug.Log($"[SaveManager] 데이터 로드 완료");
+    }
+
+    // DataManager → GameSaveData 변환
+    private GameSaveData ConvertDataManagerToSaveData(DataManager dm)
+    {
+        var playerStat = dm.GetStat();
+        var weapon = dm.GetWeapon();
+
+        return new GameSaveData
+        {
+            playerMoney = playerStat.Money,
+            playerHP = playerStat.HP,
+            playerMaxHP = playerStat.MaxHP,
+            playerATT = playerStat.ATT,
+            playerDefend = playerStat.Defend,
+            playerMoveSpeed = playerStat.moveSpeed,
+            playerAttackSpeed = playerStat.attackSpeed,
+            equippedWeaponID = weapon != null ? weapon.itemID : -1,
+
+            currentTimeOfDay = (int)dm.currentTime,
+            currentDay = dm.currentDay,
+
+            dungeonCleared = dm.dungeonCleared,
+
+            facilities = dm.facilities,
+            inventorySlots = dm.inventoryData.slots,
+        };
     }
 
     /// <summary>
@@ -93,7 +143,7 @@ public class SaveManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 저장 데이터 삭제 (되돌릴 수 없음)
+    /// 저장 데이터 삭제
     /// </summary>
     public static void DeleteSaveData()
     {

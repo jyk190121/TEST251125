@@ -67,6 +67,13 @@ public class _MasterManager : MonoBehaviour
         SoundManager.Initialize();
         DayManager.Initialize();
 
+        // 5. 게임 데이터 로드
+        if (SaveManager.HasSaveData())
+        {
+            SaveManager.LoadGame(DataManager);
+            Debug.Log("[MasterManager] 저장된 게임 데이터 로드됨");
+        }
+
 
         Debug.Log("게임 매니저 초기화 완료");
     }

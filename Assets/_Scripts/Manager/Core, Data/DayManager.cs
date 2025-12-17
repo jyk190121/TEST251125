@@ -31,12 +31,26 @@ public class DayManager : MonoBehaviour
             return;
         }
 
+        currentTime = TimeOfDay.Day;
+        currentDay = 1;
+
         isInitialized = true;
 
-        currentTime = _MasterManager.Instance.DataManager.currentTime;
-        currentDay = _MasterManager.Instance.DataManager.currentDay;
-
         Debug.Log($"[DayManager] 초기화 완료: {currentDay}일, {currentTime}");
+
+        DataManager.OnDataLoaded += UpdateDayFromData;
+    }
+
+    /// <summary>
+    /// 저장된 데이터로 시간 업데이트
+    /// </summary>
+    private void UpdateDayFromData()
+    {
+        var dm = _MasterManager.Instance.DataManager;
+        currentDay = dm.currentDay;
+        currentTime = dm.currentTime;
+
+        Debug.Log($"[DayManager] 데이터 로드: Day {currentDay}, Time {currentTime}");
     }
 
 
@@ -51,6 +65,9 @@ public class DayManager : MonoBehaviour
 
         currentTime = newTime;
 
+        // DataManager에 저장
+        _MasterManager.Instance.DataManager.SetTimeOfDay(currentTime);
+
         // 밤에서 낮으로 변경되면 날짜 증가
         if (currentTime == TimeOfDay.Day)
         {
@@ -64,6 +81,8 @@ public class DayManager : MonoBehaviour
     private void AdvanceDay()
     {
         currentDay++;
+        _MasterManager.Instance.DataManager.SetCurrentDay(currentDay);
+
         OnDayChanged?.Invoke(currentDay);
         Debug.Log($"[DayManager] 날짜 변경: {currentDay}일");
     }

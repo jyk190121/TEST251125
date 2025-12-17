@@ -41,6 +41,9 @@ public class StartSetting : MonoBehaviour
             // 확인 후 진행
         }
 
+        // 새 게임 시작: DataManager 초기화
+        _MasterManager.Instance.DataManager.Initialize();
+
         Debug.Log("새 게임 시작!");
         GameSceneManager.game.LoadScene("Villiage");
     }
@@ -50,14 +53,28 @@ public class StartSetting : MonoBehaviour
     /// </summary>
     private void OnContinueButtonClicked()
     {
+        Debug.Log("[StartSetting] 이어하기 클릭");
+
         if (_MasterManager.Instance.DataManager == null)
         {
-            Debug.LogError("플레이어 데이터를 불러올 수 없습니다!");
+            Debug.LogError("DataManager를 찾을 수 없습니다!");
             return;
         }
 
-        _MasterManager.Instance.SaveManager.LoadData();
-        GameSceneManager.game.LoadScene("Villiage");
+        Debug.Log("[StartSetting] DataManager 확인됨");
+
+        if (!SaveManager.HasSaveData())
+        {
+            Debug.LogError("저장 데이터가 없습니다!");
+            return;
+        }
+
+        Debug.Log("[StartSetting] 저장 데이터 확인됨, LoadGame 호출");
+
+        _MasterManager.Instance.SaveManager.LoadGame(_MasterManager.Instance.DataManager);
+
+        Debug.Log("[StartSetting] LoadGame 완료, 씬 이동");
+        _MasterManager.Instance.GameSceneManager.LoadScene("Villiage");
     }
 
 
