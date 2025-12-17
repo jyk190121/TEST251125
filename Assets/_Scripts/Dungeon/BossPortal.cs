@@ -7,7 +7,7 @@ public class BossPortal : MonoBehaviour
 {
     [Header("설정")]
     [SerializeField] private string SceneName = "Villiage";
-    [SerializeField] private float holdDuration = 3.0f; // 필요 유지 시간
+    [SerializeField] private float holdDuration; // 필요 유지 시간
 
     private float timer = 0f;
     private bool isPlayerIn = false;
@@ -20,6 +20,7 @@ public class BossPortal : MonoBehaviour
     {
         image.gameObject.SetActive(false);
         key.gameObject.SetActive(false);
+        holdDuration = 3.0f;
         image.fillAmount = 0f;
     }
 
@@ -36,7 +37,7 @@ public class BossPortal : MonoBehaviour
                 timer += Time.deltaTime;
                 key.gameObject.SetActive(false);
                 image.gameObject.SetActive(true);
-                image.fillAmount = timer;
+                image.fillAmount = (timer / holdDuration);
 
                 Debug.Log($"복귀 중... {timer:F1}초");
 
