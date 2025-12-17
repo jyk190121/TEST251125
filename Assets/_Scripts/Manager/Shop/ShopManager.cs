@@ -25,6 +25,7 @@ public class ShopManager : MonoBehaviour
     bool isPlayingNight;                    //재생중인 노래가 있는지 (밤)
     POS_playerSalas pos_palyer;             //포스기
     SalesCustomer salesCustomer;            //손님 계산대 앞에 있는지 여부
+    DisplayStand itemDisplay;               //아이템 UI 열고 닫기
     CustomerManager customerManager;
     DataManager dataManager;
     SoundManager soundManager;
@@ -47,6 +48,8 @@ public class ShopManager : MonoBehaviour
         light_Shop = FindAnyObjectByType<Light_Shop>();
         salesCustomer = FindAnyObjectByType<SalesCustomer>();
         party = FindAnyObjectByType<Party_Shop_Night>();
+        itemDisplay = FindAnyObjectByType<DisplayStand>();
+
         pos_palyer.image.gameObject.SetActive(false);
         pos_palyer.shopOpenCheck = false;
         partyPlay = true;
@@ -120,6 +123,14 @@ public class ShopManager : MonoBehaviour
                 isAction = true;
             }
 
+            //판매 등록 UI 열기
+            if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && itemDisplay.image.gameObject.activeSelf == true)
+            {
+                //print("상호작용 키 입력");
+                itemDisplay.image.gameObject.SetActive(false);
+                //아이템 등록 열기
+                itemDisplay.regiItemUI.gameObject.SetActive(true);
+            }
         }
 
         else if (isAction)
