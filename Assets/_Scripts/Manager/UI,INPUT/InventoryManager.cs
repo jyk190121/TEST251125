@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
@@ -10,6 +11,9 @@ public class InventoryManager : MonoBehaviour
     public int capacity = 20;           //인벤토리 크기
 
     [Header("View 연결")]
+    public GameObject equipView;
+    public QuickSlotView quickSlotView;
+    public WarehouseView warehouseView;
     public InventoryView inventoryView;
     public Inventory inventory;         //인벤토리창 On/Off
 
@@ -80,14 +84,6 @@ public class InventoryManager : MonoBehaviour
     //임시 아이템 업로드 코드
     private void Update()
     {
-
-        //F1키를 누르면 아이템 정렬
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            model.SortInventory(ItemType.Material);
-            model.NotifyUpdate();
-        }
-
         //A키를 누르면 테스트 아이템 A 획득
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
@@ -118,7 +114,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        //D키를 누르면 테스트 아이템 C 획득
+        //D키를 누르면 테스트 아이템 D 획득
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             if (testItemB != null)
@@ -128,7 +124,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        //C키를 누르면 테스트 아이템 C 획득
+        //C키를 누르면 테스트 아이템 E 획득
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             if (testItemB != null)
@@ -138,9 +134,21 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
+        //인벤토리창 열고 닫기
         if (Input.GetKeyDown(KeyCode.I))
         {
             inventory.gameObject.SetActive(!inventory.gameObject.activeSelf);
+        }
+
+        //창고 상태에 따라 다른 UI 패널(장비, 퀵슬롯) 활성화 상태 관리
+        if (warehouseView != null && equipView != null && quickSlotView != null)
+        {
+            bool isWarehouseActive = warehouseView.gameObject.activeSelf;
+
+            //창고가 활성화 상태면 장비창과 퀵슬롯을 비활성화
+            //창고가 비활성화 상태면, 퀵슬롯은 활성화하고 장비창은 인벤토리의 활성화 상태에 따름
+            equipView.SetActive(!isWarehouseActive && inventory.gameObject.activeSelf);
+            quickSlotView.gameObject.SetActive(!isWarehouseActive);
         }
 
         //마우스 버튼을 뗐는데(Up) && 드래그 중이라면(dragStartIndex != -1)
@@ -386,7 +394,14 @@ public class InventoryManager : MonoBehaviour
             return;
         }
 
-        Item item = targetSlot.itemData;
+        Item item = targetSlot.itemData;        
+
+        //창고 뷰가 활성화되어 있으면 리턴
+        if (warehouseView != null && warehouseView.gameObject.activeSelf)
+        {
+
+            return;
+        }
 
         //아이템 타입에 따라 분기 처리        
 
@@ -593,6 +608,14 @@ public class InventoryManager : MonoBehaviour
     {
         return model.AddItem(item, count);
         //return true;
+    }
+
+    //플레이어가 죽었을 때 호출
+    public void OnPlayerDeath()
+    {
+        //가장 위 5칸을 제외한 모든 인벤토리 아이템 제거
+        int safeSlotCount = 5;
+        model.RemoveSomeItemsOnDeath(safeSlotCount);
     }
 
     //외부에서 아이템 사용 시 호출 (장비 강화, 소모품 사용 등)

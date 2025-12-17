@@ -37,12 +37,15 @@ public class CustomerManager : MonoBehaviour
         createCheck = true;
         //customerExit = new bool[r];
 
+        //손님 등장 주기 랜덤설정
+        float random = Random.Range(0, 5);
+
         for (int i = 0; i < r; i++)
         {
             customers[i] = Instantiate(customer, createPos.position, Quaternion.identity);
             customers[i].name = $"손님 {i + 1}";
 
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(random);
         }
         createCheck = false;
     }
@@ -75,6 +78,8 @@ public class CustomerManager : MonoBehaviour
         Customer buyCustomer = salesCustomer.GetCurrentCustomer();
 
         if (buyCustomer == null) return;
+        //이미 계산한 손님인지 체크 필요
+        if (buyCustomer.itemPayCheck) return;
 
         buyCustomer.itemPayCheck = true;
     }
