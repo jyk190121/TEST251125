@@ -44,7 +44,8 @@ public class BossPortal : MonoBehaviour
                 // 2. 3초를 채웠을 때
                 if (timer >= holdDuration)
                 {
-                    ReturnToTown();
+                    _MasterManager.Instance.DataManager.SetisClear(true);
+                    _MasterManager.Instance.DataManager.ChangeReturn(true);
                 }
             }
         }
@@ -59,24 +60,25 @@ public class BossPortal : MonoBehaviour
         }
     }
 
-    private void ReturnToTown()
-    {
-        // 데이터 저장 및 상태 변경
-        DataManager dataManager = _MasterManager.Instance.DataManager;
-        if (dataManager != null)
-        {
-            dataManager.ChangeReturn(true);
-        }
-        SceneManager.LoadScene(SceneName);
-        Debug.Log("3초 유지 완료! 마을로 이동합니다.");
-    }
+    //private void ReturnToTown()
+    //{
+    //    SceneManager.LoadScene(SceneName);
+    //    // 데이터 저장 및 상태 변경
+    //    DataManager dataManager = _MasterManager.Instance.DataManager;
+    //    if (dataManager != null)
+    //    {
+    //        dataManager.ChangeReturn(true);
+    //    }
+
+    //    Debug.Log("3초 유지 완료! 마을로 이동합니다.");
+    //}
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             isPlayerIn = true;
-            Debug.Log("포탈 진입: G 키를 3초간 누르세요.");
+            Debug.Log("포탈 진입: T 키를 3초간 누르세요.");
             key.gameObject.SetActive(true);
         }
     }

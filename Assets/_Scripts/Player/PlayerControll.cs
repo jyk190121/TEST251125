@@ -464,18 +464,13 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     //팬턴트 사용
     public void UsePendent()
     {
-        DataManager dm = _MasterManager.Instance.DataManager;
-        if (dm.HojuMoney() < 200) return;
+        if (_MasterManager.Instance.DataManager.HojuMoney() < 200) return;
 
-        dm.SetisPendant(true);
-
-        dm.SpendMoney(200);
+        _MasterManager.Instance.DataManager.SpendMoney(200);
 
         Debug.Log("200원 나감");
 
-        BR.OpenResultPanel(false, true);
-
-        SceneManager.LoadScene("Villiage");
-
+        _MasterManager.Instance.DataManager.SetisPendant(true);
+        _MasterManager.Instance.DataManager.ChangeReturn(true);
     }
 }

@@ -168,7 +168,7 @@ public class DataManager : MonoBehaviour
         isReturn = Return;
         if (isReturn)
         {
-            BR.OpenResultPanel(isPendant, isClear);
+            BR.OpenResultPanel(isClear, isPendant   );
         }
     }
     public bool GetReturn()
