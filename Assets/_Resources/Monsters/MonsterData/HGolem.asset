@@ -19,7 +19,7 @@ MonoBehaviour:
   Speed: 3
   Attack: 10
   Defense: 0
-  CoolTime: 5
+  CoolTime: 3
   attackRange: 6
   detectionRange: 100
   minAttackRange: 4
@@ -32,7 +32,7 @@ MonoBehaviour:
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0
-  specialCoolTime: 15
+  specialCoolTime: 9
   aoeRange: 8
   projectilePrefab: {fileID: 0}
   laserPrefab: {fileID: 0}
