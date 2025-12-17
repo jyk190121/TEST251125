@@ -1513,6 +1513,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Home&Shop
       objectReference: {fileID: 0}
+    - target: {fileID: 4359726047987845318, guid: fe15f9292fec0ea48b672af2043f8f58, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4713787619274725605, guid: fe15f9292fec0ea48b672af2043f8f58, type: 3}
       propertyPath: inventoeyPanel
       value: 
@@ -1522,6 +1526,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1252614972}
     - target: {fileID: 6462034295269524777, guid: fe15f9292fec0ea48b672af2043f8f58, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6617461041882077107, guid: fe15f9292fec0ea48b672af2043f8f58, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -1569,6 +1577,10 @@ PrefabInstance:
       propertyPath: bag
       value: 
       objectReference: {fileID: 3818567672378269317}
+    - target: {fileID: 8969185013924684280, guid: fe15f9292fec0ea48b672af2043f8f58, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -13,6 +13,7 @@ public class RoomController : MonoBehaviour
 
     public List<Collider> doorColliders = new List<Collider>();
 
+    public GameObject PortalSpawnPoint;
     public GameObject PortalPrefab;
 
     [Header("몬스터 스폰 포인트")]
@@ -139,7 +140,7 @@ public class RoomController : MonoBehaviour
 
     private void SpawnExitPortal()
     {
-        GameObject portal = Instantiate(PortalPrefab, transform.position, Quaternion.identity);
+        GameObject portal = Instantiate(PortalPrefab, PortalSpawnPoint.transform.position, Quaternion.identity);
         Debug.Log("보스 클리어! 마을 복귀용 포탈이 생성되었습니다.");
     }
 }
