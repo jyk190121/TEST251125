@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.UI;
 
 //전투 관련 데이터 처리(파밍한 아이템, 잡은 몬스터 보관했다가 Result Panel에 띄움)
 public class BattleRecord: MonoBehaviour
@@ -16,15 +17,21 @@ public class BattleRecord: MonoBehaviour
     public GameObject resultPanel;
 
     //프리팹의 구성요소
-    TextMeshProUGUI deadReason;
-    TextMeshProUGUI goToVillage;
-    TextMeshProUGUI retry;
+    public TextMeshProUGUI deadReason;
+    public TextMeshProUGUI goToVillage;
+    public TextMeshProUGUI retry;
 
-    TextMeshProUGUI itemCount;
-    TextMeshProUGUI MonsterCount;
+    public TextMeshProUGUI itemCount;
+    public TextMeshProUGUI MonsterCount;
 
-    Transform ItemList;
-    Transform MonsterList;
+    public Transform ItemList;
+    public Transform MonsterList;
+
+    public Image HowImage;
+
+    //상단에 띄워야할 이미지 3가지
+    public List<Sprite> sprites;
+    
 
     void Start()
     {
@@ -50,16 +57,19 @@ public class BattleRecord: MonoBehaviour
         if (Pendent)
         {
             deadReason.text = "펜던트로 탈출함";
+            HowImage.sprite = sprites[0];
         }
         else if (Clear)
         {
             deadReason.text = "던전 클리어 후 복귀";
+            HowImage.sprite = sprites[1];
         }
         else
         {
             retry.gameObject.SetActive(true);
             deadReason.text = "사고로 사망";
             retry.text = $"{KeySetting.keys[KeyInput.INTERACTIVE]}   다시 플레이";
+            HowImage.sprite = sprites[2];
         }
 
         goToVillage.text = $"{KeySetting.keys[KeyInput.CANCLE]}   마을로 가기";
@@ -81,5 +91,7 @@ public class BattleRecord: MonoBehaviour
             Instantiate(obj, MonsterList);
         }
 
+        _MasterManager.Instance.DataManager.SetisClear(false);
+        _MasterManager.Instance.DataManager.SetisClear(false);
     }
 }

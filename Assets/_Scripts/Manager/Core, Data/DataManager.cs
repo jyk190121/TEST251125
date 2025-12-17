@@ -135,6 +135,7 @@ public class DataManager : MonoBehaviour
     public void RegisterBattleRecord(BattleRecord newBR)
     {
         BR = newBR;
+        Debug.Log("BR등록함!");
     }
     //사냥한 몬스터 값 추가
     public void GetMonster(MonsterData MD)
