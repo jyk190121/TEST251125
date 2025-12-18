@@ -38,12 +38,6 @@ public class BattleRecord: MonoBehaviour
     bool Key_goToVillage = false;
     bool Key_Retry = false;
 
-    bool pressVillage = false;
-    bool pressRetry = false;
-
-    float goToVillageTime = 2f;
-    float RetryTime = 2f;
-
     void Start()
     {
         _MasterManager.Instance.DataManager.RegisterBattleRecord(this);
