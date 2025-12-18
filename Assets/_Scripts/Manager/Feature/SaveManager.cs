@@ -91,42 +91,18 @@ public class SaveManager : MonoBehaviour
         // 장비 정보 복구
         if (saveData.equippedItemIDs != null && saveData.equippedItemIDs.Length == 4)
         {
-            EquipManager equipManager = EquipManager.Instance;
+            dm.EquipWeapon = saveData.equippedItemIDs[0] != -1 ?
+                _MasterManager.Instance.ItemManager.GetItemByID(saveData.equippedItemIDs[0]) : null;
 
-            if (equipManager != null && equipManager.model != null)
-            {
-                // 각 슬롯의 장비를 복구
-                for (int i = 0; i < saveData.equippedItemIDs.Length; i++)
-                {
-                    if (saveData.equippedItemIDs[i] != -1)
-                    {
-                        Item equipItem = _MasterManager.Instance.ItemManager.GetItemByID(saveData.equippedItemIDs[i]);
+            dm.EquipHead = saveData.equippedItemIDs[1] != -1 ?
+                _MasterManager.Instance.ItemManager.GetItemByID(saveData.equippedItemIDs[1]) : null;
 
-                        if (equipItem != null)
-                        {
-                            equipManager.model.SetEquip(i, equipItem);
-                            Debug.Log($"[SaveManager] 로드 장비[{i}]: ItemID={saveData.equippedItemIDs[i]}");
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"[SaveManager] 장비 ItemID {saveData.equippedItemIDs[i]}를 찾을 수 없습니다!");
-                        }
-                    }
-                }
+            dm.EquipBody = saveData.equippedItemIDs[2] != -1 ?
+                _MasterManager.Instance.ItemManager.GetItemByID(saveData.equippedItemIDs[2]) : null;
 
-                // UI 갱신
-                equipManager.RefreshUI();
-            }
-            else
-            {
-                Debug.LogWarning("[SaveManager] EquipManager가 없습니다.");
-            }
+            dm.EquipFoot = saveData.equippedItemIDs[3] != -1 ?
+                _MasterManager.Instance.ItemManager.GetItemByID(saveData.equippedItemIDs[3]) : null;
         }
-        else
-        {
-            Debug.LogWarning("[SaveManager] 저장된 장비 데이터가 없습니다");
-        }
-
 
         // 시간 정보 복구
         dm.currentTime = (DayManager.TimeOfDay)saveData.currentTimeOfDay;
@@ -179,34 +155,10 @@ public class SaveManager : MonoBehaviour
         // 퀵슬롯 정보 복구
         if (saveData.quickSlotItemID != -1)
         {
-            Item quickSlotItem = _MasterManager.Instance.ItemManager.GetItemByID(saveData.quickSlotItemID);
-
-            if (quickSlotItem != null)
-            {
-                QuickSlotPresenter quickSlotPresenter = QuickSlotPresenter.Instance;
-
-                if (quickSlotPresenter != null && quickSlotPresenter.model != null)
-                {
-                    quickSlotPresenter.model.SetQickSlot(0, quickSlotItem);
-                    quickSlotPresenter.RefreshUI();
-
-                    Debug.Log($"[SaveManager] 로드 퀵슬롯: ItemID={saveData.quickSlotItemID}");
-                }
-                else
-                {
-                    Debug.LogWarning("[SaveManager] QuickSlotPresenter가 없습니다.");
-                }
-            }
-            else
-            {
-                Debug.LogWarning($"[SaveManager] 퀵슬롯 ItemID {saveData.quickSlotItemID}를 찾을 수 없습니다!");
-            }
+            dm.QuickSlotItem = _MasterManager.Instance.ItemManager.GetItemByID(saveData.quickSlotItemID);
+            Debug.Log($"[SaveManager] 퀵슬롯 로드 완료: ItemID={saveData.quickSlotItemID}");
         }
-        else
-        {
-            Debug.Log("[SaveManager] 퀵슬롯이 비어있습니다.");
-        }
-    
+
         // 창고 정보 복구
         if (saveData.warehouseSlots != null && saveData.warehouseSlots.Length > 0)
         {
@@ -288,29 +240,7 @@ public class SaveManager : MonoBehaviour
         }
 
         // 퀵슬롯 저장
-        int quickSlotItemID = -1;
-
-        QuickSlotPresenter quickSlotPresenter = QuickSlotPresenter.Instance;
-
-        if (quickSlotPresenter == null)
-        {
-            quickSlotPresenter = FindAnyObjectByType<QuickSlotPresenter>();
-        }
-
-        if (quickSlotPresenter != null && quickSlotPresenter.model != null)
-        {
-            Item quickSlotItem = quickSlotPresenter.model.GetItem(0);
-
-            if (quickSlotItem != null)
-            {
-                quickSlotItemID = quickSlotItem.itemID;
-                Debug.Log($"[SaveManager] 저장 퀵슬롯: ItemID={quickSlotItemID}");
-            }
-        }
-        else
-        {
-            Debug.LogError("[SaveManager] QuickSlotPresenter를 찾을 수 없습니다!");
-        }
+        int quickSlotItemID = dm.QuickSlotItem != null ? dm.QuickSlotItem.itemID : -1;
 
 
         // 창고 저장

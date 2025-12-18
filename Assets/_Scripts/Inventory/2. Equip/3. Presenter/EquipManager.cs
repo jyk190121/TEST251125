@@ -22,11 +22,11 @@ public class EquipManager : MonoBehaviour
 
     private void Start()
     {
-        //게임 시작 시 UI를 한 번 그려줍니다.
-        RefreshUI();
-
         //저장된 장비 복구
         LoadEquipmentFromDataManager();
+
+        //게임 시작 시 UI를 한 번 그려줍니다.
+        RefreshUI();
     }
 
     //====================================================
@@ -173,13 +173,27 @@ public class EquipManager : MonoBehaviour
                 uiSlots[i].UpdateSlot(currentEquips[i]);
             }
         }
-        _MasterManager.Instance.DataManager.ChangeWeapon(model.GetEquip(EquipModel.SLOT_WEAPON));        
+
+        // DataManager에 모든 장비 정보 업데이트
+        DataManager dm = _MasterManager.Instance.DataManager;
+        dm.EquipWeapon = model.GetEquip(EquipModel.SLOT_WEAPON);
+        dm.EquipHead = model.GetEquip(EquipModel.SLOT_HEAD);
+        dm.EquipBody = model.GetEquip(EquipModel.SLOT_BODY);
+        dm.EquipFoot = model.GetEquip(EquipModel.SLOT_FOOT);
     }
 
-    //데이터 매니저에 저장 데이터 전달
+    //데이터 매니저에서 데이터 가져오기
     private void LoadEquipmentFromDataManager()
     {
         DataManager dm = _MasterManager.Instance.DataManager;
+
+        // 장비 데이터가 비어있으면 아무것도 하지 않음
+        if (dm.EquipWeapon == null && dm.EquipHead == null &&
+            dm.EquipBody == null && dm.EquipFoot == null)
+        {
+            // 새 게임이거나 아직 로드 안 됨
+            return;
+        }
 
         if (dm.EquipWeapon != null)
         {

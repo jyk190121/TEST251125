@@ -58,6 +58,7 @@ public class DataManager : MonoBehaviour
         public int quantity;
     }
     public InventoryData inventoryData;
+    public Item QuickSlotItem;
 
     // ===== 창고 정보 =====
     [System.Serializable]
