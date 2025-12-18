@@ -81,7 +81,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!114 &4559399875457465086
 MonoBehaviour:
@@ -367,6 +367,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f658b055d6f97344d9c72fe4adb0e2bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  miniMapPrefab: {fileID: 8742011036215663536}
 --- !u!82 &6664478791948072366
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1700,6 +1701,11 @@ PrefabInstance:
 --- !u!224 &269377303763236494 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8198937007894229067, guid: e3b91b6ed9748784e91ceeeddee47133, type: 3}
+  m_PrefabInstance: {fileID: 8247635730848466629}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8742011036215663536 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 802942863370820981, guid: e3b91b6ed9748784e91ceeeddee47133, type: 3}
   m_PrefabInstance: {fileID: 8247635730848466629}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8981315108809089866

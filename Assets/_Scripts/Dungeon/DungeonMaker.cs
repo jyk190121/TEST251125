@@ -66,6 +66,7 @@ public class DungeonMaker : MonoBehaviour
 
     void GenerateDungeon()
     {
+        _MasterManager.Instance.DungeonManager.OnMiniMap();
         CreateRoomPositions();
         var (bossPos, restPos, parents) = BFSFindSpecialRooms();
         SpawnRooms(bossPos, restPos);
@@ -74,6 +75,7 @@ public class DungeonMaker : MonoBehaviour
         SetupBossCameraPosition(bossPos);
 
         SpawnPlayer();
+        
     }
 
     void SetupBossCameraPosition(Vector2Int bossGridPos)

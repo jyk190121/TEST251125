@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
+[RequireComponent(typeof(InventoryManager))]
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
@@ -51,7 +52,17 @@ public class InventoryManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        { 
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(equipView);
+            DontDestroyOnLoad(quickSlotView);
+            DontDestroyOnLoad(warehouseView);
+            DontDestroyOnLoad(inventoryView);
+            DontDestroyOnLoad(itemView);
+            DontDestroyOnLoad(inventory);
+        }
         else Destroy(gameObject);
 
         //Model 생성
@@ -141,15 +152,14 @@ public class InventoryManager : MonoBehaviour
             inventory.gameObject.SetActive(!inventory.gameObject.activeSelf);
         }
 
-        //창고 상태에 따라 다른 UI 패널(장비, 퀵슬롯) 활성화 상태 관리
-        //아이템 등록UI 노출 상태에 따라 다른 UI 패널(장비, 퀵슬롯) 활성화 상태 관리
+        //창고, 아이템 등록UI 상태에 따라 다른 UI 패널(장비, 퀵슬롯) 활성화 상태 관리
         if (warehouseView != null && itemView != null && equipView != null && quickSlotView != null)
         {
             bool isWarehouseActive = warehouseView.gameObject.activeSelf;
             bool isItemRegiActive = itemView.gameObject.activeSelf;
 
-            //창고, 아이템 등록UI가 활성화 상태면 장비창과 퀵슬롯을 비활성화
-            //창고, 아이템 등록UI가 비활성화 상태면, 퀵슬롯은 활성화하고 장비창은 인벤토리의 활성화 상태에 따름
+            //창고나 아이템 등록UI가 활성화 상태면 장비창과 퀵슬롯을 비활성화
+            //창고나 아이템 등록UI가 비활성화 상태면, 퀵슬롯은 활성화하고 장비창은 인벤토리의 활성화 상태에 따름
             equipView.SetActive(!isItemRegiActive && !isWarehouseActive && inventory.gameObject.activeSelf);
             quickSlotView.gameObject.SetActive(!isItemRegiActive && !isWarehouseActive);
         }
@@ -256,7 +266,9 @@ public class InventoryManager : MonoBehaviour
                 ProcessMoveFromWarehouse(dropIndex, warehouseIndex, warehouseItem, 1);
             }
         }
+
     }
+
 
     //창고로 아이템 이동
     private void ProcessMoveFromWarehouse(int dropIndex, int sourceWarehouseIndex, Item warehouseItem, int warehouseCount)

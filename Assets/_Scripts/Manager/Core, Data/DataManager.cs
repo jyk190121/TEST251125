@@ -31,6 +31,9 @@ public class DataManager : MonoBehaviour
     // 던전 내의 전투 데이터 저장
     BattleRecord BR;
 
+    // 정지시켜야 할때 사용
+    bool noMove = false;
+
     // ===== 마을 시설 정보 =====
     [System.Serializable]
     public class FacilityData

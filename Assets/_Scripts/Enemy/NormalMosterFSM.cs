@@ -159,6 +159,7 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
      *───────────────────────────────*/
     void Update()
     {
+
         // 쿨타임 감소
         if (state == MonsterState.Idle || state == MonsterState.Move)
         {
@@ -591,7 +592,9 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
 
     IEnumerator DieProc()
     {
-        yield return new WaitForSeconds(2f);
+        DropItems();
+
+        yield return new WaitForSeconds(5f);
 
         if (roomController != null)
         {
@@ -599,14 +602,43 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         }
 
         // 나중에 연결
-        // DropItem(transform.position, monsterData);
+        
         //_MasterManager.Instance.DataManager.GetMonster(monsterData);
         Destroy(gameObject);
     }
 
-    void DropItem()
+    void DropItems()
     {
+        if (monsterData.DropTable == null || monsterData.DropTable.Length == 0)
+            return;
+
+        foreach (var drop in monsterData.DropTable)
+        {
+            // 1️⃣ 확률 체크
+            float roll = Random.value; // 0.0 ~ 1.0
+            if (roll > drop.chance)
+                continue;
+
+            // 2️⃣ 드랍 개수 결정
+            int count = Random.Range(drop.minCount, drop.maxCount + 1);
+            if (count <= 0)
+                continue;
+
+            // 3️⃣ 아이템 생성
+            for (int i = 0; i < count; i++)
+            {
+                Vector3 spawnPos = transform.position + GetRandomDropOffset();
+                Instantiate(drop.itemPrefab, spawnPos, Quaternion.identity);
+            }
+        }
     }
+    Vector3 GetRandomDropOffset()
+    {
+        float radius = 0.5f;
+        Vector2 rand = Random.insideUnitCircle * radius;
+        return new Vector3(rand.x, 0f, rand.y);
+    }
+
 
     //공격중 반환
     public bool OnAttack()

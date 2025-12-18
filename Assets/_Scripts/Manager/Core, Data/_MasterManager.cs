@@ -16,6 +16,7 @@ public class _MasterManager : MonoBehaviour
     public ResourceManager ResourceManager { get; private set; }
     public SoundManager SoundManager { get; private set; }
     public GameSceneManager GameSceneManager { get; private set; }
+    public ShopManager ShopManager { get; private set; }
 
     public ItemManager ItemManager { get; private set; }
 
@@ -41,13 +42,14 @@ public class _MasterManager : MonoBehaviour
         DayManager = GetComponent<DayManager>();
         UIManager = GetComponent<UIManager>();
         InputManager = GetComponent<InputManager>();
-        //DungeonManager = GetComponent<DungeonManager>();
+        DungeonManager = GetComponent<DungeonManager>();
         EnemyManager = GetComponent<EnemyManager>();
         ResourceManager = GetComponent<ResourceManager>();
         InventoryManager = GetComponent<InventoryManager>();
         SoundManager = GetComponent<SoundManager>();
         GameSceneManager = GetComponent<GameSceneManager>();
         ItemManager = GetComponent<ItemManager>();
+        ShopManager = GetComponent<ShopManager>();
 
         // 1. 리소스 및 기본 데이터
         ResourceManager.Initialize();
@@ -62,7 +64,7 @@ public class _MasterManager : MonoBehaviour
 
         // 3. 전투 / 적 / 던전
         EnemyManager.Initialize();
-        //DungeonManager.Initialize();
+        DungeonManager.Initialize();
 
         // 4. 사운드 / 카메라 / 시간
         SoundManager.Initialize();

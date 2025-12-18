@@ -18,7 +18,8 @@ public enum KeyInput
     SWITCHWEAPON,   //무기 교체
     OPTION,         //옵션 열기
     INVENTORY,      //인벤토리 열기
-    CANCLE,
+    QUICKSLOT,      //퀵슬롯 아이템 사용
+    CANCLE,         //취소
     KEYCOUNT
 }
 
@@ -49,6 +50,7 @@ public class InputManager : MonoBehaviour
         KeyCode.T,      //무기 교체
         KeyCode.Escape, //옵션 열기
         KeyCode.I,      //인벤토리 열기
+        KeyCode.E,      //퀵슬롯 사용
         KeyCode.C
     };
 
