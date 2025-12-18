@@ -5636,18 +5636,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestManager
       objectReference: {fileID: 0}
-    - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: BGMClips6.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: 'BGMClips6.Array.data[0]'
-      value: 
-      objectReference: {fileID: 8300000, guid: 3309ef9c1203f154b9647b8b8b0f0b99, type: 3}
-    - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: 'BGMClips6.Array.data[1]'
-      value: 
-      objectReference: {fileID: 8300000, guid: 65c9682e5ac21d6459e7f7de3f5c2b1b, type: 3}
     - target: {fileID: 6357051562726047180, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -5728,62 +5716,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8499481067421247384, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8499481067421247384, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: PlayerHpText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8499481067421247384, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: PlayerGoldText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8499481067421247384, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: PlayerRollText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8499481067421247384, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: PlayerPortionText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8499481067421247384, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: PlayerSubAttackText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8499481067421247384, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: PlayerMainAttackText
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8590519255577056727, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: testItemA
-      value: 
-      objectReference: {fileID: 11400000, guid: af39ae62b0a512e4eb9a142ff7914cd0, type: 2}
-    - target: {fileID: 8590519255577056727, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: testItemB
-      value: 
-      objectReference: {fileID: 11400000, guid: e81cf065c2dff944dbf974dfdd293ea2, type: 2}
-    - target: {fileID: 8590519255577056727, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: testItemC
-      value: 
-      objectReference: {fileID: 11400000, guid: 18d76dae48f09dd499f6b5fd30daaf1e, type: 2}
-    - target: {fileID: 8590519255577056727, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: testItemD
-      value: 
-      objectReference: {fileID: 11400000, guid: e7c63945d43a58b4db31cfbdbe8d3d59, type: 2}
-    - target: {fileID: 8590519255577056727, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: testItemE
-      value: 
-      objectReference: {fileID: 11400000, guid: 1ca85e52b23b08c479c630bf0458de0a, type: 2}
-    - target: {fileID: 9076564967756922066, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 4193051725874536146, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-    - {fileID: 8865583715403322237, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}

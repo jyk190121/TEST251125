@@ -9,7 +9,7 @@ using System.Collections.Generic;
 /// - 일반 공격 / 특수 공격 분리
 /// - 특수 패턴은 데이터 기반 + FSM 필터링
 /// </summary>
-public class NormalMosterFSM : MonoBehaviour
+public class NormalMosterFSM : MonoBehaviour ,IHitResponder
 {
     /*───────────────────────────────*
      * 상태 정의
@@ -528,9 +528,10 @@ public class NormalMosterFSM : MonoBehaviour
     /*───────────────────────────────*
      * 사망
      *───────────────────────────────*/
-    void Die()
+    public void Die()
     {
         anim.applyRootMotion = true;
+        agent.isStopped = true;
 
         anim.SetTrigger("Die");
         StartCoroutine(DieProc());

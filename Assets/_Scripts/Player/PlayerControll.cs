@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEditor.Timeline;
 using UnityEngine;
 using UnityEngine.Animations;
-
+using UnityEngine.SceneManagement;
 
 //PlayerMove에서 입력받은 값에 따라 실행되는 함수를 정리한 스크립트
 public class PlayerControll : MonoBehaviour, IHitResponder
@@ -464,18 +464,13 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     //팬턴트 사용
     public void UsePendent()
     {
-        DataManager dm = _MasterManager.Instance.DataManager;
-        if (dm.HojuMoney() < 200) return;
+        if (_MasterManager.Instance.DataManager.HojuMoney() < 200) return;
 
-        dm.SetisPendant(true);
-
-        dm.SpendMoney(200);
+        _MasterManager.Instance.DataManager.SpendMoney(200);
 
         Debug.Log("200원 나감");
 
-        BR.OpenResultPanel(false, true);
-
-        GameSceneManager.game.LoadScene("Villiage");
-
+        _MasterManager.Instance.DataManager.SetisPendant(true);
+        _MasterManager.Instance.DataManager.ChangeReturn(true);
     }
 }

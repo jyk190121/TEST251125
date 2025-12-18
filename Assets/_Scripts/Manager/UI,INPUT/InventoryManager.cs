@@ -15,6 +15,7 @@ public class InventoryManager : MonoBehaviour
     public QuickSlotView quickSlotView;
     public WarehouseView warehouseView;
     public InventoryView inventoryView;
+    public RegisteredItem itemView;
     public Inventory inventory;         //인벤토리창 On/Off
 
     [Header("테스트용 아이템 연결")]
@@ -135,22 +136,24 @@ public class InventoryManager : MonoBehaviour
         }
 
         //인벤토리창 열고 닫기
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeySetting.keys[KeyInput.INVENTORY]))
         {
             inventory.gameObject.SetActive(!inventory.gameObject.activeSelf);
         }
 
         //창고 상태에 따라 다른 UI 패널(장비, 퀵슬롯) 활성화 상태 관리
-        if (warehouseView != null && equipView != null && quickSlotView != null)
+        //아이템 등록UI 노출 상태에 따라 다른 UI 패널(장비, 퀵슬롯) 활성화 상태 관리
+        if (warehouseView != null && itemView != null && equipView != null && quickSlotView != null)
         {
             bool isWarehouseActive = warehouseView.gameObject.activeSelf;
+            bool isItemRegiActive = itemView.gameObject.activeSelf;
 
-            //창고가 활성화 상태면 장비창과 퀵슬롯을 비활성화
-            //창고가 비활성화 상태면, 퀵슬롯은 활성화하고 장비창은 인벤토리의 활성화 상태에 따름
-            equipView.SetActive(!isWarehouseActive && inventory.gameObject.activeSelf);
-            quickSlotView.gameObject.SetActive(!isWarehouseActive);
+            //창고, 아이템 등록UI가 활성화 상태면 장비창과 퀵슬롯을 비활성화
+            //창고, 아이템 등록UI가 비활성화 상태면, 퀵슬롯은 활성화하고 장비창은 인벤토리의 활성화 상태에 따름
+            equipView.SetActive(!isItemRegiActive && !isWarehouseActive && inventory.gameObject.activeSelf);
+            quickSlotView.gameObject.SetActive(!isItemRegiActive && !isWarehouseActive);
         }
-
+        
         //마우스 버튼을 뗐는데(Up) && 드래그 중이라면(dragStartIndex != -1)
         if (Input.GetMouseButtonUp(0) && dragStartIndex != -1)
         {
@@ -640,8 +643,53 @@ public class InventoryManager : MonoBehaviour
         remove { model.OnInventoryUpdated -= value; }
     }
 
+    // SaveManager에서 호출할 수 있도록
+    public InventorySlotModel[] GetSlotsForView()
+    {
+        return model.GetSlotsForView();
+    }
+
     public void Initialize()
     {
+        Debug.Log("[InventoryManager] 초기화 시작");
 
+        // Model 생성 (Awake에서 이미 생성되지만, 안전을 위해)
+        if (model == null)
+        {
+            model = new InventoryModel(capacity);
+            Debug.LogWarning("[InventoryManager] Model이 null이었습니다. 새로 생성합니다.");
+        }
+
+        // View 초기화
+        if (inventoryView != null)
+        {
+            inventoryView.CreateSlots(capacity);
+            Debug.Log("[InventoryManager] InventoryView 초기화됨");
+        }
+        else
+        {
+            Debug.LogError("[InventoryManager] InventoryView가 연결되지 않았습니다!");
+        }
+
+        // 이벤트 연결 (이미 Awake에서 했지만, 안전을 위해 다시)
+        model.OnInventoryUpdated += HandleInventoryUpdate;
+        if (inventoryView != null)
+        {
+            inventoryView.OnSlotClicked += HandleSlotClick;
+            inventoryView.OnSortRequest += HandleSortSequence;
+        }
+
+        // 슬롯 초기화
+        model.InitSlots(capacity);
+
+        // 화면 갱신
+        HandleInventoryUpdate();
+
+        // 팝업 닫기
+        if (dropPopup != null) dropPopup.ClosePopup();
+        if (splitPopup != null) splitPopup.gameObject.SetActive(false);
+
+        Debug.Log("[InventoryManager] 초기화 완료");
     }
+
 }

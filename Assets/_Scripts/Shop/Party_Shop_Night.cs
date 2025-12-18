@@ -42,6 +42,7 @@ public class Party_Shop_Night : MonoBehaviour
 
             if (particles != null && i > 1)
             {
+                if (particles[i] == null) break;
                 Destroy(particles[i]);
                 yield return new WaitForSeconds(r);
             }
