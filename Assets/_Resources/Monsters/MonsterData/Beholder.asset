@@ -35,7 +35,7 @@ MonoBehaviour:
   specialCoolTime: 10
   aoeRange: 2
   projectilePrefab: {fileID: 3890703328547414409, guid: d47b50797a84ec64e9aff6d526f9dacf, type: 3}
-  laserPrefab: {fileID: 0}
+  laserPrefab: {fileID: 5230212189842148968, guid: 17c6ba95d78e4fd478e83b1d1920b1ab, type: 3}
   moveRange: 5
   moveInterval: 1
   patternCooldown: 3

@@ -505,8 +505,18 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
 
     void StartLaser()
     {
-        // TODO: 레이저 프리팹/FSM
+        if (laserPrefab == null || firePoint == null) return;
+
+        Instantiate(
+            laserPrefab,
+            firePoint.position,
+            firePoint.rotation   // 🔥 이 순간 방향만 사용
+        );
     }
+
+
+
+
 
     /*───────────────────────────────*
      * 데미지 / 피격
@@ -581,12 +591,12 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
 
     IEnumerator DieProc()
     {
+        yield return new WaitForSeconds(2f);
+
         if (roomController != null)
         {
-            roomController.ClearDungeon(gameObject);
+            roomController.ClearDungeon(this.gameObject);
         }
-
-        yield return new WaitForSeconds(2f);
 
         // 나중에 연결
         // DropItem(transform.position, monsterData);

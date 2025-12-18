@@ -215,13 +215,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 252332638}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
   m_LocalPosition: {x: 0, y: 32.8, z: 5.3}
   m_LocalScale: {x: 16, y: 16, z: 16}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 330585546}
-  m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
 --- !u!64 &252332640
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -894,7 +894,7 @@ Camera:
   m_GameObject: {fileID: 742819967}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 4
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -924,9 +924,9 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 545
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: f5bc670681925934a83442c400da7d84, type: 2}
+  m_TargetTexture: {fileID: 8400000, guid: 1d8ce47c4d61e71498aeb9f8fbe9b5f5, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -945,7 +945,7 @@ Transform:
   m_GameObject: {fileID: 742819967}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 70, z: 0}
+  m_LocalPosition: {x: -10, y: 70, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -959,6 +959,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7914024535165611, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: miniMapPrefab
+      value: 
+      objectReference: {fileID: 1668750803}
     - target: {fileID: 1122407842628781802, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: m_Name
       value: TestManager
@@ -1163,8 +1167,8 @@ MonoBehaviour:
     prefab: {fileID: 2322801824289053418, guid: f679a44dc19c7974a9b6f7b93ea0b6e9, type: 3}
   - roomType: 4
     prefab: {fileID: 6114786623350134996, guid: c14673471b9cce642beee4f3fabed5ca, type: 3}
-  minRooms: 4
-  maxRooms: 4
+  minRooms: 6
+  maxRooms: 8
   roomSpacingX: 60
   roomSpacingZ: 40
   bossCam: {fileID: 1145561844}
@@ -1280,6 +1284,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1668750803 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8742011036215663536, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+  m_PrefabInstance: {fileID: 759158517}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2028229437
 GameObject:
   m_ObjectHideFlags: 0

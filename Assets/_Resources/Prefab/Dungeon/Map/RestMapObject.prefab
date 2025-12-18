@@ -459,6 +459,8 @@ MonoBehaviour:
   - {fileID: 8982217456904358358}
   - {fileID: 4922749210408297119}
   - {fileID: 135929394931591265}
+  PortalSpawnPoint: {fileID: 0}
+  PortalPrefab: {fileID: 0}
   spawnPoints: []
   monsterPrefabs: []
   isSpawned: 0
@@ -748,7 +750,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 58af82772b338b346a24c68c0555e79d, type: 2}
+  - {fileID: 2100000, guid: 531e28be5a7697c4197d361816bbdbb0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1174,6 +1176,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4015880903712218920}
   - component: {fileID: 3192367203282999913}
+  - component: {fileID: 3566084490132766290}
   m_Layer: 0
   m_Name: CrystalObject
   m_TagString: Untagged
@@ -1222,6 +1225,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 1.5, y: 2, z: 0.6}
+--- !u!114 &3566084490132766290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7359061678293433268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28ce0c74ec4ccfa45a2f1e22e7767b2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7393458928740201994
 GameObject:
   m_ObjectHideFlags: 0

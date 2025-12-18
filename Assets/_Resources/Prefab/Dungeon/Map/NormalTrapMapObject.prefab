@@ -98,6 +98,8 @@ MonoBehaviour:
   - {fileID: 4039797081959913623}
   - {fileID: 64773836448543710}
   - {fileID: 4996156878206007584}
+  PortalSpawnPoint: {fileID: 0}
+  PortalPrefab: {fileID: 0}
   spawnPoints:
   - {fileID: 9192396568256276894}
   - {fileID: 6257708357155186757}
@@ -653,7 +655,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 58af82772b338b346a24c68c0555e79d, type: 2}
+  - {fileID: 2100000, guid: 531e28be5a7697c4197d361816bbdbb0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

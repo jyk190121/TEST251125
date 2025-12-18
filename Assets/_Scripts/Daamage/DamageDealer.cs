@@ -36,6 +36,8 @@ public class DamageDealer : MonoBehaviour
         if(gameObject.layer == 11) //몬스터 레이어
         {
             MonsterData monster = damageOwner.GetComponent<NormalMosterFSM>().monsterData;
+            baseDamage = monster.Attack;
+            NMF = GetComponent<NormalMosterFSM>();
             //MonsterData monster = damageOwner.GetComponent<FSMTest>().monsterData;
             baseDamage = monster.Attack;
             NMF = GetComponent<NormalMosterFSM>();
