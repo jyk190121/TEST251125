@@ -77,8 +77,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -543,8 +543,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -784,6 +784,8 @@ GameObject:
   - component: {fileID: 1874306219191485101}
   - component: {fileID: 3210425618424909978}
   - component: {fileID: -7606075965946787323}
+  - component: {fileID: 853198724852214793}
+  - component: {fileID: 9148604907877129153}
   m_Layer: 11
   m_Name: PolyGolem
   m_TagString: Untagged
@@ -843,6 +845,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentHealth: 10
+--- !u!114 &853198724852214793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8456632441884022478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01137c8caf1c394fa36c835a511a93f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterData: {fileID: 11400000, guid: 3e543b705f9d80c4f8f9699809573234, type: 2}
+  anim: {fileID: 356211214593573651}
+  firePoint: {fileID: 0}
+  aoeHitbox: {fileID: 0}
+--- !u!195 &9148604907877129153
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8456632441884022478}
+  m_Enabled: 1
+  m_AgentTypeID: -1372625422
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &8582688217542871011
 GameObject:
   m_ObjectHideFlags: 0
@@ -1295,6 +1335,11 @@ Transform:
 --- !u!4 &356211214593573648 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1077356410, guid: 66877253d09b2184691344141542cb9f, type: 3}
+  m_PrefabInstance: {fileID: 356211213520823402}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &356211214593573651 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1077356409, guid: 66877253d09b2184691344141542cb9f, type: 3}
   m_PrefabInstance: {fileID: 356211213520823402}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &356211214602924216 stripped

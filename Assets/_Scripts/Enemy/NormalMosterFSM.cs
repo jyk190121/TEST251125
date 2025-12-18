@@ -380,14 +380,36 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
 
     IEnumerator DoRangedAttack()
     {
-        if (firePoint == null)
-        {
-            Debug.LogWarning($"{name} : firePoint 없음 → 원거리 공격 스킵");
+        if (firePoint == null || projectilePrefab == null)
             yield break;
-        }
 
-        // 투사체 생성
+        Vector3 dir = (target.position - firePoint.position).normalized;
+
+        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
+        float total = info.length;
+        float hitTime = total * 0.4f;
+        float remainTime = total - hitTime;
+
+        // 🔹 발사 타이밍 대기
+        yield return new WaitForSeconds(hitTime);
+
+        // 🔹 생성
+        GameObject proj = Instantiate(
+            projectilePrefab,
+            firePoint.position,
+            Quaternion.identity
+        );
+
+        // 🔹 즉시 방향 고정
+        proj.transform.right = dir;
+
+        // 🔹 즉시 발사
+        proj.GetComponent<Projectile>()?.Launch();
+
+        // 🔹 애니메이션 잔여 시간
+        yield return new WaitForSeconds(remainTime);
     }
+
 
 
     /*───────────────────────────────*
@@ -545,6 +567,10 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         // DropItem(transform.position, monsterData);
         _MasterManager.Instance.DataManager.GetMonster(monsterData);
         Destroy(gameObject);
+    }
+
+    void DropItem()
+    {
     }
 
     //공격중 반환
