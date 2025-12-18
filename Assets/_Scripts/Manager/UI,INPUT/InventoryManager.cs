@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
+[RequireComponent(typeof(InventoryManager))]
 public class InventoryManager : MonoBehaviour
 {
     public static InventoryManager Instance;
@@ -51,7 +52,17 @@ public class InventoryManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        { 
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(equipView);
+            DontDestroyOnLoad(quickSlotView);
+            DontDestroyOnLoad(warehouseView);
+            DontDestroyOnLoad(inventoryView);
+            DontDestroyOnLoad(itemView);
+            DontDestroyOnLoad(inventory);
+        }
         else Destroy(gameObject);
 
         //Model 생성

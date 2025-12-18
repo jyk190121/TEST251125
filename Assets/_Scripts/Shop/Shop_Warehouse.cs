@@ -1,9 +1,10 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof (Shop_Warehouse))]
 public class Shop_Warehouse : MonoBehaviour
 {
+    static Shop_Warehouse warehouse;
 
     float keyDownTime;                       // 상호작용을 위한 시간
 
@@ -17,11 +18,26 @@ public class Shop_Warehouse : MonoBehaviour
     //public ItemSplitPopup itemSplitPopup;  //창고 UI 캔버스 열기/닫기
     public GameObject itemWarehousePanel;    //창고 UI 판넬
 
-    GameObject inventoeyPanel;               //인벤토리 UI 판넬
+    GameObject inventoeyPanel;                //인벤토리 UI 판넬
 
     bool openWarehousePanel;                 //창고 UI 열려있는지 
 
     float detectRadius;                      //창고 주변 감지 범위
+
+    private void Awake()
+    {
+        if (warehouse == null)
+        {
+            warehouse = this;
+            DontDestroyOnLoad(warehouse);
+            DontDestroyOnLoad(itemWarehousePanel);
+        }
+        else
+        {
+            Destroy(warehouse);
+        }
+
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,12 +48,16 @@ public class Shop_Warehouse : MonoBehaviour
         key.gameObject.SetActive(false);
         image.fillAmount = 0f;
         image.color = new Color(0, 0, 150f, 50f);
-        inventoeyPanel = FindAnyObjectByType<ShopManager>().inventoeyPanel;
 
         //itemSplitPopup = FindAnyObjectByType<ItemSplitPopup>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
 
         detectRadius = 2f;
+
+        inventoeyPanel = FindAnyObjectByType<ShopManager>().inventoeyPanel;
+       
+        WarehouseView warehouseView = _MasterManager.Instance.InventoryManager.inventory.GetComponentInChildren<WarehouseView>(true);
+        itemWarehousePanel = warehouseView.gameObject;
     }
 
     // Update is called once per frame
@@ -70,7 +90,7 @@ public class Shop_Warehouse : MonoBehaviour
             keyTimer = 0f;
             image.gameObject.SetActive(false);
             key.gameObject.SetActive(false);
-            itemWarehousePanel.SetActive(false);
+            itemWarehousePanel.gameObject.SetActive(false);
 
             return;
         }
@@ -93,7 +113,7 @@ public class Shop_Warehouse : MonoBehaviour
                 //창고개방
                 print("창고개방");
                 //itemSplitPopup.gameObject.SetActive(true);
-                itemWarehousePanel.SetActive(true);
+                itemWarehousePanel.gameObject.SetActive(true);
                 inventoeyPanel.SetActive(true);
                 openWarehousePanel = true;
             }

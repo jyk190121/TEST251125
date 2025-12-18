@@ -1,6 +1,8 @@
+using NUnit.Framework.Internal.Execution;
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 /// <summary>
 /// 인벤토리에 있는 아이템 팔기
 ///  - 인벤토리 아이템 리스트 (인벤토리 띄우기)v
@@ -16,6 +18,8 @@ public class RegisteredItem : MonoBehaviour
 
     public ItemSettingPopup dropPopup;          // 팝업창 (아이템 갯수, 판매가격 설정창)
 
+
+
     public Item[] itemList;                     // 등록된 아이템 리스트
     public Image[] itemImages;                  // 등록된 아이템 이미지
     int capacity = 4;                           // 아이템 등록 가능 총갯수
@@ -30,10 +34,17 @@ public class RegisteredItem : MonoBehaviour
     public TMP_InputField currentCount;          // 현재 등록할 item의 갯수
     public TMP_InputField currentPrice;          // 현재 등록할 item의 가격
 
+    InventoryManager inventory;
+    Item dropItem;                               // 현재 드롭중인 아이템
+
+
+
     private void Awake()
     {
         if (RegiItem == null) RegiItem = this;
         else Destroy(gameObject);
+
+        inventory = _MasterManager.Instance.InventoryManager;
     }
 
     private void Start()
@@ -52,6 +63,8 @@ public class RegisteredItem : MonoBehaviour
             itemImages[i].enabled = true;
             itemImages[i].preserveAspect = true;
         }
+
+
     }
 
     // Update is called once per frame
@@ -59,15 +72,10 @@ public class RegisteredItem : MonoBehaviour
     {
 
 
-
-        //마우스 버튼을 땠는데 드래그 중이라면
-        if (Input.GetMouseButtonUp(0) && dragStartIndex != -1)
+        //마우스로 선택한 아이템 정보 가져오기
+        if (Input.GetMouseButtonDown(0) )
         {
-            if(dragStartIndex != -1)
-            {
-                //OnDragEnd();
-                print("아이템 드랍중?");
-            }
+            print($"{inventory.GetDragStartIndex()} 현재 인덱스?");
         }
         //{
         //    //드랍 팝업 및 소분팝업이 비활성화 상태라면
@@ -89,14 +97,14 @@ public class RegisteredItem : MonoBehaviour
     public void OnDragEnd(int dropIndex)
     {
         //인벤토리에서 아이템등록으로
-        if (InventoryManager.Instance.GetDragStartIndex() != -1)
+        if (inventory.GetDragStartIndex() != -1)
         {
             if (dropIndex == -1) return;
 
             //인벤토리 매니저에서 드래그한 아이템 가져오기
-            Item inventoryItem = InventoryManager.Instance.GetDraggedItem();
-            int inventoryCount = InventoryManager.Instance.GetDraggedItemCount();
-            int inventoryIndex = InventoryManager.Instance.GetDragStartIndex();
+            Item inventoryItem = inventory.GetDraggedItem();
+            int inventoryCount = inventory.GetDraggedItemCount();
+            int inventoryIndex = inventory.GetDragStartIndex();
 
             if (inventoryItem == null) return;
 
