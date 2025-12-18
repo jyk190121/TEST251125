@@ -159,10 +159,6 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
      *───────────────────────────────*/
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Die();
-        }
 
         // 쿨타임 감소
         if (state == MonsterState.Idle || state == MonsterState.Move)
