@@ -73,10 +73,11 @@ public class DamageDealer : MonoBehaviour
 
         if (gameObject.layer == 11)
         {
-            NMF = GetComponent<NormalMosterFSM>();
+            NMF = damageOwner.GetComponent<NormalMosterFSM>();
             //FT = GetComponent<FSMTest>();   
             bool checkAttack = NMF.OnAttack();
             if (!checkAttack) return;
+            ResetHitTargets();
         }
 
         //이미 맞은놈이면 리턴
