@@ -59,8 +59,7 @@ public class InventoryManager : MonoBehaviour
             DontDestroyOnLoad(equipView);
             DontDestroyOnLoad(quickSlotView);
             DontDestroyOnLoad(warehouseView);
-            DontDestroyOnLoad(inventoryView);
-            DontDestroyOnLoad(itemView);
+            DontDestroyOnLoad(inventoryView);            
             DontDestroyOnLoad(inventory);
         }
         else Destroy(gameObject);
