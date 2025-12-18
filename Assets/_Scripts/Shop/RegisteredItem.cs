@@ -16,8 +16,10 @@ public class RegisteredItem : MonoBehaviour
     //등록된 아이템 리스트
     public Item[] itemList;
 
-    public Transform itemParent;     // ItemPanel
-    public GameObject imagePrefab;   // Image가 달린 프리팹
+    public Transform itemParent;        // ItemPanel
+    public GameObject imagePrefab;      // Image가 달린 프리팹
+
+    public TextMeshProUGUI itemCount;   // 등록한 item갯수
 
     private void Start()
     {

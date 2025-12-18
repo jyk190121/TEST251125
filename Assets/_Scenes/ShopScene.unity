@@ -1969,7 +1969,7 @@ PrefabInstance:
     - target: {fileID: 8615694304847737581, guid: fe15f9292fec0ea48b672af2043f8f58, type: 3}
       propertyPath: 'itemList.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: 18d76dae48f09dd499f6b5fd30daaf1e, type: 2}
+      objectReference: {fileID: 11400000, guid: e81cf065c2dff944dbf974dfdd293ea2, type: 2}
     - target: {fileID: 8615694304847737581, guid: fe15f9292fec0ea48b672af2043f8f58, type: 3}
       propertyPath: 'itemList.Array.data[2]'
       value: 
@@ -1977,7 +1977,7 @@ PrefabInstance:
     - target: {fileID: 8615694304847737581, guid: fe15f9292fec0ea48b672af2043f8f58, type: 3}
       propertyPath: 'itemList.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: 5ea98b649da8096458bb69e4c9bccdc5, type: 2}
+      objectReference: {fileID: 11400000, guid: 21e3730efbc322b429bfe82932762fc2, type: 2}
     - target: {fileID: 8615694304847737581, guid: fe15f9292fec0ea48b672af2043f8f58, type: 3}
       propertyPath: 'itemImages.Array.data[0]'
       value: 
