@@ -404,7 +404,12 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
     public void TakeDamage(DamageData damage)
     {
-        _MasterManager.Instance.DataManager.ChangeHP((int)damage.damageAmount); 
+        Debug.Log(damage.damageAmount);
+
+        _MasterManager.Instance.DataManager.ChangeHP((int)damage.damageAmount);
+        PlayerModel PM = _MasterManager.Instance.DataManager.GetStat();
+
+        Debug.Log(PM.HP);
         
     }
     public void Die()
