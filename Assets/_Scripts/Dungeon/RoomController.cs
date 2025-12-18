@@ -65,7 +65,7 @@ public class RoomController : MonoBehaviour
             aliveMonsters.Add(monster);
             //monster.GetComponent<MonsterTest>().SetupRoom(this);
 
-            monster.GetComponent<TestMonster>()?.SetupRoom(this);
+            monster.GetComponent<FSMTest>()?.SetupRoom(this);
 
             if (monster.layer == LayerMask.NameToLayer("Boss"))
             {
