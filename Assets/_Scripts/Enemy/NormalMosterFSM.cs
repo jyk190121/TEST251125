@@ -602,8 +602,8 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         }
 
         // 나중에 연결
-        
-        //_MasterManager.Instance.DataManager.GetMonster(monsterData);
+
+        _MasterManager.Instance.DataManager.GetMonster(monsterData);
         Destroy(gameObject);
     }
 
