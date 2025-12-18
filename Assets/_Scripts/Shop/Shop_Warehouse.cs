@@ -54,8 +54,9 @@ public class Shop_Warehouse : MonoBehaviour
 
         detectRadius = 2f;
 
-        inventoeyPanel = FindAnyObjectByType<ShopManager>().inventoeyPanel;
-       
+        Inventory inventory = _MasterManager.Instance.InventoryManager.GetComponentInChildren<Inventory>(true); ;
+        inventoeyPanel = inventory.gameObject;
+
         WarehouseView warehouseView = _MasterManager.Instance.InventoryManager.inventory.GetComponentInChildren<WarehouseView>(true);
         itemWarehousePanel = warehouseView.gameObject;
     }

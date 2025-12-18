@@ -52,16 +52,8 @@ public class InventoryManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        { 
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(equipView);
-            DontDestroyOnLoad(quickSlotView);
-            DontDestroyOnLoad(warehouseView);
-            DontDestroyOnLoad(inventoryView);            
-            DontDestroyOnLoad(inventory);
-        }
+        if (Instance == null) Instance = this;
+ 
         else Destroy(gameObject);
 
         //Model 생성

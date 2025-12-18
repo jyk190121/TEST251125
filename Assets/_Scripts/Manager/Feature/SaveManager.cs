@@ -88,14 +88,20 @@ public class SaveManager : MonoBehaviour
         playerStat.moveSpeed = saveData.playerMoveSpeed;
         playerStat.attackSpeed = saveData.playerAttackSpeed;
 
-        // 무기 복구
-        if (saveData.equippedWeaponID != -1)
+        // 장비 정보 복구
+        if (saveData.equippedItemIDs != null && saveData.equippedItemIDs.Length == 4)
         {
-            Item weapon = _MasterManager.Instance.ItemManager.GetItemByID(saveData.equippedWeaponID);
-            if (weapon != null)
-            {
-                dm.EquipWeapon = weapon;
-            }
+            dm.EquipWeapon = saveData.equippedItemIDs[0] != -1 ?
+                _MasterManager.Instance.ItemManager.GetItemByID(saveData.equippedItemIDs[0]) : null;
+
+            dm.EquipHead = saveData.equippedItemIDs[1] != -1 ?
+                _MasterManager.Instance.ItemManager.GetItemByID(saveData.equippedItemIDs[1]) : null;
+
+            dm.EquipBody = saveData.equippedItemIDs[2] != -1 ?
+                _MasterManager.Instance.ItemManager.GetItemByID(saveData.equippedItemIDs[2]) : null;
+
+            dm.EquipFoot = saveData.equippedItemIDs[3] != -1 ?
+                _MasterManager.Instance.ItemManager.GetItemByID(saveData.equippedItemIDs[3]) : null;
         }
 
         // 시간 정보 복구
@@ -108,7 +114,7 @@ public class SaveManager : MonoBehaviour
         // 시설 정보 복구
         dm.facilities = saveData.facilities;
 
-        // 인벤토리 정보 복구 (핵심!)
+        // 인벤토리 정보 복구
         if (saveData.inventorySlots != null && saveData.inventorySlots.Length > 0)
         {
             // InventoryManager 초기화 (기존 데이터 초기화)
@@ -146,6 +152,45 @@ public class SaveManager : MonoBehaviour
             dm.inventoryData.slots = new InventorySlotData[20];
         }
 
+        // 퀵슬롯 정보 복구
+        if (saveData.quickSlotItemID != -1)
+        {
+            dm.QuickSlotItem = _MasterManager.Instance.ItemManager.GetItemByID(saveData.quickSlotItemID);
+            Debug.Log($"[SaveManager] 퀵슬롯 로드 완료: ItemID={saveData.quickSlotItemID}");
+        }
+
+        // 창고 정보 복구
+        if (saveData.warehouseSlots != null && saveData.warehouseSlots.Length > 0)
+        {
+            WarehouseModel warehouseModel = dm.warehouseModel;
+
+            for (int i = 0; i < saveData.warehouseSlots.Length; i++)
+            {
+                var slotData = saveData.warehouseSlots[i];
+
+                if (slotData.itemID != -1 && slotData.quantity > 0)
+                {
+                    Item item = _MasterManager.Instance.ItemManager.GetItemByID(slotData.itemID);
+
+                    if (item != null)
+                    {
+                        warehouseModel.AddItem(item, slotData.quantity);
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[SaveManager] 창고 ItemID {slotData.itemID}를 찾을 수 없습니다!");
+                    }
+                }
+            }
+
+            Debug.Log($"[SaveManager] 창고 로드 완료: {saveData.warehouseSlots.Length}개 슬롯");
+        }
+        else
+        {
+            Debug.LogWarning("[SaveManager] 저장된 창고 데이터가 없습니다");
+            dm.warehouseData.slots = new DataManager.WarehouseSlotData[30];
+        }
+
         DataManager.OnDataLoaded?.Invoke();
 
         Debug.Log($"[SaveManager] 데이터 로드 완료");
@@ -155,7 +200,15 @@ public class SaveManager : MonoBehaviour
     private GameSaveData ConvertDataManagerToSaveData(DataManager dm)
     {
         var playerStat = dm.GetStat();
-        var weapon = dm.GetWeapon();
+
+        // 장비 저장
+        int[] equippedItemIDs = new int[4]
+        {
+        dm.EquipWeapon != null ? dm.EquipWeapon.itemID : -1,
+        dm.EquipHead != null ? dm.EquipHead.itemID : -1,
+        dm.EquipBody != null ? dm.EquipBody.itemID : -1,
+        dm.EquipFoot != null ? dm.EquipFoot.itemID : -1
+        };
 
         // InventoryManager에서 현재 슬롯 배열 가져오기
         InventorySlotModel[] currentSlots = _MasterManager.Instance.InventoryManager
@@ -174,8 +227,6 @@ public class SaveManager : MonoBehaviour
                     itemID = currentSlots[i].itemData.itemID,      // ID만 저장
                     quantity = currentSlots[i].quantity
                 };
-
-                Debug.Log($"[SaveManager] 저장 인벤토리[{i}]: ItemID={currentSlots[i].itemData.itemID}, Qty={currentSlots[i].quantity}");
             }
             else
             {
@@ -188,6 +239,40 @@ public class SaveManager : MonoBehaviour
             }
         }
 
+        // 퀵슬롯 저장
+        int quickSlotItemID = dm.QuickSlotItem != null ? dm.QuickSlotItem.itemID : -1;
+
+
+        // 창고 저장
+        DataManager.WarehouseSlotData[] warehouseSlotsToSave = new DataManager.WarehouseSlotData[30];
+
+        if (dm.warehouseModel != null)
+        {
+            // DataManager의 warehouseModel에서 직접 GetSlotsForView() 호출
+            WarehouseSlotModel[] warehouseSlots = dm.warehouseModel.GetSlotsForView();
+
+            for (int i = 0; i < warehouseSlots.Length; i++)
+            {
+                if (!warehouseSlots[i].IsEmpty)
+                {
+                    warehouseSlotsToSave[i] = new WarehouseSlotData
+                    {
+                        itemID = warehouseSlots[i].itemDate.itemID,
+                        quantity = warehouseSlots[i].quantity
+                    };
+                }
+                else
+                {
+                    warehouseSlotsToSave[i] = new WarehouseSlotData
+                    {
+                        itemID = -1,
+                        quantity = 0
+                    };
+                }
+            }
+        }
+
+        // GameSaveData에 모든 데이터 담기
         GameSaveData saveData = new GameSaveData
         {
             playerMoney = playerStat.Money,
@@ -197,7 +282,8 @@ public class SaveManager : MonoBehaviour
             playerDefend = playerStat.Defend,
             playerMoveSpeed = playerStat.moveSpeed,
             playerAttackSpeed = playerStat.attackSpeed,
-            equippedWeaponID = weapon != null ? weapon.itemID : -1,
+
+            equippedItemIDs = equippedItemIDs,
 
             currentTimeOfDay = (int)dm.currentTime,
             currentDay = dm.currentDay,
@@ -206,6 +292,8 @@ public class SaveManager : MonoBehaviour
 
             facilities = dm.facilities,
             inventorySlots = inventorySlotsToSave,
+            quickSlotItemID = quickSlotItemID,
+            warehouseSlots = warehouseSlotsToSave
         };
 
         return saveData;

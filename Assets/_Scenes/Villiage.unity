@@ -5632,6 +5632,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7914024535165611, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: miniMapPrefab
+      value: 
+      objectReference: {fileID: 1590573913}
     - target: {fileID: 1122407842628781802, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: m_Name
       value: TestManager
@@ -12075,6 +12079,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586009115}
   m_CullTransparentMesh: 1
+--- !u!1 &1590573913 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8742011036215663536, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+  m_PrefabInstance: {fileID: 733790192}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1598576542
 GameObject:
   m_ObjectHideFlags: 0
