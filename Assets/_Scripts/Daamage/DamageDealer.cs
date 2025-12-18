@@ -35,11 +35,9 @@ public class DamageDealer : MonoBehaviour
         }
         if(gameObject.layer == 11) //몬스터 레이어
         {
-            //MonsterData monster = damageOwner.GetComponent<NormalMosterFSM>().monsterData;
-            MonsterData monster = damageOwner.GetComponent<FSMTest>().monsterData;
+            MonsterData monster = damageOwner.GetComponent<NormalMosterFSM>().monsterData;
             baseDamage = monster.Attack;
-            //NMF = GetComponent<NormalMosterFSM>();
-            FT = GetComponent<FSMTest>();
+            NMF = GetComponent<NormalMosterFSM>();
         }
     }
     //데미지 출처를 설정하는 함수 -> 투사체용
