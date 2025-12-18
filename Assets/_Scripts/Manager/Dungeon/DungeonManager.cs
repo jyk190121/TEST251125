@@ -2,12 +2,16 @@ using UnityEngine;
 
 public class DungeonManager : MonoBehaviour
 {
+    [HideInInspector]
+    public static DungeonManager dungeon;
+
     [SerializeField]
     private GameObject miniMapPrefab;
 
+
     private void Start()
     {
-        EnterDungeon();
+       
     }
    
     void Update()
@@ -15,16 +19,17 @@ public class DungeonManager : MonoBehaviour
         
     }
 
-    void OnMiniMap()
+    public void OnMiniMap()
     {
         miniMapPrefab.SetActive(true);
     }
 
-    void OffMiniMap()
+    public void OffMiniMap()
     {
         miniMapPrefab.SetActive(false);
     }
 
+    /*
     void EnterDungeon()
     {
         if (GameSceneManager.game.IsCurrentScene("DungeonTest"))
@@ -33,6 +38,7 @@ public class DungeonManager : MonoBehaviour
         }
         else OffMiniMap();  
     }
+    */
 
     public void Initialize()
     {

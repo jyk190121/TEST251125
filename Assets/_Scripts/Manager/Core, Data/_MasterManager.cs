@@ -41,7 +41,7 @@ public class _MasterManager : MonoBehaviour
         DayManager = GetComponent<DayManager>();
         UIManager = GetComponent<UIManager>();
         InputManager = GetComponent<InputManager>();
-        //DungeonManager = GetComponent<DungeonManager>();
+        DungeonManager = GetComponent<DungeonManager>();
         EnemyManager = GetComponent<EnemyManager>();
         ResourceManager = GetComponent<ResourceManager>();
         InventoryManager = GetComponent<InventoryManager>();
@@ -62,7 +62,7 @@ public class _MasterManager : MonoBehaviour
 
         // 3. 전투 / 적 / 던전
         EnemyManager.Initialize();
-        //DungeonManager.Initialize();
+        DungeonManager.Initialize();
 
         // 4. 사운드 / 카메라 / 시간
         SoundManager.Initialize();
