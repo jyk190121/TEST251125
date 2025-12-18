@@ -1661,7 +1661,7 @@ MonoBehaviour:
   - {fileID: 4814341996828308461}
   - {fileID: 1644084007673604628}
   monsterPrefabs:
-  - {fileID: 2152752845011415812, guid: 84dd31643bba913418089fd346c904c7, type: 3}
+  - {fileID: 877061053702195001, guid: 3342dfbd11084c444a45fc4d3eac68f1, type: 3}
   isSpawned: 0
   isCleared: 0
   isStartRoom: 0
