@@ -193,7 +193,7 @@ public void playerStatChanged(StatStruct stat)
         isReturn = Return;
         if (isReturn)
         {
-            BR.OpenResultPanel(isClear, isPendant   );
+            BR.OpenResultPanel(isClear, isPendant);
         }
     }
     public bool GetReturn()

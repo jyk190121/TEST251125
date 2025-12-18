@@ -146,7 +146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &236443473
 Transform:
   m_ObjectHideFlags: 0
@@ -1567,7 +1567,7 @@ MonoBehaviour:
   - roomType: 0
     prefab: {fileID: 4345327899832292214, guid: d4a8abb703d9e534488c95b07e7d2223, type: 3}
   - roomType: 1
-    prefab: {fileID: 7750781564248813308, guid: ccd1b933ff665c044a586117264e8c08, type: 3}
+    prefab: {fileID: 7750781564248813308, guid: 7fae3a175477b6943b2b02daf6f8d1e2, type: 3}
   - roomType: 2
     prefab: {fileID: 256492928721464780, guid: 09c0bc065555a3d46b7e6a8441a4326f, type: 3}
   - roomType: 3
