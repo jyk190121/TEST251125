@@ -173,7 +173,7 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
             case MonsterState.Move: Move(); break;
             case MonsterState.Attack: Attack();  break;
             case MonsterState.GetHit: break;
-            case MonsterState.Die: Die();  break;
+            case MonsterState.Die: break;
         }
     }
 
@@ -516,12 +516,14 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         if (state == MonsterState.Die) return;
 
         currentHP -= data.damageAmount;
+        print($"최대 {monsterData.HP}/현재 {currentHP}");
 
         if (state == MonsterState.GetHit) return;
 
         if (currentHP <= 0)
         {
             state = MonsterState.Die;
+            Die();
         }
         else StartCoroutine(GetHitProc());
 
