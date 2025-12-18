@@ -585,11 +585,12 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         {
             roomController.ClearDungeon(gameObject);
         }
+
         yield return new WaitForSeconds(2f);
 
         // 나중에 연결
         // DropItem(transform.position, monsterData);
-        _MasterManager.Instance.DataManager.GetMonster(monsterData);
+        //_MasterManager.Instance.DataManager.GetMonster(monsterData);
         Destroy(gameObject);
     }
 
