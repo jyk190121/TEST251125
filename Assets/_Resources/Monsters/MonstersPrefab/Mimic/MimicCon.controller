@@ -12,7 +12,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Attack
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: Patten
+    m_ConditionEvent: Pattern
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1761618839183184117}
@@ -154,7 +154,7 @@ AnimatorStateTransition:
     m_ConditionEvent: Attack
     m_EventTreshold: 0
   - m_ConditionMode: 6
-    m_ConditionEvent: Patten
+    m_ConditionEvent: Pattern
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3867487867932963118}
@@ -252,7 +252,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Patten
+  - m_Name: Pattern
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0

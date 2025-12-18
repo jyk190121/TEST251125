@@ -519,13 +519,27 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         print($"최대 {monsterData.HP}/현재 {currentHP}");
 
         if (state == MonsterState.GetHit) return;
+        // 🔥 공격 중이면 피격 연출 없이 HP만 감소
+        if (state == MonsterState.Attack)
+        {
+            if (currentHP <= 0)
+            {
+                state = MonsterState.Die;
+                Die();
+            }
+            return;
+        }
 
+        // 공격 중이 아닐 때만 피격 처리
         if (currentHP <= 0)
         {
             state = MonsterState.Die;
             Die();
         }
-        else StartCoroutine(GetHitProc());
+        else
+        {
+            StartCoroutine(GetHitProc());
+        }
 
     }
 
