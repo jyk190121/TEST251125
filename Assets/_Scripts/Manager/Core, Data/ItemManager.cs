@@ -62,7 +62,6 @@ public class ItemManager : MonoBehaviour
             if (item != null)
             {
                 itemDatabase.Add(item.itemID, item);
-                Debug.Log($"[ItemManager] ✅ 아이템 로드: {item.itemName} (ID: {item.itemID})");
             }
         }
 
