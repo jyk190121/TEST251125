@@ -1603,7 +1603,7 @@ GameObject:
   - component: {fileID: 7992798231602182440}
   - component: {fileID: 2622214944312244900}
   m_Layer: 0
-  m_Name: NormalMapObject
+  m_Name: TestNormalMapObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

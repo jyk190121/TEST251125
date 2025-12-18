@@ -138,7 +138,7 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    private void SpawnExitPortal()
+    private void SpawnExitPortal() 
     {
         GameObject portal = Instantiate(PortalPrefab, PortalSpawnPoint.transform.position, Quaternion.identity);
         Debug.Log("보스 클리어! 마을 복귀용 포탈이 생성되었습니다.");
