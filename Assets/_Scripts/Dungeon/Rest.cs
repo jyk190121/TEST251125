@@ -7,6 +7,8 @@ public class Rest : MonoBehaviour
 
     bool isPlayerIn = false;
 
+    int count = 0;
+
     private void Start()
     {
         model = _MasterManager.Instance.DataManager.GetStat();
@@ -21,8 +23,12 @@ public class Rest : MonoBehaviour
     {
         if (isPlayerIn)
         {
-            Debug.Log($"HP회복! 현재 HP:{model.HP}");
-            _MasterManager.Instance.DataManager.AddHP(hp);
+            if (count == 0)
+            {
+                count++;
+                _MasterManager.Instance.DataManager.AddHP(hp);
+                Debug.Log($"HP회복! 현재 HP:{model.HP}");
+            }
         }
     }
 
