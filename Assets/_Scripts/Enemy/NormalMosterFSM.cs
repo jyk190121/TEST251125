@@ -581,12 +581,12 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
 
     IEnumerator DieProc()
     {
+        yield return new WaitForSeconds(2f);
+
         if (roomController != null)
         {
-            roomController.ClearDungeon(gameObject);
+            roomController.ClearDungeon(this.gameObject);
         }
-
-        yield return new WaitForSeconds(2f);
 
         // 나중에 연결
         // DropItem(transform.position, monsterData);
