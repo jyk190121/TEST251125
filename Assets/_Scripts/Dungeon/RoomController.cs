@@ -63,10 +63,11 @@ public class RoomController : MonoBehaviour
             int rand = Random.Range(0, monsterPrefabs.Count);
             GameObject monster = Instantiate(monsterPrefabs[rand], point.position, Quaternion.identity);
             aliveMonsters.Add(monster);
+
             //monster.GetComponent<MonsterTest>().SetupRoom(this);
+            //monster.GetComponent<FSMTest>()?.SetupRoom(this);
 
-            monster.GetComponent<FSMTest>()?.SetupRoom(this);
-
+            monster.GetComponent<NormalMosterFSM>()?.SetupRoom(this);
             if (monster.layer == LayerMask.NameToLayer("Boss"))
             {
                 IsBoss = true;
@@ -105,6 +106,8 @@ public class RoomController : MonoBehaviour
 
             if (isBossRoom || IsBoss)
             {
+                Debug.Log("포탈 생성");
+
                 SpawnExitPortal();
             }
         }
@@ -138,7 +141,7 @@ public class RoomController : MonoBehaviour
         }
     }
 
-    private void SpawnExitPortal() 
+    public void SpawnExitPortal() 
     {
         GameObject portal = Instantiate(PortalPrefab, PortalSpawnPoint.transform.position, Quaternion.identity);
         Debug.Log("보스 클리어! 마을 복귀용 포탈이 생성되었습니다.");
