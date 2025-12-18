@@ -14,6 +14,7 @@ public class DungeonSound : MonoBehaviour
     void DungeonBGM()
     {
         print("사운드체크");
+        soundManager.StopBGM();
         soundManager.PlayBGM("영찬", 0);
     }
 

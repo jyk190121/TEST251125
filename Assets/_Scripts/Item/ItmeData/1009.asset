@@ -15,6 +15,7 @@ MonoBehaviour:
   itemID: 1009
   itemName: "\uC2AC\uB77C\uC784 \uC824\uB9AC"
   icon: {fileID: 21300000, guid: d1f94eb541d98c94c9e0a776707e9c7c, type: 3}
+  itemPrefab: {fileID: 3272577696482075307, guid: 422b2cab859c188418987526aebe4360, type: 3}
   description: 
   isStackable: 1
   maxStack: 10
