@@ -17,7 +17,7 @@ public class Shop_Warehouse : MonoBehaviour
     //public ItemSplitPopup itemSplitPopup;  //창고 UI 캔버스 열기/닫기
     public GameObject itemWarehousePanel;    //창고 UI 판넬
 
-    GameObject inventoeyPanel;        //인벤토리 UI 판넬
+    GameObject inventoeyPanel;               //인벤토리 UI 판넬
 
     bool openWarehousePanel;                 //창고 UI 열려있는지 
 
