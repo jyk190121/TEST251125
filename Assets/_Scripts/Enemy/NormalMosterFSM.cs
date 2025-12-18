@@ -32,6 +32,7 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
     public MonsterData monsterData;
     NavMeshAgent agent;
     public Animator anim;
+    RoomController roomController;
 
     /*───────────────────────────────*
      * 기본 스탯
@@ -516,16 +517,13 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
 
         currentHP -= data.damageAmount;
 
-        if (state == MonsterState.Attack)
-        {
-            // 공격은 계속, HP만 감소
-            if (currentHP <= 0)
-                state = MonsterState.Die;
-
-            return;
-        }
         if (state == MonsterState.GetHit) return;
-        StartCoroutine(GetHitProc());
+
+        if (currentHP <= 0)
+        {
+            state = MonsterState.Die;
+        }
+        else StartCoroutine(GetHitProc());
 
     }
 
@@ -547,6 +545,12 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         state = MonsterState.Idle;
     }
 
+    public void SetupRoom(RoomController room)
+    {
+        roomController = room;
+    }
+
+
     /*───────────────────────────────*
      * 사망
      *───────────────────────────────*/
@@ -561,6 +565,10 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
 
     IEnumerator DieProc()
     {
+        if (roomController != null)
+        {
+            roomController.ClearDungeon(gameObject);
+        }
         yield return new WaitForSeconds(2f);
 
         // 나중에 연결
