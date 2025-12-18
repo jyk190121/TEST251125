@@ -11,7 +11,7 @@ public class QuickSlotPresenter : MonoBehaviour
     [Header("View 연결")]
     public QuickSlotView quickSlotView; //단일 슬롯 연결
 
-    private QuickSlotModel model;
+    public QuickSlotModel model;
     private InventoryModel inventoryModel;
 
     private void Awake()
@@ -148,7 +148,7 @@ public class QuickSlotPresenter : MonoBehaviour
     }
 
     //화면 갱신 (인벤토리 수량 확인)
-    private void RefreshUI()
+    public void RefreshUI()
     {
         Item item = model.GetItem(SLOT_INDEX);
 

@@ -24,6 +24,9 @@ public class EquipManager : MonoBehaviour
     {
         //게임 시작 시 UI를 한 번 그려줍니다.
         RefreshUI();
+
+        //저장된 장비 복구
+        LoadEquipmentFromDataManager();
     }
 
     //====================================================
@@ -160,7 +163,7 @@ public class EquipManager : MonoBehaviour
     }
 
     //모든 슬롯 UI를 모델 데이터에 맞춰 다시 그림
-    private void RefreshUI()
+    public void RefreshUI()
     {
         Item[] currentEquips = model.GetAllEquips();
         for (int i = 0; i < uiSlots.Length; i++)
@@ -171,6 +174,34 @@ public class EquipManager : MonoBehaviour
             }
         }
         _MasterManager.Instance.DataManager.ChangeWeapon(model.GetEquip(EquipModel.SLOT_WEAPON));        
+    }
+
+    //데이터 매니저에 저장 데이터 전달
+    private void LoadEquipmentFromDataManager()
+    {
+        DataManager dm = _MasterManager.Instance.DataManager;
+
+        if (dm.EquipWeapon != null)
+        {
+            model.SetEquip(EquipModel.SLOT_WEAPON, dm.EquipWeapon);
+        }
+
+        if (dm.EquipHead != null)
+        {
+            model.SetEquip(EquipModel.SLOT_HEAD, dm.EquipHead);
+        }
+
+        if (dm.EquipBody != null)
+        {
+            model.SetEquip(EquipModel.SLOT_BODY, dm.EquipBody);
+        }
+
+        if (dm.EquipFoot != null)
+        {
+            model.SetEquip(EquipModel.SLOT_FOOT, dm.EquipFoot);
+        }
+
+        RefreshUI();
     }
 
     //플레이어 스탯 매니저에게 변경된 수치 전달

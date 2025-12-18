@@ -53,6 +53,9 @@ public class WarehousePresenter : MonoBehaviour
         HandleWarehouseUpdate();
         dropPopup.ClosePopup();
         splitPopup.ClosePopup();
+
+        // DataManager에서 WarehouseModel 가져오기 (저장 데이터 불러오기)
+        model = _MasterManager.Instance.DataManager.warehouseModel;
     }
 
     // Update is called once per frame

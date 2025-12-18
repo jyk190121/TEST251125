@@ -12,6 +12,9 @@ public class DataManager : MonoBehaviour
     PlayerModel player;         //플레이어의 정보를 담을 그릇
 
     public Item EquipWeapon;    //장착한 무기
+    public Item EquipHead;      //장착한 투구
+    public Item EquipBody;      //장착한 갑옷
+    public Item EquipFoot;      //장착한 신발
 
     // ===== 시간 정보 =====
     public DayManager.TimeOfDay currentTime = DayManager.TimeOfDay.Day;
@@ -56,6 +59,22 @@ public class DataManager : MonoBehaviour
     }
     public InventoryData inventoryData;
 
+    // ===== 창고 정보 =====
+    [System.Serializable]
+    public class WarehouseSlotData
+    {
+        public int itemID;
+        public int quantity;
+    }
+
+    [System.Serializable]
+    public class WarehouseData
+    {
+        public WarehouseSlotData[] slots;
+    }
+
+    public WarehouseData warehouseData;
+    public WarehouseModel warehouseModel;
 
     // ===== 이벤트 =====
     public static Action OnDataLoaded;
@@ -67,6 +86,11 @@ public class DataManager : MonoBehaviour
         // 기본값 설정
         modelstat = PlayerModel.SetStat();
         player = PlayerModel.SetStat();
+
+        EquipWeapon = null;
+        EquipHead = null;
+        EquipBody = null;
+        EquipFoot = null;
 
         // 시설 정보 초기화
         if (facilities == null || facilities.Length == 0)
@@ -92,11 +116,24 @@ public class DataManager : MonoBehaviour
             Debug.Log("[DataManager] 인벤토리 초기화됨");
         }
 
+        // 창고 초기화
+        if (warehouseData == null)
+        {
+            warehouseModel = new WarehouseModel(30);
+            warehouseData = new WarehouseData();
+            warehouseData.slots = new WarehouseSlotData[30]; // 창고 슬롯 개수
+
+            for (int i = 0; i < warehouseData.slots.Length; i++)
+            {
+                warehouseData.slots[i] = new WarehouseSlotData();
+            }
+            Debug.Log("[DataManager] 창고 초기화됨");
+        }
+
         // 기타 데이터 초기화
         currentTime = DayManager.TimeOfDay.Day;
         currentDay = 1;
         dungeonCleared = 0;
-        EquipWeapon = null;
         isReturn = false;
 
         Debug.Log("[DataManager] 모든 데이터 초기화 완료");
@@ -258,6 +295,8 @@ public void playerStatChanged(StatStruct stat)
     {
         inventoryData.slots = slots;
     }
+
+
 
     public InventoryData GetInventoryData() => inventoryData;
 
