@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 7076901261155842728}
   - component: {fileID: 5536049037117210192}
   - component: {fileID: 6862478455592409810}
-  - component: {fileID: 3664599419196853187}
-  - component: {fileID: 2419119811476523963}
   - component: {fileID: -1314117615747470069}
+  - component: {fileID: -4156146692156096102}
   m_Layer: 10
   m_Name: TestBossDragonRoot
   m_TagString: Untagged
@@ -97,34 +96,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ta:
   - {fileID: 11400000, guid: 474cc76277eeb4d4d8efefc6b6cfaef1, type: 2}
---- !u!114 &3664599419196853187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 206288137534574219}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aba04b7da49fa2469692c9e57d0fb8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentHealth: 20
---- !u!114 &2419119811476523963
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 206288137534574219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bd920cf3221d3447958062499dc2691, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: fef4c297ac514e249b1eb8303c01410a, type: 2}
-  aoeHitbox: {fileID: 2424945517264971183, guid: 0cb02c67e5dc4ee42b982b87e123a6fb, type: 3}
-  firePoint: {fileID: 0}
 --- !u!195 &-1314117615747470069
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -147,6 +118,22 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-4156146692156096102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206288137534574219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01137c8caf1c394fa36c835a511a93f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterData: {fileID: 11400000, guid: fef4c297ac514e249b1eb8303c01410a, type: 2}
+  anim: {fileID: 0}
+  firePoint: {fileID: 0}
+  aoeHitbox: {fileID: 2424945517264971183, guid: 0cb02c67e5dc4ee42b982b87e123a6fb, type: 3}
 --- !u!1 &320561818562556166
 GameObject:
   m_ObjectHideFlags: 0
