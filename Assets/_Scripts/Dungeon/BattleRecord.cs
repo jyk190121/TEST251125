@@ -81,6 +81,8 @@ public class BattleRecord: MonoBehaviour
 
     public void OpenResultPanel(bool Clear, bool Pendent)
     {
+        _MasterManager.Instance.DungeonManager.OffMiniMap();
+
         //결과창 케이스 별 분리
         resultPanel.SetActive(true);            // 평소엔 꺼놨다가 키기
         retry.gameObject.SetActive(false);      // retry는 사망 시에만
