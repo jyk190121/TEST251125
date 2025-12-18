@@ -56,4 +56,10 @@ public class GameSceneManager : MonoBehaviour
         LoadScene(currentSceneName);
     }
 
+    public bool IsCurrentScene(string sceneName)
+    {
+        // 결과가 같으면 true, 다르면 false를 반환(return)합니다.
+        return SceneManager.GetActiveScene().name.Equals(sceneName);
+    }
+
 }

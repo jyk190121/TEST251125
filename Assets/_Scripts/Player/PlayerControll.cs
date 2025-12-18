@@ -189,9 +189,6 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     {
         weapon = _MasterManager.Instance.DataManager.GetWeapon();
     }
-
-
-
     public void Idle()
     {
         if (!isMove) return;
@@ -404,12 +401,17 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
     public void TakeDamage(DamageData damage)
     {
-        _MasterManager.Instance.DataManager.ChangeHP((int)damage.damageAmount); 
-        
+        _MasterManager.Instance.DataManager.ChangeHP((int)damage.damageAmount);
+        Debug.Log("체력: " + model.HP);
+        if(model.HP <= 0)
+        {
+            model.HP = 0;
+            Die();
+        }
     }
     public void Die()
     {
-        PD.Dead();
+        _MasterManager.Instance.DataManager.ChangeReturn(true);
     }
 
     //칼 콤보 공격 처리
