@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 344905337983943747}
   - component: {fileID: 7487926384641707064}
+  - component: {fileID: 8381332994349142162}
   m_Layer: 11
   m_Name: SlimeBlueRoot
   m_TagString: Untagged
@@ -56,6 +57,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &8381332994349142162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613628643030205678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01137c8caf1c394fa36c835a511a93f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterData: {fileID: 11400000, guid: 3dff80431f5d0f8409dd800c691ac154, type: 2}
+  anim: {fileID: 1258495548430767}
+  firePoint: {fileID: 0}
+  aoeHitbox: {fileID: 0}
 --- !u!1 &3551573035824527756
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,8 +203,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -375,6 +392,11 @@ PrefabInstance:
       addedObject: {fileID: 846407298788360021}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: af418917a95708546b41c8d4b28c4c08, type: 3}
+--- !u!95 &1258495548430767 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: -84473161721171115, guid: af418917a95708546b41c8d4b28c4c08, type: 3}
+  m_PrefabInstance: {fileID: 9139946056142007034}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1839055133009551646 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7445081739186605028, guid: af418917a95708546b41c8d4b28c4c08, type: 3}

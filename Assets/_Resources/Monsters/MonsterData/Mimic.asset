@@ -15,40 +15,29 @@ MonoBehaviour:
   mobID: 0
   mobName: "\uBBF8\uBBF9"
   MobPrefab: {fileID: 2203997256558560351, guid: 82c9c370e9e97a8499c01e7893cc266e, type: 3}
-  HP: 0
-  Speed: 0
-  Attack: 0
+  HP: 10
+  Speed: 5
+  Attack: 10
   Defense: 0
-  CoolTime: 0
+  CoolTime: 3
   attackRange: 0
   detectionRange: 0
   minAttackRange: 0
   Class: 0
   Type: 0
   Race: 4
-  Pattern: 000000000200000006000000
+  NormalPatterns: 0000000000000000
+  SpecialPatterns: 
+  NormalpatternIDs: 0000000001000000
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0
-  attackRadius: 1
-  attackAngle: 60
+  specialCoolTime: 3
   aoeRange: 2
-  aoeDamageMultiplier: 1.5
-  projectileSpeed: 8
-  projectileLifeTime: 3
-  projectileArc: 0
-  projectileCount: 1
-  predictionFactor: 0.5
-  shotInterval: 0.15
-  burstCount: 1
+  projectilePrefab: {fileID: 0}
+  laserPrefab: {fileID: 0}
   moveRange: 5
   moveInterval: 1
-  laserWarningTime: 0.5
-  laserFireTime: 1
-  laserCooldown: 2
-  laserDamage: 20
-  laserLength: 8
-  laserDirections: 4
   patternCooldown: 3
   phaseTwoHpRate: 0.5
   jumpAoeRadius: 3
