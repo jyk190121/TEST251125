@@ -183,7 +183,7 @@ public class DungeonManager : MonoBehaviour
             return RoomType.Rest;
 
         // 확률로 트랩방 생성 (원하면 조절 가능)
-        if (Random.value < 0.15f)
+        if (Random.value < 0.10f)
             return RoomType.Trap;
 
         return RoomType.Normal;
