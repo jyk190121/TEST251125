@@ -16,6 +16,7 @@ public class _MasterManager : MonoBehaviour
     public ResourceManager ResourceManager { get; private set; }
     public SoundManager SoundManager { get; private set; }
     public GameSceneManager GameSceneManager { get; private set; }
+    public ShopManager ShopManager { get; private set; }
 
     public ItemManager ItemManager { get; private set; }
 
@@ -48,6 +49,7 @@ public class _MasterManager : MonoBehaviour
         SoundManager = GetComponent<SoundManager>();
         GameSceneManager = GetComponent<GameSceneManager>();
         ItemManager = GetComponent<ItemManager>();
+        ShopManager = GetComponent<ShopManager>();
 
         // 1. 리소스 및 기본 데이터
         ResourceManager.Initialize();

@@ -441,6 +441,16 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!224 &458604840 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 3059162417983467623, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+  m_PrefabInstance: {fileID: 1995221622}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1681920836 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2243939044189885739, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+  m_PrefabInstance: {fileID: 1995221622}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1995221622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -453,6 +463,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5534006419218333284, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: safeSlotArea
+      value: 
+      objectReference: {fileID: 458604840}
+    - target: {fileID: 5534006419218333284, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: deleteSlotArea
+      value: 
+      objectReference: {fileID: 1681920836}
     - target: {fileID: 6357051562726047180, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -531,6 +549,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6357051562726047180, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499481067421247384, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8953611080248387524, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
