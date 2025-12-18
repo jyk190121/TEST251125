@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using static DayManager;
 /// <summary>
@@ -19,6 +20,8 @@ using static DayManager;
 [RequireComponent(typeof(ShopManager))]
 public class ShopManager : MonoBehaviour
 {
+    static ShopManager shop;
+
     public GameObject inventoeyPanel;       //인벤토리 UI 판넬
 
     public DayManager dayManager;           //낮, 밤 체크용
@@ -37,6 +40,18 @@ public class ShopManager : MonoBehaviour
 
     //public GameObject light_Shop;
     Light_Shop light_Shop;
+
+    private void OnEnable()
+    {
+        if(shop == null)
+        {
+            shop = this;
+            if (inventoeyPanel == null)
+            {
+                inventoeyPanel = _MasterManager.Instance.InventoryManager.inventory.GetComponent<GameObject>();
+            }
+        }
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -181,7 +196,7 @@ public class ShopManager : MonoBehaviour
             }
             if (warehouse != null)
             {
-                warehouse.itemWarehousePanel.SetActive(false);
+                warehouse.itemWarehousePanel.gameObject.SetActive(false);
             }
             inventoeyPanel.SetActive(false);
         }

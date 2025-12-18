@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(InventoryView))]
 public class InventoryView : MonoBehaviour
 {
     [Header("정렬 버튼 아이콘")]
