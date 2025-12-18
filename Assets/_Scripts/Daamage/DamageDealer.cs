@@ -12,7 +12,7 @@ public class DamageDealer : MonoBehaviour
     private GameObject damageOwner;
     PlayerControll PC;
     NormalMosterFSM NMF;
-    FSMTest FT;
+    //FSMTest FT;
 
     //중복 공격 방지
     //List 대신 HashSet인 이유
@@ -36,8 +36,15 @@ public class DamageDealer : MonoBehaviour
         if(gameObject.layer == 11) //몬스터 레이어
         {
             MonsterData monster = damageOwner.GetComponent<NormalMosterFSM>().monsterData;
+<<<<<<< HEAD
             baseDamage = monster.Attack;
             NMF = GetComponent<NormalMosterFSM>();
+=======
+            //MonsterData monster = damageOwner.GetComponent<FSMTest>().monsterData;
+            baseDamage = monster.Attack;
+            NMF = GetComponent<NormalMosterFSM>();
+            //FT = GetComponent<FSMTest>();
+>>>>>>> Develop
         }
     }
     //데미지 출처를 설정하는 함수 -> 투사체용
@@ -71,10 +78,10 @@ public class DamageDealer : MonoBehaviour
 
         if (gameObject.layer == 11)
         {
-            //NMF = GetComponent<NormalMosterFSM>();
-            FT = GetComponent<FSMTest>();   
-            //bool checkAttack = NMF.OnAttack();
-            //if (!checkAttack) return;
+            NMF = GetComponent<NormalMosterFSM>();
+            //FT = GetComponent<FSMTest>();   
+            bool checkAttack = NMF.OnAttack();
+            if (!checkAttack) return;
         }
 
         //이미 맞은놈이면 리턴
