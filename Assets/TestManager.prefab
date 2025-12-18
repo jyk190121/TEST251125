@@ -148,6 +148,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EquipWeapon: {fileID: 0}
+  EquipHead: {fileID: 0}
+  EquipBody: {fileID: 0}
+  EquipFoot: {fileID: 0}
   currentTime: 0
   currentDay: 1
   dungeonCleared: 0
@@ -157,6 +160,9 @@ MonoBehaviour:
   - facilityID: wooden_hat
     isUnlocked: 0
   inventoryData:
+    slots: []
+  QuickSlotItem: {fileID: 0}
+  warehouseData:
     slots: []
 --- !u!114 &964143774971882242
 MonoBehaviour:
@@ -194,6 +200,10 @@ MonoBehaviour:
   MonsterList: {fileID: 0}
   HowImage: {fileID: 0}
   sprites: []
+  slotPrefab: {fileID: 0}
+  snapshotCamera: {fileID: 0}
+  snapshotRT: {fileID: 0}
+  snapshotPoint: {fileID: 0}
 --- !u!114 &2919799946323326699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,6 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c73244c8c0d8e4c4a8ebdd5c2df8db8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundPanel: {fileID: 0}
   bgmSource: {fileID: 6664478791948072366}
   sfxSource: {fileID: 3571932401655655142}
   BGMClips1:
@@ -1284,11 +1295,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6207720585467678485, guid: 6486be46fb427d8458539bbb9a03a658, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6207720585467678485, guid: 6486be46fb427d8458539bbb9a03a658, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6826169654011877821, guid: 6486be46fb427d8458539bbb9a03a658, type: 3}
       propertyPath: m_fontColor.b
@@ -1316,15 +1327,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7295764996788542564, guid: 6486be46fb427d8458539bbb9a03a658, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7295764996788542564, guid: 6486be46fb427d8458539bbb9a03a658, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7295764996788542564, guid: 6486be46fb427d8458539bbb9a03a658, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7702553702210979478, guid: 6486be46fb427d8458539bbb9a03a658, type: 3}
       propertyPath: m_fontColor.b
@@ -1492,6 +1503,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 615849417283287207}
     m_Modifications:
+    - target: {fileID: 77216356036523531, guid: 6c85ddb8d6015154d89e1c8ef45f0d1b, type: 3}
+      propertyPath: safeSlotArea
+      value: 
+      objectReference: {fileID: 3059162417983467623}
+    - target: {fileID: 77216356036523531, guid: 6c85ddb8d6015154d89e1c8ef45f0d1b, type: 3}
+      propertyPath: deleteSlotArea
+      value: 
+      objectReference: {fileID: 2243939044189885739}
     - target: {fileID: 1911203653127277510, guid: 6c85ddb8d6015154d89e1c8ef45f0d1b, type: 3}
       propertyPath: m_Name
       value: InventoryPanel
@@ -1581,6 +1600,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c85ddb8d6015154d89e1c8ef45f0d1b, type: 3}
+--- !u!224 &2243939044189885739 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5979369573894593860, guid: 6c85ddb8d6015154d89e1c8ef45f0d1b, type: 3}
+  m_PrefabInstance: {fileID: 5611184253687908463}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &3059162417983467623 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7469987834644166664, guid: 6c85ddb8d6015154d89e1c8ef45f0d1b, type: 3}
+  m_PrefabInstance: {fileID: 5611184253687908463}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3524384703752606061 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9022908451905067266, guid: 6c85ddb8d6015154d89e1c8ef45f0d1b, type: 3}
