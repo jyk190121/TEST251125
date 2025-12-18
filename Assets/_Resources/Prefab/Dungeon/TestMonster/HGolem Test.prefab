@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5017807569955124677}
   - component: {fileID: 2587200513267586947}
-  - component: {fileID: 1720132618272907875}
   - component: {fileID: 3560566413623745576}
+  - component: {fileID: 4630637204944134626}
   m_Layer: 11
   m_Name: HGolem Test
   m_TagString: Untagged
@@ -59,22 +59,6 @@ CapsuleCollider:
   m_Height: 2.807802
   m_Direction: 1
   m_Center: {x: 0, y: 1.403901, z: 0}
---- !u!114 &1720132618272907875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2152752845011415812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c01137c8caf1c394fa36c835a511a93f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: 7e5f143ff1b3def44bd85548ba89421e, type: 2}
-  anim: {fileID: 7804738202378019804}
-  firePoint: {fileID: 0}
-  aoeHitbox: {fileID: 7658988783153831198}
 --- !u!195 &3560566413623745576
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -97,6 +81,21 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &4630637204944134626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2152752845011415812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd920cf3221d3447958062499dc2691, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterData: {fileID: 11400000, guid: 7e5f143ff1b3def44bd85548ba89421e, type: 2}
+  aoeHitbox: {fileID: 3363725479262975173, guid: 208ec8b485ffb154ca7cec31f9cbab36, type: 3}
+  firePoint: {fileID: 0}
 --- !u!1 &7658988783153831198
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,8 +692,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!95 &7804738202378019804 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 2550935751187727211, guid: 60ba67cc7725a504b96b84036a38abec, type: 3}
-  m_PrefabInstance: {fileID: 5707959068724437175}
-  m_PrefabAsset: {fileID: 0}
