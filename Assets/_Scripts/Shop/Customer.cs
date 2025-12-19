@@ -224,9 +224,18 @@ public class Customer : MonoBehaviour
 
         yield return new WaitForSeconds(5f);
 
+        RegisteredItem registeredItem = FindAnyObjectByType<RegisteredItem>();
+        RegisteredItem.RegisteredItemData[] availableItems = GetAvailableItems(registeredItem);
+        if (availableItems.Length == 0)
+        {
+            Debug.Log($"아이템이 없다");
+            state = CustomerState.LeavingShop;
+            yield break;
+        }
+
         // 1단계: 가게에 마음에 드는 게 있는가?
         int r = Random.Range(1, 31);
-        if (r > 20)
+        if (r > 25)
         {
             Debug.Log($"[{customerType}손님] 마음에 드는 게 없네");
             state = CustomerState.LeavingShop;
@@ -234,10 +243,10 @@ public class Customer : MonoBehaviour
         }
 
         // 2단계: 진열된 아이템 중 하나 랜덤 선택
-        selectedItem = SelectRandomItem();
+        selectedItem = SelectRandomItemFromAvailable(availableItems);
         if (selectedItem == null)
         {
-            Debug.Log($"[{customerType}손님] 판매 가능한 아이템이 없습니다");
+            Debug.Log($"[{customerType}손님] 선택할 아이템이 없습니다");
             state = CustomerState.LeavingShop;
             yield break;
         }
@@ -252,6 +261,7 @@ public class Customer : MonoBehaviour
         if (willBuy)
         {
             Debug.Log($"[{customerType}손님] 이 아이템 사야겠다!");
+            DecreaseRegisteredItemCount(selectedItem);
             state = CustomerState.BuyingItem;
         }
         else
@@ -262,45 +272,36 @@ public class Customer : MonoBehaviour
     }
 
     /// <summary>
-    /// 진열대에 등록된 아이템 중 랜덤으로 하나 선택
+    /// 판매 가능한 아이템만 필터링
     /// </summary>
-    Item SelectRandomItem()
+    RegisteredItem.RegisteredItemData[] GetAvailableItems(RegisteredItem registeredItem)
     {
-        if (registeredItems == null)
-        {
-            Debug.LogError("[Customer] registeredItems가 null입니다");
-            return null;
-        }
+        RegisteredItem.RegisteredItemData[] allItems = registeredItem.GetAllRegisteredItemsData();
+        System.Collections.Generic.List<RegisteredItem.RegisteredItemData> available =
+            new System.Collections.Generic.List<RegisteredItem.RegisteredItemData>();
 
-        if (registeredItems.itemList == null)
+        foreach (var itemData in allItems)
         {
-            Debug.LogError("[Customer] itemList가 null입니다");
-            return null;
-        }
-
-        List<Item> availableItems = new List<Item>();
-
-        // 진열대에 등록된 null이 아닌 아이템만 수집
-        foreach (var item in registeredItems.itemList)
-        {
-            if (item != null)
+            if (itemData != null && itemData.item != null && itemData.count > 0)
             {
-                availableItems.Add(item);
+                available.Add(itemData);
             }
         }
 
-        if (availableItems.Count == 0)
-        {
-            Debug.LogWarning("[Customer] 진열대에 아이템이 없습니다");
-            return null;
-        }
-
-        int randomIndex = Random.Range(0, availableItems.Count);
-        Item selected = availableItems[randomIndex];
-
-        Debug.Log($"[{customerType}손님] 아이템 선택: {selected.itemName}");
-        return selected;
+        return available.ToArray();
     }
+
+    /// <summary>
+    /// 가능한 아이템 중에서 랜덤 선택
+    /// </summary>
+    Item SelectRandomItemFromAvailable(RegisteredItem.RegisteredItemData[] availableItems)
+    {
+        if (availableItems.Length == 0) return null;
+
+        int randomIndex = Random.Range(0, availableItems.Length);
+        return availableItems[randomIndex].item;
+    }
+
 
     /// <summary>
     /// 아이템의 현재 설정 가격을 평가
@@ -394,6 +395,38 @@ public class Customer : MonoBehaviour
         bool decision = randomValue < buyChance;
 
         return decision;
+    }
+
+    /// <summary>
+    /// 진열대 아이템 수량 감소
+    /// </summary>
+    void DecreaseRegisteredItemCount(Item item)
+    {
+        RegisteredItem registeredItem = FindAnyObjectByType<RegisteredItem>();
+        if (registeredItem == null) return;
+
+        RegisteredItem.RegisteredItemData[] allItems = registeredItem.GetAllRegisteredItemsData();
+
+        for (int i = 0; i < allItems.Length; i++)
+        {
+            if (allItems[i] != null &&
+                allItems[i].item != null &&
+                allItems[i].item.itemID == item.itemID)
+            {
+                allItems[i].count--;
+
+                if (allItems[i].count <= 0)
+                {
+                    registeredItem.itemList[i] = null;
+                    Debug.Log($"[{customerType}손님] {item.itemName}이 품절되었습니다");
+                }
+                else
+                {
+                    Debug.Log($"[{customerType}손님] {item.itemName} 구매 결심! 남은 수량: {allItems[i].count}");
+                }
+                return;
+            }
+        }
     }
 
     IEnumerator BuyItem()

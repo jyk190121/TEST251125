@@ -34,5 +34,16 @@ public class GameSaveData
 
     // ===== 창고 정보 =====
     public DataManager.WarehouseSlotData[] warehouseSlots;
+
+    // ===== 진열대 정보 =====
+    [System.Serializable]
+    public class SavedRegisteredItem
+    {
+        public int itemID;
+        public int count;
+        public int price;
+    }
+
+    public SavedRegisteredItem[] registeredItems = new SavedRegisteredItem[4];
 }
 

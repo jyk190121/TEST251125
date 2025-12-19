@@ -69,7 +69,21 @@ public class RegisteredItem : MonoBehaviour
             return;
         }
 
-        // itemList 배열 검증
+        // registeredItemsData가 이미 설정되어 있으면 그대로 사용
+        if (registeredItemsData != null && registeredItemsData.Length > 0)
+        {
+            for (int i = 0; i < registeredItemsData.Length; i++)
+            {
+                if (registeredItemsData[i] != null && registeredItemsData[i].item != null)
+                {
+                    SetupSlotImage(i, registeredItemsData[i].item);
+                }
+            }
+            Debug.Log("[RegisteredItem] Inspector에서 설정한 데이터 사용");
+            return;
+        }
+
+        // Inspector에 아무것도 설정 안 했으면 새로 초기화
         if (itemList == null || itemList.Length == 0)
         {
             Debug.LogWarning("[RegisteredItem] itemList가 비어있습니다. 새로 초기화합니다");
@@ -78,11 +92,9 @@ public class RegisteredItem : MonoBehaviour
             return;
         }
 
-        // registeredItemsData 초기화
+        // 기존 itemList를 registeredItemsData로 마이그레이션
         registeredItemsData = new RegisteredItemData[capacity];
 
-
-        // 기존 itemList를 registeredItemsData로 마이그레이션
         for (int i = 0; i < capacity && i < itemList.Length; i++)
         {
             if (itemList[i] != null)
@@ -108,6 +120,16 @@ public class RegisteredItem : MonoBehaviour
         if (item == null)
             return;
 
+        //기존 이미지 제거
+        if (itemImages[index] != null && itemImages[index].transform.childCount > 0)
+        {
+            foreach (Transform child in itemImages[index].transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        //새로운 이미지 생성
         GameObject images = new GameObject("Image");
         images.transform.SetParent(itemImages[index].transform, false);
 
@@ -297,30 +319,30 @@ public class RegisteredItem : MonoBehaviour
             return 0;
         }
 
-        // registeredItemsData 검증
         if (registeredItemsData == null || registeredItemsData.Length == 0)
         {
-            Debug.LogWarning("[RegisteredItem] registeredItemsData가 비어있습니다");
-            return item.sellPrice;
+            return 0;
         }
 
+        // itemID로 비교
         for (int i = 0; i < registeredItemsData.Length; i++)
         {
-            if (registeredItemsData[i] != null &&
-                registeredItemsData[i].item != null &&
-                registeredItemsData[i].item.itemID == item.itemID)
+            if (registeredItemsData[i] != null && registeredItemsData[i].item != null)
             {
-                Debug.Log($"[RegisteredItem] GetCurrentPrice: {item.itemName} = {registeredItemsData[i].price}");
-                return registeredItemsData[i].price;
+                if (registeredItemsData[i].item.itemID == item.itemID)
+                {
+                    Debug.Log($"[RegisteredItem] GetCurrentPrice: {item.itemName} = {registeredItemsData[i].price}");
+                    return registeredItemsData[i].price;
+                }
             }
         }
 
-        Debug.LogWarning($"[RegisteredItem] GetCurrentPrice: {item.itemName}을 찾지 못함. sellPrice 반환");
-        return item.sellPrice;
+        Debug.LogError($"[RegisteredItem] GetCurrentPrice: {item.itemName}을 찾을 수 없습니다!");
+        return 0;
     }
 
     /// <summary>
-    /// 특정 아이템의 판매가 설정 (UI에서 직접 바꾸고 싶을 때)
+    /// 이미 진열된 아이템의 판매가 변경 (현재 미사용)
     /// </summary>
     public void SetCurrentPrice(Item item, int price)
     {
@@ -349,11 +371,6 @@ public class RegisteredItem : MonoBehaviour
         }
 
         Debug.LogWarning($"[RegisteredItem] SetCurrentPrice: {item.itemName}을 찾지 못함");
-    }
-
-    public Item[] GetRegisteredItems()
-    {
-        return itemList;
     }
 
     public RegisteredItemData[] GetAllRegisteredItemsData()
