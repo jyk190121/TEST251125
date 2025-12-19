@@ -10,7 +10,7 @@ public class WarehousePresenter : MonoBehaviour
     public int capacity = 30;   //창고 크기
 
     [Header("View Panel 연결")]
-    public WarehouseView warehouseView;    
+    public WarehouseView warehouseView;
 
     //Model 데이터 
     private WarehouseModel model;
@@ -30,15 +30,13 @@ public class WarehousePresenter : MonoBehaviour
         if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
-        //Model 생성
+        //Model 생성 (데이터 로드 실패 시 사용할 기본 모델)
         model = new WarehouseModel(capacity);
 
         //View 초기화
         warehouseView.CreateSlots(capacity);
 
-        //이벤트 연결 (Model -> View)
-        //모델 데이터가 변하면 -> HandleWarehouseUpdate 실행
-        model.OnWarehouseUpdated += HandleWarehouseUpdate;
+        //이벤트 연결은 Start에서 진행
 
         //이벤트 연결 (Model -> Logic)
         //슬롯이 클릭되면 -> HandleSlotClick 실행
@@ -50,12 +48,28 @@ public class WarehousePresenter : MonoBehaviour
     private void Start()
     {
         //시작 시 초기화
-        HandleWarehouseUpdate();
         dropPopup.ClosePopup();
         splitPopup.ClosePopup();
 
-        // DataManager에서 WarehouseModel 가져오기 (저장 데이터 불러오기)
-        model = _MasterManager.Instance.DataManager.warehouseModel;
+        //DataManager에서 WarehouseModel 가져오기 (저장 데이터 불러오기)
+        var loadedModel = _MasterManager.Instance.DataManager.warehouseModel;
+
+        if (loadedModel != null)
+        {
+            //불러온 데이터가 있으면 교체
+            model = loadedModel;
+        }
+        else
+        {
+            //불러온 데이터가 없으면 Awake에서 생성한 모델을 DataManager에 등록
+            _MasterManager.Instance.DataManager.warehouseModel = model;
+        }
+
+        //최종적으로 결정된 model 객체의 이벤트에 구독
+        model.OnWarehouseUpdated += HandleWarehouseUpdate;
+
+        //최종 model 데이터로 UI 갱신
+        HandleWarehouseUpdate();
     }
 
     // Update is called once per frame
@@ -76,7 +90,7 @@ public class WarehousePresenter : MonoBehaviour
     //드래그 시작 시 호출
     public void OnDragStart(int index)
     {
-        dragStartIndex = index;    
+        dragStartIndex = index;
     }
 
     //드래그 종료 시 호출
@@ -148,7 +162,7 @@ public class WarehousePresenter : MonoBehaviour
         if (inventoryItem == null) return;
 
         //창고의 해당 슬롯에 있던 아이템 (교체용)
-        var slots = model.GetSlotsForView();        
+        var slots = model.GetSlotsForView();
         WarehouseSlotModel targetSlot = model.GetSlotsForView()[dropIndex];
         Item warehouseItem = targetSlot.IsEmpty ? null : targetSlot.itemDate;
         int warehouseItemCount = targetSlot.quantity;
@@ -261,7 +275,7 @@ public class WarehousePresenter : MonoBehaviour
             InventoryManager.Instance.CancelDrag();
 
         //창고 화면 갱신
-        model.NotifyUpdate();    
+        model.NotifyUpdate();
     }
 
     //외부(퀵슬롯)에서 현재 드래그 시작 인덱스 조회 함수
@@ -321,7 +335,7 @@ public class WarehousePresenter : MonoBehaviour
 
     //창고 슬롯이 아닌 곳에 Drop했을 때
     public void CancelDrag()
-    {        
+    {
         dragStartIndex = -1;    //드래그 상태 초기화        
         model.NotifyUpdate();   //화면을 원래대로 복구
     }
@@ -341,12 +355,14 @@ public class WarehousePresenter : MonoBehaviour
         dropPopup.OpenPopup(
             itemToDrop.itemName,
             //YES 눌렀을 때: 아이템 삭제
-            onYes: () => {
+            onYes: () =>
+            {
                 model.RemoveItem(dragStartIndex); // 모델에서 삭제
                 dragStartIndex = -1;              // 드래그 상태 초기화
             },
             //NO 눌렀을 때: 드래그 취소 (제자리 복귀)
-            onNo: () => {
+            onNo: () =>
+            {
                 CancelDrag();
             }
         );
