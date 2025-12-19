@@ -1413,13 +1413,13 @@ MonoBehaviour:
   - roomType: 0
     prefab: {fileID: 4345327899832292214, guid: d4a8abb703d9e534488c95b07e7d2223, type: 3}
   - roomType: 1
-    prefab: {fileID: 7750781564248813308, guid: 7fae3a175477b6943b2b02daf6f8d1e2, type: 3}
+    prefab: {fileID: 7750781564248813308, guid: ccd1b933ff665c044a586117264e8c08, type: 3}
   - roomType: 2
     prefab: {fileID: 256492928721464780, guid: 09c0bc065555a3d46b7e6a8441a4326f, type: 3}
   - roomType: 3
     prefab: {fileID: 2322801824289053418, guid: f679a44dc19c7974a9b6f7b93ea0b6e9, type: 3}
   - roomType: 4
-    prefab: {fileID: 6114786623350134996, guid: c14673471b9cce642beee4f3fabed5ca, type: 3}
+    prefab: {fileID: 6114786623350134996, guid: 7ea6cc0841d0c3e4c9daca663a1e87dc, type: 3}
   minRooms: 4
   maxRooms: 4
   roomSpacingX: 60
