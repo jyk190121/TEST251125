@@ -104,7 +104,7 @@ public class FacilityInteraction : MonoBehaviour
         {
             Debug.Log("[FacilityInteraction] 던전 입장!");
             // 나중에: SceneManager.LoadScene("DungeonScene");
-            GameSceneManager.game.LoadScene("DungeonTest");
+            GameSceneManager.game.LoadScene("DungeonScene");
             return;
         }
 
