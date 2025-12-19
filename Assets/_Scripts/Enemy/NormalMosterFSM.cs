@@ -535,9 +535,9 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         {
             if (currentHP <= 0)
             {
-                state = MonsterState.Die;
+                state = MonsterState.Die;                                                                                           
                 Die();
-            }
+            }   
             return;
         }
 
