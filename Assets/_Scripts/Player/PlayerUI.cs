@@ -48,7 +48,7 @@ public class PlayerUI : MonoBehaviour
             playerHpText.text = $"{player.HP} / {player.MaxHP}";
 
         if (playerPortionText != null)
-            playerPortionText.text = $"{KeySetting.keys[KeyInput.PENDANT]}";
+            playerPortionText.text = $"{KeySetting.keys[KeyInput.QUICKSLOT]}";
 
         if (playerRollText != null)
             playerRollText.text = $"{KeySetting.keys[KeyInput.ROLL]}";
