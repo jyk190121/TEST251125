@@ -125,9 +125,18 @@ public class InventorySlotView : MonoBehaviour, IBeginDragHandler, IDragHandler,
         //마우스 우클릭 시 아이템 사용/장착
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            //사용 시 디버그 로그
-            Debug.Log($"{myIndex}번 인벤토리 아이템 사용");
-            InventoryManager.Instance.UseItem(myIndex);
+            // 팩트체크: 매니저에 등록된 상인이 있고, 그 상인이 근처에 있는지 확인합니다.
+            if (InventoryManager.Instance.currentMerchant != null &&
+                InventoryManager.Instance.currentMerchant.isPlayerNearby)
+            {
+                // 상인이 있으므로 판매 프로세스를 진행합니다.
+                InventoryManager.Instance.TrySellItem(myIndex);
+            }
+            else
+            {
+                // 상인이 없으므로 일반적인 아이템 사용(장착/소모)을 진행합니다.
+                InventoryManager.Instance.UseItem(myIndex);
+            }
         }
     }
 

@@ -30,6 +30,9 @@ public class InventoryManager : MonoBehaviour
     //Model (Inspector에 안 보임)
     private InventoryModel model;
 
+    [Header("상인 관련")]
+    public Merchant currentMerchant; // 현재 플레이어 옆에 있는 상인
+
     [Header("드래그 상태")]
     //드래그 시작한 슬롯 번호 (-1: 아무것도 안 잡음)
     private int dragStartIndex = -1;
@@ -165,6 +168,16 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeySetting.keys[KeyInput.INVENTORY]))
         {
             inventory.gameObject.SetActive(!inventory.gameObject.activeSelf);
+        }
+
+        //상인에게서 인벤토리 열기
+        if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]))
+        {
+            if (currentMerchant != null && currentMerchant.isPlayerNearby)
+            {
+                // 인벤토리 활성화 상태를 반전(Toggle)시킵니다.
+                inventory.gameObject.SetActive(!inventory.gameObject.activeSelf);
+            }
         }
 
         //ShopScene에서만 사용하기 때문에 
@@ -745,6 +758,44 @@ public class InventoryManager : MonoBehaviour
         if (splitPopup != null) splitPopup.gameObject.SetActive(false);
 
         Debug.Log("[InventoryManager] 초기화 완료");
+    }
+
+    //아이템 판매
+    public void TrySellItem(int index)
+    {
+        // 팩트체크: 현재 인벤토리 모델에서 슬롯 배열을 가져옵니다.
+        // model.GetSlotsForView()는 Capacity 크기의 배열을 반환하도록 설계되어 있습니다.
+        var slots = model.GetSlotsForView();
+
+        // 1. 인덱스 유효성 검사 및 빈 슬롯 확인
+        // index가 범위를 벗어나거나 해당 슬롯이 비어있다면 함수를 종료합니다.
+        if (index < 0 || index >= slots.Length || slots[index].IsEmpty)
+        {
+            Debug.LogWarning("판매할 아이템이 없는 슬롯입니다.");
+            return;
+        }
+
+        // 2. 판매할 아이템 데이터 및 수량 파악
+        InventorySlotModel targetSlot = slots[index];
+        Item itemData = targetSlot.itemData;
+        int quantity = targetSlot.quantity;
+
+        // 3. 수익 계산
+        // 아이템의 개당 판매가(sellPrice)와 현재 수량을 곱합니다.
+        float totalProfit = itemData.buyPrice * 0.9f * quantity;
+
+        // 4. DataManager를 통한 금전 지급
+        // _MasterManager를 통해 DataManager의 EarnMoney 함수를 호출하여 플레이어 돈을 늘립니다.
+        if (_MasterManager.Instance != null && _MasterManager.Instance.DataManager != null)
+        {
+            _MasterManager.Instance.DataManager.EarnMoney(Mathf.FloorToInt(totalProfit));
+            Debug.Log($"{itemData.itemName} {quantity}개를 판매하여 {totalProfit}G를 벌었습니다.");
+        }
+
+        // 5. 인벤토리 모델에서 아이템 실제 제거
+        // Master가 제공해주신 InventoryModel의 RemoveItem(index) 함수를 사용합니다.
+        // 이 함수 내부에서 slots.Remove(index)와 OnInventoryUpdated 이벤트를 호출하므로 화면도 갱신됩니다.
+        model.RemoveItem(index);
     }
 
 }
