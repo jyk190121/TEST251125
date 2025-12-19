@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: 1b92b7c69eb96c54582e4a442ce176bd
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - rihinoData: {fileID: 11400000, guid: ebc98abb553d68040a229cdf9351ff2f, type: 2}
+  - anim: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
