@@ -138,14 +138,15 @@ public class MonsterDataEditor : Editor
             {
                 SerializedProperty elem = SpecialPatterns.GetArrayElementAtIndex(i);
 
-                string enumName = elem.enumNames[elem.enumValueIndex];
-                SpecialPattern sp =
-                    (SpecialPattern)System.Enum.Parse(typeof(SpecialPattern), enumName);
+                int rawValue = elem.intValue; // enum 실제 값 (100, 200, 300...)
+
+                SpecialPattern sp = (SpecialPattern)rawValue;
 
                 EditorGUILayout.LabelField(
-                    $"• {sp}   (ID: {(int)sp})",
+                    $"• {sp}   (ID: {rawValue})",
                     EditorStyles.miniLabel
                 );
+
             }
             EditorGUI.indentLevel--;
 
