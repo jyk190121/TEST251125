@@ -53,7 +53,7 @@ public class DisplayStand : MonoBehaviour
 
         for (int i = 0; i < itemsData.Length; i++)
         {
-            if (itemsData[i] != null && itemsData[i].item != null)
+            if (itemsData[i] != null && itemsData[i].item != null && itemsData[i].count > 0)
             {
                 if (lastItems[i] != itemsData[i].item ||
                     lastCounts[i] != itemsData[i].count ||
