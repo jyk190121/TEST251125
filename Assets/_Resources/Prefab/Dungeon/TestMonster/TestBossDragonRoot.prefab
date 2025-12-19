@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3342147312817323629}
   - component: {fileID: 7076901261155842728}
   - component: {fileID: 5536049037117210192}
-  - component: {fileID: 6862478455592409810}
   - component: {fileID: -1314117615747470069}
+  - component: {fileID: 6862478455592409810}
   - component: {fileID: -4156146692156096102}
   m_Layer: 10
   m_Name: TestBossDragonRoot
@@ -82,20 +82,6 @@ PlayableDirector:
   m_ExposedReferences:
     m_References:
     - be89333a6047b7c41a5ea79c4ee4c48b: {fileID: 0}
---- !u!114 &6862478455592409810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 206288137534574219}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c63705cb556876d44ba82f6db7bf52c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ta:
-  - {fileID: 11400000, guid: 474cc76277eeb4d4d8efefc6b6cfaef1, type: 2}
 --- !u!195 &-1314117615747470069
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -118,6 +104,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6862478455592409810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206288137534574219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c63705cb556876d44ba82f6db7bf52c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ta:
+  - {fileID: 11400000, guid: 474cc76277eeb4d4d8efefc6b6cfaef1, type: 2}
 --- !u!114 &-4156146692156096102
 MonoBehaviour:
   m_ObjectHideFlags: 0
