@@ -202,9 +202,81 @@ public class SaveManager : MonoBehaviour
             Debug.LogWarning("[SaveManager] 저장된 창고 데이터가 없습니다");
         }
 
+        // 진열대 정보 복구
+        LoadRegisteredItems(saveData);
+
         DataManager.OnDataLoaded?.Invoke();
 
         Debug.Log($"[SaveManager] 데이터 로드 완료");
+    }
+
+    /// <summary>
+    /// 진열대 아이템 로드 (가격 포함!)
+    /// </summary>
+    private void LoadRegisteredItems(GameSaveData saveData)
+    {
+        RegisteredItem registeredItem = FindAnyObjectByType<RegisteredItem>();
+        if (registeredItem == null)
+        {
+            Debug.LogError("[SaveManager] RegisteredItem을 찾을 수 없습니다");
+            return;
+        }
+
+        if (saveData.registeredItems == null || saveData.registeredItems.Length == 0)
+        {
+            Debug.LogWarning("[SaveManager] 저장된 진열대 아이템이 없습니다");
+            return;
+        }
+
+        // SaveData를 registeredItemsData로 변환
+        RegisteredItem.RegisteredItemData[] loadedItems = new RegisteredItem.RegisteredItemData[saveData.registeredItems.Length];
+
+        for (int i = 0; i < saveData.registeredItems.Length; i++)
+        {
+            if (saveData.registeredItems[i] != null)
+            {
+                // ItemID로 Item 객체 찾기
+                Item item = _MasterManager.Instance.ItemManager.GetItemByID(saveData.registeredItems[i].itemID);
+
+                if (item != null)
+                {
+                    loadedItems[i] = new RegisteredItem.RegisteredItemData(
+                        item,
+                        saveData.registeredItems[i].count,
+                        saveData.registeredItems[i].price
+                    );
+                }
+                else
+                {
+                    Debug.LogWarning($"[SaveManager] 진열대 ItemID {saveData.registeredItems[i].itemID}를 찾을 수 없습니다!");
+                }
+            }
+        }
+
+        // RegisteredItem에 로드된 데이터 할당
+        registeredItem.registeredItemsData = loadedItems;
+        registeredItem.itemList = new Item[loadedItems.Length];
+
+        for (int i = 0; i < loadedItems.Length; i++)
+        {
+            if (loadedItems[i] != null)
+            {
+                registeredItem.itemList[i] = loadedItems[i].item;
+            }
+        }
+
+        // 이미지도 다시 설정
+        for (int i = 0; i < loadedItems.Length; i++)
+        {
+            if (loadedItems[i] != null && loadedItems[i].item != null)
+            {
+                registeredItem.GetType().GetMethod("SetupSlotImage",
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    ?.Invoke(registeredItem, new object[] { i, loadedItems[i].item });
+            }
+        }
+
+        Debug.Log("[SaveManager] 진열대 아이템 로드 완료");
     }
 
     // DataManager → GameSaveData 변환
@@ -283,6 +355,9 @@ public class SaveManager : MonoBehaviour
             }
         }
 
+        // 진열대 데이터 저장
+        GameSaveData.SavedRegisteredItem[] registeredItemsToSave = SaveRegisteredItems();
+
         // GameSaveData에 모든 데이터 담기
         GameSaveData saveData = new GameSaveData
         {
@@ -304,10 +379,50 @@ public class SaveManager : MonoBehaviour
             facilities = dm.facilities,
             inventorySlots = inventorySlotsToSave,
             quickSlotItemID = quickSlotItemID,
-            warehouseSlots = warehouseSlotsToSave
+            warehouseSlots = warehouseSlotsToSave,
+            registeredItems = registeredItemsToSave
         };
 
         return saveData;
+    }
+
+    /// <summary>
+    /// 진열대 아이템 저장 (가격 포함!)
+    /// </summary>
+    private GameSaveData.SavedRegisteredItem[] SaveRegisteredItems()
+    {
+        RegisteredItem registeredItem = FindAnyObjectByType<RegisteredItem>();
+        if (registeredItem == null)
+        {
+            Debug.LogWarning("[SaveManager] RegisteredItem을 찾을 수 없습니다");
+            return new GameSaveData.SavedRegisteredItem[4];
+        }
+
+        RegisteredItem.RegisteredItemData[] itemsData = registeredItem.GetAllRegisteredItemsData();
+        GameSaveData.SavedRegisteredItem[] savedItems = new GameSaveData.SavedRegisteredItem[itemsData.Length];
+
+        // registeredItemsData를 SaveData로 변환
+        for (int i = 0; i < itemsData.Length; i++)
+        {
+            if (itemsData[i] != null && itemsData[i].item != null)
+            {
+                savedItems[i] = new GameSaveData.SavedRegisteredItem
+                {
+                    itemID = itemsData[i].item.itemID,
+                    count = itemsData[i].count,
+                    price = itemsData[i].price
+                };
+
+                Debug.Log($"[SaveManager] 진열대 슬롯 {i}: ItemID={itemsData[i].item.itemID}, x{itemsData[i].count}, 가격 {itemsData[i].price}");
+            }
+            else
+            {
+                savedItems[i] = null;
+            }
+        }
+
+        Debug.Log("[SaveManager] 진열대 아이템 저장 완료");
+        return savedItems;
     }
 
     /// <summary>
