@@ -151,6 +151,8 @@ public class BattleRecord: MonoBehaviour
             retry.text = $"{KeySetting.keys[KeyInput.INTERACTIVE]}   다시 플레이";
             HowImage.sprite = sprites[2];
             Key_Retry = true;
+
+            _MasterManager.Instance.InventoryManager.OnPlayerDeath(); // 원래는 씬 넘어갈때 없어져야함
         }
 
         goToVillage.text = $"{KeySetting.keys[KeyInput.CANCLE]}   마을로 가기";
