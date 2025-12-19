@@ -124,14 +124,26 @@ public class ShopManager : MonoBehaviour
                         //soundManager.PlaySFXIndex(0);
                         soundManager.PlaySFX("진영", 0);
 
-                        //골드 100 획득 (임시)
-                        dataManager.EarnMoney(100);
+                        // 손님이 선택한 아이템 가격 가져오기
+                        Item boughtItem = buyCustomer.GetSelectedItem();
+                        if (boughtItem != null)
+                        {
+                            RegisteredItem registeredItem = FindAnyObjectByType<RegisteredItem>();
+                            int actualPrice = registeredItem.GetCurrentPrice(boughtItem);
+
+                            dataManager.EarnMoney(actualPrice);
+
+                            Debug.Log($"[ShopManager] {boughtItem.itemName} 판매 완료! 수익: {actualPrice} gold");
+                        }
 
                         //손님 계산완료처리
                         customerManager.CustomerBuyItem();
                     }
                 }
             }
+
+
+
 
             //손님이 다 나갔을 때 밤으로 만들자
             if (customerManager.GetCustomerAllExit() && pos_palyer.shopOpenCheck)
