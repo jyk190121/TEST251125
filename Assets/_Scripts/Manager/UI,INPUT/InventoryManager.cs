@@ -505,14 +505,17 @@ public class InventoryManager : MonoBehaviour
                 return;
             }
 
-            //체력 회복
-            //item.healAmount 만큼 회복
-            _MasterManager.Instance.DataManager.AddHP(item.healAmount);
-            Debug.Log($"{item.itemName}을(를) 사용하여 체력을 {item.healAmount}만큼 회복했습니다.");
+            else
+            {
+                //체력 회복
+                //item.healAmount 만큼 회복
+                _MasterManager.Instance.DataManager.AddHP(item.healAmount);
+                Debug.Log($"{item.itemName}을(를) 사용하여 체력을 {item.healAmount}만큼 회복했습니다.");
 
-            //아이템 수량 감소
-            //InventoryModel의 수량 감소 함수 호출
-            model.DecreaseItemAmount(index, 1);
+                //아이템 수량 감소
+                //InventoryModel의 수량 감소 함수 호출
+                model.DecreaseItemAmount(index, 1);
+            }
         }
     }
 
