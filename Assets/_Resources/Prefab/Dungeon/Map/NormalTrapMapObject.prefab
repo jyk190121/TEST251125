@@ -107,7 +107,7 @@ MonoBehaviour:
   - {fileID: 5043121913125139475}
   - {fileID: 2546726818326105497}
   monsterPrefabs:
-  - {fileID: 2203997256558560351, guid: 82c9c370e9e97a8499c01e7893cc266e, type: 3}
+  - {fileID: 1003980448104029901, guid: 15e4cb13ca46efd4bbe65f7836cf8b04, type: 3}
   isSpawned: 0
   isCleared: 0
   isStartRoom: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 28637b837e872ae4dbde5a438655ce77, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 8321e131a53a46c4d95ff3eba58c0126, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1 &540512922402129101
 GameObject:

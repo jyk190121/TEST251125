@@ -594,7 +594,7 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
     {
         DropItems();
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
 
         if (roomController != null)
         {
@@ -602,8 +602,8 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         }
 
         // 나중에 연결
-        
-        //_MasterManager.Instance.DataManager.GetMonster(monsterData);
+
+        _MasterManager.Instance.DataManager.GetMonster(monsterData);
         Destroy(gameObject);
     }
 
