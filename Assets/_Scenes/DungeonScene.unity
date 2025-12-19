@@ -1235,6 +1235,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: soundPanel
+      value: 
+      objectReference: {fileID: 949492982}
     - target: {fileID: 6321089510304740529, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: equipPanel_2
       value: 
@@ -1432,6 +1436,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &949492982 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8965756731992412480, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+  m_PrefabInstance: {fileID: 759158517}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &956454582
 GameObject:
   m_ObjectHideFlags: 0
@@ -1487,8 +1496,8 @@ MonoBehaviour:
     prefab: {fileID: 2322801824289053418, guid: f679a44dc19c7974a9b6f7b93ea0b6e9, type: 3}
   - roomType: 4
     prefab: {fileID: 6114786623350134996, guid: 7ea6cc0841d0c3e4c9daca663a1e87dc, type: 3}
-  minRooms: 8
-  maxRooms: 10
+  minRooms: 4
+  maxRooms: 4
   roomSpacingX: 60
   roomSpacingZ: 40
   bossCam: {fileID: 1145561844}

@@ -202,8 +202,8 @@ public class MonsterData : ScriptableObject
     [Tooltip("드래곤 점프 착지 AOE 범위")]
     public float jumpAoeRadius = 3f;
 
-    [Tooltip("드래곤의 Scream 범위")]
-    public float screamRange = 10f;
+    [Tooltip("포효 범위")]
+    public float roarRange = 10f;
 
     [Space(5)]
     [Tooltip("코뿔소 돌진 거리")]
@@ -212,8 +212,6 @@ public class MonsterData : ScriptableObject
     [Tooltip("돌진 종료 후 멈춰있는 시간")]
     public float chargeStoppingTime = 1f;
 
-    [Tooltip("Shout 범위")]
-    public float shoutRange = 8f;
 
 
     /*───────────────────────────────────────────────*

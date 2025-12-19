@@ -51,13 +51,13 @@ MonoBehaviour:
   DropTable:
   - itemPrefab: {fileID: 3272577696482075307, guid: c9aae4da81044ef4c830b1a0a34f98c5, type: 3}
     chance: 100
-    minCount: 1
-    maxCount: 1
+    minCount: 5
+    maxCount: 5
   - itemPrefab: {fileID: 3272577696482075307, guid: 10e0c6b197e97a74cb22fad941f74dfa, type: 3}
     chance: 100
-    minCount: 1
-    maxCount: 1
-  - itemPrefab: {fileID: 3272577696482075307, guid: e5bf0fb4e6c17a44c94b2c09c6478744, type: 3}
+    minCount: 5
+    maxCount: 5
+  - itemPrefab: {fileID: 3272577696482075307, guid: fd616951e6f8ff64289c46180a7cf014, type: 3}
     chance: 100
-    minCount: 1
-    maxCount: 1
+    minCount: 5
+    maxCount: 5

@@ -3,14 +3,13 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-/// <summary>
-/// 인벤토리에 있는 아이템 팔기
-///  - 인벤토리 아이템 리스트 (인벤토리 띄우기)v
-///  - 현재 등록된 아이템 보여주기 v
-///  - 인벤토리에서 아이템 등록 시 아이템 갯수 제거 <-> 등록된 아이템 추가
-///  - 현재 등록된 아이템 제거기능
-/// </summary>
 
+/// <summary>
+/// 진열대 관리 시스템
+/// - 인벤토리에서 아이템 드래그 -> 진열대 슬롯에 등록
+/// - 슬롯별 아이템 + 수량 + 판매가 관리
+/// - 손님 AI에게 현재 판매가 제공
+/// </summary>
 [System.Serializable]
 public class RegisteredItem : MonoBehaviour
 {
@@ -18,119 +17,288 @@ public class RegisteredItem : MonoBehaviour
 
     public ItemSettingPopup dropPopup;          // 팝업창 (아이템 갯수, 판매가격 설정창)
 
+    [System.Serializable]
+    public class RegisteredItemData
+    {
+        public Item item;
+        public int count;
+        public int price;
 
+        public RegisteredItemData(Item item, int count, int price)
+        {
+            this.item = item;
+            this.count = count;
+            this.price = price;
+        }
+    }
 
-    public Item[] itemList;                     // 등록된 아이템 리스트
-    public Image[] itemImages;                  // 등록된 아이템 이미지
-    int capacity = 4;                           // 아이템 등록 가능 총갯수
+    [Header("진열대 슬롯 데이터")]
+    public RegisteredItemData[] registeredItemsData;
+    public Item[] itemList;
+    public Image[] itemImages;
+    int capacity = 4;
 
     //드래그 시작한 슬롯 번호 (-1: 아무것도 안 잡음)
     private int dragStartIndex = -1;
 
-    public Transform itemParent;                 // ItemPanel
-
-    [Header("현재 등록할 아이템 정보")]
-    public Image currentImage;                   // 현재 등록할 item 이미지(아이콘)
-    public TMP_InputField currentCount;          // 현재 등록할 item의 갯수
-    public TMP_InputField currentPrice;          // 현재 등록할 item의 가격
+    [Header("UI 참조")]
+    public Transform itemParent;
+    public Image currentImage;
+    public TMP_InputField currentCount;
+    public TMP_InputField currentPrice;
 
     InventoryManager inventory;
-    Item dropItem;                               // 현재 드롭중인 아이템
-
+    Item dropItem;                         // 현재 드롭중인 아이템
 
 
     private void Awake()
     {
         if (RegiItem == null) RegiItem = this;
         else Destroy(gameObject);
+
+        gameObject.SetActive(true);
     }
 
     private void Start()
     {
-        //현재 등록된 아이템 리스트 UI에 띄우기
-        for (int i = 0; i < itemList.Length; i++)
+        // inventory 참조 초기화
+        inventory = InventoryManager.Instance;
+        if (inventory == null)
         {
-            if (itemList[i] == null) continue;
-
-            // 아이콘 Image 생성
-            GameObject images = new GameObject("Image");
-            images.transform.SetParent(itemImages[i].GetComponentInChildren<Image>().transform, false);
-
-            itemImages[i] = images.AddComponent<Image>();
-            itemImages[i].sprite = itemList[i].icon;
-            itemImages[i].enabled = true;
-            itemImages[i].preserveAspect = true;
+            Debug.LogError("[RegisteredItem] InventoryManager.Instance를 찾을 수 없습니다");
+            return;
         }
 
+        // registeredItemsData가 이미 설정되어 있으면 그대로 사용
+        if (registeredItemsData != null && registeredItemsData.Length > 0)
+        {
+            for (int i = 0; i < registeredItemsData.Length; i++)
+            {
+                if (registeredItemsData[i] != null && registeredItemsData[i].item != null)
+                {
+                    SetupSlotImage(i, registeredItemsData[i].item);
+                }
+            }
+            Debug.Log("[RegisteredItem] Inspector에서 설정한 데이터 사용");
+            return;
+        }
 
+        // Inspector에 아무것도 설정 안 했으면 새로 초기화
+        if (itemList == null || itemList.Length == 0)
+        {
+            Debug.LogWarning("[RegisteredItem] itemList가 비어있습니다. 새로 초기화합니다");
+            itemList = new Item[capacity];
+            registeredItemsData = new RegisteredItemData[capacity];
+            return;
+        }
+
+        // 기존 itemList를 registeredItemsData로 마이그레이션
+        registeredItemsData = new RegisteredItemData[capacity];
+
+        for (int i = 0; i < capacity && i < itemList.Length; i++)
+        {
+            if (itemList[i] != null)
+            {
+                registeredItemsData[i] = new RegisteredItemData(
+                    itemList[i],
+                    1,
+                    itemList[i].sellPrice
+                );
+
+                SetupSlotImage(i, itemList[i]);
+            }
+        }
+
+        Debug.Log("[RegisteredItem] 초기화 완료");
     }
 
-    // Update is called once per frame
-    private void Update()
+    void SetupSlotImage(int index, Item item)
     {
+        if (itemImages == null || index < 0 || index >= itemImages.Length)
+            return;
 
+        if (item == null)
+            return;
 
-        //마우스로 선택한 아이템 정보 가져오기
-        //if (Input.GetMouseButtonDown(0) )
-        //{
-        //    print($"{inventory.GetDragStartIndex()} 현재 인덱스?");
-        //}
-        //{
-        //    //드랍 팝업 및 소분팝업이 비활성화 상태라면
-        //    if ()
-        //    {
-        //        //강제로 드래그 종료 함수 호출 (-1: 인벤토리 밖으로 간주)
-        //        OnDragEnd(-1);
-        //    }
-        //}
+        //기존 이미지 제거
+        if (itemImages[index] != null && itemImages[index].transform.childCount > 0)
+        {
+            foreach (Transform child in itemImages[index].transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        //새로운 이미지 생성
+        GameObject images = new GameObject("Image");
+        images.transform.SetParent(itemImages[index].transform, false);
+
+        var img = images.AddComponent<Image>();
+        img.sprite = item.icon;
+        img.enabled = true;
+        img.preserveAspect = true;
+
+        itemImages[index] = img;
     }
 
-    //드래그 시작 시 호출
+    //인벤토리에서 드래그 시작
     public void OnDragStart(int index)
     {
         dragStartIndex = index;
+        if (inventory != null)
+            inventory.OnDragStart(index);
     }
 
-    //드래그 종료 시 호출
+    //진열대 슬롯에 드롭
     public void OnDragEnd(int dropIndex)
     {
-        //인벤토리에서 아이템등록으로
-        if (inventory.GetDragStartIndex() != -1)
+        // inventory 상태 확인
+        if (inventory == null)
         {
-            if (dropIndex == -1) return;
-
-            //인벤토리 매니저에서 드래그한 아이템 가져오기
-            Item inventoryItem = inventory.GetDraggedItem();
-            int inventoryCount = inventory.GetDraggedItemCount();
-            int inventoryIndex = inventory.GetDragStartIndex();
-
-            if (inventoryItem == null) return;
-
-            //소분 수량이 1보다 많으면 실행
-            if (inventoryCount > 1)
-            {
-                dropPopup.OpenPopup(inventoryItem.itemName,
-            //YES 눌렀을 때: 아이템 삭제
-            onYes: () =>
-            {
-                
-                dragStartIndex = -1;              // 드래그 상태 초기화
-            },
-            //NO 눌렀을 때: 드래그 취소 (제자리 복귀)
-            onNo: () =>
-            {
-                CancelDrag();
-            }
-        );
-            }
-            else
-            {
-                //1개면 바로 이동
-
-            }
+            Debug.LogError("[RegisteredItem] inventory가 null입니다");
+            CancelDrag();
+            return;
         }
 
+        int invDragStartIndex = inventory.GetDragStartIndex();
 
+        // 인벤토리에서 진열대로 드롭하는 경우만 처리
+        if (invDragStartIndex == -1)
+        {
+            Debug.Log("[RegisteredItem] 인벤토리 드래그가 활성화되지 않음");
+            return;
+        }
+
+        // dropIndex 범위 확인
+        if (dropIndex < -1 || dropIndex >= capacity)
+        {
+            Debug.LogWarning("[RegisteredItem] 진열대 범위 밖에 드롭됨");
+            return;
+        }
+
+        if (dropIndex == -1)
+        {
+            Debug.Log("[RegisteredItem] 진열대 범위 밖 드롭 - 취소");
+            return;
+        }
+
+        Item inventoryItem = inventory.GetDraggedItem();
+        int inventoryCount = inventory.GetDraggedItemCount();
+
+        // 아이템 검증
+        if (inventoryItem == null)
+        {
+            Debug.LogError("[RegisteredItem] 드래그 아이템이 null입니다");
+            return;
+        }
+
+        if (inventoryCount <= 0)
+        {
+            Debug.LogError("[RegisteredItem] 드래그 아이템 수량이 0 이하입니다");
+            return;
+        }
+
+        Debug.Log($"[RegisteredItem] 드래그 시작: {inventoryItem.itemName} x{inventoryCount}");
+
+        // 수량이 여러 개면 팝업으로 수량/가격 입력
+        if (inventoryCount > 1)
+        {
+            // 팝업에 기본값 세팅
+            currentImage.sprite = inventoryItem.icon;
+            currentCount.text = inventoryCount.ToString();
+            currentPrice.text = inventoryItem.sellPrice.ToString();
+
+            dropPopup.OpenPopup(
+                inventoryItem.itemName,
+                onYes: () =>
+                {
+                    OnPopupYes(dropIndex, invDragStartIndex, inventoryItem, inventoryCount);
+                },
+                onNo: () =>
+                {
+                    OnPopupNo();
+                }
+            );
+        }
+        else
+        {
+            // 1개면 바로 등록 (기본 가격 = sellPrice)
+            RegisterItemToSlot(dropIndex, inventoryItem, 1, inventoryItem.sellPrice);
+            inventory.DecreaseItemAtIndex(invDragStartIndex, 1);
+            dragStartIndex = -1;
+        }
+    }
+
+    void OnPopupYes(int dropIndex, int inventoryIndex, Item item, int maxCount)
+    {
+        // 입력값 검증 및 파싱
+        int count = ParseCountOrDefault(currentCount.text, 1, maxCount);
+        int price = ParsePriceOrDefault(currentPrice.text, item.sellPrice);
+
+        RegisterItemToSlot(dropIndex, item, count, price);
+        inventory.DecreaseItemAtIndex(inventoryIndex, count);
+
+        dragStartIndex = -1;
+
+        Debug.Log($"[RegisteredItem] {dropIndex}번 슬롯에 등록: {item.itemName} x{count}, 가격 {price}");
+    }
+
+    void OnPopupNo()
+    {
+        CancelDrag();
+        Debug.Log("[RegisteredItem] 아이템 등록 취소됨");
+    }
+
+    // 수량 파싱 (1 ~ maxCount 범위)
+    int ParseCountOrDefault(string text, int minValue, int maxValue)
+    {
+        if (int.TryParse(text, out int value))
+        {
+            return Mathf.Clamp(value, minValue, maxValue);
+        }
+        return minValue;
+    }
+
+    // 가격 파싱 (1 ~ MAX_PRICE 범위)
+    int ParsePriceOrDefault(string text, int defaultValue)
+    {
+        const int MAX_PRICE = 999999;
+
+        if (int.TryParse(text, out int value))
+        {
+            return Mathf.Clamp(value, 1, MAX_PRICE);
+        }
+
+        return Mathf.Clamp(defaultValue, 1, MAX_PRICE);
+    }
+
+    // 아이템 등록
+    void RegisterItemToSlot(int slotIndex, Item item, int count, int price)
+    {
+        if (slotIndex < 0 || slotIndex >= capacity)
+        {
+            Debug.LogError($"[RegisteredItem] 잘못된 슬롯 인덱스: {slotIndex}");
+            return;
+        }
+
+        if (item == null)
+        {
+            Debug.LogError("[RegisteredItem] 등록할 아이템이 null입니다");
+            return;
+        }
+
+        if (count <= 0)
+        {
+            Debug.LogError($"[RegisteredItem] 잘못된 수량: {count}");
+            return;
+        }
+
+        registeredItemsData[slotIndex] = new RegisteredItemData(item, count, price);
+        itemList[slotIndex] = item;
+
+        SetupSlotImage(slotIndex, item);
+
+        Debug.Log($"[RegisteredItem] {slotIndex}번 슬롯 등록 완료: {item.itemName} x{count}, 가격 {price}");
     }
 
     //창고 슬롯이 아닌 곳에 Drop했을 때
@@ -139,6 +307,77 @@ public class RegisteredItem : MonoBehaviour
         dragStartIndex = -1;    //드래그 상태 초기화        
     }
 
+    /// <summary>
+    /// 특정 아이템의 현재 설정된 판매가 반환
+    /// 손님 AI가 이 가격으로 평가함
+    /// </summary>
+    public int GetCurrentPrice(Item item)
+    {
+        if (item == null)
+        {
+            Debug.LogWarning("[RegisteredItem] GetCurrentPrice - item이 null입니다");
+            return 0;
+        }
+
+        if (registeredItemsData == null || registeredItemsData.Length == 0)
+        {
+            return 0;
+        }
+
+        // itemID로 비교
+        for (int i = 0; i < registeredItemsData.Length; i++)
+        {
+            if (registeredItemsData[i] != null && registeredItemsData[i].item != null)
+            {
+                if (registeredItemsData[i].item.itemID == item.itemID)
+                {
+                    Debug.Log($"[RegisteredItem] GetCurrentPrice: {item.itemName} = {registeredItemsData[i].price}");
+                    return registeredItemsData[i].price;
+                }
+            }
+        }
+
+        Debug.LogError($"[RegisteredItem] GetCurrentPrice: {item.itemName}을 찾을 수 없습니다!");
+        return 0;
+    }
+
+    /// <summary>
+    /// 이미 진열된 아이템의 판매가 변경 (현재 미사용)
+    /// </summary>
+    public void SetCurrentPrice(Item item, int price)
+    {
+        if (item == null)
+        {
+            Debug.LogError("[RegisteredItem] SetCurrentPrice - item이 null입니다");
+            return;
+        }
+
+        if (registeredItemsData == null || registeredItemsData.Length == 0)
+        {
+            Debug.LogError("[RegisteredItem] registeredItemsData가 비어있습니다");
+            return;
+        }
+
+        for (int i = 0; i < registeredItemsData.Length; i++)
+        {
+            if (registeredItemsData[i] != null &&
+                registeredItemsData[i].item != null &&
+                registeredItemsData[i].item.itemID == item.itemID)
+            {
+                registeredItemsData[i].price = Mathf.Clamp(price, 1, 999999);
+                Debug.Log($"[RegisteredItem] SetCurrentPrice: {item.itemName} = {registeredItemsData[i].price}");
+                return;
+            }
+        }
+
+        Debug.LogWarning($"[RegisteredItem] SetCurrentPrice: {item.itemName}을 찾지 못함");
+    }
+
+    public RegisteredItemData[] GetAllRegisteredItemsData()
+    {
+        return registeredItemsData;
+    }
 }
+
 
 
