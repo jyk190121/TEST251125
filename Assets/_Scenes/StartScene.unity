@@ -471,6 +471,10 @@ PrefabInstance:
       propertyPath: deleteSlotArea
       value: 
       objectReference: {fileID: 1681920836}
+    - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: soundPanel
+      value: 
+      objectReference: {fileID: 148046570880107520, guid: 40be804cc8c86db4582c4331bc1cb98b, type: 3}
     - target: {fileID: 6357051562726047180, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
