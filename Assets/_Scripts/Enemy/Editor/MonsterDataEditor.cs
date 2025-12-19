@@ -200,9 +200,18 @@ public class MonsterDataEditor : Editor
 
         foldDrop = EditorGUILayout.Foldout(foldDrop, "📌 드랍 테이블", true);
         if (foldDrop)
+        {
+            EditorGUILayout.HelpBox(
+                "Drop Chance는 0 ~ 1 범위입니다.\n" +
+                "1 = 100%, 0.5 = 50%, 0 = 드랍 안 됨",
+                MessageType.Info
+            );
+
             EditorGUILayout.PropertyField(DropTable, true);
+        }
 
         serializedObject.ApplyModifiedProperties();
+
     }
 }
 

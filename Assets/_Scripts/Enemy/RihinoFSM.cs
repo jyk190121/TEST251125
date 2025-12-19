@@ -464,17 +464,17 @@ public class RihinoFSM : MonoBehaviour
 
         foreach (var drop in rihinoData.DropTable)
         {
-            // 1️⃣ 확률 체크
+            // 1️ 확률 체크
             float roll = Random.value; // 0.0 ~ 1.0
             if (roll > drop.chance)
                 continue;
 
-            // 2️⃣ 드랍 개수 결정
+            // 2️ 드랍 개수 결정
             int count = Random.Range(drop.minCount, drop.maxCount + 1);
             if (count <= 0)
                 continue;
 
-            // 3️⃣ 아이템 생성
+            // 3️ 아이템 생성
             for (int i = 0; i < count; i++)
             {
                 Vector3 spawnPos = transform.position + GetRandomDropOffset();

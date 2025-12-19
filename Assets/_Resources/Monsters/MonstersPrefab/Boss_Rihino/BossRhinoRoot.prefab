@@ -329,6 +329,7 @@ GameObject:
   - component: {fileID: 6623556135902841364}
   - component: {fileID: 6561682288329595710}
   - component: {fileID: 1540345944246561271}
+  - component: {fileID: 5638659433764446490}
   m_Layer: 10
   m_Name: BossRhinoRoot
   m_TagString: Untagged
@@ -398,6 +399,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5638659433764446490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5223809100160976117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b92b7c69eb96c54582e4a442ce176bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rihinoData: {fileID: 11400000, guid: ebc98abb553d68040a229cdf9351ff2f, type: 2}
+  anim: {fileID: 7635200090575726589}
 --- !u!1 &5270604609720601475
 GameObject:
   m_ObjectHideFlags: 0
@@ -1392,5 +1407,10 @@ Transform:
 --- !u!4 &7635200090568518091 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 473018, guid: 1577d7b4c0c2c8a4c9aaa8b2dda2fc1d, type: 3}
+  m_PrefabInstance: {fileID: 7635200090568318577}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7635200090575726589 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9517452, guid: 1577d7b4c0c2c8a4c9aaa8b2dda2fc1d, type: 3}
   m_PrefabInstance: {fileID: 7635200090568318577}
   m_PrefabAsset: {fileID: 0}
