@@ -52,17 +52,8 @@ public class InventoryManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        { 
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(equipView);
-            DontDestroyOnLoad(quickSlotView);
-            DontDestroyOnLoad(warehouseView);
-            DontDestroyOnLoad(inventoryView);
-            DontDestroyOnLoad(itemView);
-            DontDestroyOnLoad(inventory);
-        }
+        if (Instance == null) Instance = this;
+ 
         else Destroy(gameObject);
 
         //Model 생성
@@ -81,7 +72,6 @@ public class InventoryManager : MonoBehaviour
 
         //정렬 버튼이 클릭되면 -> HandleSortSequence 실행
         inventoryView.OnSortRequest += HandleSortSequence;
-
     }
 
     private void Start()
@@ -152,16 +142,30 @@ public class InventoryManager : MonoBehaviour
             inventory.gameObject.SetActive(!inventory.gameObject.activeSelf);
         }
 
+        //ShopScene에서만 사용하기 때문에 
+        if (itemView == null) return;
+
         //창고, 아이템 등록UI 상태에 따라 다른 UI 패널(장비, 퀵슬롯) 활성화 상태 관리
-        if (warehouseView != null && itemView != null && equipView != null && quickSlotView != null)
+        if (warehouseView != null && equipView != null && quickSlotView != null
+            || itemView != null && equipView != null && quickSlotView != null)
         {
             bool isWarehouseActive = warehouseView.gameObject.activeSelf;
             bool isItemRegiActive = itemView.gameObject.activeSelf;
 
             //창고나 아이템 등록UI가 활성화 상태면 장비창과 퀵슬롯을 비활성화
             //창고나 아이템 등록UI가 비활성화 상태면, 퀵슬롯은 활성화하고 장비창은 인벤토리의 활성화 상태에 따름
-            equipView.SetActive(!isItemRegiActive && !isWarehouseActive && inventory.gameObject.activeSelf);
-            quickSlotView.gameObject.SetActive(!isItemRegiActive && !isWarehouseActive);
+            //equipView.SetActive(!isWarehouseActive && inventory.gameObject.activeSelf);
+            //quickSlotView.gameObject.SetActive(!isWarehouseActive);
+            if(isWarehouseActive || isItemRegiActive)
+            {
+                equipView.SetActive(false);
+                quickSlotView.gameObject.SetActive(false);
+            }
+            else
+            {
+                equipView.SetActive(true);
+                quickSlotView.gameObject.SetActive(true);
+            }
         }
         
         //마우스 버튼을 뗐는데(Up) && 드래그 중이라면(dragStartIndex != -1)
