@@ -43,8 +43,6 @@ public class RegisteredItem : MonoBehaviour
     {
         if (RegiItem == null) RegiItem = this;
         else Destroy(gameObject);
-
-        inventory = _MasterManager.Instance.InventoryManager;
     }
 
     private void Start()
