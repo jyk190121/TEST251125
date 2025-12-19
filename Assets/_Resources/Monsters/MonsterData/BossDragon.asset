@@ -26,9 +26,9 @@ MonoBehaviour:
   Class: 1
   Type: 0
   Race: 5
-  NormalPatterns: 
-  SpecialPatterns: 
-  NormalpatternIDs: 
+  NormalPatterns: 0000000000000000
+  SpecialPatterns: 910100009201000093010000
+  NormalpatternIDs: 0000000000000000
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0
