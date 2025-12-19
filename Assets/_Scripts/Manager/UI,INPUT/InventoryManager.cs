@@ -16,7 +16,7 @@ public class InventoryManager : MonoBehaviour
     public QuickSlotView quickSlotView;
     public WarehouseView warehouseView;
     public InventoryView inventoryView;
-    public RegisteredItem itemView;
+    public RegisteredItem itemView;     //ShopScene에서만 사용
     public Inventory inventory;         //인벤토리창 On/Off
 
     [Header("테스트용 아이템 연결")]

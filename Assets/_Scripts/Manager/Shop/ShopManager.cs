@@ -25,6 +25,7 @@ public class ShopManager : MonoBehaviour
     public bool isAction;                   //판매활동했는지
     bool isPlayingDay;                      //재생중인 노래가 있는지 (낮)
     bool isPlayingNight;                    //재생중인 노래가 있는지 (밤)
+    bool isRegiItemOpen;
     POS_playerSalas pos_palyer;             //포스기
     SalesCustomer salesCustomer;            //손님 계산대 앞에 있는지 여부
     DisplayStand itemDisplay;               //아이템 UI 열고 닫기
@@ -33,6 +34,7 @@ public class ShopManager : MonoBehaviour
     DataManager dataManager;
     SoundManager soundManager;
     Party_Shop_Night party;
+    InventoryManager inventoryManager;
 
     bool partyPlay;
 
@@ -55,8 +57,17 @@ public class ShopManager : MonoBehaviour
         itemDisplay = FindAnyObjectByType<DisplayStand>();
         warehouse = FindAnyObjectByType<Shop_Warehouse>();
 
-        Inventory inventory = _MasterManager.Instance.InventoryManager.GetComponentInChildren<Inventory>(true); ;
+        inventoryManager = _MasterManager.Instance.InventoryManager;
+
+        Inventory inventory = inventoryManager.GetComponentInChildren<Inventory>(true); ;
         inventoeyPanel = inventory.gameObject;
+
+        if(inventoryManager.itemView == null)
+        {
+            inventoryManager.quickSlotView.gameObject.SetActive(true);
+            inventoryManager.equipView.SetActive(true);
+        }
+        isRegiItemOpen = false;
 
         pos_palyer.image.gameObject.SetActive(false);
         pos_palyer.shopOpenCheck = false;
@@ -134,8 +145,17 @@ public class ShopManager : MonoBehaviour
                 //print("상호작용 키 입력");
                 itemDisplay.image.gameObject.SetActive(false);
                 //아이템 등록 열기
+                inventoryManager.quickSlotView.gameObject.SetActive(false);
+                inventoryManager.equipView.SetActive(false);
                 itemDisplay.regiItemUI.gameObject.SetActive(true);
                 inventoeyPanel.SetActive(true);
+                isRegiItemOpen = true;
+            }
+            else if(isRegiItemOpen)
+            {
+                inventoryManager.quickSlotView.gameObject.SetActive(false);
+                inventoryManager.equipView.SetActive(false);
+                isRegiItemOpen = false;
             }
         }
 
