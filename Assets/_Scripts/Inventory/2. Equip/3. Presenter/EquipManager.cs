@@ -5,8 +5,10 @@ public class EquipManager : MonoBehaviour
     public static EquipManager Instance;
 
     [Header("UI 연결")]
-    public EquipSlotView[] uiSlots; //슬롯 UI 4개 연결 (0:무기, 1:머리, 2:몸, 3:발)
+    public EquipSlotView[] uiSlots;     //슬롯 UI 4개 연결 (0:무기, 1:머리, 2:몸, 3:발)
+    public EquipSlotView[] uiSlots_2;   //Result 장비창
     public GameObject equipPanel;
+    public GameObject equipPanel_2;
 
     //실제 데이터를 관리하는 모델 객체
     public EquipModel model;
@@ -171,6 +173,7 @@ public class EquipManager : MonoBehaviour
             if (i < currentEquips.Length)
             {
                 uiSlots[i].UpdateSlot(currentEquips[i]);
+                uiSlots_2[i].UpdateSlot(currentEquips[i]);
             }
         }
 
