@@ -41,6 +41,9 @@ public class BattleRecord: MonoBehaviour
     //UI 슬롯 프리팹
     public GameObject slotPrefab;
 
+    // 인벤토리(아이템 목록) 패널
+    public GameObject inventoryPrefab; 
+
     //켜져있을때 입력값 확인
     bool Key_goToVillage = false;
     bool Key_Retry = false;
@@ -58,7 +61,7 @@ public class BattleRecord: MonoBehaviour
         KilledMonster = new List<MonsterData>();
         items = new List<Item>();
         resultPanel.SetActive(false);
-        
+        inventoryPrefab.SetActive(false);
     }
 
     private void Update()
@@ -128,6 +131,7 @@ public class BattleRecord: MonoBehaviour
 
         //결과창 케이스 별 분리
         resultPanel.SetActive(true);            // 평소엔 꺼놨다가 키기
+        inventoryPrefab.SetActive(true);
         retry.gameObject.SetActive(false);      // retry는 사망 시에만
         Key_goToVillage = true;
         if (Pendent)

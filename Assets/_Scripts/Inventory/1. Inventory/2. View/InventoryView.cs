@@ -17,7 +17,7 @@ public class InventoryView : MonoBehaviour
 
     //Presenter에게 클릭 신호 전달
     public event Action<int> OnSlotClicked;
-    public event Action OnSortRequest;
+    public event Action OnSortRequest;        
     
     private void Start()
     {

@@ -16,6 +16,7 @@ public class InventoryManager : MonoBehaviour
     public QuickSlotView quickSlotView;
     public WarehouseView warehouseView;
     public InventoryView inventoryView;
+    public InventoryView resultInvenView;
     public RegisteredItem itemView;     //ShopScene에서만 사용
     public Inventory inventory;         //인벤토리창 On/Off
 
@@ -29,10 +30,13 @@ public class InventoryManager : MonoBehaviour
     //Model (Inspector에 안 보임)
     private InventoryModel model;
 
+    [Header("상인 관련")]
+    public Merchant currentMerchant; // 현재 플레이어 옆에 있는 상인
+
     [Header("드래그 상태")]
     //드래그 시작한 슬롯 번호 (-1: 아무것도 안 잡음)
     private int dragStartIndex = -1;
-    
+
     //아이템 정렬 순서 변수
     private int currentSortIndex = 0;
 
@@ -53,7 +57,7 @@ public class InventoryManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
- 
+
         else Destroy(gameObject);
 
         //Model 생성
@@ -76,10 +80,34 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        //시작 시 초기화
+        //씬 전환 후 null이 될 수 있는 resultInvenView를 자식 오브젝트에서 다시 탐색
+        if (resultInvenView == null)
+        {
+            //비활성화된 자식오브젝트를 포함하여 모든 InventoryView 컴포넌트 검색
+            InventoryView[] views = GetComponentsInChildren<InventoryView>(true);
+            foreach (InventoryView view in views)
+            {
+                //이미 Inspector에 할당된 메인 inventoryView가 아닌 다른 컴포넌트를 검색
+                if (view != inventoryView)
+                {
+                    resultInvenView = view;
+                    Debug.Log("ResultInvenView를 자식 오브젝트에서 찾았습니다.");
+                    break;
+                }
+            }
+        }
+
+        // resultInvenView를 찾았다면, Awake에서 했던 것처럼 초기화를 진행
+        if (resultInvenView != null)
+        {
+            resultInvenView.CreateSlots(capacity);
+            resultInvenView.OnSlotClicked += HandleSlotClick;
+            resultInvenView.OnSortRequest += HandleSortSequence;
+        }
+
+        // 기타 시작 시 초기화
         HandleInventoryUpdate();
-        dropPopup.ClosePopup();
-        //inventory = transform.GetChild(0).gameObject.GetComponent<Inventory>();i
+        if (dropPopup != null) dropPopup.ClosePopup();
         model.InitSlots(capacity);
     }
 
@@ -142,6 +170,16 @@ public class InventoryManager : MonoBehaviour
             inventory.gameObject.SetActive(!inventory.gameObject.activeSelf);
         }
 
+        //상인에게서 인벤토리 열기
+        if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]))
+        {
+            if (currentMerchant != null && currentMerchant.isPlayerNearby)
+            {
+                // 인벤토리 활성화 상태를 반전(Toggle)시킵니다.
+                inventory.gameObject.SetActive(!inventory.gameObject.activeSelf);
+            }
+        }
+
         //ShopScene에서만 사용하기 때문에 
         if (itemView == null) return;
 
@@ -156,7 +194,7 @@ public class InventoryManager : MonoBehaviour
             //창고나 아이템 등록UI가 비활성화 상태면, 퀵슬롯은 활성화하고 장비창은 인벤토리의 활성화 상태에 따름
             //equipView.SetActive(!isWarehouseActive && inventory.gameObject.activeSelf);
             //quickSlotView.gameObject.SetActive(!isWarehouseActive);
-            if(isWarehouseActive || isItemRegiActive)
+            if (isWarehouseActive || isItemRegiActive)
             {
                 equipView.SetActive(false);
                 quickSlotView.gameObject.SetActive(false);
@@ -167,7 +205,7 @@ public class InventoryManager : MonoBehaviour
                 quickSlotView.gameObject.SetActive(true);
             }
         }
-        
+
         //마우스 버튼을 뗐는데(Up) && 드래그 중이라면(dragStartIndex != -1)
         if (Input.GetMouseButtonUp(0) && dragStartIndex != -1)
         {
@@ -185,7 +223,7 @@ public class InventoryManager : MonoBehaviour
     //드래그 시작 시 호출
     public void OnDragStart(int index)
     {
-        dragStartIndex = index;        
+        dragStartIndex = index;
     }
 
     //드래그 아이템을 쓰레기통으로
@@ -396,7 +434,7 @@ public class InventoryManager : MonoBehaviour
 
     //아이템 사용/장착 시 호출
     public void UseItem(int index)
-    {        
+    {
         //모델에서 해당 인덱스 아이템 데이터 가져오기
         var slots = model.GetSlotsForView();
         Debug.Log($"인벤토리 아이템 사용 시도: 인덱스 {index}");
@@ -413,7 +451,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
 
-        Item item = targetSlot.itemData;        
+        Item item = targetSlot.itemData;
 
         //창고 뷰가 활성화되어 있으면 리턴
         if (warehouseView != null && warehouseView.gameObject.activeSelf)
@@ -504,7 +542,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (dragStartIndex == -1) return;
         //모델에게 해당 슬롯에서 amount만큼 감소시키라고
-        model.DecreaseItemAmount(dragStartIndex, amount);        
+        model.DecreaseItemAmount(dragStartIndex, amount);
     }
 
     //인덱스 기반 수량 감소 (창고에서 쓰기 위함)
@@ -549,12 +587,14 @@ public class InventoryManager : MonoBehaviour
         dropPopup.OpenPopup(
             itemToDrop.itemName,
             //YES 눌렀을 때: 아이템 삭제
-            onYes: () => {
+            onYes: () =>
+            {
                 model.RemoveItem(dragStartIndex); // 모델에서 삭제
                 dragStartIndex = -1;              // 드래그 상태 초기화
             },
             //NO 눌렀을 때: 드래그 취소 (제자리 복귀)
-            onNo: () => {
+            onNo: () =>
+            {
                 CancelDrag();
             }
         );
@@ -588,8 +628,19 @@ public class InventoryManager : MonoBehaviour
     //데이터 변경 시 호출되는 콜백 함수
     private void HandleInventoryUpdate()
     {
-        //Model의 딕셔너리를 배열로 변환해서 View에 전달
-        inventoryView.RefreshAll(model.GetSlotsForView());
+        var currentSlots = model.GetSlotsForView();
+
+        //메인 뷰 갱신
+        if (inventoryView != null)
+        {
+            inventoryView.RefreshAll(currentSlots);
+        }
+
+        //결과창 갱신
+        if (resultInvenView != null)
+        {
+            resultInvenView.RefreshAll(currentSlots);
+        }
     }
 
     //슬롯 클릭 시 호출 (우클릭 등 나중에 사용)
@@ -669,43 +720,82 @@ public class InventoryManager : MonoBehaviour
     {
         Debug.Log("[InventoryManager] 초기화 시작");
 
-        // Model 생성 (Awake에서 이미 생성되지만, 안전을 위해)
+        //Model 생성
         if (model == null)
         {
             model = new InventoryModel(capacity);
             Debug.LogWarning("[InventoryManager] Model이 null이었습니다. 새로 생성합니다.");
         }
 
-        // View 초기화
+        //View 초기화
         if (inventoryView != null)
         {
             inventoryView.CreateSlots(capacity);
-            Debug.Log("[InventoryManager] InventoryView 초기화됨");
-        }
-        else
-        {
-            Debug.LogError("[InventoryManager] InventoryView가 연결되지 않았습니다!");
-        }
-
-        // 이벤트 연결 (이미 Awake에서 했지만, 안전을 위해 다시)
-        model.OnInventoryUpdated += HandleInventoryUpdate;
-        if (inventoryView != null)
-        {
             inventoryView.OnSlotClicked += HandleSlotClick;
             inventoryView.OnSortRequest += HandleSortSequence;
+            Debug.Log("[InventoryManager] InventoryView 초기화됨");
         }
 
-        // 슬롯 초기화
+        if (resultInvenView != null)
+        {
+            resultInvenView.CreateSlots(capacity);
+            resultInvenView.OnSlotClicked += HandleSlotClick;
+            resultInvenView.OnSortRequest += HandleSortSequence;
+            Debug.Log("[InventoryManager] resultInvenView 초기화됨");
+        }
+
+        //이벤트 연결 (이미 Awake에서 했지만, 안전을 위해 다시)
+        model.OnInventoryUpdated += HandleInventoryUpdate;
+
+        //슬롯 초기화
         model.InitSlots(capacity);
 
-        // 화면 갱신
+        //화면 갱신
         HandleInventoryUpdate();
 
-        // 팝업 닫기
+        //팝업 닫기
         if (dropPopup != null) dropPopup.ClosePopup();
         if (splitPopup != null) splitPopup.gameObject.SetActive(false);
 
         Debug.Log("[InventoryManager] 초기화 완료");
+    }
+
+    //아이템 판매
+    public void TrySellItem(int index)
+    {
+        // 팩트체크: 현재 인벤토리 모델에서 슬롯 배열을 가져옵니다.
+        // model.GetSlotsForView()는 Capacity 크기의 배열을 반환하도록 설계되어 있습니다.
+        var slots = model.GetSlotsForView();
+
+        // 1. 인덱스 유효성 검사 및 빈 슬롯 확인
+        // index가 범위를 벗어나거나 해당 슬롯이 비어있다면 함수를 종료합니다.
+        if (index < 0 || index >= slots.Length || slots[index].IsEmpty)
+        {
+            Debug.LogWarning("판매할 아이템이 없는 슬롯입니다.");
+            return;
+        }
+
+        // 2. 판매할 아이템 데이터 및 수량 파악
+        InventorySlotModel targetSlot = slots[index];
+        Item itemData = targetSlot.itemData;
+        int quantity = targetSlot.quantity;
+
+        // 3. 수익 계산
+        // 아이템의 개당 판매가(sellPrice)와 현재 수량을 곱합니다.
+        float totalProfit = itemData.buyPrice * 0.9f * quantity;
+
+        // 4. DataManager를 통한 금전 지급
+        // _MasterManager를 통해 DataManager의 EarnMoney 함수를 호출하여 플레이어 돈을 늘립니다.
+        if (_MasterManager.Instance != null && _MasterManager.Instance.DataManager != null)
+        {
+            _MasterManager.Instance.DataManager.EarnMoney(Mathf.FloorToInt(totalProfit));
+            Debug.Log($"{itemData.itemName} {quantity}개를 판매하여 {totalProfit}G를 벌었습니다.");
+        }
+
+        // 5. 인벤토리 모델에서 아이템 실제 제거
+        // Master가 제공해주신 InventoryModel의 RemoveItem(index) 함수를 사용합니다.
+        // 이 함수 내부에서 slots.Remove(index)와 OnInventoryUpdated 이벤트를 호출하므로 화면도 갱신됩니다.
+        model.RemoveItem(index);
     }
 
 }
