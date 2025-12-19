@@ -149,13 +149,18 @@ public class ShopManager : MonoBehaviour
                 inventoryManager.equipView.SetActive(false);
                 itemDisplay.regiItemUI.gameObject.SetActive(true);
                 inventoeyPanel.SetActive(true);
+            }
+            else if(itemDisplay.regiItemUI.gameObject.activeSelf == true)
+            {
+                inventoryManager.quickSlotView.gameObject.SetActive(false);
+                inventoryManager.equipView.SetActive(false);
                 isRegiItemOpen = true;
             }
             else if(isRegiItemOpen)
             {
-                inventoryManager.quickSlotView.gameObject.SetActive(false);
-                inventoryManager.equipView.SetActive(false);
                 isRegiItemOpen = false;
+                inventoryManager.quickSlotView.gameObject.SetActive(true);
+                inventoryManager.equipView.SetActive(true);
             }
         }
 
@@ -181,6 +186,14 @@ public class ShopManager : MonoBehaviour
                 isPlayingDay = false;
                 isPlayingNight = true;
             }
+
+            //판매 등록 UI 열기
+            if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && itemDisplay.image.gameObject.activeSelf == true)
+            {
+                //print("상호작용 키 입력");
+                itemDisplay.image.gameObject.SetActive(false);
+                itemDisplay.nightImage.gameObject.SetActive(true);
+            }
         }
 
         //조명 조절
@@ -202,6 +215,7 @@ public class ShopManager : MonoBehaviour
             {
                 itemDisplay.image.gameObject.SetActive(false);
                 itemDisplay.regiItemUI.gameObject.SetActive(false);
+                itemDisplay.nightImage.gameObject.SetActive(false);
             }
             if (warehouse != null)
             {
