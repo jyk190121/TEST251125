@@ -33,7 +33,7 @@ public class InventoryManager : MonoBehaviour
     [Header("드래그 상태")]
     //드래그 시작한 슬롯 번호 (-1: 아무것도 안 잡음)
     private int dragStartIndex = -1;
-    
+
     //아이템 정렬 순서 변수
     private int currentSortIndex = 0;
 
@@ -54,14 +54,14 @@ public class InventoryManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
- 
+
         else Destroy(gameObject);
 
         //Model 생성
         model = new InventoryModel(capacity);
 
         //View 초기화
-        inventoryView.CreateSlots(capacity);        
+        inventoryView.CreateSlots(capacity);
 
         //이벤트 연결 (Model -> View)
         //모델 데이터가 변하면 -> HandleInventoryUpdate 실행
@@ -77,10 +77,34 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        //시작 시 초기화
+        //씬 전환 후 null이 될 수 있는 resultInvenView를 자식 오브젝트에서 다시 탐색
+        if (resultInvenView == null)
+        {
+            //비활성화된 자식오브젝트를 포함하여 모든 InventoryView 컴포넌트 검색
+            InventoryView[] views = GetComponentsInChildren<InventoryView>(true);
+            foreach (InventoryView view in views)
+            {
+                //이미 Inspector에 할당된 메인 inventoryView가 아닌 다른 컴포넌트를 검색
+                if (view != inventoryView)
+                {
+                    resultInvenView = view;
+                    Debug.Log("ResultInvenView를 자식 오브젝트에서 찾았습니다.");
+                    break;
+                }
+            }
+        }
+
+        // resultInvenView를 찾았다면, Awake에서 했던 것처럼 초기화를 진행
+        if (resultInvenView != null)
+        {
+            resultInvenView.CreateSlots(capacity);
+            resultInvenView.OnSlotClicked += HandleSlotClick;
+            resultInvenView.OnSortRequest += HandleSortSequence;
+        }
+
+        // 기타 시작 시 초기화
         HandleInventoryUpdate();
-        dropPopup.ClosePopup();
-        //inventory = transform.GetChild(0).gameObject.GetComponent<Inventory>();i
+        if (dropPopup != null) dropPopup.ClosePopup();
         model.InitSlots(capacity);
     }
 
@@ -157,7 +181,7 @@ public class InventoryManager : MonoBehaviour
             //창고나 아이템 등록UI가 비활성화 상태면, 퀵슬롯은 활성화하고 장비창은 인벤토리의 활성화 상태에 따름
             //equipView.SetActive(!isWarehouseActive && inventory.gameObject.activeSelf);
             //quickSlotView.gameObject.SetActive(!isWarehouseActive);
-            if(isWarehouseActive || isItemRegiActive)
+            if (isWarehouseActive || isItemRegiActive)
             {
                 equipView.SetActive(false);
                 quickSlotView.gameObject.SetActive(false);
@@ -168,7 +192,7 @@ public class InventoryManager : MonoBehaviour
                 quickSlotView.gameObject.SetActive(true);
             }
         }
-        
+
         //마우스 버튼을 뗐는데(Up) && 드래그 중이라면(dragStartIndex != -1)
         if (Input.GetMouseButtonUp(0) && dragStartIndex != -1)
         {
@@ -186,7 +210,7 @@ public class InventoryManager : MonoBehaviour
     //드래그 시작 시 호출
     public void OnDragStart(int index)
     {
-        dragStartIndex = index;        
+        dragStartIndex = index;
     }
 
     //드래그 아이템을 쓰레기통으로
@@ -397,7 +421,7 @@ public class InventoryManager : MonoBehaviour
 
     //아이템 사용/장착 시 호출
     public void UseItem(int index)
-    {        
+    {
         //모델에서 해당 인덱스 아이템 데이터 가져오기
         var slots = model.GetSlotsForView();
         Debug.Log($"인벤토리 아이템 사용 시도: 인덱스 {index}");
@@ -414,7 +438,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
 
-        Item item = targetSlot.itemData;        
+        Item item = targetSlot.itemData;
 
         //창고 뷰가 활성화되어 있으면 리턴
         if (warehouseView != null && warehouseView.gameObject.activeSelf)
@@ -505,7 +529,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (dragStartIndex == -1) return;
         //모델에게 해당 슬롯에서 amount만큼 감소시키라고
-        model.DecreaseItemAmount(dragStartIndex, amount);        
+        model.DecreaseItemAmount(dragStartIndex, amount);
     }
 
     //인덱스 기반 수량 감소 (창고에서 쓰기 위함)
@@ -550,12 +574,14 @@ public class InventoryManager : MonoBehaviour
         dropPopup.OpenPopup(
             itemToDrop.itemName,
             //YES 눌렀을 때: 아이템 삭제
-            onYes: () => {
+            onYes: () =>
+            {
                 model.RemoveItem(dragStartIndex); // 모델에서 삭제
                 dragStartIndex = -1;              // 드래그 상태 초기화
             },
             //NO 눌렀을 때: 드래그 취소 (제자리 복귀)
-            onNo: () => {
+            onNo: () =>
+            {
                 CancelDrag();
             }
         );

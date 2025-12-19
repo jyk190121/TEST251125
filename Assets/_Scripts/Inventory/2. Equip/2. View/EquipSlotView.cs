@@ -13,6 +13,7 @@ public class EquipSlotView : MonoBehaviour, IDropHandler, IPointerClickHandler
     public GameObject emptyIcon;        //빈 슬롯 아이콘
 
     private Item currentItem;           //현재 장착된 아이템
+    internal object requiredType;
 
     public void UpdateSlot(Item item)
     {
