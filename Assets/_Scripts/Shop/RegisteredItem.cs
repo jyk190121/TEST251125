@@ -73,10 +73,10 @@ public class RegisteredItem : MonoBehaviour
 
 
         //마우스로 선택한 아이템 정보 가져오기
-        if (Input.GetMouseButtonDown(0) )
-        {
-            print($"{inventory.GetDragStartIndex()} 현재 인덱스?");
-        }
+        //if (Input.GetMouseButtonDown(0) )
+        //{
+        //    print($"{inventory.GetDragStartIndex()} 현재 인덱스?");
+        //}
         //{
         //    //드랍 팝업 및 소분팝업이 비활성화 상태라면
         //    if ()

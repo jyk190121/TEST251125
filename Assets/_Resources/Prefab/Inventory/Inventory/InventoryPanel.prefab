@@ -241,8 +241,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sortIcon: {fileID: 9214167864119644326}
   slotPrefab: {fileID: 979044245515424353, guid: 4087a0839e3773642bde38cfb0b1d7c1, type: 3}
-  safeSlotArea: {fileID: 0}
-  deleteSlotArea: {fileID: 0}
+  safeSlotArea: {fileID: 7469987834644166664}
+  deleteSlotArea: {fileID: 5979369573894593860}
 --- !u!1 &4997073117911534967
 GameObject:
   m_ObjectHideFlags: 0
