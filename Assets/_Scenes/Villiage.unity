@@ -5632,10 +5632,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7914024535165611, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: miniMapPrefab
-      value: 
-      objectReference: {fileID: 1590573913}
     - target: {fileID: 1122407842628781802, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: m_Name
       value: TestManager
@@ -12079,11 +12075,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1586009115}
   m_CullTransparentMesh: 1
---- !u!1 &1590573913 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8742011036215663536, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-  m_PrefabInstance: {fileID: 733790192}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1598576542
 GameObject:
   m_ObjectHideFlags: 0
@@ -14402,7 +14393,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 197495426929271994, guid: 48a4726f5b0e3b149b360b95e3a14ccc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.7
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 197495426929271994, guid: 48a4726f5b0e3b149b360b95e3a14ccc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -14410,7 +14401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 197495426929271994, guid: 48a4726f5b0e3b149b360b95e3a14ccc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.35
+      value: 9.48
       objectReference: {fileID: 0}
     - target: {fileID: 197495426929271994, guid: 48a4726f5b0e3b149b360b95e3a14ccc, type: 3}
       propertyPath: m_LocalRotation.w

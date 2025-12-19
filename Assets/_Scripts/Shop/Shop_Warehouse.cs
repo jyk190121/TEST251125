@@ -116,8 +116,6 @@ public class Shop_Warehouse : MonoBehaviour
             if (keyTimer >= keyDownTime)
             {
                 image.gameObject.SetActive(false);
-                //창고개방
-                print("창고개방");
                 //itemSplitPopup.gameObject.SetActive(true);
                 itemWarehousePanel.gameObject.SetActive(true);
                 inventoeyPanel.SetActive(true);
