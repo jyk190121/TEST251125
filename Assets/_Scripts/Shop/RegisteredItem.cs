@@ -109,11 +109,11 @@ public class RegisteredItem : MonoBehaviour
             //소분 수량이 1보다 많으면 실행
             if (inventoryCount > 1)
             {
-                dropPopup.OpenPopup(inventoryItem.itemName,
+                dropPopup.OpenPopup(inventoryItem,
             //YES 눌렀을 때: 아이템 삭제
             onYes: () =>
             {
-                
+
                 dragStartIndex = -1;              // 드래그 상태 초기화
             },
             //NO 눌렀을 때: 드래그 취소 (제자리 복귀)
