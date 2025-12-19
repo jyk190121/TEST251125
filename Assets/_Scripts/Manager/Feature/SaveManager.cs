@@ -162,7 +162,15 @@ public class SaveManager : MonoBehaviour
         // 창고 정보 복구
         if (saveData.warehouseSlots != null && saveData.warehouseSlots.Length > 0)
         {
+            if (dm.warehouseModel == null)
+            {
+                dm.warehouseModel = new WarehouseModel(30);
+            }
+
             WarehouseModel warehouseModel = dm.warehouseModel;
+
+            dm.warehouseModel = new WarehouseModel(30);
+            warehouseModel = dm.warehouseModel;
 
             for (int i = 0; i < saveData.warehouseSlots.Length; i++)
             {
@@ -187,8 +195,11 @@ public class SaveManager : MonoBehaviour
         }
         else
         {
+            if (dm.warehouseModel == null)
+            {
+                dm.warehouseModel = new WarehouseModel(30);
+            }
             Debug.LogWarning("[SaveManager] 저장된 창고 데이터가 없습니다");
-            dm.warehouseData.slots = new DataManager.WarehouseSlotData[30];
         }
 
         DataManager.OnDataLoaded?.Invoke();
