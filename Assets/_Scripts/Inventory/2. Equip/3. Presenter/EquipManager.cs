@@ -27,6 +27,11 @@ public class EquipManager : MonoBehaviour
         //저장된 장비 복구
         LoadEquipmentFromDataManager();
 
+        if (equipPanel_2 == null)
+        {
+            var allSlots = FindAnyObjectByType<EquipSlotView>();            
+        }
+
         //게임 시작 시 UI를 한 번 그려줍니다.
         RefreshUI();
     }
@@ -173,6 +178,9 @@ public class EquipManager : MonoBehaviour
             if (i < currentEquips.Length)
             {
                 uiSlots[i].UpdateSlot(currentEquips[i]);
+
+                if(equipPanel_2 == null) continue;
+                if (uiSlots_2 == null) continue;
                 uiSlots_2[i].UpdateSlot(currentEquips[i]);
             }
         }
