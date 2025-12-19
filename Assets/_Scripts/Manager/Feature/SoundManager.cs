@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    // 사운드 옵션 ON/OFF
+    [Header("사운드 UI")]
+    public GameObject soundPanel;
+
     // 사운드를 재생할 오디오 소스 컴포넌트 (MP3 플레이어 역할)
     [Header("Audio Sources")]
     public AudioSource bgmSource;
@@ -43,14 +47,37 @@ public class SoundManager : MonoBehaviour
 
     [Header("볼륨 설정")]
     [Range(0f, 1f)]
-    public float masterVolume;      // 마스터 볼륨
+    public float masterVolume = 1f;      // 마스터 볼륨
     [Range(0f, 1f)]
-    public float bgmVolume;         // BGM 볼륨
+    public float bgmVolume = 0.5f;       // BGM 볼륨
     [Range(0f, 1f)]
-    public float sfxVolume;         // SFX 볼륨
+    public float sfxVolume = 0.5f;       // SFX 볼륨
 
     Dictionary<string, AudioClip[]> bgmDict = new Dictionary<string, AudioClip[]>();
     Dictionary<string, AudioClip[]> sfxDict = new Dictionary<string, AudioClip[]>();
+
+    public static SoundManager Instance;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        //사운드 옵션 창 열고 닫기
+        if (Input.GetKeyDown(KeySetting.keys[KeyInput.OPTION]))
+        {
+            soundPanel.gameObject.SetActive(!soundPanel.gameObject.activeSelf);
+        }
+    }
 
     public void Initialize()
     {
@@ -68,6 +95,9 @@ public class SoundManager : MonoBehaviour
         AddSFX("현수", SFXClips4);
         AddSFX("건영", SFXClips5);
         AddSFX("유정", SFXClips6);
+
+        // 초기 볼륨 적용
+        ApplyAllVolumes();
     }
 
     // BGM
@@ -117,6 +147,42 @@ public class SoundManager : MonoBehaviour
     void AddSFX(string name, AudioClip[] clips)
     {
         sfxDict[name] = clips;
+    }
+
+    // 마스터 볼륨 조절
+    public void SetMasterVolume(float volume)
+    {
+        masterVolume = Mathf.Clamp01(volume);
+        ApplyAllVolumes();
+    }
+
+    // 배경음악 볼륨 조절
+    public void SetBGMVolume(float volume)
+    {
+        bgmVolume = Mathf.Clamp01(volume);
+        ApplyAllVolumes();
+    }
+
+    //효과음 볼륨 조절
+    public void SetSFXVolume(float volume)
+    {
+        sfxVolume = Mathf.Clamp01(volume);
+        ApplyAllVolumes();
+    }
+
+    // 모든 볼륨 설정을 실제 오디오 소스에 적용
+    private void ApplyAllVolumes()
+    {
+        if (bgmSource != null)
+        {
+            // 최종 BGM 볼륨 = 마스터 볼륨 * BGM 볼륨
+            bgmSource.volume = masterVolume * bgmVolume;
+        }
+        if (sfxSource != null)
+        {
+            // 최종 SFX 볼륨 = 마스터 볼륨 * SFX 볼륨
+            sfxSource.volume = masterVolume * sfxVolume;
+        }
     }
 }
 
