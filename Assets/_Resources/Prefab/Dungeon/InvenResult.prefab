@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 1613746145174588403}
   - component: {fileID: 5766010379224778365}
   - component: {fileID: 6295530166100211807}
+  - component: {fileID: 171501999132184970}
   m_Layer: 5
   m_Name: InvenResult
   m_TagString: Untagged
@@ -185,9 +186,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortIcon: {fileID: 0}
-  slotPrefab: {fileID: 0}
+  slotPrefab: {fileID: 979044245515424353, guid: 4087a0839e3773642bde38cfb0b1d7c1, type: 3}
   safeSlotArea: {fileID: 1095736079044651117}
   deleteSlotArea: {fileID: 2238541932053199929}
+--- !u!114 &171501999132184970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597039388702163596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 385894e4d9e23b04e9bb9affa67c110c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capacity: 20
+  equipView: {fileID: 4612977647909284777}
+  quickSlotView: {fileID: 0}
+  warehouseView: {fileID: 0}
+  inventoryView: {fileID: 6295530166100211807}
+  itemView: {fileID: 0}
+  inventory: {fileID: 0}
+  testItemA: {fileID: 0}
+  testItemB: {fileID: 0}
+  testItemC: {fileID: 0}
+  testItemD: {fileID: 0}
+  testItemE: {fileID: 0}
+  inventoryPanelRect: {fileID: 0}
+  dropPopup: {fileID: 0}
+  splitPopup: {fileID: 0}
 --- !u!1 &1107748859426224806
 GameObject:
   m_ObjectHideFlags: 0
