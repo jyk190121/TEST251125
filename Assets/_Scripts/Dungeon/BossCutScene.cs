@@ -7,19 +7,23 @@ public class BossCutScene : MonoBehaviour
     private PlayableDirector pd;
     public TimelineAsset[] ta;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         pd = GetComponent<PlayableDirector>();
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Cut")
+        
+        if (other.CompareTag("Cut"))
         {
-            other.gameObject.SetActive(false);
-            pd.Play(ta[0]);
+            other.gameObject.SetActive(false); // 트리거 중복 방지
+
+            // 타임라인 재생
+            if (ta.Length > 0) pd.Play(ta[0]);
         }
     }
-}
 
+}
