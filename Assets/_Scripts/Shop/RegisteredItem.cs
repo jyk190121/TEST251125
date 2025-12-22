@@ -15,7 +15,7 @@ public class RegisteredItem : MonoBehaviour
 {
     public static RegisteredItem RegiItem;
 
-    public ItemSettingPopup dropPopup;          // 팝업창 (아이템 갯수, 판매가격 설정창)
+    public ItemSettingPopup registerPopup;      // 팝업창 (아이템 갯수, 판매가격 설정창)
 
     [System.Serializable]
     public class RegisteredItemData
@@ -201,14 +201,14 @@ public class RegisteredItem : MonoBehaviour
         Debug.Log($"[RegisteredItem] 드래그 시작: {inventoryItem.itemName} x{inventoryCount}");
 
         // 수량이 여러 개면 팝업으로 수량/가격 입력
-        if (inventoryCount > 1)
+        if (inventoryCount > 0)
         {
             // 팝업에 기본값 세팅
             currentImage.sprite = inventoryItem.icon;
             currentCount.text = inventoryCount.ToString();
             currentPrice.text = inventoryItem.sellPrice.ToString();
 
-            dropPopup.OpenPopup(
+            registerPopup.OpenPopup(
                 inventoryItem,
                 onYes: () =>
                 {
@@ -220,13 +220,13 @@ public class RegisteredItem : MonoBehaviour
                 }
             );
         }
-        else
-        {
-            // 1개면 바로 등록 (기본 가격 = sellPrice)
-            RegisterItemToSlot(dropIndex, inventoryItem, 1, inventoryItem.sellPrice);
-            inventory.DecreaseItemAtIndex(invDragStartIndex, 1);
-            dragStartIndex = -1;
-        }
+        //else
+        //{
+        //    // 1개면 바로 등록 (기본 가격 = sellPrice)
+        //    RegisterItemToSlot(dropIndex, inventoryItem, 1, inventoryItem.sellPrice);
+        //    inventory.DecreaseItemAtIndex(invDragStartIndex, 1);
+        //    dragStartIndex = -1;
+        //}
     }
 
     void OnPopupYes(int dropIndex, int inventoryIndex, Item item, int maxCount)

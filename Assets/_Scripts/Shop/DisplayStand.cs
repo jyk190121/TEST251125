@@ -39,13 +39,13 @@ public class DisplayStand : MonoBehaviour
 
     private void Update()
     {
-        RefreshDisplayUI();
+        //RefreshDisplayUI();
     }
 
     /// <summary>
     /// 진열대 UI 갱신
     /// </summary>
-    void RefreshDisplayUI()
+    public void RefreshDisplayUI()
     {
         if (registeredItem == null) return;
 
