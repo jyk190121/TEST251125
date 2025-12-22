@@ -197,7 +197,7 @@ public void playerStatChanged(StatStruct stat)
     {
         return player;
     }
-
+    //무기 변경시
     public void ChangeWeapon(Item newItem)
     {
         EquipWeapon = newItem;
