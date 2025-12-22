@@ -458,7 +458,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &364875531593355705
 Transform:
   m_ObjectHideFlags: 0
@@ -2136,7 +2136,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39bc9062ea2033948a48ac93fe6e42ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponlist: []
+  weaponlist:
+  - {fileID: 8129788961030964908}
+  - {fileID: 1546345412775324916}
+  - {fileID: 1212693842469154941}
+  - {fileID: 5943908387318558434}
+  - {fileID: 5301905677618515093}
+  - {fileID: 2801170922556661263}
+  - {fileID: 1034593095182371587}
+  - {fileID: 470310843120359634}
 --- !u!143 &1190387926494197494
 CharacterController:
   m_ObjectHideFlags: 0
@@ -2174,6 +2182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f38908d84cbc924babd745928b185ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deadPanel: {fileID: 0}
 --- !u!1 &4433756766690965229
 GameObject:
   m_ObjectHideFlags: 0
