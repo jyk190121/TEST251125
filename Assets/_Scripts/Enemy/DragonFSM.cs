@@ -305,5 +305,27 @@ public class DragonFSM : MonoBehaviour
     {
         return state == DragonState.Attack || isCharging;
     }
+    /*───────────────────────────────*
+     * Gizmos
+     *───────────────────────────────*/
+    private void OnDrawGizmos()
+    {
+        if (dragonData == null) return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, dragonData.attackRange);
+
+        if (dragonData.minAttackRange > 0f)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, dragonData.minAttackRange);
+        }
+
+        if (dragonData.aoeRange > 0f)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, dragonData.aoeRange);
+        }
+    }
 }
 

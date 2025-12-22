@@ -305,5 +305,28 @@ public class RihinoFSM : MonoBehaviour
     {
         return state == RihinoState.Attack || isCharging;
     }
+
+    /*───────────────────────────────*
+     * Gizmos
+     *───────────────────────────────*/
+    private void OnDrawGizmos()
+    {
+        if (rihinoData == null) return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, rihinoData.attackRange);
+
+        if (rihinoData.minAttackRange > 0f)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, rihinoData.minAttackRange);
+        }
+
+        if (rihinoData.aoeRange > 0f)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, rihinoData.aoeRange);
+        }
+    }
 }
 

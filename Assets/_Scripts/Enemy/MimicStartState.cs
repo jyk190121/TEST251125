@@ -62,7 +62,7 @@ public class MimicStartState : MonoBehaviour
         isRevealed = true;
 
         // 변신 애니메이션
-        anim.SetTrigger("Reveal");
+        anim.SetTrigger("WakeUp");
 
         // 애니 반영 대기
         yield return null;

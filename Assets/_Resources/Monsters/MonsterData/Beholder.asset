@@ -20,9 +20,9 @@ MonoBehaviour:
   Attack: 10
   Defense: 0
   CoolTime: 2.5
-  attackRange: 20
+  attackRange: 15
   detectionRange: 100
-  minAttackRange: 10
+  minAttackRange: 5
   Class: 0
   Type: 1
   Race: 3
