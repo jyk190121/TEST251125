@@ -23,6 +23,7 @@ public class BattleRecord: MonoBehaviour
     public TextMeshProUGUI deadReason;
     public TextMeshProUGUI goToVillage;
     public TextMeshProUGUI retry;
+    public TextMeshProUGUI enter;
 
     //먹은 아이템 갯수, 잡은 몬스터 수
     public TextMeshProUGUI itemCount;
@@ -47,6 +48,7 @@ public class BattleRecord: MonoBehaviour
     //켜져있을때 입력값 확인
     bool Key_goToVillage = false;
     bool Key_Retry = false;
+    bool Key_Enter = false;
 
 
     //사진 찍어 오자...
@@ -72,6 +74,7 @@ public class BattleRecord: MonoBehaviour
             {
                 _MasterManager.Instance.DataManager.SetisClear(false);
                 _MasterManager.Instance.DataManager.SetisPendant(false);
+                _MasterManager.Instance.DungeonManager.ChangeDay();
                 GameSceneManager.game.LoadScene("Villiage");
             }
         }
@@ -81,7 +84,21 @@ public class BattleRecord: MonoBehaviour
             {
                 _MasterManager.Instance.DataManager.SetisClear(false);
                 _MasterManager.Instance.DataManager.SetisPendant(false);
+                _MasterManager.Instance.DungeonManager.ChangeDay();
                 GameSceneManager.game.ReloadCurrentScene();
+            }
+        }
+        if (Key_Enter)
+        {
+            if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]))
+            {
+                if (_MasterManager.Instance.DataManager.dungeonCleared == 1)
+                {
+                    _MasterManager.Instance.DataManager.SetisClear(false);
+                    _MasterManager.Instance.DataManager.SetisPendant(false);
+                    _MasterManager.Instance.DataManager.dungeonCleared = 0;
+                    GameSceneManager.game.LoadScene("Dungeon2Scene");
+                }
             }
         }
 
@@ -133,6 +150,7 @@ public class BattleRecord: MonoBehaviour
         resultPanel.SetActive(true);            // 평소엔 꺼놨다가 키기
         inventoryPrefab.SetActive(true);
         retry.gameObject.SetActive(false);      // retry는 사망 시에만
+        enter.gameObject.SetActive(false);      // enter는 클리어일때
         Key_goToVillage = true;
         if (Pendent)
         {
@@ -141,8 +159,12 @@ public class BattleRecord: MonoBehaviour
         }
         else if (Clear)
         {
+            _MasterManager.Instance.DataManager.DungeonClear(1);
+            enter.gameObject.SetActive(true);
             deadReason.text = "던전 클리어 후 복귀";
+            enter.text = $"{KeySetting.keys[KeyInput.INTERACTIVE]}   2층 입장";
             HowImage.sprite = sprites[1];
+            Key_Enter = true;
         }
         else
         {
