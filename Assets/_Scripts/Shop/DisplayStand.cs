@@ -8,6 +8,7 @@ public class DisplayStand : MonoBehaviour
 {
     public Image image;
     public Image regiItemUI;
+    public Image nightImage;
     public TextMeshProUGUI key;
 
     [Header("슬롯 UI")]
