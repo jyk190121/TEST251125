@@ -20,7 +20,7 @@ public class BossPortal : MonoBehaviour
     {
         image.gameObject.SetActive(false);
         key.gameObject.SetActive(false);
-        holdDuration = 3.0f;
+        holdDuration = 2.0f;
         image.fillAmount = 0f;
     }
 
