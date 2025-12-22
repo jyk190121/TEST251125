@@ -37,11 +37,11 @@ public class Customer : MonoBehaviour
         LeavingShop //가게밖으로 이동
     }
 
-    [Header("위치 설정")]
-    public Transform entered; //가게 입구 위치
-    public Transform exited; //가게 출구 위치
-    public Transform itemPos; //아이템 구매 위치
-    public Transform salesPos; //돈 계산 위치
+    //[Header("위치 설정")]
+    Transform entered; //가게 입구 위치
+    Transform exited; //가게 출구 위치
+    Transform itemPos; //아이템 구매 위치
+    Transform salesPos; //돈 계산 위치
 
     [Header("손님 설정")]
     public CustomerType customerType;
