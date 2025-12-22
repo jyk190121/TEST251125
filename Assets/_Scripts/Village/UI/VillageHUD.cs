@@ -10,6 +10,8 @@ public class VillageHUD : MonoBehaviour
 {
     [SerializeField] private Light directionalLight;
     [SerializeField] private GameObject streetLights;
+    [SerializeField] GameObject player;
+    [SerializeField] GameObject door;
 
     // 낮 설정
     [SerializeField] private float dayIntensity = 1.2f;
@@ -18,6 +20,7 @@ public class VillageHUD : MonoBehaviour
     // 밤 설정
     [SerializeField] private float nightIntensity = 0.4f;
     [SerializeField] private Color nightColor = new Color(0.3f, 0.3f, 0.6f, 1f);
+    [SerializeField] Color nightColor2 = new Color(0.6f, 0.6f, 0.6f, 1f);
 
     private DayManager dayManager;
 
