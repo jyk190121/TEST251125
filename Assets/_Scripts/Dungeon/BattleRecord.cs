@@ -110,6 +110,7 @@ public class BattleRecord: MonoBehaviour
                     _MasterManager.Instance.DataManager.dungeonCleared = 0;
                     GameSceneManager.game.LoadScene("Dungeon2Scene");
                 }
+                else return;
             }
         }
 

@@ -1006,10 +1006,6 @@ PrefabInstance:
       propertyPath: soundPanel
       value: 
       objectReference: {fileID: 949492982}
-    - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-      propertyPath: 'BGMClips3.Array.data[0]'
-      value: 
-      objectReference: {fileID: 8300000, guid: cc088b400946d924c9c807cd6e24fafa, type: 3}
     - target: {fileID: 6321089510304740529, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: equipPanel_2
       value: 
