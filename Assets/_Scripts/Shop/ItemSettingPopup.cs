@@ -22,7 +22,6 @@ public class ItemSettingPopup : MonoBehaviour
     private int maxQuantity;
     private int inventoryIndex;
 
-
     public void OpenPopup(Item item, Action onYes, Action onNo)
     {
         //텍스트 설정

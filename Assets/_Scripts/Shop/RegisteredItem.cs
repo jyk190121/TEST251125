@@ -13,6 +13,7 @@ using static UnityEngine.Rendering.DebugUI;
 /// - 손님 AI에게 현재 판매가 제공
 /// </summary>
 [System.Serializable]
+[RequireComponent(typeof(RegisteredItem))]
 public class RegisteredItem : MonoBehaviour, IDropHandler
 {
     public static RegisteredItem RegiItem;
@@ -20,6 +21,8 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
     public ItemSettingPopup registerPopup;      // 팝업창 (아이템 갯수, 판매가격 설정창)
 
     Table table;                                //테이블에도 아이템 이미지 업데이트
+    public TextMeshProUGUI[] countTxt;          //등록된 아이템 갯수 보여주기
+    public TextMeshProUGUI[] priceTxt;          //등록된 아이템 가격 보여주기
 
     [System.Serializable]
     public class RegisteredItemData
@@ -118,33 +121,43 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
 
     void SetupSlotImage(int index, Item item)
     {
-        if (itemImages == null || index < 0 || index >= itemImages.Length)
-            return;
+        //if (itemImages == null || index < 0 || index >= itemImages.Length)
+        //    return;
 
-        if (item == null)
-            return;
+        //if (item == null)
+        //    return;
 
-        //기존 이미지 제거
-        if (itemImages[index] != null && itemImages[index].transform.childCount > 0)
-        {
-            foreach (Transform child in itemImages[index].transform)
-            {
-                Destroy(child.gameObject);
-            }
-        }
+        ////기존 이미지 제거
+        //if (itemImages[index] != null && itemImages[index].transform.childCount > 0)
+        //{
+        //    foreach (Transform child in itemImages[index].transform)
+        //    {
+        //        Destroy(child.gameObject);
+        //    }
+        //}
 
-        //새로운 이미지 생성
-        GameObject images = new GameObject("Image");
-        images.transform.SetParent(itemImages[index].transform, false);
+        ////새로운 이미지 생성
+        //GameObject images = new GameObject("Image");
+        //images.transform.SetParent(itemImages[index].transform, false);
 
-        var img = images.AddComponent<Image>();
-        img.sprite = item.icon;
-        img.enabled = true;
-        img.preserveAspect = true;
+        //var img = images.AddComponent<Image>();
+        //img.sprite = item.icon;
+        //img.enabled = true;
+        //img.preserveAspect = true;
 
-        itemImages[index] = img;
+        //itemImages[index] = img;
+
+        //위의 경우 text도 함께 파괴되어 missing상태 발생하여 수정
+        if (item == null) return;
+        if (itemImages == null || index < 0 || index >= itemImages.Length) return;
+
+        Image iconImage = itemImages[index]; // 슬롯에 고정된 Image
+
+        iconImage.sprite = item.icon;
+        iconImage.enabled = true;
+        iconImage.preserveAspect = true;
+
     }
-
     ////인벤토리에서 드래그 시작
     //public void OnDragStart(int index)
     //{
@@ -239,8 +252,6 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         int count = ParseCountOrDefault(currentCount.text, 1, maxCount);
         int price = ParsePriceOrDefault(currentPrice.text, item.sellPrice);
 
-        if (dropIndex > 3) return;
-
         RegisterItemToSlot(dropIndex, item, count, price);
         inventory.DecreaseItemAtIndex(inventoryIndex, count);
 
@@ -303,12 +314,15 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         registeredItemsData[slotIndex] = new RegisteredItemData(item, count, price);
         itemList[slotIndex] = item;
 
+        countTxt[slotIndex].text = count.ToString();
+        priceTxt[slotIndex].text = $"판매가 :{(price*count).ToString()}";
+
         SetupSlotImage(slotIndex, item);
 
         Debug.Log($"[RegisteredItem] {slotIndex}번 슬롯 등록 완료: {item.itemName} x{count}, 가격 {price}");
     }
 
-    //창고 슬롯이 아닌 곳에 Drop했을 때
+    //아이템 등록 판넬 이외의 곳으로 드롭했을 때
     public void CancelDrag()
     {
         dragStartIndex = -1;    //드래그 상태 초기화        
@@ -414,7 +428,7 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         // dropIndex 범위 확인
         if (dragIndex < -1 || dragIndex >= capacity)
         {
-            Debug.LogWarning("[RegisteredItem] 진열대 범위 밖에 드롭됨");
+            Debug.LogWarning("[RegisteredItem] 아이템 추가할 수 없음");
             return;
         }
 
@@ -423,7 +437,6 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
             Debug.Log("[RegisteredItem] 진열대 범위 밖 드롭 - 취소");
             return;
         }
-
 
         // 팝업에 기본값 세팅
         currentImage.sprite = item.icon;
