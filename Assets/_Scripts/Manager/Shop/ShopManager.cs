@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using static DayManager;
 /// <summary>
@@ -20,14 +19,13 @@ using static DayManager;
 [RequireComponent(typeof(ShopManager))]
 public class ShopManager : MonoBehaviour
 {
-    static ShopManager shop;
-
     public GameObject inventoeyPanel;       //인벤토리 UI 판넬
 
     public DayManager dayManager;           //낮, 밤 체크용
     public bool isAction;                   //판매활동했는지
     bool isPlayingDay;                      //재생중인 노래가 있는지 (낮)
     bool isPlayingNight;                    //재생중인 노래가 있는지 (밤)
+    bool isRegiItemOpen;
     POS_playerSalas pos_palyer;             //포스기
     SalesCustomer salesCustomer;            //손님 계산대 앞에 있는지 여부
     DisplayStand itemDisplay;               //아이템 UI 열고 닫기
@@ -36,23 +34,13 @@ public class ShopManager : MonoBehaviour
     DataManager dataManager;
     SoundManager soundManager;
     Party_Shop_Night party;
+    InventoryManager inventoryManager;
+
     bool partyPlay;
 
     //public GameObject light_Shop;
     Light_Shop light_Shop;
-
-    private void OnEnable()
-    {
-        if(shop == null)
-        {
-            shop = this;
-            if (inventoeyPanel == null)
-            {
-                inventoeyPanel = _MasterManager.Instance.InventoryManager.inventory.GetComponent<GameObject>();
-            }
-        }
-    }
-
+  
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -68,6 +56,18 @@ public class ShopManager : MonoBehaviour
         party = FindAnyObjectByType<Party_Shop_Night>();
         itemDisplay = FindAnyObjectByType<DisplayStand>();
         warehouse = FindAnyObjectByType<Shop_Warehouse>();
+
+        inventoryManager = _MasterManager.Instance.InventoryManager;
+
+        Inventory inventory = inventoryManager.GetComponentInChildren<Inventory>(true); ;
+        inventoeyPanel = inventory.gameObject;
+
+        if(inventoryManager.itemView == null)
+        {
+            inventoryManager.quickSlotView.gameObject.SetActive(true);
+            inventoryManager.equipView.SetActive(true);
+        }
+        isRegiItemOpen = false;
 
         pos_palyer.image.gameObject.SetActive(false);
         pos_palyer.shopOpenCheck = false;
@@ -124,14 +124,26 @@ public class ShopManager : MonoBehaviour
                         //soundManager.PlaySFXIndex(0);
                         soundManager.PlaySFX("진영", 0);
 
-                        //골드 100 획득 (임시)
-                        dataManager.EarnMoney(100);
+                        // 손님이 선택한 아이템 가격 가져오기
+                        Item boughtItem = buyCustomer.GetSelectedItem();
+                        if (boughtItem != null)
+                        {
+                            RegisteredItem registeredItem = FindAnyObjectByType<RegisteredItem>();
+                            int actualPrice = registeredItem.GetCurrentPrice(boughtItem);
+
+                            dataManager.EarnMoney(actualPrice);
+
+                            Debug.Log($"[ShopManager] {boughtItem.itemName} 판매 완료! 수익: {actualPrice} gold");
+                        }
 
                         //손님 계산완료처리
                         customerManager.CustomerBuyItem();
                     }
                 }
             }
+
+
+
 
             //손님이 다 나갔을 때 밤으로 만들자
             if (customerManager.GetCustomerAllExit() && pos_palyer.shopOpenCheck)
@@ -145,8 +157,22 @@ public class ShopManager : MonoBehaviour
                 //print("상호작용 키 입력");
                 itemDisplay.image.gameObject.SetActive(false);
                 //아이템 등록 열기
+                inventoryManager.quickSlotView.gameObject.SetActive(false);
+                inventoryManager.equipView.SetActive(false);
                 itemDisplay.regiItemUI.gameObject.SetActive(true);
                 inventoeyPanel.SetActive(true);
+            }
+            else if(itemDisplay.regiItemUI.gameObject.activeSelf == true)
+            {
+                inventoryManager.quickSlotView.gameObject.SetActive(false);
+                inventoryManager.equipView.SetActive(false);
+                isRegiItemOpen = true;
+            }
+            else if(isRegiItemOpen)
+            {
+                isRegiItemOpen = false;
+                inventoryManager.quickSlotView.gameObject.SetActive(true);
+                inventoryManager.equipView.SetActive(true);
             }
         }
 
@@ -172,6 +198,14 @@ public class ShopManager : MonoBehaviour
                 isPlayingDay = false;
                 isPlayingNight = true;
             }
+
+            //판매 등록 UI 열기
+            if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && itemDisplay.image.gameObject.activeSelf == true)
+            {
+                //print("상호작용 키 입력");
+                itemDisplay.image.gameObject.SetActive(false);
+                itemDisplay.nightImage.gameObject.SetActive(true);
+            }
         }
 
         //조명 조절
@@ -193,6 +227,7 @@ public class ShopManager : MonoBehaviour
             {
                 itemDisplay.image.gameObject.SetActive(false);
                 itemDisplay.regiItemUI.gameObject.SetActive(false);
+                itemDisplay.nightImage.gameObject.SetActive(false);
             }
             if (warehouse != null)
             {

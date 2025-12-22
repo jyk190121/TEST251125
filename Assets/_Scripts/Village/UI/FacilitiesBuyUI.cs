@@ -53,12 +53,6 @@ public class FacilitiesBuyUI : MonoBehaviour
         CloseButtonText.text = $"닫기 [{KeySetting.GetKeyString(KeyInput.CANCLE)}]";
     }
 
-    private void OnEnable()
-    {
-        ClearDisplay();
-    }
-
-
     private void Update()
     {
         // 캔슬 키로 UI 닫기
@@ -154,6 +148,38 @@ public class FacilitiesBuyUI : MonoBehaviour
     }
 
     /// <summary>
+    /// 모든 시설의 구매 상태를 미리 반영
+    /// </summary>
+    private void RefreshAllFacilityDisplay()
+    {
+        if (villageSystemManager == null)
+        {
+            villageSystemManager = VillageSystemManager.Instance;
+        }
+
+        if (villageSystemManager == null)
+        {
+            Debug.LogError("[FacilitiesBuyUI] VillageSystemManager이 없습니다.");
+            return;
+        }
+
+        // smithy 상태 확인
+        bool smithyUnlocked = villageSystemManager.IsFacilityUnlocked("smithy");
+        if (smithyUnlocked && smithySelectButton != null && smithySelectButton.image != null)
+        {
+            smithySelectButton.image.color = new Color(1f, 1f, 1f, 1f);  // 해금됨: 흰색
+        }
+
+        // wooden_hat 상태 확인
+        bool woodenHatUnlocked = villageSystemManager.IsFacilityUnlocked("wooden_hat");
+        if (woodenHatUnlocked && woodenHatSelectButton != null && woodenHatSelectButton.image != null)
+        {
+            woodenHatSelectButton.image.color = new Color(1f, 1f, 1f, 1f);  // 해금됨: 흰색
+        }
+    }
+
+
+    /// <summary>
     /// 표시 초기화
     /// </summary>
     private void ClearDisplay()
@@ -179,6 +205,12 @@ public class FacilitiesBuyUI : MonoBehaviour
         {
             Debug.Log("[FacilitiesBuyUI] 구매 실패");
         }
+    }
+
+    public void OpenUI()
+    {
+        RefreshAllFacilityDisplay();
+        ClearDisplay();
     }
 
     public void CloseUI()

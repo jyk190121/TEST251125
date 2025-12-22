@@ -5,8 +5,10 @@ public class EquipManager : MonoBehaviour
     public static EquipManager Instance;
 
     [Header("UI 연결")]
-    public EquipSlotView[] uiSlots; //슬롯 UI 4개 연결 (0:무기, 1:머리, 2:몸, 3:발)
+    public EquipSlotView[] uiSlots;     //슬롯 UI 4개 연결 (0:무기, 1:머리, 2:몸, 3:발)
+    public EquipSlotView[] uiSlots_2;   //Result 장비창
     public GameObject equipPanel;
+    public GameObject equipPanel_2;
 
     //실제 데이터를 관리하는 모델 객체
     public EquipModel model;
@@ -22,6 +24,14 @@ public class EquipManager : MonoBehaviour
 
     private void Start()
     {
+        //저장된 장비 복구
+        LoadEquipmentFromDataManager();
+
+        if (equipPanel_2 == null)
+        {
+            var allSlots = FindAnyObjectByType<EquipSlotView>();
+        }
+
         //게임 시작 시 UI를 한 번 그려줍니다.
         RefreshUI();
     }
@@ -78,33 +88,10 @@ public class EquipManager : MonoBehaviour
         }
     }
 
-    //실제 데이터 교체 및 스왑 처리
-    //private void EquipItemToSlot(int index, Item newItem)
-    //{
-    //    //기존에 끼고 있던 아이템이 있는지 확인
-    //    Item oldItem = model.GetEquip(index);
-
-    //    //모델 데이터 갱신 (새 아이템 장착)
-    //    model.SetEquip(index, newItem);
-
-    //    //기존 아이템이 있었다면 인벤토리로 되돌려줌 (스왑)
-    //    if (oldItem != null)
-    //    {
-    //        InventoryManager.Instance.AddItem(oldItem);            
-    //    }
-
-    //    //UI 및 스탯 갱신
-    //    RefreshUI();
-    //    //UpdateStatToPlayer();
-    //}
-
     private Item EquipItemToSlot(int index, Item newItem)
     {
         Item oldItem = model.GetEquip(index);
         model.SetEquip(index, newItem);
-
-        // [삭제] 여기서 인벤토리로 보내던 코드를 지웁니다! (InventoryManager.Instance.AddItem...)
-        // 이유는? 인벤토리 매니저가 직접 제어하게 하기 위해서입니다.
 
         RefreshUI();
         //UpdateStatToPlayer();
@@ -126,15 +113,15 @@ public class EquipManager : MonoBehaviour
         //인벤토리로 복귀 시도
         //(인벤토리가 꽉 찼으면 해제 불가능하게 처리)
         //AddItem은 성공 여부(bool)를 반환한다고 가정
-        bool addedToInventory = InventoryManager.Instance.AddItem(item);                
+        bool addedToInventory = InventoryManager.Instance.AddItem(item);
 
         if (addedToInventory) //인벤토리에 잘 들어갔다면
-        {           
+        {
             //모델에서 장비 제거
             model.Unequip(slotIndex);
-            
-            // 갱신
-            RefreshUI();            
+
+            // 갱신 (RefreshUI가 모든 업데이트를 처리합니다)
+            RefreshUI();
         }
         else
         {
@@ -160,17 +147,69 @@ public class EquipManager : MonoBehaviour
     }
 
     //모든 슬롯 UI를 모델 데이터에 맞춰 다시 그림
-    private void RefreshUI()
+    public void RefreshUI()
     {
+        //UI 슬롯 업데이트
         Item[] currentEquips = model.GetAllEquips();
         for (int i = 0; i < uiSlots.Length; i++)
         {
             if (i < currentEquips.Length)
             {
                 uiSlots[i].UpdateSlot(currentEquips[i]);
+
+                if (equipPanel_2 == null) continue;
+                if (uiSlots_2 == null) continue;
+                uiSlots_2[i].UpdateSlot(currentEquips[i]);
             }
         }
-        _MasterManager.Instance.DataManager.ChangeWeapon(model.GetEquip(EquipModel.SLOT_WEAPON));        
+
+        //DataManager에 모든 장비 정보 업데이트
+        DataManager dm = _MasterManager.Instance.DataManager;
+        Item currentWeapon = model.GetEquip(EquipModel.SLOT_WEAPON);
+
+        //DataManager의 필드를 업데이트
+        dm.EquipWeapon = currentWeapon;
+        dm.ChangeWeapon(currentWeapon); //무기 변경 이벤트 호출
+
+        dm.EquipHead = model.GetEquip(EquipModel.SLOT_HEAD);
+        dm.EquipBody = model.GetEquip(EquipModel.SLOT_BODY);
+        dm.EquipFoot = model.GetEquip(EquipModel.SLOT_FOOT);
+    }
+
+    //데이터 매니저에서 데이터 가져오기
+    private void LoadEquipmentFromDataManager()
+    {
+        DataManager dm = _MasterManager.Instance.DataManager;
+
+        // 장비 데이터가 비어있으면 아무것도 하지 않음
+        if (dm.EquipWeapon == null && dm.EquipHead == null &&
+            dm.EquipBody == null && dm.EquipFoot == null)
+        {
+            // 새 게임이거나 아직 로드 안 됨
+            return;
+        }
+
+        if (dm.EquipWeapon != null)
+        {
+            model.SetEquip(EquipModel.SLOT_WEAPON, dm.EquipWeapon);
+        }
+
+        if (dm.EquipHead != null)
+        {
+            model.SetEquip(EquipModel.SLOT_HEAD, dm.EquipHead);
+        }
+
+        if (dm.EquipBody != null)
+        {
+            model.SetEquip(EquipModel.SLOT_BODY, dm.EquipBody);
+        }
+
+        if (dm.EquipFoot != null)
+        {
+            model.SetEquip(EquipModel.SLOT_FOOT, dm.EquipFoot);
+        }
+
+        RefreshUI();
     }
 
     //플레이어 스탯 매니저에게 변경된 수치 전달

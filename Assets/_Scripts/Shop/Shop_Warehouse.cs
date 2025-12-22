@@ -18,6 +18,8 @@ public class Shop_Warehouse : MonoBehaviour
     //public ItemSplitPopup itemSplitPopup;  //창고 UI 캔버스 열기/닫기
     public GameObject itemWarehousePanel;    //창고 UI 판넬
 
+    InventoryManager inventoryManager;
+
     GameObject inventoeyPanel;                //인벤토리 UI 판넬
 
     bool openWarehousePanel;                 //창고 UI 열려있는지 
@@ -53,9 +55,11 @@ public class Shop_Warehouse : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<CharacterController>();
 
         detectRadius = 2f;
+        inventoryManager = _MasterManager.Instance.InventoryManager;
 
-        inventoeyPanel = FindAnyObjectByType<ShopManager>().inventoeyPanel;
-       
+        Inventory inventory = inventoryManager.GetComponentInChildren<Inventory>(true); ;
+        inventoeyPanel = inventory.gameObject;
+
         WarehouseView warehouseView = _MasterManager.Instance.InventoryManager.inventory.GetComponentInChildren<WarehouseView>(true);
         itemWarehousePanel = warehouseView.gameObject;
     }
@@ -79,6 +83,8 @@ public class Shop_Warehouse : MonoBehaviour
         {
             openWarehousePanel = false;
             inventoeyPanel.SetActive(false);
+            inventoryManager.quickSlotView.gameObject.SetActive(true);
+            inventoryManager.equipView.SetActive(true);
         }
 
         if (!playerIn)
@@ -110,18 +116,19 @@ public class Shop_Warehouse : MonoBehaviour
             if (keyTimer >= keyDownTime)
             {
                 image.gameObject.SetActive(false);
-                //창고개방
-                print("창고개방");
                 //itemSplitPopup.gameObject.SetActive(true);
                 itemWarehousePanel.gameObject.SetActive(true);
                 inventoeyPanel.SetActive(true);
                 openWarehousePanel = true;
+                inventoryManager.quickSlotView.gameObject.SetActive(false);
+                inventoryManager.equipView.SetActive(false);
             }
         }
         else
         {
             keyTimer = 0f;
             image.gameObject.SetActive(false);
+           
         }
 
         //// 플레이어가 창고 근처에 있으면 상호작용 키 누름 시간 체크

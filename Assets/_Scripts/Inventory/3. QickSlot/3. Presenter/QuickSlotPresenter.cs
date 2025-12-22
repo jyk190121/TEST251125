@@ -11,7 +11,7 @@ public class QuickSlotPresenter : MonoBehaviour
     [Header("View 연결")]
     public QuickSlotView quickSlotView; //단일 슬롯 연결
 
-    private QuickSlotModel model;
+    public QuickSlotModel model;
     private InventoryModel inventoryModel;
 
     private void Awake()
@@ -39,6 +39,8 @@ public class QuickSlotPresenter : MonoBehaviour
         {
             quickSlotView.Initialize(SLOT_INDEX);
         }
+
+        LoadQuickSlotFromDataManager();
 
         RefreshUI();
     }
@@ -148,7 +150,7 @@ public class QuickSlotPresenter : MonoBehaviour
     }
 
     //화면 갱신 (인벤토리 수량 확인)
-    private void RefreshUI()
+    public void RefreshUI()
     {
         Item item = model.GetItem(SLOT_INDEX);
 
@@ -157,10 +159,27 @@ public class QuickSlotPresenter : MonoBehaviour
             //인벤토리에 몇 개 있는지 실시간 확인
             int count = InventoryManager.Instance.GetItemCount(item);
             quickSlotView.UpdateSlotView(item, count);
+
+            // DataManager 동기화
+            _MasterManager.Instance.DataManager.QuickSlotItem = item;
         }
         else
         {
             quickSlotView.UpdateSlotView(null, 0);
+            _MasterManager.Instance.DataManager.QuickSlotItem = null;
         }
+    }
+
+    //데이터 로드
+    private void LoadQuickSlotFromDataManager()
+    {
+        DataManager dm = _MasterManager.Instance.DataManager;
+
+        if (dm.QuickSlotItem != null)
+        {
+            model.SetQickSlot(SLOT_INDEX, dm.QuickSlotItem);
+        }
+
+        RefreshUI();
     }
 }

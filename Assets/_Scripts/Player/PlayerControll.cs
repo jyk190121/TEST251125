@@ -11,7 +11,6 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     CharacterController CC;
     PlayerModel model;
     PlayerAnimController PAC;
-    PlayerDie PD;
     BattleRecord BR;
 
     Item weapon;
@@ -66,9 +65,8 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     //공격용 무기의 DamageDealer를 받는 리스트
     private List<DamageDealer> meleeWeaponDealers = new List<DamageDealer>();
 
-    //임의로 사용할 무기 정보 값
-    public int weaponnumber = 1;
-    
+    //무기별 스타일 분리용
+    int weaponnumber = 5;
 
     private void OnEnable()
     {
@@ -83,12 +81,15 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         Debug.Log("모델" + model);
         meleeWeaponDealers.AddRange(GetComponentsInChildren<DamageDealer>(true));
         Debug.Log(model.ATT);
-        PD = GetComponent<PlayerDie>();
         BR = FindAnyObjectByType<BattleRecord>();
+        weapon = _MasterManager.Instance.DataManager.GetWeapon();
+        weaponType();
     }
 
     public void Update()
     {
+        if (weaponnumber == 0) return;
+
         //창찌르기 차지공격
         if (isSpearCharge && SpearChargedTime < 2f)
         {
@@ -188,7 +189,27 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     public void RefreshWeapon()
     {
         weapon = _MasterManager.Instance.DataManager.GetWeapon();
+        weaponType();
     }
+    //장착중인 무기에 따라 스타일 변경
+    void weaponType()
+    {
+        if (weapon == null) return;
+
+        if (weapon.itemID == 2001 || weapon.itemID == 2002)
+        {
+            weaponnumber = 1;
+        }
+        else if(weapon.itemID == 2003 || weapon.itemID == 2004)
+        {
+            weaponnumber = 2;
+        }
+        else if(weapon.itemID == 2005 || weapon.itemID == 2006)
+        {
+            weaponnumber = 3;
+        }
+    }
+
     public void Idle()
     {
         if (!isMove) return;

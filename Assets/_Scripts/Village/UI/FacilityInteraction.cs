@@ -104,7 +104,8 @@ public class FacilityInteraction : MonoBehaviour
         {
             Debug.Log("[FacilityInteraction] 던전 입장!");
             // 나중에: SceneManager.LoadScene("DungeonScene");
-            GameSceneManager.game.LoadScene("DungeonTest");
+            GameSceneManager.game.LoadScene("DungeonScene");
+            //_MasterManager.Instance.DungeonManager.ChangeDay();
             return;
         }
 
@@ -113,8 +114,10 @@ public class FacilityInteraction : MonoBehaviour
         {
             if (linkedUIPanel != null)
             {
-                _MasterManager.Instance.UIManager.SetRightPanelActive(false);
                 linkedUIPanel.SetActive(true);
+                FacilitiesBuyUI facilitiesBuyUI = linkedUIPanel.GetComponent<FacilitiesBuyUI>();
+                _MasterManager.Instance.UIManager.SetRightPanelActive(false);
+                facilitiesBuyUI.OpenUI();
             }
             Debug.Log("[FacilityInteraction] 시설 구매 UI 열기");
             return;

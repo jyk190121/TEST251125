@@ -268,7 +268,7 @@ public class InventoryModel
             var slot = slots[key];
 
             //타겟 아이템이 맞는지 아이디 확인
-            if (slot.IsEmpty && slot.itemData.itemID == targetItemID)
+            if (!slot.IsEmpty && slot.itemData.itemID == targetItemID)
             {
                 //이 슬롯에 있는 게, 지워야 할 양보다 많음
                 //(예: 슬롯에 10개 있음, 2개만 지워야 함 -> 8개 남김)

@@ -15,7 +15,8 @@ public class GameSaveData
     public int playerDefend;
     public float playerMoveSpeed;
     public float playerAttackSpeed;
-    public int equippedWeaponID;
+
+    public int[] equippedItemIDs = new int[4];
 
     // ===== 시간 정보 =====
     public int currentTimeOfDay;
@@ -29,5 +30,20 @@ public class GameSaveData
 
     // ===== 인벤토리 정보 =====
     public DataManager.InventorySlotData[] inventorySlots;
+    public int quickSlotItemID;
+
+    // ===== 창고 정보 =====
+    public DataManager.WarehouseSlotData[] warehouseSlots;
+
+    // ===== 진열대 정보 =====
+    [System.Serializable]
+    public class SavedRegisteredItem
+    {
+        public int itemID;
+        public int count;
+        public int price;
+    }
+
+    public SavedRegisteredItem[] registeredItems = new SavedRegisteredItem[4];
 }
 

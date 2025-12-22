@@ -23,6 +23,7 @@ public class BattleRecord: MonoBehaviour
     public TextMeshProUGUI deadReason;
     public TextMeshProUGUI goToVillage;
     public TextMeshProUGUI retry;
+    public TextMeshProUGUI enter;
 
     //먹은 아이템 갯수, 잡은 몬스터 수
     public TextMeshProUGUI itemCount;
@@ -41,9 +42,17 @@ public class BattleRecord: MonoBehaviour
     //UI 슬롯 프리팹
     public GameObject slotPrefab;
 
+    // 인벤토리(아이템 목록) 패널
+    public GameObject inventoryPrefab;
+    public GameObject deleteInventory;
+
     //켜져있을때 입력값 확인
     bool Key_goToVillage = false;
     bool Key_Retry = false;
+    bool Key_Enter = false;
+
+    //사망시 아이템 제거
+    bool ifDie = false;
 
 
     //사진 찍어 오자...
@@ -58,7 +67,8 @@ public class BattleRecord: MonoBehaviour
         KilledMonster = new List<MonsterData>();
         items = new List<Item>();
         resultPanel.SetActive(false);
-        
+        inventoryPrefab.SetActive(false);
+        deleteInventory.SetActive(false);
     }
 
     private void Update()
@@ -67,8 +77,13 @@ public class BattleRecord: MonoBehaviour
         {
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
             {
+                if (ifDie)
+                {
+                    _MasterManager.Instance.InventoryManager.OnPlayerDeath();
+                }
                 _MasterManager.Instance.DataManager.SetisClear(false);
                 _MasterManager.Instance.DataManager.SetisPendant(false);
+                _MasterManager.Instance.DungeonManager.ChangeDay();
                 GameSceneManager.game.LoadScene("Villiage");
             }
         }
@@ -76,9 +91,27 @@ public class BattleRecord: MonoBehaviour
         {
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]))
             {
+                if (ifDie)
+                {
+                    _MasterManager.Instance.InventoryManager.OnPlayerDeath();
+                }
                 _MasterManager.Instance.DataManager.SetisClear(false);
                 _MasterManager.Instance.DataManager.SetisPendant(false);
+                _MasterManager.Instance.DungeonManager.ChangeDay();
                 GameSceneManager.game.ReloadCurrentScene();
+            }
+        }
+        if (Key_Enter)
+        {
+            if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]))
+            {
+                if (_MasterManager.Instance.DataManager.dungeonCleared == 1)
+                {
+                    _MasterManager.Instance.DataManager.SetisClear(false);
+                    _MasterManager.Instance.DataManager.SetisPendant(false);
+                    _MasterManager.Instance.DataManager.dungeonCleared = 0;
+                    GameSceneManager.game.LoadScene("Dungeon2Scene");
+                }
             }
         }
 
@@ -128,7 +161,9 @@ public class BattleRecord: MonoBehaviour
 
         //결과창 케이스 별 분리
         resultPanel.SetActive(true);            // 평소엔 꺼놨다가 키기
+        inventoryPrefab.SetActive(true);
         retry.gameObject.SetActive(false);      // retry는 사망 시에만
+        enter.gameObject.SetActive(false);      // enter는 클리어일때
         Key_goToVillage = true;
         if (Pendent)
         {
@@ -137,16 +172,22 @@ public class BattleRecord: MonoBehaviour
         }
         else if (Clear)
         {
+            _MasterManager.Instance.DataManager.DungeonClear(1);
+            enter.gameObject.SetActive(true);
             deadReason.text = "던전 클리어 후 복귀";
+            enter.text = $"{KeySetting.keys[KeyInput.INTERACTIVE]}   2층 입장";
             HowImage.sprite = sprites[1];
+            Key_Enter = true;
         }
         else
         {
             retry.gameObject.SetActive(true);
+            deleteInventory.SetActive(true);    //플레이어 사망시 Delete된 아이템에 사선 표시
             deadReason.text = "사고로 사망";
             retry.text = $"{KeySetting.keys[KeyInput.INTERACTIVE]}   다시 플레이";
             HowImage.sprite = sprites[2];
             Key_Retry = true;
+            ifDie = true;
         }
 
         goToVillage.text = $"{KeySetting.keys[KeyInput.CANCLE]}   마을로 가기";
