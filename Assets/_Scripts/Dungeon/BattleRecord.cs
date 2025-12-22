@@ -43,12 +43,16 @@ public class BattleRecord: MonoBehaviour
     public GameObject slotPrefab;
 
     // 인벤토리(아이템 목록) 패널
-    public GameObject inventoryPrefab; 
+    public GameObject inventoryPrefab;
+    public GameObject deleteInventory;
 
     //켜져있을때 입력값 확인
     bool Key_goToVillage = false;
     bool Key_Retry = false;
     bool Key_Enter = false;
+
+    //사망시 아이템 제거
+    bool ifDie = false;
 
 
     //사진 찍어 오자...
@@ -64,6 +68,7 @@ public class BattleRecord: MonoBehaviour
         items = new List<Item>();
         resultPanel.SetActive(false);
         inventoryPrefab.SetActive(false);
+        deleteInventory.SetActive(false);
     }
 
     private void Update()
@@ -72,6 +77,10 @@ public class BattleRecord: MonoBehaviour
         {
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
             {
+                if (ifDie)
+                {
+                    _MasterManager.Instance.InventoryManager.OnPlayerDeath();
+                }
                 _MasterManager.Instance.DataManager.SetisClear(false);
                 _MasterManager.Instance.DataManager.SetisPendant(false);
                 _MasterManager.Instance.DungeonManager.ChangeDay();
@@ -82,6 +91,10 @@ public class BattleRecord: MonoBehaviour
         {
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]))
             {
+                if (ifDie)
+                {
+                    _MasterManager.Instance.InventoryManager.OnPlayerDeath();
+                }
                 _MasterManager.Instance.DataManager.SetisClear(false);
                 _MasterManager.Instance.DataManager.SetisPendant(false);
                 _MasterManager.Instance.DungeonManager.ChangeDay();
@@ -169,12 +182,12 @@ public class BattleRecord: MonoBehaviour
         else
         {
             retry.gameObject.SetActive(true);
+            deleteInventory.SetActive(true);    //플레이어 사망시 Delete된 아이템에 사선 표시
             deadReason.text = "사고로 사망";
             retry.text = $"{KeySetting.keys[KeyInput.INTERACTIVE]}   다시 플레이";
             HowImage.sprite = sprites[2];
             Key_Retry = true;
-
-            _MasterManager.Instance.InventoryManager.OnPlayerDeath(); // 원래는 씬 넘어갈때 없어져야함
+            ifDie = true;
         }
 
         goToVillage.text = $"{KeySetting.keys[KeyInput.CANCLE]}   마을로 가기";
