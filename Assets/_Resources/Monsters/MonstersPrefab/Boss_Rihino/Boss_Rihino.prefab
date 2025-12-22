@@ -795,7 +795,7 @@ GameObject:
   - component: {fileID: 421066}
   - component: {fileID: 9517452}
   m_Layer: 0
-  m_Name: Boss_Rhino
+  m_Name: Boss_Rihino
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

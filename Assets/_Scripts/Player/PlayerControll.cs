@@ -194,7 +194,9 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     //장착중인 무기에 따라 스타일 변경
     void weaponType()
     {
-        if(weapon.itemID == 2001 || weapon.itemID == 2002)
+        if (weapon == null) return;
+
+        if (weapon.itemID == 2001 || weapon.itemID == 2002)
         {
             weaponnumber = 1;
         }

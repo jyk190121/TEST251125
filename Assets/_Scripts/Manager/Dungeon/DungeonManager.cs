@@ -1,4 +1,5 @@
 using UnityEngine;
+using static DayManager;
 
 public class DungeonManager : MonoBehaviour
 {
@@ -8,10 +9,12 @@ public class DungeonManager : MonoBehaviour
     [SerializeField]
     private GameObject miniMapPrefab;
 
+    public DayManager dayManager;
+
 
     private void Start()
     {
-       
+        dayManager = FindAnyObjectByType<DayManager>();
     }
    
     void Update()
@@ -27,6 +30,19 @@ public class DungeonManager : MonoBehaviour
     public void OffMiniMap()
     {
         miniMapPrefab.SetActive(false);
+    }
+
+    //낯 밤 변경
+    public void ChangeDay()
+    {
+        if (dayManager.IsDay)
+        {
+            dayManager.ChangeTimeOfDay(TimeOfDay.Night);
+        }
+        else if (dayManager.IsNight)
+        {
+            dayManager.ChangeTimeOfDay(TimeOfDay.Day);
+        }
     }
 
     /*
