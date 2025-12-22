@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof (SoundManager))]
 public class SoundManager : MonoBehaviour
 {
     // 사운드 옵션 ON/OFF
@@ -75,6 +77,11 @@ public class SoundManager : MonoBehaviour
         //사운드 옵션 창 열고 닫기
         if (Input.GetKeyDown(KeySetting.keys[KeyInput.OPTION]))
         {
+            if (SceneManager.GetActiveScene().name == "StartScene")
+            {
+                soundPanel.gameObject.SetActive(false);
+                return;
+            }
             soundPanel.gameObject.SetActive(!soundPanel.gameObject.activeSelf);
         }
     }
