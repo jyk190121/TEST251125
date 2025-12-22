@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class PlayerWeapon : MonoBehaviour
 {
@@ -10,6 +11,11 @@ public class PlayerWeapon : MonoBehaviour
     private void OnEnable()
     {
         DataManager.OnEquipmentChanged += WeaponPrefab;
+    }
+
+    private void OnDisable()
+    {
+        DataManager.OnEquipmentChanged -= WeaponPrefab;
     }
 
     void WeaponPrefab()
