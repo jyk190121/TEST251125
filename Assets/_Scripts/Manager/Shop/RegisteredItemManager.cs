@@ -14,7 +14,7 @@ public class RegisteredItemManager : MonoBehaviour
     public WarehouseView warehouseView;
     public InventoryView inventoryView;
     public InventoryView resultInvenView;
-    public RegisteredItemTemp itemView;  //ShopScene에서만 사용
+    public RegisteredItem itemView;     //ShopScene에서만 사용
     public Inventory inventory;         //인벤토리창 On/Off
 
     [Header("테스트용 아이템 연결")]
@@ -516,19 +516,21 @@ public class RegisteredItemManager : MonoBehaviour
 
         var itemToDrop = slots[dragStartIndex].itemData;
 
-        ////팝업 열기 (아이템 이름, YES 행동, NO 행동 전달)
-        //dropPopup.OpenPopup(
-        //    itemToDrop.itemName,
-        //    //YES 눌렀을 때: 아이템 삭제
-        //    onYes: () => {
-        //        model.RemoveItem(dragStartIndex); // 모델에서 삭제
-        //        dragStartIndex = -1;              // 드래그 상태 초기화
-        //    },
-        //    //NO 눌렀을 때: 드래그 취소 (제자리 복귀)
-        //    onNo: () => {
-        //        CancelDrag();
-        //    }
-        //);
+        //팝업 열기 (아이템 이름, YES 행동, NO 행동 전달)
+        dropPopup.OpenPopup(
+            itemToDrop.itemName,
+            //YES 눌렀을 때: 아이템 삭제
+            onYes: () =>
+            {
+                model.RemoveItem(dragStartIndex); // 모델에서 삭제
+                dragStartIndex = -1;              // 드래그 상태 초기화
+            },
+            //NO 눌렀을 때: 드래그 취소 (제자리 복귀)
+            onNo: () =>
+            {
+                CancelDrag();
+            }
+        );
     }
 
     //인벤토리 슬롯이 아닌 곳에 Drop했을 때

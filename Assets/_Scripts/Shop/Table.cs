@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent (typeof (Canvas))]
 public class Table : MonoBehaviour
 {
     RegisteredItemTemp regiItem;

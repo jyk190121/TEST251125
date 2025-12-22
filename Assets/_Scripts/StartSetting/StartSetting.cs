@@ -6,14 +6,18 @@ public class StartSetting : MonoBehaviour
     UIDocument document;
     VisualElement panel;
 
-    Button continueBtn;  //이어하기
+    Button continueBtn;      //이어하기
     Button startBtn;        //처음 시작
     Button optionBtn;       //설정
     Button exitBtn;         //게임 종료
+    SoundManager soundManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        soundManager = _MasterManager.Instance.SoundManager;
+        soundManager.PlayBGM("진영", 3);
+
         document = GetComponent<UIDocument>();
         panel = document.rootVisualElement;
 
@@ -86,6 +90,8 @@ public class StartSetting : MonoBehaviour
     void Option()
     {
         //옵션
+        print("옵션버튼 선택");
+        soundManager.soundPanel.gameObject.SetActive(true);
     }
 
     void Exit()
