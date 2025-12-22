@@ -12,6 +12,8 @@ public class DamageDealer : MonoBehaviour
     private GameObject damageOwner;
     PlayerControll PC;
     NormalMosterFSM NMF;
+    DragonFSM DFSM;
+    RihinoFSM RFSM;
     //FSMTest FT;
 
     //중복 공격 방지
@@ -33,16 +35,35 @@ public class DamageDealer : MonoBehaviour
 
             PC = damageOwner.GetComponent<PlayerControll>();
         }
-        if(gameObject.layer == 11) //몬스터 레이어
+        if(gameObject.layer == 11 || gameObject.layer == 10) //몬스터 레이어
         {
-            MonsterData monster = damageOwner.GetComponent<NormalMosterFSM>().monsterData;
-            baseDamage = monster.Attack;
-            NMF = GetComponent<NormalMosterFSM>();
-            //MonsterData monster = damageOwner.GetComponent<FSMTest>().monsterData;
-            baseDamage = monster.Attack;
-            NMF = GetComponent<NormalMosterFSM>();
-            //FT = GetComponent<FSMTest>();
+            if (gameObject.layer == 11)
+            {
+                MonsterData monster = damageOwner.GetComponent<NormalMosterFSM>().monsterData;
+                baseDamage = monster.Attack;
+                NMF = GetComponent<NormalMosterFSM>();
+                //MonsterData monster = damageOwner.GetComponent<FSMTest>().monsterData;
+                //baseDamage = monster.Attack;
+                //NMF = GetComponent<NormalMosterFSM>();
+                //FT = GetComponent<FSMTest>();
+            }
+            if (gameObject.layer == 10)
+            {
+                if (gameObject.name == "BossDragonRoot")
+                {
+                    MonsterData dragon = damageOwner.GetComponent<DragonFSM>().dragonData;
+                    baseDamage = dragon.Attack;
+                    DFSM = GetComponent<DragonFSM>();
+                }
+                if (gameObject.name == "BossRihinoRoot")
+                {
+                    MonsterData rihino = damageOwner.GetComponent<RihinoFSM>().rihinoData;
+                    baseDamage = rihino.Attack;
+                    RFSM = GetComponent<RihinoFSM>();
+                }
+            }
         }
+        
     }
     //데미지 출처를 설정하는 함수 -> 투사체용
     public void SetOwner(GameObject owner)
@@ -73,13 +94,34 @@ public class DamageDealer : MonoBehaviour
 
         }
 
-        if (gameObject.layer == 11)
+        if (gameObject.layer == 11 || gameObject.layer == 10)
         {
-            NMF = damageOwner.GetComponent<NormalMosterFSM>();
-            //FT = GetComponent<FSMTest>();   
-            bool checkAttack = NMF.OnAttack();
-            if (!checkAttack) return;
-            ResetHitTargets();
+            if (gameObject.layer == 11)
+            {
+                NMF = damageOwner.GetComponent<NormalMosterFSM>();
+                //FT = GetComponent<FSMTest>();   
+                bool checkAttack = NMF.OnAttack();
+                if (!checkAttack) return;
+                ResetHitTargets();
+            }
+            if (gameObject.layer == 10)
+            {
+                if (gameObject.name == "BossDragonRoot")
+                {
+                    DFSM = damageOwner.GetComponent<DragonFSM>();
+                    bool checkAttack = DFSM.OnAttack();
+                    if (!checkAttack) return;
+                    ResetHitTargets();
+                }
+                if (gameObject.name == "BossRihinoRoot")
+                {
+                    RFSM = damageOwner.GetComponent<RihinoFSM>();
+                    bool checkAttack = RFSM.OnAttack();
+                    if (!checkAttack) return;
+                    ResetHitTargets();
+                }
+            }
+            
         }
 
         //이미 맞은놈이면 리턴
