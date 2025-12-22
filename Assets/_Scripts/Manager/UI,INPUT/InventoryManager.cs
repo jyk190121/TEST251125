@@ -40,6 +40,9 @@ public class InventoryManager : MonoBehaviour
     //아이템 정렬 순서 변수
     private int currentSortIndex = 0;
 
+    //효과음 재생
+    SoundManager soundManager;
+
     //클릭할 때마다 바뀔 정렬 타입 순서
     //0: Material, 1: Weapon, 2: Potion
     private readonly ItemType[] sortOrder = new ItemType[]
@@ -62,6 +65,9 @@ public class InventoryManager : MonoBehaviour
 
         //Model 생성
         model = new InventoryModel(capacity);
+
+        //SoundManager 인스턴스 할당
+        soundManager = FindAnyObjectByType<SoundManager>();
 
         //View 초기화
         inventoryView.CreateSlots(capacity);
@@ -236,29 +242,7 @@ public class InventoryManager : MonoBehaviour
     //드래그 시작 시 호출
     public void OnDragStart(int index)
     {
-        dragStartIndex = index;
-    }
-
-    //드래그 아이템을 쓰레기통으로
-    public void OnDropToTrash()
-    {
-        //드래그 중인 아이템이 없으면 취소
-        if (dragStartIndex == -1) return;
-
-        //쓰레기통에 아이템을 드래그 앤 드롭하면 바로 삭제
-        model.RemoveItem(dragStartIndex);
-        Debug.Log("쓰레기통에 버려 삭제되었습니다.");
-
-        //팝업
-        //ShowDropPopup();
-        //Debug.Log("쓰레기통에 버려 삭제되었습니다.");
-
-
-        //처리가 끝났으니 드래그 상태 초기화        
-        dragStartIndex = -1;
-
-        //화면 갱신
-        model.NotifyUpdate();
+        dragStartIndex = index;        
     }
 
     //드래그 끝(드롭) 시 호출
@@ -322,6 +306,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
+        soundManager.PlaySFX("시우", 0);
     }
 
 
