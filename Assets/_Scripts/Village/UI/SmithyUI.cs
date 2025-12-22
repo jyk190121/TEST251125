@@ -1,7 +1,9 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 대장간 UI (무기 제작)
@@ -31,6 +33,8 @@ public class SmithyUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI DefText;
     [SerializeField] private TextMeshProUGUI SpeedText;
 
+    [SerializeField] Image madeImage;
+
     [SerializeField] TextMeshProUGUI CloseButtonText;
 
     private SmithySystem craftingSystem;
@@ -38,6 +42,7 @@ public class SmithyUI : MonoBehaviour
     private bool isFirstTab = true;  // true: 무기, false: 장비
 
     private List<Button> createdButtons = new List<Button>();  // 생성된 버튼 추적
+    private Coroutine madeImageCoroutine;
 
     private void Start()
     {
@@ -221,6 +226,10 @@ public class SmithyUI : MonoBehaviour
         if (recipeImage != null)
             recipeImage.sprite = recipe.outputItem.icon;
 
+        if (madeImage != null)
+            madeImage.sprite = recipeImage.sprite;
+        madeImage.color = new Color(1, 1, 1, 0);
+
         //스탯 변화 표시
         if (HPText != null)
             HPText.text = $"+{Item.hpPlus}";
@@ -294,10 +303,60 @@ public class SmithyUI : MonoBehaviour
         var recipe = craftingSystem.GetRecipe(selectedRecipeID);
         string itemName = recipe != null ? recipe.outputItem.itemName : "아이템";
 
+        // 기존 애니메이션이 진행 중이면 중단
+        if (madeImageCoroutine != null)
+            StopCoroutine(madeImageCoroutine);
+
+        // 새로운 애니메이션 시작
+        madeImageCoroutine = StartCoroutine(ShowMadeImageEffect());
+
+        _MasterManager.Instance.SoundManager.PlaySFX("유정", 0);
+
         Debug.Log($"[SmithyUI] 제작 성공: {itemName} x{quantity}");
 
         // 선택 해제 및 UI 갱신
         SelectRecipe(selectedRecipeID);
+    }
+
+    /// <summary>
+    /// madeImage를 1초간 표시한 후 위로 움직이면서 사라지는 효과
+    /// </summary>
+    private IEnumerator ShowMadeImageEffect()
+    {
+        // 1. 이미지 표시 (알파값 1로)
+        madeImage.color = new Color(1, 1, 1, 1);
+
+        // RectTransform 초기 위치 설정
+        RectTransform rectTransform = madeImage.GetComponent<RectTransform>();
+        Vector3 startPos = rectTransform.localPosition;
+
+        // 2. 1초 대기
+        yield return new WaitForSeconds(1f);
+
+        // 3. 위로 움직이면서 사라지기 (0.5초)
+        float elapsedTime = 0f;
+        float duration = 0.5f;
+        Vector3 endPos = startPos + Vector3.up * 100f;  // 100픽셀 위로 이동
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / duration;
+
+            // 위치 이동
+            rectTransform.localPosition = Vector3.Lerp(startPos, endPos, progress);
+
+            // 알파값 감소 (0.5초에 걸쳐 투명해짐)
+            Color color = madeImage.color;
+            color.a = Mathf.Lerp(1f, 0f, progress);
+            madeImage.color = color;
+
+            yield return null;
+        }
+
+        // 4. 최종 상태 설정 (완벽하게 투명)
+        madeImage.color = new Color(1, 1, 1, 0);
+        rectTransform.localPosition = startPos;  // 원래 위치로 복원
     }
 
     private void OnDestroy()
