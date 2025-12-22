@@ -41,11 +41,18 @@ MonoBehaviour:
   patternCooldown: 3
   phaseTwoHpRate: 0.5
   jumpAoeRadius: 3
-  screamRange: 10
+  roarRange: 10
   chargeDistance: 10
   chargeStoppingTime: 1
-  shoutRange: 8
   attackFX: {fileID: 0}
   hitFX: {fileID: 0}
   deathFX: {fileID: 0}
-  DropTable: []
+  DropTable:
+  - itemPrefab: {fileID: 3272577696482075307, guid: e435cb7ea97ed094a81a48464ec299b3, type: 3}
+    chance: 0.5
+    minCount: 1
+    maxCount: 3
+  - itemPrefab: {fileID: 3272577696482075307, guid: 074c8b1c629e6634c8d6d686755fe42a, type: 3}
+    chance: 0.25
+    minCount: 1
+    maxCount: 4

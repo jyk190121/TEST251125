@@ -28,7 +28,7 @@ MonoBehaviour:
   Race: 6
   NormalPatterns: 00000000
   SpecialPatterns: 9101000092010000
-  NormalpatternIDs: 
+  NormalpatternIDs: 00000000
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0
@@ -41,10 +41,9 @@ MonoBehaviour:
   patternCooldown: 3
   phaseTwoHpRate: 0.5
   jumpAoeRadius: 3
-  screamRange: 10
+  roarRange: 10
   chargeDistance: 10
   chargeStoppingTime: 1
-  shoutRange: 8
   attackFX: {fileID: 0}
   hitFX: {fileID: 0}
   deathFX: {fileID: 0}
