@@ -209,7 +209,7 @@ public class RegisteredItem : MonoBehaviour
             currentPrice.text = inventoryItem.sellPrice.ToString();
 
             dropPopup.OpenPopup(
-                inventoryItem.itemName,
+                inventoryItem,
                 onYes: () =>
                 {
                     OnPopupYes(dropIndex, invDragStartIndex, inventoryItem, inventoryCount);
