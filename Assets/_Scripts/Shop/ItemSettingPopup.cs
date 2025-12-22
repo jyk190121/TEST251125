@@ -14,10 +14,10 @@ public class ItemSettingPopup : MonoBehaviour
     private Action onYesCallback;
     private Action onNoCallback;
 
-    public void OpenPopup(string itemName, Action onYes, Action onNo)
+    public void OpenPopup(Item item, Action onYes, Action onNo)
     {
         //텍스트 설정
-        regiItemText.text = $"{itemName} 등록";
+        regiItemText.text = $"{item.name} 등록";
 
         //콜백 저장
         onYesCallback = onYes;
