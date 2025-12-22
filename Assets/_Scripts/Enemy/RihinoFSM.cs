@@ -33,7 +33,7 @@ public class RihinoFSM : MonoBehaviour
     public MonsterData rihinoData;
     NavMeshAgent agent;
     public Animator anim;
-
+    RoomController roomController;
     [Header("HitBox")]
     [Tooltip("돌진 중 활성화될 히트박스")]
     public GameObject chargeHitBox;
@@ -210,7 +210,7 @@ public class RihinoFSM : MonoBehaviour
     IEnumerator NormalAttackFallback()
     {
         anim.SetTrigger("Attack");
-
+        anim.SetInteger("Pattern", 0);
         float wait = 2f; // 애니 없을 경우 fallback
         if (anim != null)
         {
@@ -231,6 +231,7 @@ public class RihinoFSM : MonoBehaviour
     IEnumerator ExecuteCharge()
     {
         anim.SetTrigger("Attack");
+        anim.SetInteger("Pattern", 401);
 
         yield return null;
 
@@ -296,6 +297,126 @@ public class RihinoFSM : MonoBehaviour
         specialTimer = specialCool;
         isActing = false;
         state = RihinoState.Idle;
+    }
+
+    /*───────────────────────────────*
+     * 데미지 / 피격
+     *───────────────────────────────*/
+    public void TakeDamage(DamageData data)
+    {
+        if (state == RihinoState.Die) return;
+
+        currentHP -= data.damageAmount;
+        print($"최대 {rihinoData.HP}/현재 {currentHP}");
+
+        if (state == RihinoState.GetHit) return;
+        // 🔥 공격 중이면 피격 연출 없이 HP만 감소
+        if (state == RihinoState.Attack)
+        {
+            if (currentHP <= 0)
+            {
+                state = RihinoState.Die;
+                Die();
+            }
+            return;
+        }
+
+        // 공격 중이 아닐 때만 피격 처리
+        if (currentHP <= 0)
+        {
+            state = RihinoState.Die;
+            Die();
+        }
+        else
+        {
+            StartCoroutine(GetHitProc());
+        }
+
+    }
+
+    IEnumerator GetHitProc()
+    {
+        state = RihinoState.GetHit;
+        anim.applyRootMotion = true;
+
+        anim.SetTrigger("Hit");
+
+        yield return null;
+
+        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
+        yield return new WaitForSeconds(info.length);
+
+        //  RootMotion 종료 → NavMesh로 복귀
+        anim.applyRootMotion = false;
+
+        state = RihinoState.Idle;
+    }
+
+    public void SetupRoom(RoomController room)
+    {
+        roomController = room;
+    }
+
+
+    /*───────────────────────────────*
+     * 사망
+     *───────────────────────────────*/
+    public void Die()
+    {
+        anim.applyRootMotion = true;
+        agent.isStopped = true;
+
+        anim.SetTrigger("Die");
+        StartCoroutine(DieProc());
+    }
+
+    IEnumerator DieProc()
+    {
+        DropItems();
+
+        yield return new WaitForSeconds(3f);
+
+        if (roomController != null)
+        {
+            roomController.ClearDungeon(this.gameObject);
+        }
+
+        // 나중에 연결
+
+        _MasterManager.Instance.DataManager.GetMonster(rihinoData);
+        Destroy(gameObject);
+    }
+
+    void DropItems()
+    {
+        if (rihinoData.DropTable == null || rihinoData.DropTable.Length == 0)
+            return;
+
+        foreach (var drop in rihinoData.DropTable)
+        {
+            // 1️⃣ 확률 체크
+            float roll = Random.value; // 0.0 ~ 1.0
+            if (roll > drop.chance)
+                continue;
+
+            // 2️⃣ 드랍 개수 결정
+            int count = Random.Range(drop.minCount, drop.maxCount + 1);
+            if (count <= 0)
+                continue;
+
+            // 3️⃣ 아이템 생성
+            for (int i = 0; i < count; i++)
+            {
+                Vector3 spawnPos = transform.position + GetRandomDropOffset();
+                Instantiate(drop.itemPrefab, spawnPos, Quaternion.identity);
+            }
+        }
+    }
+    Vector3 GetRandomDropOffset()
+    {
+        float radius = 0.5f;
+        Vector2 rand = Random.insideUnitCircle * radius;
+        return new Vector3(rand.x, 0f, rand.y);
     }
 
     /*───────────────────────────────*

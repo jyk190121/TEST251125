@@ -33,7 +33,7 @@ public class DragonFSM : MonoBehaviour
     public MonsterData dragonData;
     NavMeshAgent agent;
     public Animator anim;
-
+    RoomController roomController;
     [Header("HitBox")]
     public GameObject chargeHitBox;
     public GameObject aoeHitBox;
@@ -41,7 +41,7 @@ public class DragonFSM : MonoBehaviour
     /*───────────────────────────────*
      * 스탯
      *───────────────────────────────*/
-    float hp;
+    float currentHP;
     float speed;
 
     /*───────────────────────────────*
@@ -86,7 +86,7 @@ public class DragonFSM : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
-        hp = dragonData.HP;
+        currentHP = dragonData.HP;
         speed = dragonData.Speed;
 
         normalCool = dragonData.CoolTime;
@@ -297,6 +297,127 @@ public class DragonFSM : MonoBehaviour
         isActing = false;
         state = DragonState.Idle;
     }
+
+    /*───────────────────────────────*
+     * 데미지 / 피격
+     *───────────────────────────────*/
+    public void TakeDamage(DamageData data)
+    {
+        if (state == DragonState.Die) return;
+
+        currentHP -= data.damageAmount;
+        print($"최대 {dragonData.HP}/현재 {currentHP}");
+
+        if (state == DragonState.GetHit) return;
+        // 🔥 공격 중이면 피격 연출 없이 HP만 감소
+        if (state == DragonState.Attack)
+        {
+            if (currentHP <= 0)
+            {
+                state = DragonState.Die;
+                Die();
+            }
+            return;
+        }
+
+        // 공격 중이 아닐 때만 피격 처리
+        if (currentHP <= 0)
+        {
+            state = DragonState.Die;
+            Die();
+        }
+        else
+        {
+            StartCoroutine(GetHitProc());
+        }
+
+    }
+
+    IEnumerator GetHitProc()
+    {
+        state = DragonState.GetHit;
+        anim.applyRootMotion = true;
+
+        anim.SetTrigger("Hit");
+
+        yield return null;
+
+        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
+        yield return new WaitForSeconds(info.length);
+
+        //  RootMotion 종료 → NavMesh로 복귀
+        anim.applyRootMotion = false;
+
+        state = DragonState.Idle;
+    }
+
+    public void SetupRoom(RoomController room)
+    {
+        roomController = room;
+    }
+
+
+    /*───────────────────────────────*
+     * 사망
+     *───────────────────────────────*/
+    public void Die()
+    {
+        anim.applyRootMotion = true;
+        agent.isStopped = true;
+
+        anim.SetTrigger("Die");
+        StartCoroutine(DieProc());
+    }
+
+    IEnumerator DieProc()
+    {
+        DropItems();
+
+        yield return new WaitForSeconds(3f);
+
+        if (roomController != null)
+        {
+            roomController.ClearDungeon(this.gameObject);
+        }
+
+        // 나중에 연결
+
+        _MasterManager.Instance.DataManager.GetMonster(dragonData);
+        Destroy(gameObject);
+    }
+
+    void DropItems()
+    {
+        if (dragonData.DropTable == null || dragonData.DropTable.Length == 0)
+            return;
+
+        foreach (var drop in dragonData.DropTable)
+        {
+            // 1️⃣ 확률 체크
+            float roll = Random.value; // 0.0 ~ 1.0
+            if (roll > drop.chance)
+                continue;
+
+            // 2️⃣ 드랍 개수 결정
+            int count = Random.Range(drop.minCount, drop.maxCount + 1);
+            if (count <= 0)
+                continue;
+
+            // 3️⃣ 아이템 생성
+            for (int i = 0; i < count; i++)
+            {
+                Vector3 spawnPos = transform.position + GetRandomDropOffset();
+                Instantiate(drop.itemPrefab, spawnPos, Quaternion.identity);
+            }
+        }
+    }
+    Vector3 GetRandomDropOffset()
+    {
+        float radius = 0.5f;
+        Vector2 rand = Random.insideUnitCircle * radius;
+        return new Vector3(rand.x, 0f, rand.y);
+    }
+
 
     /*───────────────────────────────*
      * 히트 판정용
