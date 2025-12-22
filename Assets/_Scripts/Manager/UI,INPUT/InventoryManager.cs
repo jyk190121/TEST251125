@@ -193,6 +193,18 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
+        //마우스 버튼을 뗐는데(Up) && 드래그 중이라면(dragStartIndex != -1)
+        if (Input.GetMouseButtonUp(0) && dragStartIndex != -1)
+        {
+            //팝업창이 꺼져있을 때만 강제로 종료 처리
+            //팝업이 켜져 있다면, 유저의 응답을 기다려야 하므로 건드리지 않음
+            if (dropPopup.gameObject.activeSelf == false && splitPopup.gameObject.activeSelf == false)
+            {
+                //강제로 드래그 종료 함수 호출 (-1: 인벤토리 밖으로 간주)
+                OnDragEnd(-1);
+            }
+        }
+
         //ShopScene에서만 사용하기 때문에 
         if (itemView == null) return;
 
