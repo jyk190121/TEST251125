@@ -1,17 +1,17 @@
-using UnityEngine;
-using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// 코뿔소 보스 전용 FSM
 /// - 기본 근접 공격
-/// - 특수 공격 : 돌진
+/// - 특수 공격 : 포효 / 돌진
 /// 
-/// ✔ 돌진 시작 시 플레이어 위치 고정
-/// ✔ NavMesh 유지
-/// ✔ 돌진 중에만 히트박스 활성화
-/// ✔ 애니메이션 없을 경우 2초 정지 fallback
+/// ✔ 돌진 시작 시 방향 고정
+/// ✔ NavMesh 기반 이동
+/// ✔ 돌진 중 히트박스 On/Off
+/// ✔ 애니메이션 길이 기준 타이밍
 /// </summary>
 public class RihinoFSM : MonoBehaviour
 {
@@ -34,21 +34,27 @@ public class RihinoFSM : MonoBehaviour
     NavMeshAgent agent;
     public Animator anim;
     RoomController roomController;
+
     [Header("HitBox")]
-    [Tooltip("돌진 중 활성화될 히트박스")]
     public GameObject chargeHitBox;
 
     /*───────────────────────────────*
-     * 스탯 / 쿨타임
+     * 스탯
      *───────────────────────────────*/
     float currentHP;
     float speed;
 
+    /*───────────────────────────────*
+     * 쿨타임
+     *───────────────────────────────*/
     float normalCool;
     float normalTimer;
 
     float specialCool;
     float specialTimer;
+
+    float chargeCool;
+    float chargeTimer;
 
     /*───────────────────────────────*
      * 거리
@@ -58,15 +64,18 @@ public class RihinoFSM : MonoBehaviour
     float minRange;
 
     /*───────────────────────────────*
-     * 돌진 관련
+     * 패턴
      *───────────────────────────────*/
-    Vector3 chargeTargetPos;
-    float chargeDuration = 0.8f;      // 애니메이션 기준
-    float chargeTimer;
+    NormalPattern[] normalPatterns;
+    SpecialPattern[] specialPatterns;
+    int[] normalPatternIDs;
+
+    /*───────────────────────────────*
+     * 돌진
+     *───────────────────────────────*/
+    float chargeDuration = 1.0f;
     float chargeSpeedMul = 3f;
     float originalSpeed;
-    float chargeStop;
-
     bool isCharging;
     bool isActing;
 
@@ -82,40 +91,43 @@ public class RihinoFSM : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
+        // 스탯
         currentHP = rihinoData.HP;
         speed = rihinoData.Speed;
 
+        // 쿨타임
         normalCool = rihinoData.CoolTime;
         specialCool = rihinoData.specialCoolTime;
+        chargeCool = rihinoData.patternCooldown;   // ✅ 반드시 필요
 
         normalTimer = normalCool;
         specialTimer = specialCool;
+        chargeTimer = chargeCool;
 
+        // 거리
         attRange = rihinoData.attackRange;
         detRange = rihinoData.detectionRange;
         minRange = rihinoData.minAttackRange;
 
-        chargeStop = rihinoData.chargeStoppingTime;
+        // 패턴
+        normalPatterns = rihinoData.NormalPatterns;
+        specialPatterns = rihinoData.SpecialPatterns;
+        normalPatternIDs = rihinoData.NormalpatternIDs;
 
         agent.speed = speed;
         originalSpeed = speed;
 
-        if (chargeHitBox != null)
+        if (chargeHitBox)
             chargeHitBox.SetActive(false);
     }
 
     void Update()
     {
-        if (isCharging)
-        {
-            UpdateCharge();
-            return;
-        }
-
         if (state == RihinoState.Idle || state == RihinoState.Move)
         {
-            if (normalTimer > 0) normalTimer -= Time.deltaTime;
-            if (specialTimer > 0) specialTimer -= Time.deltaTime;
+            if (normalTimer > 0f) normalTimer -= Time.deltaTime;
+            if (specialTimer > 0f) specialTimer -= Time.deltaTime;
+            if (chargeTimer > 0f) chargeTimer -= Time.deltaTime;
         }
 
         switch (state)
@@ -181,23 +193,42 @@ public class RihinoFSM : MonoBehaviour
     void Attack()
     {
         if (isActing) return;
+
         isActing = true;
+        agent.isStopped = true;
+        anim.applyRootMotion = true;
 
         FaceTargetOnce();
 
-        if (specialTimer <= 0f)
+        float dist = Vector3.Distance(transform.position, target.position);
+
+        // 🔥 돌진 조건
+        if (dist > attRange && chargeTimer <= 0f)
         {
-            StartCoroutine(ExecuteCharge());
+            StartCoroutine(ChargeAttack());
             return;
         }
 
-        StartCoroutine(NormalAttackFallback());
+        // 🔥 포효
+        if (CanUseSpecial())
+        {
+            StartCoroutine(ExecuteSpecialPattern());
+            return;
+        }
+
+        // 🔥 일반 공격
+        if (CanUseNormal())
+        {
+            StartCoroutine(ExecuteNormalAttack());
+            return;
+        }
+
+        isActing = false;
+        state = RihinoState.Idle;
     }
 
     void FaceTargetOnce()
     {
-        if (target == null) return;
-
         Vector3 dir = target.position - transform.position;
         dir.y = 0f;
         if (dir.sqrMagnitude > 0.001f)
@@ -205,22 +236,64 @@ public class RihinoFSM : MonoBehaviour
     }
 
     /*───────────────────────────────*
-     * 일반 공격 (fallback)
+     * 공격 가능 체크
      *───────────────────────────────*/
-    IEnumerator NormalAttackFallback()
+    bool CanUseNormal()
     {
+        if (normalTimer > 0f) return false;
+        if (normalPatternIDs == null || normalPatternIDs.Length == 0) return false;
+        return true;
+    }
+
+    bool CanUseSpecial()
+    {
+        if (specialTimer > 0f) return false;
+        if (specialPatterns == null || specialPatterns.Length == 0) return false;
+
+        foreach (var sp in specialPatterns)
+            if (sp == SpecialPattern.Roar)
+                return true;
+
+        return false;
+    }
+
+    /*───────────────────────────────*
+     * 일반 공격
+     *───────────────────────────────*/
+    IEnumerator ExecuteNormalAttack()
+    {
+        int id = normalPatternIDs[Random.Range(0, normalPatternIDs.Length)];
+        anim.SetInteger("Pattern", id);
         anim.SetTrigger("Attack");
-        anim.SetInteger("Pattern", 0);
-        float wait = 2f; // 애니 없을 경우 fallback
-        if (anim != null)
-        {
-            yield return null;
-            wait = anim.GetCurrentAnimatorStateInfo(0).length;
-        }
 
-        yield return new WaitForSeconds(wait);
+        yield return null;
+        float total = anim.GetCurrentAnimatorStateInfo(0).length;
+        if (total <= 0f) total = 2f;
 
+        yield return new WaitForSeconds(total);
+
+        anim.applyRootMotion = false;
         normalTimer = normalCool;
+        isActing = false;
+        state = RihinoState.Idle;
+    }
+
+    /*───────────────────────────────*
+     * 포효
+     *───────────────────────────────*/
+    IEnumerator ExecuteSpecialPattern()
+    {
+        anim.SetInteger("Pattern", (int)SpecialPattern.Roar);
+        anim.SetTrigger("Attack");
+
+        yield return null;
+        float total = anim.GetCurrentAnimatorStateInfo(0).length;
+        if (total <= 0f) total = 1.5f;
+
+        yield return new WaitForSeconds(total);
+
+        anim.applyRootMotion = false;
+        specialTimer = specialCool;
         isActing = false;
         state = RihinoState.Idle;
     }
@@ -228,73 +301,38 @@ public class RihinoFSM : MonoBehaviour
     /*───────────────────────────────*
      * 돌진
      *───────────────────────────────*/
-    IEnumerator ExecuteCharge()
+    IEnumerator ChargeAttack()
     {
-        anim.SetTrigger("Attack");
+        isCharging = true;
+
         anim.SetInteger("Pattern", 401);
+        anim.SetTrigger("Attack");
 
         yield return null;
+        float total = anim.GetCurrentAnimatorStateInfo(0).length;
+        if (total <= 0f) total = chargeDuration;
 
-        float animLength = anim != null
-            ? anim.GetCurrentAnimatorStateInfo(0).length
-            : 2f;
+        yield return new WaitForSeconds(total * 0.3f);
 
-        yield return new WaitForSeconds(animLength * 0.4f);
-
-        StartCharge(animLength);
-
-        yield return new WaitForSeconds(animLength * 0.6f);
-    }
-
-    void StartCharge(float animLength)
-    {
-        if (target == null) return;
-
-        Vector3 dir = target.position - transform.position;
-        dir.y = 0f;
-        dir.Normalize();
-
-        chargeTargetPos = transform.position + dir * rihinoData.chargeDistance;
+        Vector3 dir = transform.forward;
+        Vector3 targetPos = transform.position + dir * rihinoData.chargeDistance;
 
         agent.speed = originalSpeed * chargeSpeedMul;
         agent.isStopped = false;
-        agent.SetDestination(chargeTargetPos);
+        agent.SetDestination(targetPos);
 
-        chargeTimer = animLength * 0.6f;
-        isCharging = true;
+        if (chargeHitBox) chargeHitBox.SetActive(true);
 
-        // 🔥 돌진 히트박스 ON
-        if (chargeHitBox != null)
-            chargeHitBox.SetActive(true);
-    }
-
-    void UpdateCharge()
-    {
-        chargeTimer -= Time.deltaTime;
-
-        if (chargeTimer <= 0f)
-            EndCharge();
-    }
-
-    void EndCharge()
-    {
-        isCharging = false;
+        yield return new WaitForSeconds(total * 0.6f);
 
         agent.isStopped = true;
         agent.speed = originalSpeed;
 
-        // 🔥 돌진 히트박스 OFF
-        if (chargeHitBox != null)
-            chargeHitBox.SetActive(false);
+        if (chargeHitBox) chargeHitBox.SetActive(false);
 
-        StartCoroutine(ChargeRecovery());
-    }
-
-    IEnumerator ChargeRecovery()
-    {
-        yield return new WaitForSeconds(chargeStop);
-
-        specialTimer = specialCool;
+        anim.applyRootMotion = false;
+        chargeTimer = chargeCool;
+        isCharging = false;
         isActing = false;
         state = RihinoState.Idle;
     }

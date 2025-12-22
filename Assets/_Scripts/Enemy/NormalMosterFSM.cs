@@ -37,7 +37,7 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
     /*───────────────────────────────*
      * 기본 스탯
      *───────────────────────────────*/
-    float currentHP;
+    public float currentHP;
     float speed;
     float def;
 
