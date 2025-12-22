@@ -69,10 +69,20 @@ public class PlayerUI : MonoBehaviour
 
         if (playerInventoryText != null)
             playerInventoryText.text = $"{KeySetting.keys[KeyInput.INVENTORY]}";
-
+        
         if (_MasterManager.Instance.DataManager.EquipWeapon != null && weaponImage != null)
         {
             weaponImage.sprite = _MasterManager.Instance.DataManager.EquipWeapon.icon;
+
+            Color color = weaponImage.color;
+            color.a = 1.0f;
+            weaponImage.color = color;
+        }
+        else if(_MasterManager.Instance.DataManager.EquipWeapon == null)
+        {
+            Color color = weaponImage.color;
+            color.a = 0.0f;
+            weaponImage.color = color;
         }
     }
 
