@@ -274,7 +274,7 @@ MonoBehaviour:
   BGMClips2: []
   SFXClips2: []
   BGMClips3:
-  - {fileID: 8300000, guid: 140d63be485bc2a4fa233575d439e72f, type: 3}
+  - {fileID: 8300000, guid: 87aed8644d3992241bcb286406c105f0, type: 3}
   SFXClips3: []
   BGMClips4: []
   SFXClips4: []
@@ -316,7 +316,7 @@ MonoBehaviour:
   quickSlotView: {fileID: 2313913233409927969}
   warehouseView: {fileID: 7588494794405667370}
   inventoryView: {fileID: 5534006419218333284}
-  resultInvenView: {fileID: 7252468720442511882}
+  resultInvenView: {fileID: 0}
   itemView: {fileID: 0}
   inventory: {fileID: 3934041516617925958}
   testItemA: {fileID: 11400000, guid: af39ae62b0a512e4eb9a142ff7914cd0, type: 2}
@@ -2016,6 +2016,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Deleteimg
       objectReference: {fileID: 0}
+    - target: {fileID: 5937945173160672613, guid: 172a7080ccfc8a741979ac35e87f34f4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6424400243657178794, guid: 172a7080ccfc8a741979ac35e87f34f4, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -3127,17 +3131,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64b14c01e1e5164e8cdbc6c9d651342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7252468720442511882 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3768155688150716635, guid: ae2f19bb8ab13aa428667f829836dc6e, type: 3}
-  m_PrefabInstance: {fileID: 5831840743518159569}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c44515165bf79b0469674167c86c6803, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &9221941193500516950 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3392396780018540679, guid: ae2f19bb8ab13aa428667f829836dc6e, type: 3}
@@ -3164,6 +3157,10 @@ PrefabInstance:
     - target: {fileID: 802942863370820981, guid: e3b91b6ed9748784e91ceeeddee47133, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 972902717171991700, guid: e3b91b6ed9748784e91ceeeddee47133, type: 3}
+      propertyPath: m_Color.a
+      value: 0.7058824
       objectReference: {fileID: 0}
     - target: {fileID: 8198937007894229067, guid: e3b91b6ed9748784e91ceeeddee47133, type: 3}
       propertyPath: m_Pivot.x

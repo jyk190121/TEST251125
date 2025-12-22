@@ -118,6 +118,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ta:
   - {fileID: 11400000, guid: 474cc76277eeb4d4d8efefc6b6cfaef1, type: 2}
+  player: {fileID: 0}
 --- !u!114 &-4156146692156096102
 MonoBehaviour:
   m_ObjectHideFlags: 0
