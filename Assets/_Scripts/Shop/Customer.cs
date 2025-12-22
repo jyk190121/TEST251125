@@ -62,6 +62,13 @@ public class Customer : MonoBehaviour
     PriceEvaluation priceEvaluation;
     bool willBuy;
 
+    [Header("감정 표현")]
+    public GameObject bubble;
+    public GameObject emotion1;
+    public GameObject emotion2;
+    public GameObject emotion3;
+    public GameObject emotion4;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -108,6 +115,14 @@ public class Customer : MonoBehaviour
         {
             Debug.LogWarning("[Customer] Animator가 없습니다");
         }
+
+        if (bubble != null)
+            bubble.SetActive(false);
+
+        if (emotion1 != null) emotion1.SetActive(false);
+        if (emotion2 != null) emotion2.SetActive(false);
+        if (emotion3 != null) emotion3.SetActive(false);
+        if (emotion4 != null) emotion4.SetActive(false);
 
         customerType = GetWeightedRandomCustomerType();
         Debug.Log($"[Customer] {gameObject.name}이 들어왔습니다. 타입: {customerType}");
@@ -255,18 +270,28 @@ public class Customer : MonoBehaviour
         priceEvaluation = EvaluatePrice(selectedItem);
         Debug.Log($"[{customerType}손님] {selectedItem.itemName}을(를) 봤습니다. 평가: {priceEvaluation}");
 
+        ShowEmotion(priceEvaluation);
+
         // 4단계: 손님 타입에 따른 구매 여부 결정
         willBuy = DecideToBuy(priceEvaluation);
 
         if (willBuy)
         {
             Debug.Log($"[{customerType}손님] 이 아이템 사야겠다!");
+
+            yield return new WaitForSeconds(1f);
+            HideEmotion();
+
             DecreaseRegisteredItemCount(selectedItem);
             state = CustomerState.BuyingItem;
         }
         else
         {
             Debug.Log($"[{customerType}손님] 이 가격은 좀 비싼데...");
+
+            yield return new WaitForSeconds(1f);
+            HideEmotion();
+
             state = CustomerState.LeavingShop;
         }
     }
@@ -480,6 +505,50 @@ public class Customer : MonoBehaviour
         agent.SetDestination(exited.position);
     }
 
+    /// <summary>
+    /// 감정 표현 표시
+    /// </summary>
+    void ShowEmotion(PriceEvaluation eval)
+    {
+        if (bubble == null) return;
+
+        bubble.SetActive(true);
+
+        // 모든 감정 비활성화
+        if (emotion1 != null) emotion1.SetActive(false);
+        if (emotion2 != null) emotion2.SetActive(false);
+        if (emotion3 != null) emotion3.SetActive(false);
+        if (emotion4 != null) emotion4.SetActive(false);
+
+        // 평가에 따라 해당 감정 활성화
+        switch (eval)
+        {
+            case PriceEvaluation.VeryCheap:
+                if (emotion1 != null) emotion1.SetActive(true);
+                break;
+            case PriceEvaluation.Appropriate:
+                if (emotion2 != null) emotion2.SetActive(true);
+                break;
+            case PriceEvaluation.Expensive:
+                if (emotion3 != null) emotion3.SetActive(true);
+                break;
+            case PriceEvaluation.VeryExpensive:
+                if (emotion4 != null) emotion4.SetActive(true);
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 감정 표현 숨기기
+    /// </summary>
+    void HideEmotion()
+    {
+        if (bubble != null) bubble.SetActive(false);
+        if (emotion1 != null) emotion1.SetActive(false);
+        if (emotion2 != null) emotion2.SetActive(false);
+        if (emotion3 != null) emotion3.SetActive(false);
+        if (emotion4 != null) emotion4.SetActive(false);
+    }
 
     // 플레이어와의 충돌 무시
     private void OnCollisionEnter(Collision collision)
