@@ -44,7 +44,7 @@ public class RegisteredItemTemp : MonoBehaviour
     public Transform ghostIconParent;           //고스트 아이콘 부모 패널
     public RectTransform warehousePanelRect;    //창고 배경
     public ItemSplitPopup splitPopup;           //아이템 소분팝업
-    //public WarehouseView warehouseView;
+    public WarehouseView warehouseView;
 
     private void Awake()
     {
@@ -55,13 +55,13 @@ public class RegisteredItemTemp : MonoBehaviour
         model = new WarehouseModel(capacity);
 
         //View 초기화
-        //warehouseView.CreateSlots(capacity);
+        warehouseView.CreateSlots(capacity);
 
         //이벤트 연결은 Start에서 진행
 
         //이벤트 연결 (Model -> Logic)
         //슬롯이 클릭되면 -> HandleSlotClick 실행
-        //warehouseView.OnSlotClicked += HandleSlotClick;
+        warehouseView.OnSlotClicked += HandleSlotClick;
     }
 
     private void Start()
@@ -99,11 +99,11 @@ public class RegisteredItemTemp : MonoBehaviour
             _MasterManager.Instance.DataManager.warehouseModel = model;
         }
 
-        ////최종적으로 결정된 model 객체의 이벤트에 구독
-        //model.OnWarehouseUpdated += HandleWarehouseUpdate;
+        //최종적으로 결정된 model 객체의 이벤트에 구독
+        model.OnWarehouseUpdated += HandleWarehouseUpdate;
 
-        ////최종 model 데이터로 UI 갱신
-        //HandleWarehouseUpdate();
+        //최종 model 데이터로 UI 갱신
+        HandleWarehouseUpdate();
     }
 
 
@@ -293,17 +293,17 @@ public class RegisteredItemTemp : MonoBehaviour
         }
 
         //인벤토리에서 아이템 삭제
-        //InventoryManager.Instance.UseItemForEquip();
+        InventoryManager.Instance.UseItemForEquip();
 
         //창고에 아이템 추가
-        //int count = InventoryManager.Instance.GetDraggedItemCount();
-        //model.AddItemToSlot(dropIndex, new WarehouseSlotModel { itemDate = inventoryItem, quantity = inventoryCount });
+        int count = InventoryManager.Instance.GetDraggedItemCount();
+        model.AddItemToSlot(dropIndex, new WarehouseSlotModel { itemDate = inventoryItem, quantity = inventoryCount });
 
         //창고 자리에 아이템이 있으면 인벤토리로 보내기
-        //if (warehouseItem != null)
-        //{
-        //    InventoryManager.Instance.AddItem(warehouseItem, warehouseItemCount);
-        //}
+        if (warehouseItem != null)
+        {
+            InventoryManager.Instance.AddItem(warehouseItem, warehouseItemCount);
+        }
 
         // 화면 갱신 및 드래그 종료
         if (InventoryManager.Instance.GetDragStartIndex() != -1)
@@ -424,13 +424,13 @@ public class RegisteredItemTemp : MonoBehaviour
     }
 
     //데이터 변경 시 콜백 호출
-    //private void HandleWarehouseUpdate()
-    //{
-    //    //Model에서 배열 형태로 변환된 슬롯 데이터를 받아와 View에 전달        
-    //    //WarehouseSlotModel[] dataSlots = model.GetSlotsForView();
-    //    //warehouseView.RefreshAll(dataSlots);
-    //    warehouseView.RefreshAll(model.GetSlotsForView());
-    //}
+    private void HandleWarehouseUpdate()
+    {
+        //Model에서 배열 형태로 변환된 슬롯 데이터를 받아와 View에 전달        
+        //WarehouseSlotModel[] dataSlots = model.GetSlotsForView();
+        //warehouseView.RefreshAll(dataSlots);
+        warehouseView.RefreshAll(model.GetSlotsForView());
+    }
 
     //슬롯 클릭 시 호출 (우클릭 등 나중에 사용)
     private void HandleSlotClick(int index)
