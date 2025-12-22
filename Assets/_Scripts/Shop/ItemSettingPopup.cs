@@ -1,7 +1,8 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
+using static RegisteredItem;
 
 public class ItemSettingPopup : MonoBehaviour
 {
@@ -9,10 +10,18 @@ public class ItemSettingPopup : MonoBehaviour
     public TextMeshProUGUI regiItemText;
     public Button yesButton;
     public Button noButton;
+    public Image iconImage;
+    public TMP_InputField priceInput;
+    public TMP_InputField quantityInput;
 
     //팝업이 실행 될 때 행동을 담아둘 변수
     private Action onYesCallback;
     private Action onNoCallback;
+
+    private Item currentItem;
+    private int maxQuantity;
+    private int inventoryIndex;
+
 
     public void OpenPopup(Item item, Action onYes, Action onNo)
     {
@@ -40,8 +49,45 @@ public class ItemSettingPopup : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+    public void Open(Item item, int availableCount, int invenIndex)
+    {
+        gameObject.SetActive(true);
+
+        //텍스트 설정
+
+        currentItem = item;
+        maxQuantity = availableCount;
+        inventoryIndex = invenIndex;
+
+        iconImage.sprite = item.icon;
+        regiItemText.text = $"{item.name} 등록";
+
+        priceInput.text = item.sellPrice.ToString();
+        quantityInput.text = "1";
+    }
+
+    public void OnClickRegister()
+    {
+        int price = int.Parse(priceInput.text);
+        int quantity = int.Parse(quantityInput.text);
+
+        quantity = Mathf.Clamp(quantity, 1, maxQuantity);
+
+        RegisteredItemData data = new RegisteredItemData(currentItem, quantity, price);
+        //{
+        //    item = currentItem,
+        //    count = quantity,
+        //    price = price
+        //};
+
+        // 인벤토리 수량 감소
+        InventoryManager.Instance.DecreaseItemAtIndex(inventoryIndex, quantity);
+
+        ClosePopup();
+    }
     public void ClosePopup()
     {
         gameObject.SetActive(false);
     }
+
 }
