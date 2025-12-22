@@ -18,16 +18,21 @@ public class PlayerWeapon : MonoBehaviour
         DataManager.OnEquipmentChanged -= WeaponPrefab;
     }
 
+    private void Start()
+    {
+        WeaponPrefab();
+    }
+
     void WeaponPrefab()
     {
         weapon = _MasterManager.Instance.DataManager.GetWeapon();
-        if (weapon == null) return;
         foreach (var weaponoff in weaponlist)
         {
             weaponoff.SetActive(false);
         }
+        if (weapon == null) return;
         //검일때 검/방패
-        if(weapon.itemID == 2001)
+        if (weapon.itemID == 2001)
         {
             weaponlist[0].SetActive(true);
             weaponlist[4].SetActive(true);
