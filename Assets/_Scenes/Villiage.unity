@@ -5758,6 +5758,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: 'BGMClips6.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 6d4864cf83a66884bacca7815f664014, type: 3}
+    - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: 'SFXClips6.Array.data[0]'
       value: 
       objectReference: {fileID: 8300000, guid: cc7768a9a2d19f14a983852f7bb266ae, type: 3}
@@ -15488,10 +15492,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionalLight: {fileID: 2036210505}
   streetLights: {fileID: 593624958}
+  player: {fileID: 1936087550}
+  door: {fileID: 993392751}
   dayIntensity: 1.2
   dayColor: {r: 1, g: 1, b: 1, a: 0}
   nightIntensity: 0.4
   nightColor: {r: 0.1, g: 0.1, b: 0.3, a: 0.50980395}
+  nightColor2: {r: 0.6, g: 0.6, b: 0.6, a: 1}
 --- !u!1 &2061989648
 GameObject:
   m_ObjectHideFlags: 0
