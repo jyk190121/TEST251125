@@ -21,7 +21,9 @@ public class DroneFSM : MonoBehaviour
     {
         Idle,
         Move,
-        Attack
+        Attack,
+        GetHit,
+        Die
     }
 
     DroneState state;
