@@ -80,6 +80,8 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
+        if (dropPopup != null) dropPopup.ClosePopup();
+
         //씬 전환 후 null이 될 수 있는 resultInvenView를 자식 오브젝트에서 다시 탐색
         if (resultInvenView == null)
         {
@@ -105,9 +107,8 @@ public class InventoryManager : MonoBehaviour
             resultInvenView.OnSortRequest += HandleSortSequence;
         }
 
-        // 기타 시작 시 초기화
-        HandleInventoryUpdate();
-        if (dropPopup != null) dropPopup.ClosePopup();
+        //기타 시작 시 초기화
+        HandleInventoryUpdate();                                
         model.InitSlots(capacity);
     }
 
@@ -178,6 +179,18 @@ public class InventoryManager : MonoBehaviour
                 // 인벤토리 활성화 상태를 반전(Toggle)시킵니다.
                 inventory.gameObject.SetActive(!inventory.gameObject.activeSelf);
             }
+        }        
+
+        //마우스 버튼을 뗐는데(Up) && 드래그 중이라면(dragStartIndex != -1)
+        if (Input.GetMouseButtonUp(0) && dragStartIndex != -1)
+        {
+            //팝업창이 꺼져있을 때만 강제로 종료 처리
+            //팝업이 켜져 있다면, 유저의 응답을 기다려야 하므로 건드리지 않음
+            if (dropPopup.gameObject.activeSelf == false && splitPopup.gameObject.activeSelf == false)
+            {
+                //강제로 드래그 종료 함수 호출 (-1: 인벤토리 밖으로 간주)
+                OnDragEnd(-1);
+            }
         }
 
         //ShopScene에서만 사용하기 때문에 
@@ -203,18 +216,6 @@ public class InventoryManager : MonoBehaviour
             {
                 equipView.SetActive(true);
                 quickSlotView.gameObject.SetActive(true);
-            }
-        }
-
-        //마우스 버튼을 뗐는데(Up) && 드래그 중이라면(dragStartIndex != -1)
-        if (Input.GetMouseButtonUp(0) && dragStartIndex != -1)
-        {
-            //팝업창이 꺼져있을 때만 강제로 종료 처리
-            //팝업이 켜져 있다면, 유저의 응답을 기다려야 하므로 건드리지 않음
-            if (dropPopup.gameObject.activeSelf == false && splitPopup.gameObject.activeSelf == false)
-            {
-                //강제로 드래그 종료 함수 호출 (-1: 인벤토리 밖으로 간주)
-                OnDragEnd(-1);
             }
         }
     }

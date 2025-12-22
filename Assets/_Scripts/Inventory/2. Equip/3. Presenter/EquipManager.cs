@@ -1,3 +1,4 @@
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class EquipManager : MonoBehaviour
@@ -13,6 +14,9 @@ public class EquipManager : MonoBehaviour
     //실제 데이터를 관리하는 모델 객체
     public EquipModel model;
 
+    //효과음 재생
+    SoundManager soundManager;
+
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -20,6 +24,9 @@ public class EquipManager : MonoBehaviour
 
         //모델 생성 (데이터 초기화)
         model = new EquipModel();
+
+        //SoundManager 인스턴스 할당
+        soundManager = FindAnyObjectByType<SoundManager>();
     }
 
     private void Start()
@@ -46,6 +53,8 @@ public class EquipManager : MonoBehaviour
         if (newItem.type != ItemType.Equipment) return (false, null);
 
         int targetIndex = GetSlotIndexByEnum(newItem.equipmentSlot);
+
+        EquipSound(newItem);
 
         if (targetIndex != -1)
         {
@@ -91,13 +100,25 @@ public class EquipManager : MonoBehaviour
     private Item EquipItemToSlot(int index, Item newItem)
     {
         Item oldItem = model.GetEquip(index);
-        model.SetEquip(index, newItem);
+        model.SetEquip(index, newItem);        
 
         RefreshUI();
         //UpdateStatToPlayer();
 
         // 벗은 아이템을 반환 (없으면 null)
         return oldItem;
+    }
+
+    void EquipSound(Item item)
+    {        
+        if (item.equipmentType == EquipmentType.Weapon)
+        {
+            soundManager.PlaySFX("시우", 1);
+        }
+        else
+        {
+            soundManager.PlaySFX("시우", 2);
+        }
     }
 
     //====================================================
