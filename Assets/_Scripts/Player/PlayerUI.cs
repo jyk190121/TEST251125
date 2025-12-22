@@ -11,6 +11,7 @@ public class PlayerUI : MonoBehaviour
     [SerializeField] private GameObject rightPanel;
 
     [SerializeField] private Image weaponImage;
+    [SerializeField] private Slider playerHpSlider;
     [SerializeField] private TextMeshProUGUI playerGoldText;
     [SerializeField] private TextMeshProUGUI playerHpText;
     [SerializeField] private TextMeshProUGUI playerPortionText;
@@ -43,6 +44,13 @@ public class PlayerUI : MonoBehaviour
 
         if (playerGoldText != null)
             playerGoldText.text = $"{player.Money}";
+
+        if (playerHpSlider != null)
+        {
+            playerHpSlider.minValue = 1;
+            playerHpSlider.maxValue = player.MaxHP;
+            playerHpSlider.value = player.HP;
+        }            
 
         if (playerHpText != null)
             playerHpText.text = $"{player.HP} / {player.MaxHP}";
