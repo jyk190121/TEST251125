@@ -9,6 +9,7 @@ public class Party_Shop_Night : MonoBehaviour
     public GameObject[] particleArray;
     List<GameObject> particles;
     Transform pos;
+    bool stop;
     void Awake()
     {
         pos = transform;
@@ -34,6 +35,8 @@ public class Party_Shop_Night : MonoBehaviour
 
         for(int i =0; i < particleArray.Length; i++)
         {
+            if (stop) break;
+
             if (randomParticle + i >= particleArray.Length - 1) break;
 
             temp[i] = Instantiate(particleArray[randomParticle + i], pos);
@@ -60,6 +63,7 @@ public class Party_Shop_Night : MonoBehaviour
     {
         if (particles == null) return;
 
+        stop = true;
         foreach (GameObject particle in particles)
         {
             if (particle != null) Destroy(particle);
