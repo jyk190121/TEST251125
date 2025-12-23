@@ -24,7 +24,7 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
     public TextMeshProUGUI[] countTxt;          //등록된 아이템 갯수 보여주기
     public TextMeshProUGUI[] priceTxt;          //등록된 아이템 가격 보여주기
 
-    int dragIndex = 0;
+    int dragRegisteredIndex = -1;               //진열대에서 드래그 확인
 
     [System.Serializable]
     [RequireComponent(typeof(RegisteredItemData))]
@@ -389,7 +389,7 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
             }
         }
 
-        Debug.LogError($"[RegisteredItem] GetCurrentPrice: {item.itemName}을 찾을 수 없습니다!");
+        Debug.LogWarning($"[RegisteredItem] GetCurrentPrice: {item.itemName}을 찾을 수 없습니다!");
         return 0;
     }
 
@@ -434,7 +434,13 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
     }
     public void OnDrop(PointerEventData eventData)
     {
-        if (dragIndex == -1) return;
+
+        int slotIndex = GetNextEmptySlot();
+        if (slotIndex == -1)
+        {
+            Debug.Log("진열대가 가득 참");
+            return;
+        }
 
         Item item = InventoryManager.Instance.GetDraggedItem();
         int count = InventoryManager.Instance.GetDraggedItemCount();
@@ -458,18 +464,18 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
             return;
         }
 
-        // dropIndex 범위 확인
-        if (dragIndex < -1 || dragIndex >= capacity)
-        {
-            Debug.LogWarning("[RegisteredItem] 아이템 추가할 수 없음");
-            return;
-        }
+        //// dropIndex 범위 확인
+        //if (dragIndex < -1 || dragIndex >= capacity)
+        //{
+        //    Debug.LogWarning("[RegisteredItem] 아이템 추가할 수 없음");
+        //    return;
+        //}
 
-        if (dragIndex == -1)
-        {
-            Debug.Log("[RegisteredItem] 진열대 범위 밖 드롭 - 취소");
-            return;
-        }
+        //if (dragIndex == -1)
+        //{
+        //    Debug.Log("[RegisteredItem] 진열대 범위 밖 드롭 - 취소");
+        //    return;
+        //}
 
         // 팝업에 기본값 세팅
         currentImage.sprite = item.icon;
@@ -481,8 +487,9 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
                 item,
                 onYes: () =>
                 {
-                    OnPopupYes(dragIndex, invDragStartIndex, item, count);
-                    dragIndex++;
+                    //OnPopupYes(dragIndex, invDragStartIndex, item, count);
+                    OnPopupYes(slotIndex, invDragStartIndex, item, count);
+                    //dragIndex++;
                 },
                 onNo: () =>
                 {
@@ -501,6 +508,43 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         }
     }
 
+    //진열대에 등록된 아이템 빈 인덱스 확인
+    int GetNextEmptySlot()
+    {
+        for (int i = 0; i < capacity; i++)
+        {
+            if (registeredItemsData[i] == null)
+                return i;
+        }
+        return -1;
+    }
+
+    public void RemoveRegisteredItem(int slotIndex)
+    {
+        registeredItemsData[slotIndex] = null;
+        itemList[slotIndex] = null;
+
+        countTxt[slotIndex].text = "";
+        priceTxt[slotIndex].text = "";
+
+        if (itemImages[slotIndex] != null)
+        {
+            itemImages[slotIndex].sprite = null;
+            itemImages[slotIndex].enabled = false;
+        }
+
+        table.UpdateTable();
+        UpdateDataManager();
+    }
+
+    public void DecreaseRegisteredItem(int slotIndex, int count, int price)
+    {
+        countTxt[slotIndex].text = $"{count}";
+        priceTxt[slotIndex].text = $"판매가 :{count*price}";
+
+        table.UpdateTable();
+        UpdateDataManager();
+    }
 }
 
 

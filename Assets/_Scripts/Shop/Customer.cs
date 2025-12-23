@@ -432,6 +432,7 @@ public class Customer : MonoBehaviour
 
         RegisteredItem.RegisteredItemData[] allItems = registeredItem.GetAllRegisteredItemsData();
 
+
         for (int i = 0; i < allItems.Length; i++)
         {
             if (allItems[i] != null &&
@@ -442,11 +443,13 @@ public class Customer : MonoBehaviour
 
                 if (allItems[i].count <= 0)
                 {
+                    registeredItem.RemoveRegisteredItem(i);
                     registeredItem.itemList[i] = null;
                     Debug.Log($"[{customerType}손님] {item.itemName}이 품절되었습니다");
                 }
                 else
                 {
+                    registeredItem.DecreaseRegisteredItem(i, allItems[i].count, allItems[i].price);
                     Debug.Log($"[{customerType}손님] {item.itemName} 구매 결심! 남은 수량: {allItems[i].count}");
                 }
                 return;
