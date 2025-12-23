@@ -77,8 +77,11 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
     float aoeRange;
 
     //원거리 투사체 레이저 프리팹
-    GameObject projectilePrefab;
-    GameObject laserPrefab;
+    public GameObject projectilePrefab;
+    public GameObject laserPrefab;
+
+    //범위공격 프리팹
+    public GameObject aoePrefab;
 
     /*───────────────────────────────*
      * 원거리 공격
@@ -92,7 +95,6 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
     GameObject hitFX;
     GameObject deathFX;
 
-    public GameObject aoeHitbox;
 
     /*───────────────────────────────*
      * 초기화
@@ -139,11 +141,6 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
 
         // 근접 / 범위
         aoeRange = monsterData.aoeRange;
-
-        //원거리 투사체 프리팹
-        projectilePrefab = monsterData.projectilePrefab;
-        //원거리 레이저 프리팹
-        laserPrefab = monsterData.laserPrefab;
 
         // FX
         attackFX = monsterData.attackFX;
@@ -491,17 +488,10 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
      *───────────────────────────────*/
     void Aoe()
     {
-        if (aoeHitbox == null) return;
-
-        aoeHitbox.SetActive(true);
-        StartCoroutine(DisableAoeAfterTime(0.5f));
+        Instantiate(aoePrefab, transform.position, Quaternion.identity);
     }
 
-    IEnumerator DisableAoeAfterTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-        aoeHitbox.SetActive(false);
-    }
+    
 
 
     void StartLaser()

@@ -13,6 +13,7 @@ public class QuickSlotPresenter : MonoBehaviour
 
     public QuickSlotModel model;
     private InventoryModel inventoryModel;
+    private SoundManager soundManager;
 
     private void Awake()
     {
@@ -24,6 +25,8 @@ public class QuickSlotPresenter : MonoBehaviour
         else Destroy(gameObject);
 
         model = new QuickSlotModel(CAPACITY);
+
+        soundManager = FindAnyObjectByType<SoundManager>();
     }
 
     private void Start()
@@ -87,6 +90,9 @@ public class QuickSlotPresenter : MonoBehaviour
         //드래그 상태 종료
         InventoryManager.Instance.CancelDrag();
 
+        //장착 사운드 재생
+        soundManager.PlaySFX("시우", 4);
+
         //UI 갱신
         RefreshUI();
     }
@@ -110,8 +116,12 @@ public class QuickSlotPresenter : MonoBehaviour
         //인벤토리에 자리가 있어서 잘 들어갔다면 퀵슬롯 비우기
         if (added)
         {
-            model.ClearQickSlot(index);
-            Debug.Log("퀵슬롯 해제 및 인벤토리 복귀 완료");
+            model.ClearQickSlot(index);            
+
+            //장착 해제 사운드 재생
+            int soundIndex = Random.Range(5, 7);
+            soundManager.PlaySFX("시우", soundIndex);
+
             RefreshUI();
         }
         else

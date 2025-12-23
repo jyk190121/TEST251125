@@ -96,8 +96,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: 8c465c4c339f4c84a98375fc03a96e53, type: 2}
   anim: {fileID: 3857841071212025258}
+  currentHP: 0
+  projectilePrefab: {fileID: 3890703328547414409, guid: d47b50797a84ec64e9aff6d526f9dacf, type: 3}
+  laserPrefab: {fileID: 5230212189842148968, guid: 17c6ba95d78e4fd478e83b1d1920b1ab, type: 3}
+  aoePrefab: {fileID: 0}
   firePoint: {fileID: 9068035856220090461}
-  aoeHitbox: {fileID: 0}
 --- !u!1 &2598387832818735174
 GameObject:
   m_ObjectHideFlags: 0
