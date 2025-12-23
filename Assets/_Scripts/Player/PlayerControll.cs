@@ -496,4 +496,9 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         _MasterManager.Instance.DataManager.SetisPendant(true);
         _MasterManager.Instance.DataManager.ChangeReturn(true);
     }
+
+    void DontMove()
+    {
+        CC.enabled = false;
+    }
 }
