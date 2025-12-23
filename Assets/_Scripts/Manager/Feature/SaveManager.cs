@@ -387,7 +387,7 @@ public class SaveManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 진열대 아이템 저장 (가격 포함!)
+    /// 진열대 아이템 저장
     /// </summary>
     private GameSaveData.SavedRegisteredItem[] SaveRegisteredItems()
     {
