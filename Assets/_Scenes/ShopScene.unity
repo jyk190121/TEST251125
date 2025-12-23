@@ -1742,6 +1742,10 @@ PrefabInstance:
       propertyPath: itemWarehousePanel
       value: 
       objectReference: {fileID: 1469094462}
+    - target: {fileID: 5233517902470283875, guid: fe15f9292fec0ea48b672af2043f8f58, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7784046085367486792, guid: fe15f9292fec0ea48b672af2043f8f58, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

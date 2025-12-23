@@ -434,8 +434,6 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
     }
     public void OnDrop(PointerEventData eventData)
     {
-        if (dragIndex == -1) return;
-
         Item item = InventoryManager.Instance.GetDraggedItem();
         int count = InventoryManager.Instance.GetDraggedItemCount();
 
