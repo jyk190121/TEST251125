@@ -80,6 +80,8 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder
     bool isCharging;
     bool isActing;
 
+    public Transform roarPoint;
+    public GameObject roarAOEPrefab;
     /*───────────────────────────────*
      * 초기화
      *───────────────────────────────*/
@@ -346,8 +348,13 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder
 
     void Roar()
     {
-
+        Instantiate(
+        roarAOEPrefab,
+        roarPoint.position,
+        Quaternion.identity
+        );
     }
+
 
     /*───────────────────────────────*
      * 돌진
