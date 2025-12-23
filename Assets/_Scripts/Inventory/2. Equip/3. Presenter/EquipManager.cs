@@ -27,20 +27,29 @@ public class EquipManager : MonoBehaviour
 
         //SoundManager 인스턴스 할당
         soundManager = FindAnyObjectByType<SoundManager>();
+
+        DataManager.OnDataLoaded += OnDataLoadedHandler;
     }
 
     private void Start()
     {
-        //저장된 장비 복구
-        LoadEquipmentFromDataManager();
-
         if (equipPanel_2 == null)
         {
             var allSlots = FindAnyObjectByType<EquipSlotView>();
         }
 
-        //게임 시작 시 UI를 한 번 그려줍니다.
-        RefreshUI();
+        // 새 게임이면 빈 슬롯 표시
+        if (!SaveManager.HasSaveData())
+        {
+            RefreshUI();
+        }
+    }
+
+    // 데이터 로드 완료 시 호출
+    private void OnDataLoadedHandler()
+    {
+        Debug.Log("[EquipManager] 데이터 로드 이벤트 수신!");
+        LoadEquipmentFromDataManager();
     }
 
     //====================================================
@@ -245,4 +254,10 @@ public class EquipManager : MonoBehaviour
     //        _MasterManager.Instance.DataManager.SetCurrentWeapon(currentWeaponID);
     //    }
     //}
+
+    private void OnDestroy()
+    {
+        // 이벤트 구독 해제
+        DataManager.OnDataLoaded -= OnDataLoadedHandler;
+    }
 }
