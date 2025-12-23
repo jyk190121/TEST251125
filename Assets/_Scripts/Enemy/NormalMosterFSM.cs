@@ -4,31 +4,36 @@ using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
-/// 일반 몬스터용 FSM
-/// - 근접 / 원거리 / 복합 몬스터 공용
-/// - 일반 공격 / 특수 공격 분리
-/// - 특수 패턴은 데이터 기반 + FSM 필터링
+/// 일반 몬스터 공용 FSM
+/// - 근접 / 원거리 / 복합 몬스터 대응
+/// - 일반 공격과 특수 공격 분리
+/// - 패턴은 MonsterData 기반으로 제어
+/// 
+/// 설계 의도:
+/// - 상태 수를 최소화하여 안정적인 전투 흐름 유지
+/// - 공격 중 중복 실행 방지를 위해 isActing 사용
+/// - 이동은 NavMesh, 공격은 RootMotion 기반
 /// </summary>
-public class NormalMosterFSM : MonoBehaviour ,IHitResponder
+public class NormalMosterFSM : MonoBehaviour, IHitResponder
 {
     /*───────────────────────────────*
      * 상태 정의
      *───────────────────────────────*/
     enum MonsterState
     {
-        Idle,
-        Move,
-        Attack,
-        GetHit,
-        Die
+        Idle,       // 대기 상태 (플레이어 탐색)
+        Move,       // 추적 / 위치 조정
+        Attack,     // 공격 수행 중
+        GetHit,     // 피격 반응
+        Die         // 사망
     }
 
     MonsterState state;
 
     /*───────────────────────────────*
-     * 참조
+     * 참조 컴포넌트
      *───────────────────────────────*/
-    Transform target;
+    Transform target;            // 플레이어 타겟
     public MonsterData monsterData;
     NavMeshAgent agent;
     public Animator anim;
@@ -44,23 +49,23 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
     /*───────────────────────────────*
      * 공격 쿨타임
      *───────────────────────────────*/
-    float coolTime;          // 일반 공격 쿨
-    float timer = 0f;
+    float coolTime;          // 일반 공격 쿨타임
+    float timer;
 
-    float specialCoolTime;   // 특수 공격 쿨
-    float specialTimer = 0f;
+    float specialCoolTime;   // 특수 공격 쿨타임
+    float specialTimer;
 
     /*───────────────────────────────*
-     * 거리 관련
+     * 거리 관련 수치
      *───────────────────────────────*/
-    float attRange;
-    float detRange;
-    float minRangeRange;
+    float attRange;          // 공격 사거리
+    float detRange;          // 인식 거리
+    float minRangeRange;     // 최소 유지 거리
 
     /*───────────────────────────────*
      * 몬스터 분류
      *───────────────────────────────*/
-    Type monsterType;
+    Type monsterType;        // 근접 / 원거리
     Race monsterRace;
 
     /*───────────────────────────────*
@@ -68,40 +73,31 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
      *───────────────────────────────*/
     NormalPattern[] normalPatterns;
     SpecialPattern[] specialPatterns;
-
     int[] normalPatternIDs;
 
     /*───────────────────────────────*
-     * 근접 / 범위 공격
+     * 공격 관련 데이터
      *───────────────────────────────*/
     float aoeRange;
 
-    //원거리 투사체 레이저 프리팹
-    public GameObject projectilePrefab;
-    public GameObject laserPrefab;
+    public GameObject projectilePrefab; // 원거리 투사체
+    public GameObject laserPrefab;       // 레이저
+    public GameObject aoePrefab;         // 범위 공격
 
-    //범위공격 프리팹
-    public GameObject aoePrefab;
-
-    /*───────────────────────────────*
-     * 원거리 공격
-     *───────────────────────────────*/
-    public Transform firePoint;
+    public Transform firePoint;          // 발사 위치
 
     /*───────────────────────────────*
-     * FX
+     * FX (현재는 데이터만 참조)
      *───────────────────────────────*/
     GameObject attackFX;
     GameObject hitFX;
     GameObject deathFX;
-
 
     /*───────────────────────────────*
      * 초기화
      *───────────────────────────────*/
     void Start()
     {
-
         if (monsterData == null)
         {
             Debug.LogError("MonsterData가 할당되지 않았습니다.");
@@ -113,36 +109,35 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
-        // 기본 스탯
+        // 스탯 초기화
         currentHP = monsterData.HP;
         speed = monsterData.Speed;
         def = monsterData.Defense;
 
-        // 쿨타임
+        // 쿨타임 초기화
         coolTime = monsterData.CoolTime;
         specialCoolTime = monsterData.specialCoolTime;
 
         timer = coolTime;
         specialTimer = specialCoolTime;
 
-        // 거리
+        // 거리 수치
         attRange = monsterData.attackRange;
         detRange = monsterData.detectionRange;
         minRangeRange = monsterData.minAttackRange;
 
-        // 분류
+        // 몬스터 분류
         monsterType = monsterData.Type;
         monsterRace = monsterData.Race;
 
-        // 패턴
+        // 패턴 데이터
         normalPatterns = monsterData.NormalPatterns;
         specialPatterns = monsterData.SpecialPatterns;
         normalPatternIDs = monsterData.NormalpatternIDs;
 
-        // 근접 / 범위
         aoeRange = monsterData.aoeRange;
 
-        // FX
+        // FX 참조
         attackFX = monsterData.attackFX;
         hitFX = monsterData.hitFX;
         deathFX = monsterData.deathFX;
@@ -152,60 +147,53 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
     }
 
     /*───────────────────────────────*
-     * Update
+     * Update 루프
      *───────────────────────────────*/
     void Update()
     {
-
-        // 쿨타임 감소
+        // 공격 중이 아닐 때만 쿨타임 감소
         if (state == MonsterState.Idle || state == MonsterState.Move)
         {
             if (timer > 0) timer -= Time.deltaTime;
             if (specialTimer > 0) specialTimer -= Time.deltaTime;
         }
 
-
         switch (state)
         {
             case MonsterState.Idle: Idle(); break;
             case MonsterState.Move: Move(); break;
-            case MonsterState.Attack: Attack();  break;
-            case MonsterState.GetHit: break;
-            case MonsterState.Die: break;
+            case MonsterState.Attack: Attack(); break;
         }
     }
 
     /*───────────────────────────────*
-     * Idle
+     * Idle : 플레이어 탐색
      *───────────────────────────────*/
     void Idle()
     {
         anim.applyRootMotion = false;
-
         agent.isStopped = true;
         anim.SetBool("isMove", false);
 
+        // 플레이어 탐색
         if (target == null)
         {
             GameObject p = GameObject.FindWithTag("Player");
-            if (p != null) target = p.transform;
-            else return;
+            if (p == null) return;
+            target = p.transform;
         }
 
-        float distance = Vector3.Distance(transform.position, target.position);
-        if (distance <= detRange)
-        {
+        // 인식 범위 내 진입 시 이동 상태로 전환
+        if (Vector3.Distance(transform.position, target.position) <= detRange)
             state = MonsterState.Move;
-        }
     }
 
     /*───────────────────────────────*
-     * Move
+     * Move : 추적 / 거리 조정
      *───────────────────────────────*/
     void Move()
     {
         anim.applyRootMotion = false;
-
         if (target == null) return;
 
         anim.SetBool("isMove", true);
@@ -213,24 +201,18 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
 
         float distance = Vector3.Distance(transform.position, target.position);
 
-        /*───────────────────────────────*
-         * 원거리 몹
-         *───────────────────────────────*/
+        // 원거리 몬스터 로직
         if (monsterType == Type.Range)
         {
             if (distance < minRangeRange)
             {
                 Vector3 awayDir = (transform.position - target.position).normalized;
-                Vector3 retreatPos = transform.position + awayDir * (minRangeRange - distance + 0.5f);
-
-                agent.SetDestination(retreatPos);
+                agent.SetDestination(transform.position + awayDir);
                 return;
             }
 
             if (distance <= attRange)
             {
-                anim.SetBool("isMove", false);
-                agent.isStopped = true;
                 state = MonsterState.Attack;
                 return;
             }
@@ -239,35 +221,27 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
             return;
         }
 
-        /*───────────────────────────────*
-         * 근접 몹
-         *───────────────────────────────*/
+        // 근접 몬스터 로직
         if (distance < minRangeRange)
         {
-            // 너무 붙어 있음 → 살짝만 거리 벌리기
             Vector3 awayDir = (transform.position - target.position).normalized;
-            Vector3 adjustPos = transform.position + awayDir * 1f;
-
-            agent.SetDestination(adjustPos);
+            agent.SetDestination(transform.position + awayDir);
             return;
         }
 
-        // 공격 사거리 밖 → 접근
         if (distance > attRange)
         {
             agent.SetDestination(target.position);
             return;
         }
 
-        // 딱 공격 가능한 거리
-        anim.SetBool("isMove", false);
         agent.isStopped = true;
+        anim.SetBool("isMove", false);
         state = MonsterState.Attack;
     }
 
-
     /*───────────────────────────────*
-     * Attack 분기
+     * Attack : 공격 분기
      *───────────────────────────────*/
     bool isActing;
 
@@ -279,7 +253,7 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         agent.isStopped = true;
         anim.applyRootMotion = true;
 
-        // ⭐ 공격 시작 시 방향 고정
+        // 공격 시작 시 방향 고정
         FaceTargetOnce();
 
         if (CanUseSpecial())
@@ -297,65 +271,62 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         isActing = false;
         state = MonsterState.Idle;
     }
+
     void FaceTargetOnce()
     {
         if (target == null) return;
 
         Vector3 dir = target.position - transform.position;
         dir.y = 0f;
-
-        if (dir.sqrMagnitude < 0.001f) return;
-
-        transform.rotation = Quaternion.LookRotation(dir);
+        if (dir.sqrMagnitude > 0.001f)
+            transform.rotation = Quaternion.LookRotation(dir);
     }
 
-
     /*───────────────────────────────*
-     * 공격 가능 여부 체크
+     * 공격 가능 체크
      *───────────────────────────────*/
     bool CanUseNormal()
     {
-        if (timer > 0f) return false;
-        if (normalPatternIDs == null || normalPatternIDs.Length == 0) return false;
-        return true;
+        return timer <= 0f && normalPatternIDs != null && normalPatternIDs.Length > 0;
     }
 
     bool CanUseSpecial()
     {
-        if (specialTimer > 0f) return false;
-        if (specialPatterns == null || specialPatterns.Length == 0) return false;
+        if (specialTimer > 0f || specialPatterns == null) return false;
 
         foreach (var sp in specialPatterns)
-        {
-            if (sp == SpecialPattern.AOE && aoeRange > 0f)
+            if (sp == SpecialPattern.AOE || sp == SpecialPattern.Laser)
                 return true;
 
-            if (sp == SpecialPattern.Laser )
-                return true;
-        }
         return false;
     }
 
     /*───────────────────────────────*
-     * 일반 공격
+     * 일반 공격 처리
      *───────────────────────────────*/
     IEnumerator ExecuteNormalAttack()
     {
-
         int id = normalPatternIDs[Random.Range(0, normalPatternIDs.Length)];
         anim.SetInteger("Pattern", id);
         anim.SetTrigger("Attack");
 
-        // 애니메이터 상태 반영 대기
         yield return null;
+
         AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
 
         if (monsterType == Type.Melee)
         {
             float total = info.length;
 
+            // 근접 공격 타이밍 분리
+            // - hitTime      : 공격 준비(텔레그래프)
+            // - hitDuration  : 실제 판정 구간
+            // - remainTime   : 후딜레이
+            // 추후 히트박스/이펙트/사운드 확장을 고려한 구조
             float hitTime = total * 0.4f;
+
             float hitDuration = total * 0.2f;
+
             float remainTime = total - (hitTime + hitDuration); // == 40%
 
             yield return new WaitForSeconds(hitTime);
@@ -363,15 +334,14 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
             yield return new WaitForSeconds(hitDuration);
 
             yield return new WaitForSeconds(remainTime);
+
         }
         else
         {
             yield return StartCoroutine(DoRangedAttack());
         }
 
-        // RootMotion 종료 → NavMesh 복귀
         anim.applyRootMotion = false;
-
         timer = coolTime;
         isActing = false;
         state = MonsterState.Idle;
@@ -385,34 +355,15 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
         Vector3 dir = (target.position - firePoint.position).normalized;
 
         AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
-        float total = info.length;
-        float hitTime = total * 0.4f;
-        float remainTime = total - hitTime;
+        yield return new WaitForSeconds(info.length * 0.4f);
 
-        // 🔹 발사 타이밍 대기
-        yield return new WaitForSeconds(hitTime);
-
-        // 🔹 생성
-        GameObject proj = Instantiate(
-            projectilePrefab,
-            firePoint.position,
-            Quaternion.identity
-        );
-
-        // 🔹 즉시 방향 고정
+        GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
         proj.transform.right = dir;
-
-        // 🔹 즉시 발사
         proj.GetComponent<Projectile>()?.Launch();
-
-        // 🔹 애니메이션 잔여 시간
-        yield return new WaitForSeconds(remainTime);
     }
 
-
-
     /*───────────────────────────────*
-     * 특수 공격
+     * 특수 공격 처리
      *───────────────────────────────*/
     IEnumerator ExecuteSpecialPattern()
     {
@@ -426,153 +377,87 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
             yield break;
         }
 
-
-        // 패턴 전달
         anim.SetInteger("Pattern", (int)sp);
         anim.SetTrigger("Attack");
-        print((int)sp);
 
-        // Animator 반영 대기
         yield return null;
 
         AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
-        float total = info.length;
-        float hitTime = total * 0.4f;
+        yield return new WaitForSeconds(info.length * 0.4f);
 
-        // 준비 구간
-        yield return new WaitForSeconds(hitTime);
+        if (sp == SpecialPattern.AOE) Aoe();
+        else if (sp == SpecialPattern.Laser) StartLaser();
 
-        // 특수 공격 발동
-        switch (sp)
-        {
-            case SpecialPattern.AOE:
-                Aoe();
-                break;
-            case SpecialPattern.Laser:
-                StartLaser();
-                break;
-        }
+        yield return new WaitForSeconds(info.length * 0.6f);
 
-        // 애니메이션 종료까지 대기
-        yield return new WaitForSeconds(total - hitTime);
-
-        // 종료 처리
         anim.applyRootMotion = false;
-
         specialTimer = specialCoolTime;
         isActing = false;
         state = MonsterState.Idle;
     }
-
-
 
     SpecialPattern GetValidSpecialPattern()
     {
         List<SpecialPattern> valid = new List<SpecialPattern>();
 
         foreach (var sp in specialPatterns)
-        {
-            if (sp == SpecialPattern.AOE && aoeRange > 0f)
-                valid.Add(sp);
+            valid.Add(sp);
 
-            if (sp == SpecialPattern.Laser)
-                valid.Add(sp);
-        }
-
-        if (valid.Count == 0) return default;
-        return valid[Random.Range(0, valid.Count)];
+        return valid.Count > 0 ? valid[Random.Range(0, valid.Count)] : default;
     }
 
     /*───────────────────────────────*
-     * 특수 공격 구현부
+     * 특수 공격 구현
      *───────────────────────────────*/
     void Aoe()
     {
         Instantiate(aoePrefab, transform.position, Quaternion.identity);
     }
 
-    
-
-
     void StartLaser()
     {
         if (laserPrefab == null || firePoint == null) return;
-
-        Instantiate(
-            laserPrefab,
-            firePoint.position,
-            firePoint.rotation   // 🔥 이 순간 방향만 사용
-        );
+        Instantiate(laserPrefab, firePoint.position, firePoint.rotation);
     }
 
-
-
-
-
     /*───────────────────────────────*
-     * 데미지 / 피격
+     * 데미지 처리
      *───────────────────────────────*/
     public void TakeDamage(DamageData data)
     {
         if (state == MonsterState.Die) return;
 
         currentHP -= data.damageAmount;
-        print($"최대 {monsterData.HP}/현재 {currentHP}");
 
-        if (state == MonsterState.GetHit) return;
-        // 🔥 공격 중이면 피격 연출 없이 HP만 감소
         if (state == MonsterState.Attack)
         {
-            if (currentHP <= 0)
-            {
-                state = MonsterState.Die;                                                                                           
-                Die();
-            }   
+            if (currentHP <= 0) Die();
             return;
         }
 
-        // 공격 중이 아닐 때만 피격 처리
-        if (currentHP <= 0)
-        {
-            state = MonsterState.Die;
-            Die();
-        }
-        else
-        {
-            StartCoroutine(GetHitProc());
-        }
-
+        if (currentHP <= 0) Die();
+        else StartCoroutine(GetHitProc());
     }
 
     IEnumerator GetHitProc()
     {
         state = MonsterState.GetHit;
-        anim.applyRootMotion = true; 
-
+        anim.applyRootMotion = true;
         anim.SetTrigger("Hit");
 
         yield return null;
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
 
-        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
-        yield return new WaitForSeconds(info.length);
-
-        //  RootMotion 종료 → NavMesh로 복귀
         anim.applyRootMotion = false;
-
         state = MonsterState.Idle;
     }
 
-    public void SetupRoom(RoomController room)
-    {
-        roomController = room;
-    }
-
-
     /*───────────────────────────────*
-     * 사망
+     * 사망 처리
      *───────────────────────────────*/
     public void Die()
     {
+        state = MonsterState.Die;
         anim.applyRootMotion = true;
         agent.isStopped = true;
 
@@ -583,82 +468,48 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
     IEnumerator DieProc()
     {
         DropItems();
-
         yield return new WaitForSeconds(3f);
 
-        if (roomController != null)
-        {
-            roomController.ClearDungeon(this.gameObject);
-        }
-
-        // 나중에 연결
-
+        roomController?.ClearDungeon(gameObject);
         _MasterManager.Instance.DataManager.GetMonster(monsterData);
         Destroy(gameObject);
     }
 
     void DropItems()
     {
-        if (monsterData.DropTable == null || monsterData.DropTable.Length == 0)
-            return;
+        if (monsterData.DropTable == null) return;
 
         foreach (var drop in monsterData.DropTable)
         {
-            // 1️⃣ 확률 체크
-            float roll = Random.value; // 0.0 ~ 1.0
-            if (roll > drop.chance)
-                continue;
+            if (Random.value > drop.chance) continue;
 
-            // 2️⃣ 드랍 개수 결정
             int count = Random.Range(drop.minCount, drop.maxCount + 1);
-            if (count <= 0)
-                continue;
-
-            // 3️⃣ 아이템 생성
             for (int i = 0; i < count; i++)
-            {
-                Vector3 spawnPos = transform.position + GetRandomDropOffset();
-                Instantiate(drop.itemPrefab, spawnPos, Quaternion.identity);
-            }
+                Instantiate(drop.itemPrefab, transform.position + GetRandomDropOffset(), Quaternion.identity);
         }
     }
+
     Vector3 GetRandomDropOffset()
     {
-        float radius = 0.5f;
-        Vector2 rand = Random.insideUnitCircle * radius;
+        Vector2 rand = Random.insideUnitCircle * 0.5f;
         return new Vector3(rand.x, 0f, rand.y);
     }
 
-
-    //공격중 반환
     public bool OnAttack()
     {
-        if (state == MonsterState.Attack) return true;
-        else return false;
+        return state == MonsterState.Attack;
     }
-
 
     /*───────────────────────────────*
      * Gizmos
      *───────────────────────────────*/
-    private void OnDrawGizmos()
+    void OnDrawGizmos()
     {
         if (monsterData == null) return;
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, monsterData.attackRange);
-
-        if (monsterData.minAttackRange > 0f)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, monsterData.minAttackRange);
-        }
-
-        if (monsterData.aoeRange > 0f)
-        {
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, monsterData.aoeRange);
-        }
     }
 }
+
 
