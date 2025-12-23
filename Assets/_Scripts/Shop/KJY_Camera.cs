@@ -6,19 +6,18 @@ public class KJY_Camera : MonoBehaviour
     public Transform shopPos;
     public Transform homePos;
 
-    bool movingHome;
-    float dis;
-    Table table;
+    bool movingHome = false;
+    float dis = 2f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    CameraArea currentArea;
+
+    public enum CameraArea
     {
-        movingHome = false;
-        dis = 2f;
-        table = FindAnyObjectByType<Table>();
-
-
+        Home,
+        Shop
     }
+
+    public static System.Action<CameraArea> OnCameraArrived;
 
     // Update is called once per frame
     void Update()
@@ -32,28 +31,23 @@ public class KJY_Camera : MonoBehaviour
             movingHome = false;
         }
 
-        if (movingHome) MovingHome();
-        else MovingShop();
+        if (movingHome) currentArea = CameraArea.Home;
+        else currentArea = CameraArea.Shop;
+
+        CameraMove(currentArea);
+
     }
 
-    void MovingHome()
+    void CameraMove(CameraArea target)
     {
+        Vector3 targetPos =
+           target == CameraArea.Home
+           ? new Vector3(-2.2f, 8, -3.5f)
+           : new Vector3(-2.2f, 8, -12.5f);
+
         Camera.main.transform.position =
-            Vector3.Lerp(Camera.main.transform.position,
-            new Vector3(-2.2f, 8, -3.5f),
-            Time.deltaTime * 10f);
+            Vector3.Lerp(Camera.main.transform.position, targetPos, Time.deltaTime * 10f);
 
-        table.CloseTable();
+        OnCameraArrived?.Invoke(target);
     }
-
-    void MovingShop()
-    {
-        Camera.main.transform.position =
-          Vector3.Lerp(Camera.main.transform.position,
-          new Vector3(-2.2f, 8, -12.5f),
-          Time.deltaTime * 10f);
-
-        table.OpenTable();
-    }
-
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using static KJY_Camera;
 using static RegisteredItem;
 
 [RequireComponent (typeof (Canvas))]
@@ -9,58 +10,25 @@ public class Table : MonoBehaviour
 
     public Image[] tableImage;
 
-    private void Start()
+    void OnEnable()
     {
-        //regiItem = FindAnyObjectByType<RegisteredItem>();
+        OnCameraArrived += HandleCameraArrived;
     }
-    //void Update()
-    //{
-    //    //등록된 아이템 변경될 때 이미지 변경
-    //    if (update)
-    //    {
-    //        UpdateTable();
-    //    }
-    //}
 
-    //void UpdateTable()
-    //{
-    //    update = false;
+    void HandleCameraArrived(CameraArea area)
+    {
+        if (area != CameraArea.Shop)
+        {
+            CloseTable();
+            return;
+        }
+        else
+        {
+            Invoke("OpenTable", 0.15f);
+            return;
+        }
+    }
 
-    //    for (int i = 0; i < tableImage.Length; i++)
-    //    {
-    //        if (regiItem.itemImages[i].sprite == null)
-    //        {
-    //            continue;
-    //        }  
-
-    //        tableImage[i].gameObject.SetActive(true);
-    //        tableImage[i].sprite = regiItem.itemImages[i].sprite;
-    //        tableImage[i].enabled = true;
-    //        tableImage[i].preserveAspect = true;
-
-    //        tableImage[i] = regiItem.itemImages[i];
-    //    }
-
-    //}
-    //public void UpdateTable()
-    //{
-
-    //    for (int i = 0; i < tableImage.Length; i++)
-    //    {
-    //        if (regiItem.itemImages[i].sprite == null) continue;
-
-    //        if (regiItem.registeredItemsData[i].count < 1)
-    //        {
-    //            tableImage[i].gameObject.SetActive(false);
-    //            tableImage[i].preserveAspect = false;
-    //            continue;
-    //        }
-
-    //        tableImage[i].sprite = regiItem.itemImages[i].sprite;
-    //        tableImage[i].gameObject.SetActive(true);
-    //        tableImage[i].preserveAspect = true;
-    //    }
-    //}
 
     public void UpdateTable()
     {
