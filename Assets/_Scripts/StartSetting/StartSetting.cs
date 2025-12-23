@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections;
 
 public class StartSetting : MonoBehaviour
 {
     UIDocument document;
     VisualElement panel;
 
-    Button continueBtn;      //이어하기
+    Button continueBtn;     //이어하기
     Button startBtn;        //처음 시작
     Button optionBtn;       //설정
     Button exitBtn;         //게임 종료
@@ -85,7 +86,6 @@ public class StartSetting : MonoBehaviour
         Debug.Log("[StartSetting] LoadGame 완료, 씬 이동");
         _MasterManager.Instance.GameSceneManager.LoadScene("Villiage");
     }
-
 
     void Option()
     {
