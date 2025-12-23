@@ -453,6 +453,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: TestManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: SFXClips6.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: 'SFXClips6.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: cc7768a9a2d19f14a983852f7bb266ae, type: 3}
     - target: {fileID: 6357051562726047180, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: m_Pivot.x
       value: 0

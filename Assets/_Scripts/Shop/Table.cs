@@ -5,13 +5,13 @@ using static RegisteredItem;
 [RequireComponent (typeof (Canvas))]
 public class Table : MonoBehaviour
 {
-    RegisteredItem regiItem;
+    //RegisteredItem regiItem;
 
     public Image[] tableImage;
 
     private void Start()
     {
-        regiItem = FindAnyObjectByType<RegisteredItem>();
+        //regiItem = FindAnyObjectByType<RegisteredItem>();
     }
     //void Update()
     //{
@@ -42,14 +42,68 @@ public class Table : MonoBehaviour
     //    }
 
     //}
+    //public void UpdateTable()
+    //{
+
+    //    for (int i = 0; i < tableImage.Length; i++)
+    //    {
+    //        if (regiItem.itemImages[i].sprite == null) continue;
+
+    //        if (regiItem.registeredItemsData[i].count < 1)
+    //        {
+    //            tableImage[i].gameObject.SetActive(false);
+    //            tableImage[i].preserveAspect = false;
+    //            continue;
+    //        }
+
+    //        tableImage[i].sprite = regiItem.itemImages[i].sprite;
+    //        tableImage[i].gameObject.SetActive(true);
+    //        tableImage[i].preserveAspect = true;
+    //    }
+    //}
+
     public void UpdateTable()
     {
-        
+        // DataManager에서 직접 진열대 데이터 가져오기
+        var dataManager = _MasterManager.Instance.DataManager;
+
+        if (dataManager == null)
+        {
+            Debug.LogError("[Table] DataManager를 찾을 수 없습니다");
+            return;
+        }
+
+        var registeredItemsData = dataManager.GetRegisteredItems();
+
+        if (registeredItemsData == null || registeredItemsData.Length == 0)
+        {
+            Debug.LogWarning("[Table] 진열대 데이터가 없습니다");
+            return;
+        }
+
+        // RegisteredItem에서 itemImages를 가져와야 한다면
+        RegisteredItem regiItem = FindAnyObjectByType<RegisteredItem>();
+
+        if (regiItem == null)
+        {
+            Debug.LogWarning("[Table] RegisteredItem을 찾을 수 없습니다 (아이콘 업데이트 스킵)");
+            return;
+        }
+
         for (int i = 0; i < tableImage.Length; i++)
         {
-            if (regiItem.itemImages[i].sprite == null) continue;
+            // itemImages 확인
+            if (regiItem.itemImages == null || i >= regiItem.itemImages.Length)
+            {
+                tableImage[i].gameObject.SetActive(false);
+                continue;
+            }
 
-            if (regiItem.registeredItemsData[i].count < 1)
+            if (regiItem.itemImages[i].sprite == null)
+                continue;
+
+            // DataManager의 데이터 사용
+            if (registeredItemsData[i] == null || registeredItemsData[i].count < 1)
             {
                 tableImage[i].gameObject.SetActive(false);
                 tableImage[i].preserveAspect = false;
