@@ -5,28 +5,42 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     PlayerControll PC;
-    CharacterController cc;
+    bool activemove = true;
+
 
     private void Start()
     {
         PC = GetComponent<PlayerControll>();
-        cc = GetComponent<CharacterController>();
     }
     void Update()
     {
-        if (cc == null || !cc.enabled)
-            return;
+         if(Input.GetKeyDown(KeyCode.CapsLock))
+        {
+            if (activemove)
+            {
+                activemove = false;
+                Debug.Log("폴스로 변경");
+            }
+            else if (!activemove)
+            {
+                activemove = true;
+                Debug.Log("트루로변경");
+            }
+        }
 
+        if (!activemove)
+        {
+            Debug.Log("움직이지마");
+            return;
+        }
         float moveX = 0f;
         float moveZ = 0f;
-
 
         // 방향키 입력은 KeySetting 기반으로 수정
         if (Input.GetKey(KeySetting.keys[KeyInput.UP])) moveZ = 1;
         if (Input.GetKey(KeySetting.keys[KeyInput.DOWN])) moveZ = -1;
         if (Input.GetKey(KeySetting.keys[KeyInput.LEFT])) moveX = -1;
         if (Input.GetKey(KeySetting.keys[KeyInput.RIGHT])) moveX = 1;
-
         Vector3 dir = new Vector3(moveX, 0, moveZ);     //방향 설정
 
         if (dir != new Vector3(0, 0, 0))    //new Vector3(0,0,0);
@@ -68,5 +82,10 @@ public class PlayerMove : MonoBehaviour
         {
 
         }
+    }
+
+    public void SetActiveMove(bool value)
+    {
+        activemove = value;
     }
 }
