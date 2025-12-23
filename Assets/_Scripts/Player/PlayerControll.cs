@@ -68,6 +68,14 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     //무기별 스타일 분리용
     int weaponnumber = 5;
 
+    // 넉백 관련
+    Vector3 knockbackVelocity;
+    float knockbackTimer;
+
+    public float knockbackDuration = 0.25f;
+    public float knockbackPower = 6f;
+    public float knockbackDamping = 12f;
+
     private void OnEnable()
     {
         DataManager.OnEquipmentChanged += RefreshWeapon;
@@ -88,6 +96,21 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
     public void Update()
     {
+        // 넉백 타이머
+        if (knockbackTimer > 0)
+        {
+            knockbackTimer -= Time.deltaTime;
+
+            knockbackVelocity = Vector3.Lerp(
+                knockbackVelocity,
+                Vector3.zero,
+                knockbackDamping * Time.deltaTime
+            );
+
+            CC.Move(knockbackVelocity * Time.deltaTime);
+        }
+
+
         if (weaponnumber == 0) return;
 
         //창찌르기 차지공격
@@ -423,6 +446,9 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     public void TakeDamage(DamageData damage)
     {
         _MasterManager.Instance.DataManager.ChangeHP((int)damage.damageAmount);
+
+        ApplyKnockback(damage.hitDirection);
+
         Debug.Log("체력: " + model.HP);
         if(model.HP <= 0)
         {
@@ -430,6 +456,17 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             Die();
         }
     }
+
+    void ApplyKnockback(Vector3 dir)
+    {
+        if (isRolling) return; // 구르기 중엔 무시 (선택)
+
+        dir.y = 0; // 바닥 고정
+        knockbackVelocity = dir.normalized * knockbackPower;
+        knockbackTimer = knockbackDuration;
+    }
+
+
     public void Die()
     {
         _MasterManager.Instance.DataManager.ChangeReturn(true);
