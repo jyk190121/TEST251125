@@ -5,13 +5,18 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     PlayerControll PC;
+    CharacterController cc;
 
     private void Start()
     {
         PC = GetComponent<PlayerControll>();
+        cc = GetComponent<CharacterController>();
     }
     void Update()
     {
+        if (cc == null || !cc.enabled)
+            return;
+
         float moveX = 0f;
         float moveZ = 0f;
 

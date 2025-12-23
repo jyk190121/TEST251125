@@ -2032,7 +2032,6 @@ GameObject:
   - component: {fileID: 1618807706784563091}
   - component: {fileID: 3846003760402762235}
   - component: {fileID: 1190387926494197494}
-  - component: {fileID: 3094904300841628244}
   m_Layer: 7
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -2072,7 +2071,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 8544041544418109196, guid: a83b8716fdaec944096a22d6f4e08962, type: 3}
   arrowSpawnPoint: {fileID: 2572585409456160129}
-  weaponnumber: 2
+  knockbackDuration: 0.25
+  knockbackPower: 6
+  knockbackDamping: 12
 --- !u!114 &1026088749870128124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2170,19 +2171,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &3094904300841628244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4361047247619547267}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f38908d84cbc924babd745928b185ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deadPanel: {fileID: 0}
 --- !u!1 &4433756766690965229
 GameObject:
   m_ObjectHideFlags: 0
