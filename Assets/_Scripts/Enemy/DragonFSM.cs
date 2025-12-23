@@ -17,7 +17,7 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 /// ✔ NavMesh 유지
 /// ✔ 히트 판정은 OnAttack 기반
 /// </summary>
-public class DragonFSM : MonoBehaviour
+public class DragonFSM : MonoBehaviour ,IHitResponder
 {
     enum DragonState
     {

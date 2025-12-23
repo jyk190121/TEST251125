@@ -14,7 +14,7 @@ using UnityEngine.AI;
 /// ✔ 돌진 중 히트박스 On/Off
 /// ✔ 애니메이션 길이 기준 타이밍
 /// </summary>
-public class RihinoFSM : MonoBehaviour
+public class RihinoFSM : MonoBehaviour ,IHitResponder
 {
     enum RihinoState
     {
