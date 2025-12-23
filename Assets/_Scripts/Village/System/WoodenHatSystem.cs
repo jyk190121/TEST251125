@@ -24,7 +24,6 @@ public class WoodenHatSystem : CraftingSystemBase
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         InitializeRecipes();
     }
