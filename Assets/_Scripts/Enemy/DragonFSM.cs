@@ -41,7 +41,8 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
     [Header("HitBox")]
     public GameObject chargeHitBox;
     public GameObject jumpAoeHitBox;
-    public GameObject roarAoeHitBox;
+    public GameObject roarAoePrefab;
+    public Transform roarPoint;
 
     /*───────────────────────────────*
      * 스탯
@@ -134,8 +135,6 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
         agent.isStopped = false;
 
         if (chargeHitBox) chargeHitBox.SetActive(false);
-        if (jumpAoeHitBox) jumpAoeHitBox.SetActive(false);
-        if (roarAoeHitBox) roarAoeHitBox.SetActive(false);
     }
 
     void Update()
@@ -393,19 +392,12 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
      *───────────────────────────────*/
     void Roar()
     {
-        if (roarAoeHitBox == null) return;
-
-        roarAoeHitBox.SetActive(true);
-        StartCoroutine(DisableRoarAoeAfterTime(0.5f));
+        Instantiate(
+        roarAoePrefab,
+        roarPoint.position,
+        Quaternion.identity
+        );
     }
-
-    IEnumerator DisableRoarAoeAfterTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-        roarAoeHitBox.SetActive(false);
-    }
-
-
     void Jump()
     {
         if (jumpAoeHitBox == null) return;

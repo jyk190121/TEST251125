@@ -76,7 +76,7 @@ MonoBehaviour:
   currentHP: 0
   projectilePrefab: {fileID: 0}
   laserPrefab: {fileID: 0}
-  aoePrefab: {fileID: 2241653792339101760, guid: 6d315fe9073d5d945a8bba618670ab8c, type: 3}
+  aoePrefab: {fileID: 1892150945404076226, guid: 6d315fe9073d5d945a8bba618670ab8c, type: 3}
   firePoint: {fileID: 0}
 --- !u!195 &1301510946065137872
 NavMeshAgent:
