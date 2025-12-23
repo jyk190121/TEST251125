@@ -27,5 +27,6 @@ public class MonsterHPBar : MonoBehaviour
         // FSM currentHP만 반영
         fillImage.fillAmount = monster.currentHP / maxHP;
     }
+
 }
 

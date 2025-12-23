@@ -46,7 +46,7 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
     /*───────────────────────────────*
      * 스탯
      *───────────────────────────────*/
-    float currentHP;
+    public float currentHP;
     float speed;
 
     //경직
