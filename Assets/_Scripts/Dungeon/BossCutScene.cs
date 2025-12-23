@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -6,12 +7,11 @@ public class BossCutScene : MonoBehaviour
 {
     private PlayableDirector pd;
     public TimelineAsset[] ta;
-
+    
 
     void Start()
     {
         pd = GetComponent<PlayableDirector>();
-
     }
 
     private void OnTriggerEnter(Collider other)
@@ -25,5 +25,4 @@ public class BossCutScene : MonoBehaviour
             if (ta.Length > 0) pd.Play(ta[0]);
         }
     }
-
 }

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Manager
   - Cut
+  - Hide
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -19,7 +21,7 @@ TagManager:
   - Mark
   - Boss
   - Monster
-  - 
+  - Hide
   - 
   - 
   - 

@@ -24,6 +24,8 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
     public TextMeshProUGUI[] countTxt;          //등록된 아이템 갯수 보여주기
     public TextMeshProUGUI[] priceTxt;          //등록된 아이템 가격 보여주기
 
+    int dragIndex;
+
     [System.Serializable]
     public class RegisteredItemData
     {
@@ -69,6 +71,7 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         // inventory 참조 초기화
         inventory = InventoryManager.Instance;
         table = FindAnyObjectByType<Table>();
+        dragIndex = 0;
 
         if (inventory == null)
         {
@@ -400,7 +403,6 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
     }
     public void OnDrop(PointerEventData eventData)
     {
-        int dragIndex = InventoryManager.Instance.GetDragStartIndex();
         if (dragIndex == -1) return;
 
         Item item = InventoryManager.Instance.GetDraggedItem();
@@ -417,6 +419,9 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         }
 
         int invDragStartIndex = inventory.GetDragStartIndex();
+
+        print($"dragIndex : {dragIndex}, currentPoint : {eventData.pointerPressRaycast}");
+
 
         // 인벤토리에서 진열대로 드롭하는 경우만 처리
         if (invDragStartIndex == -1)
@@ -449,6 +454,7 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
                 onYes: () =>
                 {
                     OnPopupYes(dragIndex, invDragStartIndex, item, count);
+                    dragIndex++;
                 },
                 onNo: () =>
                 {

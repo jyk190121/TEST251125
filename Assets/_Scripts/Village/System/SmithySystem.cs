@@ -20,7 +20,6 @@ public class SmithySystem : CraftingSystemBase
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         InitializeRecipes();
     }

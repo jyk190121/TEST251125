@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -4156146692156096102}
   m_Layer: 10
   m_Name: TestBossDragonRoot
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +118,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ta:
   - {fileID: 11400000, guid: 474cc76277eeb4d4d8efefc6b6cfaef1, type: 2}
-  player: {fileID: 0}
 --- !u!114 &-4156146692156096102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: fef4c297ac514e249b1eb8303c01410a, type: 2}
   anim: {fileID: 0}
+  currentHP: 0
   firePoint: {fileID: 0}
   aoeHitbox: {fileID: 2424945517264971183, guid: 0cb02c67e5dc4ee42b982b87e123a6fb, type: 3}
 --- !u!1 &320561818562556166

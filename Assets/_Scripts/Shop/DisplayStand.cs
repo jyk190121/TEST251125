@@ -26,7 +26,7 @@ public class DisplayStand : MonoBehaviour
 
     private void Start()
     {
-        registeredItem = FindAnyObjectByType<RegisteredItem>();
+        //registeredItem = FindAnyObjectByType<RegisteredItem>();
 
         // 초기화
         for (int i = 0; i < 4; i++)

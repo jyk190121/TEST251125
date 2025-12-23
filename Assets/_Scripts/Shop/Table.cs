@@ -46,12 +46,21 @@ public class Table : MonoBehaviour
     {
         for (int i = 0; i < tableImage.Length; i++)
         {
-            if (regiItem.itemImages[i].sprite == null)
-                continue;
+            if (regiItem.itemImages[i].sprite == null) continue;
 
             tableImage[i].sprite = regiItem.itemImages[i].sprite;
             tableImage[i].gameObject.SetActive(true);
             tableImage[i].preserveAspect = true;
         }
+    }
+
+    public void OpenTable()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void CloseTable()
+    {
+        gameObject.SetActive(false);
     }
 }

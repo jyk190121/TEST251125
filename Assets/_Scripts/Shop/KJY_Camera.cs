@@ -7,14 +7,17 @@ public class KJY_Camera : MonoBehaviour
     public Transform homePos;
 
     bool movingHome;
-
     float dis;
+    Table table;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         movingHome = false;
         dis = 2f;
+        table = FindAnyObjectByType<Table>();
+
+
     }
 
     // Update is called once per frame
@@ -39,6 +42,8 @@ public class KJY_Camera : MonoBehaviour
             Vector3.Lerp(Camera.main.transform.position,
             new Vector3(-2.2f, 8, -3.5f),
             Time.deltaTime * 10f);
+
+        table.CloseTable();
     }
 
     void MovingShop()
@@ -47,6 +52,8 @@ public class KJY_Camera : MonoBehaviour
           Vector3.Lerp(Camera.main.transform.position,
           new Vector3(-2.2f, 8, -12.5f),
           Time.deltaTime * 10f);
+
+        table.OpenTable();
     }
 
 }
