@@ -487,7 +487,7 @@ public class NormalMosterFSM : MonoBehaviour ,IHitResponder
     }
 
     /*───────────────────────────────*
-     * 특수 공격 구현부 (비어 있음)
+     * 특수 공격 구현부
      *───────────────────────────────*/
     void Aoe()
     {
