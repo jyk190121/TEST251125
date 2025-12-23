@@ -25,7 +25,9 @@ public class ItemSettingPopup : MonoBehaviour
     public void OpenPopup(Item item, Action onYes, Action onNo)
     {
         //텍스트 설정
-        regiItemText.text = $"{item.name} 등록";
+        regiItemText.text = $"{item.itemName} 등록";
+        priceInput.text = item.sellPrice.ToString();
+        quantityInput.text = "1";
 
         //콜백 저장
         onYesCallback = onYes;
@@ -46,23 +48,6 @@ public class ItemSettingPopup : MonoBehaviour
 
         //패널 켜기
         gameObject.SetActive(true);
-    }
-
-    public void Open(Item item, int availableCount, int invenIndex)
-    {
-        gameObject.SetActive(true);
-
-        //텍스트 설정
-
-        currentItem = item;
-        maxQuantity = availableCount;
-        inventoryIndex = invenIndex;
-
-        iconImage.sprite = item.icon;
-        regiItemText.text = $"{item.name} 등록";
-
-        priceInput.text = item.sellPrice.ToString();
-        quantityInput.text = "1";
     }
 
     public void OnClickRegister()
