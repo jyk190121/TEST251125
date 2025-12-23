@@ -13,6 +13,9 @@ public class StartSetting : MonoBehaviour
     Button exitBtn;         //게임 종료
     SoundManager soundManager;
 
+    [Header("Fade In 효과")]
+    float fadeDuration = 1.0f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,6 +36,26 @@ public class StartSetting : MonoBehaviour
         exitBtn.clickable.clicked += Exit;
 
         UpdateContinueButton();
+
+        //스타트 씬 Fadein 효과
+        StartCoroutine(FadeInUi());
+    }
+
+    private IEnumerator FadeInUi()
+    {
+        //시작 시 UI의 투명도를 0으로 설정
+        panel.style.opacity = 0;
+
+        yield return null;
+
+        float elapsed = 0f;
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            panel.style.opacity = Mathf.Clamp01(elapsed / fadeDuration);
+            yield return null;
+        }
+        panel.style.opacity = 1;
     }
 
     /// <summary>
