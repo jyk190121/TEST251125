@@ -67,7 +67,15 @@ public class RoomController : MonoBehaviour
             //monster.GetComponent<MonsterTest>().SetupRoom(this);
             //monster.GetComponent<FSMTest>()?.SetupRoom(this);
 
-            monster.GetComponent<NormalMosterFSM>()?.SetupRoom(this);
+            var dragon = monster.GetComponent<DragonFSM>();
+            if (dragon != null)
+            {
+                dragon.SetupRoom(this);
+            }
+            else
+            {
+                monster.GetComponent<NormalMosterFSM>()?.SetupRoom(this);
+            }
             if (monster.layer == LayerMask.NameToLayer("Boss"))
             {
                 IsBoss = true;

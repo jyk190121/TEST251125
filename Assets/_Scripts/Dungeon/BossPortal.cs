@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class BossPortal : MonoBehaviour
 {
     [Header("설정")]
-    [SerializeField] private string SceneName = "Villiage";
+    //[SerializeField] private string SceneName = "Villiage";
     [SerializeField] private float holdDuration; // 필요 유지 시간
 
     private float timer = 0f;
