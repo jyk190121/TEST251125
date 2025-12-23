@@ -92,29 +92,64 @@ public class Table : MonoBehaviour
 
         for (int i = 0; i < tableImage.Length; i++)
         {
-            // itemImages 확인
-            if (regiItem.itemImages == null || i >= regiItem.itemImages.Length)
+            //// itemImages 확인
+            //if (regiItem.itemImages == null || i >= regiItem.itemImages.Length)
+            //{
+            //    tableImage[i].gameObject.SetActive(false);
+            //    continue;
+            //}
+
+            //if (regiItem.itemImages[i].sprite == null)
+            //    continue;
+
+            //// DataManager의 데이터 사용
+            //if (registeredItemsData[i] == null || registeredItemsData[i].count < 1)
+            //{
+            //    tableImage[i].sprite = null;
+            //    tableImage[i].gameObject.SetActive(false);
+            //    tableImage[i].preserveAspect = false;
+            //    continue;
+            //}
+
+            //tableImage[i].sprite = regiItem.itemImages[i].sprite;
+            //tableImage[i].gameObject.SetActive(true);
+            //tableImage[i].preserveAspect = true;
+
+            if (i >= registeredItemsData.Length)
             {
                 tableImage[i].gameObject.SetActive(false);
                 continue;
             }
 
-            if (regiItem.itemImages[i].sprite == null)
-                continue;
+            RegisteredItemData data = registeredItemsData[i];
 
-            // DataManager의 데이터 사용
-            if (registeredItemsData[i] == null || registeredItemsData[i].count < 1)
+            // 데이터가 없거나 수량이 0이면 무조건 제거
+            if (data == null || data.count <= 0)
             {
+                tableImage[i].sprite = null;
                 tableImage[i].gameObject.SetActive(false);
                 tableImage[i].preserveAspect = false;
                 continue;
             }
 
+            // sprite가 없으면 표시 불가
+            if (regiItem.itemImages == null ||
+                i >= regiItem.itemImages.Length ||
+                regiItem.itemImages[i].sprite == null)
+            {
+                tableImage[i].gameObject.SetActive(false);
+                continue;
+            }
+
+            // 정상 표시
             tableImage[i].sprite = regiItem.itemImages[i].sprite;
             tableImage[i].gameObject.SetActive(true);
             tableImage[i].preserveAspect = true;
+
         }
     }
+
+
 
     public void OpenTable()
     {
