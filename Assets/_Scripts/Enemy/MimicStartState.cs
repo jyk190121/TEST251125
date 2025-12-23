@@ -7,7 +7,7 @@ using System.Collections;
 /// - 히트박스 On / Off
 /// - 일반 몬스터 FSM 활성화 후 자신 비활성화
 /// </summary>
-public class MimicStartState : MonoBehaviour
+public class MimicStartState : MonoBehaviour 
 {
     [Header("References")]
     public Animator anim;                       // 미믹 애니메이터

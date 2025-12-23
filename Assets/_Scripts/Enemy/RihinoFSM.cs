@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -13,7 +14,7 @@ using UnityEngine.AI;
 /// ✔ 돌진 중 히트박스 On/Off
 /// ✔ 애니메이션 길이 기준 타이밍
 /// </summary>
-public class RihinoFSM : MonoBehaviour
+public class RihinoFSM : MonoBehaviour ,IHitResponder
 {
     enum RihinoState
     {
@@ -98,7 +99,7 @@ public class RihinoFSM : MonoBehaviour
         // 쿨타임
         normalCool = rihinoData.CoolTime;
         specialCool = rihinoData.specialCoolTime;
-        chargeCool = rihinoData.patternCooldown;   // ✅ 반드시 필요
+        chargeCool = rihinoData.patternCooldown;  
 
         normalTimer = normalCool;
         specialTimer = specialCool;
@@ -283,19 +284,69 @@ public class RihinoFSM : MonoBehaviour
      *───────────────────────────────*/
     IEnumerator ExecuteSpecialPattern()
     {
-        anim.SetInteger("Pattern", (int)SpecialPattern.Roar);
+        anim.applyRootMotion = true;
+
+        SpecialPattern sp = GetValidSpecialPattern();
+        if (sp == default)
+        {
+            isActing = false;
+            state = RihinoState.Idle;
+            yield break;
+        }
+
+
+        // 패턴 전달
+        anim.SetInteger("Pattern", (int)sp);
         anim.SetTrigger("Attack");
+        print((int)sp);
 
+        // Animator 반영 대기
         yield return null;
-        float total = anim.GetCurrentAnimatorStateInfo(0).length;
-        if (total <= 0f) total = 1.5f;
 
-        yield return new WaitForSeconds(total);
+        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
+        float total = info.length;
+        float hitTime = total * 0.4f;
 
+        // 준비 구간
+        yield return new WaitForSeconds(hitTime);
+
+        // 특수 공격 발동
+        switch (sp)
+        {
+            case SpecialPattern.AOE:
+                Roar();
+                break;
+            
+        }
+
+        // 애니메이션 종료까지 대기
+        yield return new WaitForSeconds(total - hitTime);
+
+        // 종료 처리
         anim.applyRootMotion = false;
+
         specialTimer = specialCool;
         isActing = false;
         state = RihinoState.Idle;
+    }
+    SpecialPattern GetValidSpecialPattern()
+    {
+        List<SpecialPattern> valid = new List<SpecialPattern>();
+
+        foreach (var sp in specialPatterns)
+        {
+            if (sp == SpecialPattern.Roar)
+                valid.Add(sp);
+        }
+
+        if (valid.Count == 0) return default;
+        return valid[Random.Range(0, valid.Count)];
+    }
+
+
+    void Roar()
+    {
+
     }
 
     /*───────────────────────────────*
