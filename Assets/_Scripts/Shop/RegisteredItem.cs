@@ -24,9 +24,10 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
     public TextMeshProUGUI[] countTxt;          //등록된 아이템 갯수 보여주기
     public TextMeshProUGUI[] priceTxt;          //등록된 아이템 가격 보여주기
 
-    int dragIndex;
+    int dragIndex = 0;
 
     [System.Serializable]
+    [RequireComponent(typeof(RegisteredItemData))]
     public class RegisteredItemData
     {
         public Item item;
@@ -68,10 +69,8 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
 
     private void Start()
     {
-        // inventory 참조 초기화
         inventory = InventoryManager.Instance;
         table = FindAnyObjectByType<Table>();
-        dragIndex = 0;
 
         if (inventory == null)
         {
@@ -79,47 +78,73 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
             return;
         }
 
-        // registeredItemsData가 이미 설정되어 있으면 그대로 사용
-        if (registeredItemsData != null && registeredItemsData.Length > 0)
+        // 초기화: DataManager에서 진열대 데이터 로드
+        LoadDataFromDataManager();
+
+        Debug.Log("[RegisteredItem] 초기화 완료");
+    }
+
+    /// <summary>
+    /// DataManager에서 진열대 데이터를 받아와서 UI 업데이트
+    /// </summary>
+    private void LoadDataFromDataManager()
+    {
+        var dataManager = _MasterManager.Instance.DataManager;
+
+        if (dataManager == null)
         {
+            Debug.LogError("[RegisteredItem] DataManager를 찾을 수 없습니다");
+            return;
+        }
+
+        var loadedData = dataManager.GetRegisteredItems();
+
+        // DataManager에 저장된 데이터가 있으면 사용
+        if (loadedData != null && loadedData.Length > 0)
+        {
+            registeredItemsData = loadedData;
+            itemList = new Item[registeredItemsData.Length];
+
+            // 각 슬롯의 UI 업데이트
             for (int i = 0; i < registeredItemsData.Length; i++)
             {
                 if (registeredItemsData[i] != null && registeredItemsData[i].item != null)
                 {
+                    itemList[i] = registeredItemsData[i].item;
+
+                    // UI 텍스트 업데이트
+                    countTxt[i].text = registeredItemsData[i].count.ToString();
+                    priceTxt[i].text = $"판매가 :{(registeredItemsData[i].price * registeredItemsData[i].count).ToString()}";
+
+                    // 아이콘 업데이트
                     SetupSlotImage(i, registeredItemsData[i].item);
                 }
-            }
-            Debug.Log("[RegisteredItem] Inspector에서 설정한 데이터 사용");
-            return;
-        }
+                else
+                {
+                    // 빈 슬롯 초기화
+                    itemList[i] = null;
+                    countTxt[i].text = "";
+                    priceTxt[i].text = "";
 
-        // Inspector에 아무것도 설정 안 했으면 새로 초기화
-        if (itemList == null || itemList.Length == 0)
+                    if (itemImages != null && i < itemImages.Length && itemImages[i] != null)
+                    {
+                        itemImages[i].sprite = null;
+                        itemImages[i].enabled = false;
+                    }
+                }
+            }
+
+            Debug.Log("[RegisteredItem] DataManager에서 진열대 데이터 로드 완료");
+        }
+        else
         {
-            Debug.LogWarning("[RegisteredItem] itemList가 비어있습니다. 새로 초기화합니다");
-            itemList = new Item[capacity];
+            // DataManager에 데이터가 없으면 초기화
             registeredItemsData = new RegisteredItemData[capacity];
-            return;
+            itemList = new Item[capacity];
+            Debug.Log("[RegisteredItem] 진열대 데이터 새로 초기화됨");
         }
 
-        // 기존 itemList를 registeredItemsData로 마이그레이션
-        registeredItemsData = new RegisteredItemData[capacity];
-
-        for (int i = 0; i < capacity && i < itemList.Length; i++)
-        {
-            if (itemList[i] != null)
-            {
-                registeredItemsData[i] = new RegisteredItemData(
-                    itemList[i],
-                    1,
-                    itemList[i].sellPrice
-                );
-
-                SetupSlotImage(i, itemList[i]);
-            }
-        }
-
-        Debug.Log("[RegisteredItem] 초기화 완료");
+        table.UpdateTable();
     }
 
     void SetupSlotImage(int index, Item item)
@@ -159,6 +184,7 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         iconImage.sprite = item.icon;
         iconImage.enabled = true;
         iconImage.preserveAspect = true;
+        table.UpdateTable();
 
     }
     ////인벤토리에서 드래그 시작
@@ -322,6 +348,8 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
 
         SetupSlotImage(slotIndex, item);
 
+        UpdateDataManager();
+
         Debug.Log($"[RegisteredItem] {slotIndex}번 슬롯 등록 완료: {item.itemName} x{count}, 가격 {price}");
     }
 
@@ -389,6 +417,9 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
                 registeredItemsData[i].item.itemID == item.itemID)
             {
                 registeredItemsData[i].price = Mathf.Clamp(price, 1, 999999);
+
+                UpdateDataManager();
+
                 Debug.Log($"[RegisteredItem] SetCurrentPrice: {item.itemName} = {registeredItemsData[i].price}");
                 return;
             }
@@ -419,9 +450,6 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         }
 
         int invDragStartIndex = inventory.GetDragStartIndex();
-
-        print($"dragIndex : {dragIndex}, currentPoint : {eventData.pointerPressRaycast}");
-
 
         // 인벤토리에서 진열대로 드롭하는 경우만 처리
         if (invDragStartIndex == -1)
@@ -461,6 +489,16 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
                     OnPopupNo();
                 }
             );
+    }
+
+    // DataManager에 진열대 데이터 전달
+    private void UpdateDataManager()
+    {
+        var dataManager = _MasterManager.Instance.DataManager;
+        if (dataManager != null)
+        {
+            dataManager.SetRegisteredItems(registeredItemsData);
+        }
     }
 
 }

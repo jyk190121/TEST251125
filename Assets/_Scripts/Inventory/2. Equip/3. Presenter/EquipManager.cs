@@ -119,14 +119,15 @@ public class EquipManager : MonoBehaviour
     }
 
     void EquipSound(Item item)
-    {        
+    {
         if (item.equipmentType == EquipmentType.Weapon)
         {
-            soundManager.PlaySFX("시우", 1);
+            int soundIndex = Random.Range(1, 3);
+            soundManager.PlaySFX("시우", soundIndex);
         }
         else
         {
-            soundManager.PlaySFX("시우", 2);
+            soundManager.PlaySFX("시우", 3);
         }
     }
 

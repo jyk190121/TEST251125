@@ -80,6 +80,10 @@ public class DataManager : MonoBehaviour
     public WarehouseData warehouseData;
     public WarehouseModel warehouseModel;
 
+    // 진열대 정보
+    [System.NonSerialized]
+    public RegisteredItem.RegisteredItemData[] registeredItemsData;
+
     // ===== 이벤트 =====
     public static Action OnDataLoaded;
     public static Action OnEquipmentChanged;
@@ -132,6 +136,13 @@ public class DataManager : MonoBehaviour
                 warehouseData.slots[i] = new WarehouseSlotData();
             }
             Debug.Log("[DataManager] 창고 초기화됨");
+        }
+
+        // 진열대 초기화
+        if (registeredItemsData == null)
+        {
+            registeredItemsData = new RegisteredItem.RegisteredItemData[4];
+            Debug.Log("[DataManager] 진열대 데이터 초기화됨");
         }
 
         // 기타 데이터 초기화
@@ -300,7 +311,17 @@ public void playerStatChanged(StatStruct stat)
         inventoryData.slots = slots;
     }
 
+    // ===== 진열대 =====
+    public void SetRegisteredItems(RegisteredItem.RegisteredItemData[] items)
+    {
+        registeredItemsData = items;
+        Debug.Log("[DataManager] 진열대 데이터 업데이트됨");
+    }
 
+    public RegisteredItem.RegisteredItemData[] GetRegisteredItems()
+    {
+        return registeredItemsData;
+    }
 
     public InventoryData GetInventoryData() => inventoryData;
 

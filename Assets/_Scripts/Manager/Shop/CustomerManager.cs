@@ -17,7 +17,6 @@ public class CustomerManager : MonoBehaviour
 
     GameObject[] customers;         //손님들
     SalesCustomer salesCustomer;    //계산여부
-    Table table;
 
     //임시
     //void Start()
@@ -29,7 +28,6 @@ public class CustomerManager : MonoBehaviour
     {
         createCheck = false;
         salesCustomer = FindAnyObjectByType<SalesCustomer>();
-        table = FindAnyObjectByType<Table>();
     }
 
     //손님 생성
@@ -84,6 +82,5 @@ public class CustomerManager : MonoBehaviour
         if (buyCustomer.itemPayCheck) return;
 
         buyCustomer.itemPayCheck = true;
-        table.UpdateTable();
     }
 }

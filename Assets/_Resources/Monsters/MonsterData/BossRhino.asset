@@ -20,9 +20,9 @@ MonoBehaviour:
   Attack: 10
   Defense: 0
   CoolTime: 3
-  attackRange: 3
+  attackRange: 8
   detectionRange: 100
-  minAttackRange: 2
+  minAttackRange: 4
   Class: 1
   Type: 0
   Race: 6
@@ -40,7 +40,7 @@ MonoBehaviour:
   moveInterval: 1
   patternCooldown: 3
   phaseTwoHpRate: 0.5
-  jumpAoeRadius: 3
+  jumpAoeRadius: 0
   roarRange: 10
   chargeDistance: 10
   chargeStoppingTime: 1
