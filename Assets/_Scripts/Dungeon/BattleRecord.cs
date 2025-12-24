@@ -1,10 +1,11 @@
 using NUnit.Framework;
-using UnityEngine;
+using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
-using TMPro;
-using UnityEngine.UI;
 using System.Threading;
+using TMPro;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.UI;
 
 //전투 관련 데이터 처리(파밍한 아이템, 잡은 몬스터 보관했다가 Result Panel에 띄움)
 public class BattleRecord: MonoBehaviour
@@ -236,7 +237,7 @@ public class BattleRecord: MonoBehaviour
             }
         }
 
-        foreach(var itemdata in RIC)
+        foreach (var itemdata in RIC)
         {
             GameObject obj = Instantiate(slotPrefab, ItemList, false);
 
@@ -247,9 +248,8 @@ public class BattleRecord: MonoBehaviour
                 iconImage.sprite = itemdata.item.icon;
             }
             slotPrefab_Count = obj.GetComponentInChildren<TextMeshProUGUI>();
-            slotPrefab_Count.text = itemdata.count.ToString();
+            slotPrefab_Count.text = $"X{itemdata.count.ToString()}";
         }
-
 
         // 잡은 몬스터 표시 (스냅샷 찍어오기..)
         foreach (var monster in KilledMonster)
@@ -266,6 +266,7 @@ public class BattleRecord: MonoBehaviour
             {
                 slotImage.sprite = snapshot;
             }
+            
         }
 
 
