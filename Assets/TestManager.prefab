@@ -326,8 +326,8 @@ MonoBehaviour:
   itemView: {fileID: 0}
   inventory: {fileID: 4827749054169522791}
   testItemA: {fileID: 11400000, guid: af39ae62b0a512e4eb9a142ff7914cd0, type: 2}
-  testItemB: {fileID: 11400000, guid: e81cf065c2dff944dbf974dfdd293ea2, type: 2}
-  testItemC: {fileID: 11400000, guid: 18d76dae48f09dd499f6b5fd30daaf1e, type: 2}
+  testItemB: {fileID: 11400000, guid: d8bc19542ae81f14e829b524afa21fa7, type: 2}
+  testItemC: {fileID: 11400000, guid: a1d17f58a4e593848a84bbd4d347fa53, type: 2}
   testItemD: {fileID: 11400000, guid: e7c63945d43a58b4db31cfbdbe8d3d59, type: 2}
   testItemE: {fileID: 11400000, guid: 1ca85e52b23b08c479c630bf0458de0a, type: 2}
   currentMerchant: {fileID: 0}

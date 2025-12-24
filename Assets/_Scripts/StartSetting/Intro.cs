@@ -24,11 +24,11 @@ public class Intro : MonoBehaviour
     {
     }
 
-    public IEnumerator FadeTextToFullAlpha(float t, Image i, Image j, Image l)
+    public IEnumerator FadeTextToFullAlpha(float t, Image i, Image j, Image k)
     {
         i.color = new Color(i.color.r, i.color.g, i.color.b, 0);
         j.color = new Color(j.color.r, j.color.g, j.color.b, 0);
-        l.color = new Color(j.color.r, j.color.g, j.color.b, 0);
+        k.color = new Color(k.color.r, k.color.g, k.color.b, 0);
 
         //1번 이미지 출력
         while (i.color.a < 1.0f)
@@ -57,15 +57,15 @@ public class Intro : MonoBehaviour
         }
 
         //3번 이미ㅣ 출력
-        while (l.color.a < 1.0f)
+        while (k.color.a < 1.0f)
         {
-            l.color = new Color(l.color.r, l.color.g, l.color.b, l.color.a + (Time.deltaTime / t));
+            k.color = new Color(k.color.r, k.color.g, k.color.b, k.color.a + (Time.deltaTime / t));
             yield return null;
         }
-        l.color = new Color(l.color.r, l.color.g, l.color.b, 1);
-        while (l.color.a > 0.0f)
+        k.color = new Color(k.color.r, k.color.g, k.color.b, 1);
+        while (k.color.a > 0.0f)
         {
-            l.color = new Color(l.color.r, l.color.g, l.color.b, l.color.a - (Time.deltaTime / t));
+            k.color = new Color(k.color.r, k.color.g, k.color.b, k.color.a - (Time.deltaTime / t));
             yield return null;
         }
 
