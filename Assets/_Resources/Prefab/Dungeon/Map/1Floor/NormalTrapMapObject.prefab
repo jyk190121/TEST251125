@@ -107,7 +107,8 @@ MonoBehaviour:
   - {fileID: 5043121913125139475}
   - {fileID: 2546726818326105497}
   monsterPrefabs:
-  - {fileID: 1003980448104029901, guid: 15e4cb13ca46efd4bbe65f7836cf8b04, type: 3}
+  - {fileID: 8456632441884022478, guid: c2377cd991f850b48bbdafd4a4240be9, type: 3}
+  bossMonsterPrefab: {fileID: 0}
   isSpawned: 0
   isCleared: 0
   isStartRoom: 0

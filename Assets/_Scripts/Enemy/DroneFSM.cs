@@ -118,13 +118,6 @@ public class DroneFSM : MonoBehaviour
         transform.position += moveDir * moveSpeed * Time.deltaTime;
         moveRemain -= Time.deltaTime * moveSpeed;
 
-        // 이동 중에도 공격 가능
-        if (attackTimer <= 0f)
-        {
-            state = DroneState.Attack;
-            return;
-        }
-
         if (moveRemain <= 0f)
         {
             state = DroneState.Idle;

@@ -197,6 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6996ea4b734f5494a96519d2d30c7f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxLength: 20
+  maxLength: 50
   growDuration: 0.5
   holdDuration: 1.5

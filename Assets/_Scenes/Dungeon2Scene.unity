@@ -1245,8 +1245,8 @@ MonoBehaviour:
     prefab: {fileID: 2322801824289053418, guid: 1c344d629bba79d4b816207c773a38aa, type: 3}
   - roomType: 4
     prefab: {fileID: 6114786623350134996, guid: 3e70f90cc341d9246b4e098c9b2f6827, type: 3}
-  minRooms: 4
-  maxRooms: 4
+  minRooms: 8
+  maxRooms: 10
   roomSpacingX: 60
   roomSpacingZ: 40
   bossCam: {fileID: 806087426}
@@ -1283,7 +1283,7 @@ PrefabInstance:
     - target: {fileID: 6127659947359053416, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: soundPanel
       value: 
-      objectReference: {fileID: 1585785954}
+      objectReference: {fileID: 0}
     - target: {fileID: 6321089510304740529, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: equipPanel_2
       value: 
@@ -1421,11 +1421,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
---- !u!1 &1585785954 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8965756731992412480, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
-  m_PrefabInstance: {fileID: 1585785953}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1593526473
 GameObject:
   m_ObjectHideFlags: 0
