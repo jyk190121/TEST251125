@@ -144,7 +144,7 @@ public class RoomController : MonoBehaviour
 
     IEnumerator SpawnProcessRoutine()
     {
-        isSpawningInProgress = true; // 지금 몹 만드는 중이니까 기다려
+        isSpawningInProgress = true; // "지금 몹 만드는 중이니까 기다려!"
 
         LockDoors();
 
