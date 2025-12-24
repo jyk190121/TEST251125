@@ -41,6 +41,7 @@ public class BattleRecord: MonoBehaviour
 
     //UI 슬롯 프리팹
     public GameObject slotPrefab;
+    TextMeshProUGUI slotPrefab_Count;
 
     // 인벤토리(아이템 목록) 패널
     public GameObject inventoryPrefab;
@@ -166,6 +167,7 @@ public class BattleRecord: MonoBehaviour
         retry.gameObject.SetActive(false);      // retry는 사망 시에만
         enter.gameObject.SetActive(false);      // enter는 클리어일때
         Key_goToVillage = true;
+        
         if (Pendent)
         {
             deadReason.text = "펜던트로 탈출함";
@@ -214,19 +216,40 @@ public class BattleRecord: MonoBehaviour
         foreach (Transform child in ItemList) Destroy(child.gameObject);
         foreach (Transform child in MonsterList) Destroy(child.gameObject);
 
+        List<ResultItemCount> RIC = new List<ResultItemCount>();
+
         // 획득한 아이템 표시
         foreach (var item in items)
         {
-            // 1. 슬롯 프리팹 생성 (ItemList의 자식으로)
+            //리스트에 같은 값이 있는가?
+            var found = RIC.Find(x => x.item.itemID == item.itemID);
+
+            //이미 있음
+            if(found != null)
+            {
+                found.count++;
+            }
+            //없을
+            else
+            {
+                RIC.Add(new ResultItemCount(item, 1));
+            }
+        }
+
+        foreach(var itemdata in RIC)
+        {
             GameObject obj = Instantiate(slotPrefab, ItemList, false);
 
             // 2. 슬롯의 이미지 컴포넌트를 가져와서 아이템 아이콘으로 변경
             Image iconImage = obj.GetComponent<Image>();
-            if (iconImage != null && item.icon != null)
+            if (iconImage != null && itemdata.item.icon != null)
             {
-                iconImage.sprite = item.icon;
+                iconImage.sprite = itemdata.item.icon;
             }
+            slotPrefab_Count = obj.GetComponentInChildren<TextMeshProUGUI>();
+            slotPrefab_Count.text = itemdata.count.ToString();
         }
+
 
         // 잡은 몬스터 표시 (스냅샷 찍어오기..)
         foreach (var monster in KilledMonster)
@@ -251,6 +274,18 @@ public class BattleRecord: MonoBehaviour
     }
 }
 
+// 1. 데이터 구조 클래스
+public class ResultItemCount
+{
+    public Item item;
+    public int count;
+
+    public ResultItemCount(Item item, int count)
+    {
+        this.item = item;
+        this.count = count;
+    }
+}
 
 ////키를 눌렀는가? -> 오래 눌러야 되는 방식인데 불편함...
 //if(Key_goToVillage)
