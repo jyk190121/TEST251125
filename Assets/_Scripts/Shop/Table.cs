@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using static KJY_Camera;
 using static RegisteredItem;
 
-[RequireComponent (typeof (Canvas))]
+[RequireComponent (typeof (Table))]
 public class Table : MonoBehaviour
 {
     //RegisteredItem regiItem;
@@ -17,18 +17,25 @@ public class Table : MonoBehaviour
 
     void HandleCameraArrived(CameraArea area)
     {
-        if (area != CameraArea.Shop)
-        {
-            CloseTable();
-            return;
-        }
-        else
+
+        if (this == null) return;
+
+        if (area == CameraArea.Shop)
         {
             Invoke("OpenTable", 0.15f);
             return;
         }
+        else
+        {
+            CloseTable();
+            return;
+        }
     }
 
+    private void OnDestroy()
+    {
+        OnCameraArrived -= HandleCameraArrived;
+    }
 
     public void UpdateTable()
     {

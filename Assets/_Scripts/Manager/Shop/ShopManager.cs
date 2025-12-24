@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using static DayManager;
 /// <summary>
@@ -20,6 +21,8 @@ using static DayManager;
 public class ShopManager : MonoBehaviour
 {
     public GameObject inventoeyPanel;       //인벤토리 UI 판넬
+
+    public Result_Shop resultItem;          //판매결과 UI
 
     public DayManager dayManager;           //낮, 밤 체크용
     public bool isAction;                   //판매활동했는지
@@ -180,16 +183,11 @@ public class ShopManager : MonoBehaviour
         {
             CloseShop();
             ChangeDay();
-        }
-        //밤인지 (밤엔 음악끄기)
-        else if (dayManager.IsNight)
-        {
             if (partyPlay)
             {
                 partyPlay = false;
                 StartCoroutine(party.partyToNight());
             }
-
             if (soundManager.PlayingBGM() && !isPlayingNight)
             {
                 //soundManager.PlayShopBGMIndex(0);
@@ -198,7 +196,10 @@ public class ShopManager : MonoBehaviour
                 isPlayingDay = false;
                 isPlayingNight = true;
             }
-
+        }
+        //밤인지
+        else if (dayManager.IsNight)
+        {
             //판매 등록 UI 열기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && itemDisplay.image.gameObject.activeSelf == true)
             {
@@ -220,7 +221,7 @@ public class ShopManager : MonoBehaviour
                 break;
         }
         
-        //취소 버튼
+        //취소(닫기) 버튼
         if (Input.GetKeyDown(KeySetting.keys[KeyInput.CANCLE]))
         {
             if (itemDisplay != null)
@@ -233,6 +234,11 @@ public class ShopManager : MonoBehaviour
             {
                 warehouse.itemWarehousePanel.gameObject.SetActive(false);
             }
+            if(resultItem != null)
+            {
+                resultItem.CloseResultSell();
+            }
+            itemDisplay.nightImage.gameObject.SetActive(false);
             inventoeyPanel.SetActive(false);
         }
     }
@@ -257,6 +263,7 @@ public class ShopManager : MonoBehaviour
 
 
         //오늘 판매한 UI 도 만들어야댐
+        resultItem.OpenResultSell();
     }
 
     //낯 밤 변경
