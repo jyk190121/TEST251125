@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
+using System.Threading;
+using UnityEngine;
 
 
 
@@ -22,6 +23,12 @@ public class RoomController : MonoBehaviour
     [Header("몬스터 프리팹 리스트")]
     public List<GameObject> monsterPrefabs;   // 랜덤 스폰용
 
+    private GameObject selectedNormalMonsterPrefab; 
+
+    [Header("보스 몬스터")]
+    public GameObject bossMonsterPrefab;
+
+    [Header("방 확인용")]
     public bool isSpawned = false;
 
     public bool isCleared = false;
@@ -29,6 +36,9 @@ public class RoomController : MonoBehaviour
     public bool isStartRoom = false;
     public bool isBossRoom = false;
     public bool isRestRoom = false;
+
+    public bool IsNormalRoom =>
+    !isStartRoom && !isRestRoom && !isBossRoom;
 
     private List<GameObject> aliveMonsters = new List<GameObject>();
 
@@ -55,31 +65,51 @@ public class RoomController : MonoBehaviour
     {
         if (isStartRoom || isRestRoom) return; // 스타트, 쉬는방 제외
 
-        if (monsterPrefabs.Count == 0) return;
-        if (spawnPoints.Count == 0) return;
-
-        foreach (var point in spawnPoints)
+        if (isBossRoom)
         {
-            int rand = Random.Range(0, monsterPrefabs.Count);
-            GameObject monster = Instantiate(monsterPrefabs[rand], point.position, Quaternion.identity);
-            aliveMonsters.Add(monster);
+            if (bossMonsterPrefab == null) return;
+            if (spawnPoints.Count == 0) return;
 
-            //monster.GetComponent<MonsterTest>().SetupRoom(this);
-            //monster.GetComponent<FSMTest>()?.SetupRoom(this);
+            // 첫 번째 스폰 포인트에만 1마리 생성
+            Transform spawnPoint = spawnPoints[0];
 
-            var dragon = monster.GetComponent<DragonFSM>();
-            if (dragon != null)
-            {
-                dragon.SetupRoom(this);
-            }
-            else
-            {
-                monster.GetComponent<NormalMosterFSM>()?.SetupRoom(this);
-            }
-            if (monster.layer == LayerMask.NameToLayer("Boss"))
+            GameObject boss = Instantiate(
+                bossMonsterPrefab,
+                spawnPoint.position,
+                Quaternion.identity
+            );
+
+            aliveMonsters.Add(boss);
+
+            boss.GetComponent<DragonFSM>()?.SetupRoom(this);
+
+            if (boss.layer == LayerMask.NameToLayer("Boss"))
             {
                 IsBoss = true;
             }
+
+            return; 
+        }
+
+        if (monsterPrefabs.Count == 0) return;
+        if (spawnPoints.Count == 0) return;
+
+        if (selectedNormalMonsterPrefab == null)
+        {
+            int rand = Random.Range(0, monsterPrefabs.Count);
+            selectedNormalMonsterPrefab = monsterPrefabs[rand];
+        }
+
+        foreach (var point in spawnPoints)
+        {
+            GameObject monster = Instantiate(
+                selectedNormalMonsterPrefab,
+                point.position,
+                Quaternion.identity
+            );
+
+            aliveMonsters.Add(monster);
+            monster.GetComponent<NormalMosterFSM>()?.SetupRoom(this);
         }
 
     }

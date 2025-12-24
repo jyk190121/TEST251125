@@ -1072,15 +1072,23 @@ PrefabInstance:
     - target: {fileID: 552390586380806061, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: testItemA
       value: 
-      objectReference: {fileID: 11400000, guid: 5ea98b649da8096458bb69e4c9bccdc5, type: 2}
+      objectReference: {fileID: 11400000, guid: d8bc19542ae81f14e829b524afa21fa7, type: 2}
     - target: {fileID: 552390586380806061, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: testItemB
       value: 
-      objectReference: {fileID: 11400000, guid: 761fbb21d5411c242b3a8c147f47aa28, type: 2}
+      objectReference: {fileID: 11400000, guid: 09e769a36fc8c87448c6d8bfa2b146ad, type: 2}
     - target: {fileID: 552390586380806061, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: testItemC
       value: 
+      objectReference: {fileID: 11400000, guid: 761fbb21d5411c242b3a8c147f47aa28, type: 2}
+    - target: {fileID: 552390586380806061, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: testItemD
+      value: 
       objectReference: {fileID: 11400000, guid: 18d76dae48f09dd499f6b5fd30daaf1e, type: 2}
+    - target: {fileID: 552390586380806061, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
+      propertyPath: testItemE
+      value: 
+      objectReference: {fileID: 11400000, guid: bd34eec483df3934c944544cd7f6a654, type: 2}
     - target: {fileID: 552390586380806061, guid: 1c467fdd346a26647a5a5ee1dfa5721d, type: 3}
       propertyPath: resultInvenView
       value: 
@@ -1760,8 +1768,8 @@ MonoBehaviour:
     prefab: {fileID: 2322801824289053418, guid: f679a44dc19c7974a9b6f7b93ea0b6e9, type: 3}
   - roomType: 4
     prefab: {fileID: 6114786623350134996, guid: 7ea6cc0841d0c3e4c9daca663a1e87dc, type: 3}
-  minRooms: 4
-  maxRooms: 4
+  minRooms: 8
+  maxRooms: 10
   roomSpacingX: 60
   roomSpacingZ: 40
   bossCam: {fileID: 1145561844}

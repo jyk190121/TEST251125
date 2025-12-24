@@ -1050,7 +1050,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1874306219191485101}
   - component: {fileID: 3210425618424909978}
-  - component: {fileID: -7606075965946787323}
   - component: {fileID: 853198724852214793}
   - component: {fileID: 9148604907877129153}
   m_Layer: 11
@@ -1100,19 +1099,6 @@ CapsuleCollider:
   m_Height: 4
   m_Direction: 1
   m_Center: {x: 0, y: 2, z: 0}
---- !u!114 &-7606075965946787323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8456632441884022478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aba04b7da49fa2469692c9e57d0fb8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentHealth: 10
 --- !u!114 &853198724852214793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1128,8 +1114,10 @@ MonoBehaviour:
   monsterData: {fileID: 11400000, guid: 3e543b705f9d80c4f8f9699809573234, type: 2}
   anim: {fileID: 356211214593573651}
   currentHP: 0
+  projectilePrefab: {fileID: 0}
+  laserPrefab: {fileID: 0}
+  aoePrefab: {fileID: 0}
   firePoint: {fileID: 0}
-  aoeHitbox: {fileID: 0}
 --- !u!195 &9148604907877129153
 NavMeshAgent:
   m_ObjectHideFlags: 0
