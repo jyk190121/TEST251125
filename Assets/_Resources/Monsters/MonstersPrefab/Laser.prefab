@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8977929057060614861}
   - component: {fileID: 74243208730544252}
   - component: {fileID: 3453504124526069662}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LaserBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6441442207322300676}
   - component: {fileID: 6035705396594925770}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Laser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -198,29 +198,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLength: 20
-  duration: 2
-  growCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  activeTime: 2
+  growDuration: 0.5
+  holdDuration: 1.5
