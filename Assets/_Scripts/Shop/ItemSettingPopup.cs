@@ -18,9 +18,9 @@ public class ItemSettingPopup : MonoBehaviour
     private Action onYesCallback;
     private Action onNoCallback;
 
-    private Item currentItem;
-    private int maxQuantity;
-    private int inventoryIndex;
+    //private Item currentItem;
+    //private int maxQuantity;
+    //private int inventoryIndex;
 
     public void OpenPopup(Item item, Action onYes, Action onNo)
     {
@@ -50,28 +50,27 @@ public class ItemSettingPopup : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void OnClickRegister()
-    {
-        int price = int.Parse(priceInput.text);
-        int quantity = int.Parse(quantityInput.text);
+    //public void OnClickRegister()
+    //{
+    //    int price = int.Parse(priceInput.text);
+    //    int quantity = int.Parse(quantityInput.text);
 
-        quantity = Mathf.Clamp(quantity, 1, maxQuantity);
+    //    quantity = Mathf.Clamp(quantity, 1, maxQuantity);
 
-        RegisteredItemData data = new RegisteredItemData(currentItem, quantity, price);
-        //{
-        //    item = currentItem,
-        //    count = quantity,
-        //    price = price
-        //};
+    //    RegisteredItemData data = new RegisteredItemData(currentItem, quantity, price);
+    //    //{
+    //    //    item = currentItem,
+    //    //    count = quantity,
+    //    //    price = price
+    //    //};
 
-        // 인벤토리 수량 감소
-        InventoryManager.Instance.DecreaseItemAtIndex(inventoryIndex, quantity);
+    //    // 인벤토리 수량 감소
+    //    InventoryManager.Instance.DecreaseItemAtIndex(inventoryIndex, quantity);
 
-        ClosePopup();
-    }
+    //    ClosePopup();
+    //}
     public void ClosePopup()
     {
         gameObject.SetActive(false);
     }
-
 }
