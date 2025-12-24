@@ -27,7 +27,7 @@ public class Effect : MonoBehaviour
 
             // 생성된 이펙트가 영원히 남아있으면 메모리 부하가 생기므로 2초 뒤에 삭제합니다.
             // Destroy(삭제할 오브젝트, 지연 시간);
-            Destroy(effect, 2.0f);
+            Destroy(effect, 0.5f);
         }
         else
         {

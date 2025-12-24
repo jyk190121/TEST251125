@@ -86,6 +86,7 @@ public class BattleRecord: MonoBehaviour
                 _MasterManager.Instance.DataManager.SetisClear(false);
                 _MasterManager.Instance.DataManager.SetisPendant(false);
                 _MasterManager.Instance.DungeonManager.ChangeDay();
+                _MasterManager.Instance.DataManager.AddHP(200);
                 GameSceneManager.game.LoadScene("Villiage");
             }
         }
@@ -100,6 +101,7 @@ public class BattleRecord: MonoBehaviour
                 _MasterManager.Instance.DataManager.SetisClear(false);
                 _MasterManager.Instance.DataManager.SetisPendant(false);
                 _MasterManager.Instance.DungeonManager.ChangeDay();
+                _MasterManager.Instance.DataManager.AddHP(200);
                 GameSceneManager.game.ReloadCurrentScene();
             }
         }
@@ -112,6 +114,7 @@ public class BattleRecord: MonoBehaviour
                     _MasterManager.Instance.DataManager.SetisClear(false);
                     _MasterManager.Instance.DataManager.SetisPendant(false);
                     _MasterManager.Instance.DataManager.dungeonCleared = 0;
+                    _MasterManager.Instance.DataManager.AddHP(200);
                     GameSceneManager.game.LoadScene("Dungeon2Scene");
                 }
                 else return;
