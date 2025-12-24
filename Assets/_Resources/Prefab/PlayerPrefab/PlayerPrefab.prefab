@@ -452,13 +452,14 @@ GameObject:
   - component: {fileID: 1538929802491554518}
   - component: {fileID: 1556465454329854040}
   - component: {fileID: 3606983527234646411}
+  - component: {fileID: 5736116748593517444}
   m_Layer: 7
   m_Name: Spear1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &364875531593355705
 Transform:
   m_ObjectHideFlags: 0
@@ -473,6 +474,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2633215788564939397}
+  - {fileID: 6693570028698281978}
   m_Father: {fileID: 456386147987487364}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -73.586}
 --- !u!33 &3656808314573266460
@@ -571,6 +573,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5736116748593517444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034593095182371587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bd06bf90561114fb2ee4fe1f8e5f88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectPrefab: {fileID: 4364062416287365583, guid: fe2205740225ab04bb07d3c6308b7c8b, type: 3}
+  effectPoint: {fileID: 6693570028698281978}
 --- !u!1 &1041831046420761097
 GameObject:
   m_ObjectHideFlags: 0
@@ -3450,8 +3466,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.16356476, y: 0.47604826, z: 0.0736801}
-  m_Center: {x: -0.009336839, y: 0.6509691, z: 0}
+  m_Size: {x: 0.31110248, y: 0.7678313, z: 0.0736801}
+  m_Center: {x: 0.012815779, y: 0.50507075, z: -0.0000045638026}
 --- !u!1 &7107526071466552974
 GameObject:
   m_ObjectHideFlags: 0
@@ -3819,6 +3835,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5952991115752192274}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7628341571386751858
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6693570028698281978}
+  m_Layer: 7
+  m_Name: EffectPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6693570028698281978
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7628341571386751858}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.571, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 364875531593355705}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7846928964757356775
 GameObject:
