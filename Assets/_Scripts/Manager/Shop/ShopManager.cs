@@ -134,6 +134,8 @@ public class ShopManager : MonoBehaviour
                             RegisteredItem registeredItem = FindAnyObjectByType<RegisteredItem>();
                             int actualPrice = registeredItem.GetCurrentPrice(boughtItem);
 
+                            buyCustomer.DecreaseRegisteredItemCount(boughtItem);
+
                             dataManager.EarnMoney(actualPrice);
 
                             Debug.Log($"[ShopManager] {boughtItem.itemName} 판매 완료! 수익: {actualPrice} gold");
@@ -260,7 +262,6 @@ public class ShopManager : MonoBehaviour
         pos_palyer.posUpdate();
         pos_palyer.image.gameObject.SetActive(false);
         print("밤됫대");
-
 
         //오늘 판매한 UI 도 만들어야댐
         resultItem.OpenResultSell();

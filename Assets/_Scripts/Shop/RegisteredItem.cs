@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 /// <summary>
 /// 진열대 관리 시스템
@@ -42,9 +41,16 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
 
     public static class SaleEvent
     {
+        // slotIndex: 판매된 슬롯 번호
+        // soldCount: 판매된 아이템 수량
+        // price: 1개당 가격
         public static Action<int, int, int> OnItemSold;
-        // slotIndex, soldCount, price
-        
+
+        // 이벤트 호출 예시
+        public static void ItemSold(int slotIndex, int soldCount, int price)
+        {
+            OnItemSold?.Invoke(slotIndex, soldCount, price);
+        }
     }
 
 
@@ -546,7 +552,7 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
     public void DecreaseRegisteredItem(int slotIndex, int count, int price)
     {
         countTxt[slotIndex].text = $"{count}";
-        priceTxt[slotIndex].text = $"판매가 :{count*price}";
+        priceTxt[slotIndex].text = $"판매가 :{count * price}";
 
         table.UpdateTable();
         UpdateDataManager();
