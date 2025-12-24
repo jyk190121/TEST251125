@@ -281,7 +281,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d9871c542696ecf43bb36597e62b0270, type: 3}
   BGMClips3:
   - {fileID: 8300000, guid: 87aed8644d3992241bcb286406c105f0, type: 3}
-  SFXClips3: []
+  SFXClips3:
+  - {fileID: 8300000, guid: 05814b1bf9dbaf64eafa241bd016bf15, type: 3}
+  - {fileID: 8300000, guid: b204a6ccdc96f3946ac3c7cc9c0b0d4c, type: 3}
+  - {fileID: 8300000, guid: 72a71429e7dd4a649aaac047a16fd0b3, type: 3}
   BGMClips4: []
   SFXClips4: []
   BGMClips5: []

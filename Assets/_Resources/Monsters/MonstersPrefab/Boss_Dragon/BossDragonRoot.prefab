@@ -135,8 +135,8 @@ MonoBehaviour:
   anim: {fileID: 9026020392138920008}
   chargeHitBox: {fileID: 1409257687363740862}
   jumpAoeHitBox: {fileID: 0}
-  roarAoePrefab: {fileID: 963157544416713485, guid: 66081e1ab272f6b4faa8a66d31399b0d, type: 3}
-  roarPoint: {fileID: 5562882133912725035}
+  roarAoeHitbox: {fileID: 0}
+  currentHP: 0
   hitThreshold: 5
 --- !u!1 &320561818562556166
 GameObject:
@@ -1044,7 +1044,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3

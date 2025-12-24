@@ -244,8 +244,10 @@ MonoBehaviour:
   monsterData: {fileID: 11400000, guid: 464d880865b41c447b4ba700a56ed300, type: 2}
   anim: {fileID: 3013395860015870315}
   currentHP: 0
+  projectilePrefab: {fileID: 0}
+  laserPrefab: {fileID: 0}
+  aoePrefab: {fileID: 0}
   firePoint: {fileID: 0}
-  aoeHitbox: {fileID: 0}
 --- !u!195 &-8562334953468094472
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -487,7 +489,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
