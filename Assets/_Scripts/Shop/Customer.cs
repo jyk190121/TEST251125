@@ -282,7 +282,7 @@ public class Customer : MonoBehaviour
             yield return new WaitForSeconds(1f);
             HideEmotion();
 
-            DecreaseRegisteredItemCount(selectedItem);
+            //DecreaseRegisteredItemCount(selectedItem);
             state = CustomerState.BuyingItem;
         }
         else
@@ -425,7 +425,7 @@ public class Customer : MonoBehaviour
     /// <summary>
     /// 진열대 아이템 수량 감소
     /// </summary>
-    void DecreaseRegisteredItemCount(Item item)
+    public void DecreaseRegisteredItemCount(Item item)
     {
         RegisteredItem registeredItem = FindAnyObjectByType<RegisteredItem>();
         if (registeredItem == null) return;
@@ -440,6 +440,7 @@ public class Customer : MonoBehaviour
                 allItems[i].item.itemID == item.itemID)
             {
                 allItems[i].count--;
+                int soldCount = 1;
 
                 if (allItems[i].count <= 0)
                 {
@@ -449,7 +450,7 @@ public class Customer : MonoBehaviour
                 }
                 else
                 {
-                    registeredItem.DecreaseRegisteredItem(i, allItems[i].count, allItems[i].price);
+                    registeredItem.DecreaseRegisteredItem(i, soldCount, allItems[i].price);
                     Debug.Log($"[{customerType}손님] {item.itemName} 구매 결심! 남은 수량: {allItems[i].count}");
                 }
                 return;
