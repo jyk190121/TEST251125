@@ -95,10 +95,12 @@ public class DataManager : MonoBehaviour
         modelstat = PlayerModel.SetStat();
         player = PlayerModel.SetStat();
 
-        EquipWeapon = null;
+        EquipWeapon = _MasterManager.Instance.ItemManager.GetItemByID(2000);
         EquipHead = null;
         EquipBody = null;
         EquipFoot = null;
+
+        EquipManager.Instance.LoadEquipmentFromDataManager();
 
         // 시설 정보 초기화
         if (facilities == null || facilities.Length == 0)
