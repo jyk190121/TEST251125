@@ -514,6 +514,18 @@ public class NormalMosterFSM : MonoBehaviour, IHitResponder
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, monsterData.attackRange);
+
+        if (monsterData.minAttackRange > 0f)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, monsterData.minAttackRange);
+        }
+
+        if (monsterData.aoeRange > 0f)
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, monsterData.aoeRange);
+        }
     }
 }
 
