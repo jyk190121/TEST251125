@@ -84,6 +84,7 @@ public class DamageDealer : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (damageOwner == null) return;
 
         //플레이어 확인 및 공격중인지 확인
         if (gameObject.layer == 7)

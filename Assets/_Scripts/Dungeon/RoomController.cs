@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -44,12 +45,30 @@ public class RoomController : MonoBehaviour
 
     public bool IsBoss = false;
 
+    private bool isSpawningInProgress = false;
+
     private void Start()
     {
         if (isStartRoom || isRestRoom)
         {
             isCleared = true; // 자동 클리어
             UnlockDoors();    // 문을 열어 통과 가능하게 합니다.
+        }
+    }
+
+    private void Update()
+    {
+        // 팩트체크: 방이 이미 클리어 되었거나, 스폰 전이라면 체크할 필요가 없습니다.
+        if (isCleared || !isSpawned || isSpawningInProgress) return;
+
+        // 1. 리스트에서 이미 파괴된(null이 된) 몬스터를 모두 제거합니다.
+        // monster == null 조건은 GameObject가 Destroy되었을 때 true가 됩니다.
+        aliveMonsters.RemoveAll(monster => monster == null);
+
+        // 2. 리스트가 비어있다면 (모든 몹이 죽었다면) 클리어 처리
+        if (aliveMonsters.Count == 0)
+        {
+            CheckRoomClear();
         }
     }
 
@@ -120,12 +139,25 @@ public class RoomController : MonoBehaviour
 
         isSpawned = true;            // 스폰 표시
 
-        LockDoors();
-
-        SpawnMonster();             // 기존 몬스터 생성 함수 호출
+        StartCoroutine(SpawnProcessRoutine());
     }
 
-    
+    IEnumerator SpawnProcessRoutine()
+    {
+        isSpawningInProgress = true; // 지금 몹 만드는 중이니까 기다려
+
+        LockDoors();
+
+        // 팩트체크: 실제 몬스터 생성 함수 실행
+        SpawnMonster();
+
+        // 0.2초 정도 여유를 주어 Instantiate가 완료되고 리스트에 들어갈 시간을 줍니다.
+        yield return new WaitForSeconds(0.2f);
+
+        isSpawningInProgress = false; 
+    }
+
+
     public void ClearDungeon(GameObject monster)
     {
         if (isCleared) return;
@@ -136,19 +168,7 @@ public class RoomController : MonoBehaviour
         }
 
         // 모두 죽으면 문 열기
-        if (aliveMonsters.Count == 0)
-        {
-            isCleared = true;
-            Debug.Log("방 클리어! 문 열림");
-            UnlockDoors();
-
-            if (isBossRoom || IsBoss)
-            {
-                Debug.Log("포탈 생성");
-
-                SpawnExitPortal();
-            }
-        }
+        CheckRoomClear();
     }
 
     public void LockDoors()
@@ -183,5 +203,20 @@ public class RoomController : MonoBehaviour
     {
         GameObject portal = Instantiate(PortalPrefab, PortalSpawnPoint.transform.position, Quaternion.identity);
         Debug.Log("보스 클리어! 마을 복귀용 포탈이 생성되었습니다.");
+    }
+
+    private void CheckRoomClear()
+    {
+        if (isCleared) return;
+        if (aliveMonsters.Count > 0) return; // 아직 살아있는 몹이 있다면 중단
+
+        isCleared = true;
+        Debug.Log("Master, 모든 적을 처치했습니다! 문을 엽니다.");
+        UnlockDoors();
+
+        if (isBossRoom || IsBoss)
+        {
+            SpawnExitPortal();
+        }
     }
 }
