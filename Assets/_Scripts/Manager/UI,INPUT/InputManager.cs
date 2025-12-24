@@ -42,7 +42,7 @@ public class InputManager : MonoBehaviour
     KeyCode[] allKeys;
 
     //키 변경 중복 실행 방지
-    bool isRebinding = false;
+    public bool isRebinding = false;
 
     //KeyCode EnumType
     KeyCode[] defaultKeys = new KeyCode[]
@@ -74,7 +74,7 @@ public class InputManager : MonoBehaviour
         allKeys = (KeyCode[])System.Enum.GetValues(typeof(KeyCode));
     }
 
-    public async void ChangeKey(int num)   
+    public async void ChangeKey(int num, Action<KeyCode> onComplete = null)   
     {
         if (isRebinding) return;
 
@@ -94,6 +94,9 @@ public class InputManager : MonoBehaviour
             //3. 키 변경 적용
             KeySetting.keys[(KeyInput)num] = pressedKey;
             Debug.Log($"{(KeyInput)num} 키가 {pressedKey}로 변경되었습니다.");
+
+            //UI 변경
+            onComplete?.Invoke(pressedKey);
         }
 
         isRebinding = false;
