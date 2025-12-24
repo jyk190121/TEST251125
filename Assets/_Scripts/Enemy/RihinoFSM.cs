@@ -37,7 +37,7 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder
     RoomController roomController;
 
     [Header("HitBox")]
-    public GameObject chargePrefab;
+    public GameObject chargeHitbox;
 
     /*───────────────────────────────*
      * 스탯
@@ -79,7 +79,7 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder
     bool isCharging;
     bool isActing;
 
-    public GameObject roarAoeHitbox;
+    public GameObject roarAoePrefab;
     /*───────────────────────────────*
      * 초기화
      *───────────────────────────────*/

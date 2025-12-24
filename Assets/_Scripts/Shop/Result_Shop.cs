@@ -15,6 +15,7 @@ public class Result_Shop : MonoBehaviour
     public TextMeshProUGUI[] itemSellCount = new TextMeshProUGUI[4];   //판매한 아이템 갯수 UI
     public TextMeshProUGUI[] itemSellPrice = new TextMeshProUGUI[4];   //판매한 아이템 가격 UI
 
+    [SerializeField]
     RegisteredItem registeredItem;
 
     int[] resultCount;
@@ -32,6 +33,7 @@ public class Result_Shop : MonoBehaviour
         SaleEvent.OnItemSold += OnItemSold;
     }
 
+
     void OnDisable()
     {
         SaleEvent.OnItemSold -= OnItemSold;
@@ -39,7 +41,6 @@ public class Result_Shop : MonoBehaviour
 
     void OnItemSold(int slotIndex, int soldCount, int price)
     {
-        gameObject.SetActive(true);
         resultCount[slotIndex] += soldCount;
         resultPrice[slotIndex] += soldCount * price;
 
@@ -48,7 +49,7 @@ public class Result_Shop : MonoBehaviour
 
     void UpdateResultUI(int slotIndex)
     {
-        // 🔹 해당 슬롯에 판매된 아이템이 없는 경우
+        // 해당 슬롯에 판매된 아이템이 없는 경우
         if (resultCount[slotIndex] <= 0)
         {
             resultSlots[slotIndex].SetActive(false);
@@ -64,9 +65,12 @@ public class Result_Shop : MonoBehaviour
         // 텍스트 설정
         itemSellCount[slotIndex].text = resultCount[slotIndex].ToString();
         itemSellPrice[slotIndex].text = resultPrice[slotIndex].ToString();
+
+
+        gameObject.SetActive(true);
     }
 
-    public int GetResultCount(int slotIndex) => resultCount[slotIndex];
+    //public int GetResultCount(int slotIndex) => resultCount[slotIndex];
 
     public void OpenResultSell()
     {
@@ -76,6 +80,4 @@ public class Result_Shop : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-
-
 }
