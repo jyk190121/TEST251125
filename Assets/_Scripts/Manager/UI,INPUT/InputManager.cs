@@ -65,12 +65,14 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-        KeySetting.keys.Clear();        //기존에 키 딕셔너리 청소
-        for(int i = 0; i< (int)KeyInput.KEYCOUNT; i++)
+        if (KeySetting.keys.Count == 0)
         {
-            KeySetting.keys.Add((KeyInput)i, defaultKeys[i]);       //키 딕셔너리에 키값과 Value값 추가
+            for (int i = 0; i < (int)KeyInput.KEYCOUNT; i++)
+            {
+                KeySetting.keys.Add((KeyInput)i, defaultKeys[i]);
+            }
         }
-        
+
         allKeys = (KeyCode[])System.Enum.GetValues(typeof(KeyCode));
     }
 
