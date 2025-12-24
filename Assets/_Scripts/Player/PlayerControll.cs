@@ -62,6 +62,10 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     float bow = 1.5f;
     float spear = 0.69f;
 
+    //활 차지 공격 데미지 증가
+    bool bowCharge = false;
+    float bowChargeTime = 0f;
+
     //공격용 무기의 DamageDealer를 받는 리스트
     private List<DamageDealer> meleeWeaponDealers = new List<DamageDealer>();
 
@@ -138,6 +142,18 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             isSpearChargeAttack = false;
         }
 
+        if(bowCharge && bowChargeTime < 2f)
+        {
+            bowChargeTime += Time.deltaTime;
+        }
+        else if(bowCharge && bowChargeTime >= 2f)
+        {
+            bowChargeTime = 2f;
+        }
+        else
+        {
+            bowChargeTime = 0f;
+        }
 
         if (isRolling)
         {
@@ -400,6 +416,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             shouldRotate = true;
             needsRotationRevert = true;
             isBow = true;
+            bowCharge = true;
         }
         // 부모 오브젝트의 회전을 적용
         if (shouldRotate)
@@ -436,7 +453,8 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         if(weaponnumber == 3)
         {
             fireArrow();
-            isBow = true;
+            isBow = false;
+            bowCharge = false;
         }
     }
 
@@ -510,7 +528,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         {
             dealer.SetOwner(gameObject);
 
-            dealer.SetDamage(model.ATT);
+            dealer.SetDamage(model.ATT * bowChargeTime);
         }
     
         Projectile projectile = arrow.GetComponent<Projectile>();
