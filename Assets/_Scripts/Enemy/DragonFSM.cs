@@ -40,8 +40,8 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
     RoomController roomController;
     [Header("HitBox")]
     public GameObject chargeHitBox;
-    public GameObject jumpAoeHitBox;
-    public GameObject roarAoeHitbox;
+    public GameObject jumpAoePrefab;
+    public GameObject roarAoePrefab;
 
     /*───────────────────────────────*
      * 스탯
@@ -394,16 +394,7 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
     }
     void Jump()
     {
-        if (jumpAoeHitBox == null) return;
-
-        jumpAoeHitBox.SetActive(true);
-        StartCoroutine(DisableJumpAoeAfterTime(0.5f));
-    }
-
-    IEnumerator DisableJumpAoeAfterTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-        jumpAoeHitBox.SetActive(false);
+        
     }
 
     IEnumerator ChargeAttack()
