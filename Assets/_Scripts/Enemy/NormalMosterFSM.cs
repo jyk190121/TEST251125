@@ -452,6 +452,11 @@ public class NormalMosterFSM : MonoBehaviour, IHitResponder
         state = MonsterState.Idle;
     }
 
+    public void SetupRoom(RoomController room)
+    {
+        roomController = room;
+    }
+
     /*───────────────────────────────*
      * 사망 처리
      *───────────────────────────────*/
