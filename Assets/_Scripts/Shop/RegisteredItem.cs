@@ -24,8 +24,6 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
     public TextMeshProUGUI[] countTxt;          //등록된 아이템 갯수 보여주기
     public TextMeshProUGUI[] priceTxt;          //등록된 아이템 가격 보여주기
 
-    int dragRegisteredIndex = -1;               //진열대에서 드래그 확인
-
     [System.Serializable]
     [RequireComponent(typeof(RegisteredItemData))]
     public class RegisteredItemData
@@ -41,6 +39,14 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
             this.price = price;
         }
     }
+
+    public static class SaleEvent
+    {
+        public static Action<int, int, int> OnItemSold;
+        // slotIndex, soldCount, price
+        
+    }
+
 
     [Header("진열대 슬롯 데이터")]
     public RegisteredItemData[] registeredItemsData;
@@ -544,8 +550,8 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
 
         table.UpdateTable();
         UpdateDataManager();
+
+        // 판매 결과 누적
+        SaleEvent.OnItemSold?.Invoke(slotIndex, count, price);
     }
 }
-
-
-
