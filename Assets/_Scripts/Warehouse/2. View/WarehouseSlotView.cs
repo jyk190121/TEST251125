@@ -123,9 +123,9 @@ public class WarehouseSlotView : MonoBehaviour, IBeginDragHandler, IDragHandler,
         //}
         //else
         //{
-            //캔버스 최상단을 부모로 설정(다른 슬롯에 가려지지 않도록)
-            Canvas canvas = GetComponentInParent<Canvas>();
-            ghostIconObject.transform.SetParent(canvas.transform, false); //부모 설정
+        //캔버스 최상단을 부모로 설정(다른 슬롯에 가려지지 않도록)
+        Canvas canvas = GetComponentInParent<Canvas>();
+        ghostIconObject.transform.SetParent(canvas.transform, false); //부모 설정
         //}
 
         //부모 설정 후 위치를 현재 슬롯 아이콘 위치로 지정
