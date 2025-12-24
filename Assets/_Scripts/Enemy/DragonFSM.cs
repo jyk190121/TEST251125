@@ -41,8 +41,7 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
     [Header("HitBox")]
     public GameObject chargeHitBox;
     public GameObject jumpAoeHitBox;
-    public GameObject roarAoePrefab;
-    public Transform roarPoint;
+    public GameObject roarAoeHitbox;
 
     /*───────────────────────────────*
      * 스탯
@@ -391,11 +390,7 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
      *───────────────────────────────*/
     void Roar()
     {
-        Instantiate(
-        roarAoePrefab,
-        roarPoint.position,
-        Quaternion.identity
-        );
+        
     }
     void Jump()
     {
