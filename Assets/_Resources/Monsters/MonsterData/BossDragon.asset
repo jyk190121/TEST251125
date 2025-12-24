@@ -22,7 +22,7 @@ MonoBehaviour:
   CoolTime: 2
   attackRange: 10
   detectionRange: 100
-  minAttackRange: 6
+  minAttackRange: 5
   Class: 1
   Type: 0
   Race: 5

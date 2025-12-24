@@ -225,7 +225,7 @@ GameObject:
   - component: {fileID: 5139742566475981878}
   - component: {fileID: 3403702789981063422}
   m_Layer: 10
-  m_Name: Capsule
+  m_Name: ChargeHitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -530,8 +530,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rihinoData: {fileID: 11400000, guid: ebc98abb553d68040a229cdf9351ff2f, type: 2}
   anim: {fileID: 7635200090575726589}
-  chargePrefab: {fileID: 0}
-  roarAoeHitbox: {fileID: 0}
+  chargeHitbox: {fileID: 4211287284427523853}
+  roarAoePrefab: {fileID: 778961336712436159, guid: f12ac7818301fd0488402e4344a59816, type: 3}
 --- !u!1 &5270604609720601475
 GameObject:
   m_ObjectHideFlags: 0
