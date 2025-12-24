@@ -280,7 +280,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         {
             if (isAttacking == false)
             {
-                _MasterManager.Instance.SoundManager.PlaySFX("영찬", 2);
+                _MasterManager.Instance.SoundManager.PlaySFX("영찬", 0);
                 comboTime = 1; // 1타 시작
                 comboInputBuffer = 0;
                 foreach (var dealer in meleeWeaponDealers)
@@ -307,14 +307,14 @@ public class PlayerControll : MonoBehaviour, IHitResponder
             originalRotation = transform.rotation;
             if (weaponnumber == 2)
             {
-                _MasterManager.Instance.SoundManager.PlaySFX("영찬", 0);
+                _MasterManager.Instance.SoundManager.PlaySFX("영찬", 1);
                 targetRotation = originalRotation * Quaternion.Euler(0, SpearAttackAngle, 0);
                 shouldRotate = true;
                 needsRotationRevert = true;
             }
             if(weaponnumber == 3)
             {
-                _MasterManager.Instance.SoundManager.PlaySFX("영찬", 1);
+                _MasterManager.Instance.SoundManager.PlaySFX("영찬", 2);
                 targetRotation = originalRotation * Quaternion.Euler(0, BowAttackAngle, 0);
                 shouldRotate = true;
                 needsRotationRevert = true;
