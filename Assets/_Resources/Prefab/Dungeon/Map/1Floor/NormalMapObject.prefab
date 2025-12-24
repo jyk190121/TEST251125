@@ -1662,6 +1662,11 @@ MonoBehaviour:
   - {fileID: 1644084007673604628}
   monsterPrefabs:
   - {fileID: 2203997256558560351, guid: 82c9c370e9e97a8499c01e7893cc266e, type: 3}
+  - {fileID: 8456632441884022478, guid: c2377cd991f850b48bbdafd4a4240be9, type: 3}
+  - {fileID: 1613628643030205678, guid: ba0180098f81c0a4ea0fcec817ba7604, type: 3}
+  - {fileID: 2873309245763561006, guid: 6bf8896041d10aa43aa6fa9264d71aad, type: 3}
+  - {fileID: 547973816463740602, guid: f025a6bd359ceb042a2bc9265788b1e0, type: 3}
+  bossMonsterPrefab: {fileID: 0}
   isSpawned: 0
   isCleared: 0
   isStartRoom: 0
