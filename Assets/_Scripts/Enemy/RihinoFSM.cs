@@ -37,7 +37,7 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder
     RoomController roomController;
 
     [Header("HitBox")]
-    public GameObject chargeHitBox;
+    public GameObject chargePrefab;
 
     /*───────────────────────────────*
      * 스탯
@@ -74,14 +74,12 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder
     /*───────────────────────────────*
      * 돌진
      *───────────────────────────────*/
-    float chargeDuration = 1.0f;
     float chargeSpeedMul = 3f;
     float originalSpeed;
     bool isCharging;
     bool isActing;
 
-    public Transform roarPoint;
-    public GameObject roarAOEPrefab;
+    public GameObject roarAoeHitbox;
     /*───────────────────────────────*
      * 초기화
      *───────────────────────────────*/
@@ -119,9 +117,6 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder
 
         agent.speed = speed;
         originalSpeed = speed;
-
-        if (chargeHitBox)
-            chargeHitBox.SetActive(false);
     }
 
     void Update()
@@ -348,11 +343,7 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder
 
     void Roar()
     {
-        Instantiate(
-        roarAOEPrefab,
-        roarPoint.position,
-        Quaternion.identity
-        );
+        
     }
 
 
@@ -363,37 +354,51 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder
     {
         isCharging = true;
 
+        // 🔒 준비
+        agent.isStopped = true;
+        anim.applyRootMotion = false;
+
         anim.SetInteger("Pattern", 401);
         anim.SetTrigger("Attack");
 
-        yield return null;
-        float total = anim.GetCurrentAnimatorStateInfo(0).length;
-        if (total <= 0f) total = chargeDuration;
+        // 텔레그래프
+        yield return new WaitForSeconds(0.3f);
 
-        yield return new WaitForSeconds(total * 0.3f);
-
+        // 방향 고정
         Vector3 dir = transform.forward;
         Vector3 targetPos = transform.position + dir * rihinoData.chargeDistance;
 
-        agent.speed = originalSpeed * chargeSpeedMul;
+        yield return null; // Animator 반영 대기
+
+        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
+        float chargeDuration = info.length;
+
+        if (chargeDuration <= 0f)
+            chargeDuration = 1.0f; // 최소 fallback
+
+        // 🔥 핵심: 돌진 속도 계산
+        agent.acceleration = 999f;
+        agent.speed = rihinoData.chargeDistance / chargeDuration;
+
         agent.isStopped = false;
         agent.SetDestination(targetPos);
 
-        if (chargeHitBox) chargeHitBox.SetActive(true);
+        //돌진 관련 프리팹 소환에 대한 코드추가(나중에)
 
-        yield return new WaitForSeconds(total * 0.6f);
+        // 돌진 지속
+        yield return new WaitForSeconds(chargeDuration);
 
+        // 종료
         agent.isStopped = true;
         agent.speed = originalSpeed;
 
-        if (chargeHitBox) chargeHitBox.SetActive(false);
 
-        anim.applyRootMotion = false;
         chargeTimer = chargeCool;
         isCharging = false;
         isActing = false;
         state = RihinoState.Idle;
     }
+
 
     /*───────────────────────────────*
      * 데미지 / 피격

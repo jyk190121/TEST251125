@@ -41,7 +41,7 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
     [Header("HitBox")]
     public GameObject chargeHitBox;
     public GameObject jumpAoeHitBox;
-    public GameObject roarAoeHitBox;
+    public GameObject roarAoeHitbox;
 
     /*───────────────────────────────*
      * 스탯
@@ -85,7 +85,6 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
      * 돌진
      *───────────────────────────────*/
     Vector3 chargeTarget;
-    float chargeDuration = 1.0f;
     float chargeSpeedMul = 3f;
     float originalSpeed;
     bool isCharging;
@@ -134,8 +133,6 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
         agent.isStopped = false;
 
         if (chargeHitBox) chargeHitBox.SetActive(false);
-        if (jumpAoeHitBox) jumpAoeHitBox.SetActive(false);
-        if (roarAoeHitBox) roarAoeHitBox.SetActive(false);
     }
 
     void Update()
@@ -393,19 +390,8 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
      *───────────────────────────────*/
     void Roar()
     {
-        if (roarAoeHitBox == null) return;
-
-        roarAoeHitBox.SetActive(true);
-        StartCoroutine(DisableRoarAoeAfterTime(0.5f));
+        
     }
-
-    IEnumerator DisableRoarAoeAfterTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-        roarAoeHitBox.SetActive(false);
-    }
-
-
     void Jump()
     {
         if (jumpAoeHitBox == null) return;
@@ -422,56 +408,49 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
 
     IEnumerator ChargeAttack()
     {
-        isActing = true;
         isCharging = true;
 
+        // 🔒 준비
         agent.isStopped = true;
-        anim.applyRootMotion = true;
+        anim.applyRootMotion = false;
+
+        anim.SetInteger("Pattern", 401);
+        anim.SetTrigger("Attack");
+
+        // 텔레그래프
+        yield return new WaitForSeconds(0.3f);
 
         // 방향 고정
-        FaceTargetOnce();
-
-        anim.SetTrigger("Attack");
-        anim.SetInteger("Pattern", 401);
-
-        yield return null;
-        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
-
-        float total = info.length;
-        if (total <= 0f) total = chargeDuration; // 애니 없을 때 fallback
-
-        float chargeStart = total * 0.3f;
-        float chargeEnd = total * 0.85f;
-
-        // 준비 동작
-        yield return new WaitForSeconds(chargeStart);
-
-        // === 돌진 시작 ===
         Vector3 dir = transform.forward;
-        Vector3 chargeTarget = transform.position + dir * dragonData.chargeDistance;
+        Vector3 targetPos = transform.position + dir * dragonData.chargeDistance;
 
-        agent.speed = originalSpeed * chargeSpeedMul;
+        yield return null; // Animator 반영 대기
+
+        AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
+        float chargeDuration = info.length;
+
+        if (chargeDuration <= 0f)
+            chargeDuration = 1.0f; // 최소 fallback
+
+        // 🔥 핵심: 돌진 속도 계산
+        agent.acceleration = 999f;
+        agent.speed = dragonData.chargeDistance / chargeDuration;
+
         agent.isStopped = false;
-        agent.SetDestination(chargeTarget);
+        agent.SetDestination(targetPos);
 
-        if (chargeHitBox) chargeHitBox.SetActive(true);
+        //돌진 관련 프리팹 소환에 대한 코드추가(나중에)
 
-        // 돌진 유지
-        yield return new WaitForSeconds(chargeEnd - chargeStart);
+        // 돌진 지속
+        yield return new WaitForSeconds(chargeDuration);
 
-        // === 돌진 종료 ===
+        // 종료
         agent.isStopped = true;
         agent.speed = originalSpeed;
 
-        if (chargeHitBox) chargeHitBox.SetActive(false);
 
-        // 애니메이션 마무리
-        yield return new WaitForSeconds(total - chargeEnd);
-
-        anim.applyRootMotion = false;
-
-        isCharging = false;
         chargeTimer = chargeCool;
+        isCharging = false;
         isActing = false;
         state = DragonState.Idle;
     }
