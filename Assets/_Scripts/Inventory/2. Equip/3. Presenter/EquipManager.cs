@@ -208,7 +208,7 @@ public class EquipManager : MonoBehaviour
     }
 
     //데이터 매니저에서 데이터 가져오기
-    private void LoadEquipmentFromDataManager()
+    public void LoadEquipmentFromDataManager()
     {
         DataManager dm = _MasterManager.Instance.DataManager;
 

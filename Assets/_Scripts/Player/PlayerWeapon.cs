@@ -53,13 +53,17 @@ public class PlayerWeapon : MonoBehaviour
         {
             weaponlist[7].SetActive(true);
         }
+        else if(weapon.itemID == 2000)
+        {
+            weaponlist[6].SetActive(true);
+        }
         //활
-        else if(weapon.itemID == 2005)
+        else if (weapon.itemID == 2005)
         {
             weaponlist[2].SetActive(true);
         }
         //2번째 활
-        else if(weapon.itemID == 2006)
+        else if (weapon.itemID == 2006)
         {
             weaponlist[3].SetActive(true);
         }
