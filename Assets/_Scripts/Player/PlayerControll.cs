@@ -219,14 +219,18 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     {
         if (weapon == null) return;
 
+        //칼
         if (weapon.itemID == 2001 || weapon.itemID == 2002)
         {
             weaponnumber = 1;
         }
-        else if(weapon.itemID == 2003 || weapon.itemID == 2004)
+
+        //창
+        else if(weapon.itemID == 2003 || weapon.itemID == 2004 || weapon.itemID == 2000)
         {
             weaponnumber = 2;
         }
+        //활
         else if(weapon.itemID == 2005 || weapon.itemID == 2006)
         {
             weaponnumber = 3;
