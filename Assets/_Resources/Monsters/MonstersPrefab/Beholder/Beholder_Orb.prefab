@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5775920231625728929}
   - component: {fileID: 1755650639556752598}
   - component: {fileID: 7046142171241438538}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Beholder_Orb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
