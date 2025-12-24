@@ -39,19 +39,40 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         }
     }
 
-    public static class SaleEvent
+    [System.Serializable]
+    public class SellItemData
     {
-        // slotIndex: 판매된 슬롯 번호
-        // soldCount: 판매된 아이템 수량
-        // price: 1개당 가격
-        public static Action<int, int, int> OnItemSold;
+        public Item item;
+        public int soldCount;     // 총 판매 개수
+        public int totalPrice;    // 총 판매 금액
 
-        // 이벤트 호출 예시
-        public static void ItemSold(int slotIndex, int soldCount, int price)
+        public SellItemData(Item item)
         {
-            OnItemSold?.Invoke(slotIndex, soldCount, price);
+            this.item = item;
+            soldCount = 0;
+            totalPrice = 0;
+        }
+
+        public void AddSale(int count, int price)
+        {
+            soldCount += count;
+            totalPrice += count * price;
         }
     }
+
+    //public static class SaleEvent
+    //{
+    //    // slotIndex: 판매된 슬롯 번호
+    //    // soldCount: 판매된 아이템 수량
+    //    // price: 1개당 가격
+    //    public static Action<int, int, int> OnItemSold;
+
+    //    // 이벤트 호출 예시
+    //    public static void ItemSold(int slotIndex, int soldCount, int price)
+    //    {
+    //        OnItemSold?.Invoke(slotIndex, soldCount, price);
+    //    }
+    //}
 
 
     [Header("진열대 슬롯 데이터")]
@@ -557,7 +578,7 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         table.UpdateTable();
         UpdateDataManager();
 
-        // 판매 결과 누적
-        SaleEvent.OnItemSold?.Invoke(slotIndex, count, price);
+        //// 판매 결과 누적
+        //SaleEvent.OnItemSold?.Invoke(slotIndex, count, price);
     }
 }

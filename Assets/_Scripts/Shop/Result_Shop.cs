@@ -1,7 +1,10 @@
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static RegisteredItem;
+
+using System.Collections.Generic;
 /// <summary>
 /// 판매한 아이템 전체 결과 보여주기
 ///  - 아이템 이미지
@@ -18,6 +21,8 @@ public class Result_Shop : MonoBehaviour
     [SerializeField]
     RegisteredItem registeredItem;
 
+    public GameObject uiRoot;
+
     int[] resultCount;
     int[] resultPrice;
 
@@ -25,59 +30,77 @@ public class Result_Shop : MonoBehaviour
     {
         resultCount = new int[4];
         resultPrice = new int[4];
-        gameObject.SetActive(false);
+        //uiRoot.SetActive(false);
     }
 
-    void OnEnable()
-    {
-        SaleEvent.OnItemSold += OnItemSold;
-    }
+    //void OnEnable()
+    //{
+    //    SaleEvent.OnItemSold += OnItemSold;
+
+    //    RefreshAllUI();
+    //}
 
 
-    void OnDisable()
-    {
-        SaleEvent.OnItemSold -= OnItemSold;
-    }
+    //void OnDisable()
+    //{
+    //    SaleEvent.OnItemSold -= OnItemSold;
+    //}
 
-    void OnItemSold(int slotIndex, int soldCount, int price)
-    {
-        resultCount[slotIndex] += soldCount;
-        resultPrice[slotIndex] += soldCount * price;
+    //void OnItemSold(int slotIndex, int soldCount, int price)
+    //{
+    //    resultCount[slotIndex] += soldCount;
+    //    resultPrice[slotIndex] += soldCount * price;
 
-        UpdateResultUI(slotIndex);
-    }
+    //    SaleEvent.ItemSold(slotIndex, resultCount[slotIndex], resultPrice[slotIndex]);
 
-    void UpdateResultUI(int slotIndex)
-    {
-        // 해당 슬롯에 판매된 아이템이 없는 경우
-        if (resultCount[slotIndex] <= 0)
-        {
-            resultSlots[slotIndex].SetActive(false);
-            return;
-        }
-
-        // 판매된 아이템이 있는 경우
-        resultSlots[slotIndex].SetActive(true);
-
-        // 이미지 설정
-        itemSellImage[slotIndex].sprite = registeredItem.itemImages[slotIndex].sprite;
-
-        // 텍스트 설정
-        itemSellCount[slotIndex].text = resultCount[slotIndex].ToString();
-        itemSellPrice[slotIndex].text = resultPrice[slotIndex].ToString();
-
-
-        gameObject.SetActive(true);
-    }
+    //    RefreshAllUI();
+    //}
 
     //public int GetResultCount(int slotIndex) => resultCount[slotIndex];
 
     public void OpenResultSell()
     {
-        gameObject.SetActive(true);
+        uiRoot.SetActive(true);
+        RefreshAllUI();
     }
     public void CloseResultSell()
     {
-        gameObject.SetActive(false);
+        uiRoot.SetActive(false);
     }
+    void RefreshAllUI()
+    {
+        for (int i = 0; i < resultSlots.Length; i++) UpdateResultUI(i);
+    }
+    void UpdateResultUI(int slotIndex)
+    {
+        uiRoot.SetActive(true);
+
+        // 판매된 아이템이 있는 경우
+        resultSlots[slotIndex].SetActive(true);
+       
+        List<SellItemData> results = SalesResultManager.Instance.GetAllResults();
+
+        // 해당 슬롯에 판매된 아이템이 없는 경우
+        if (results[slotIndex].soldCount <= 0)
+        {
+            resultSlots[slotIndex].SetActive(false);
+            return;
+        }
+
+        foreach (SellItemData data in results)
+        {
+            // 슬롯 하나 할당
+            results[slotIndex].item.icon = data.item.icon;
+            results[slotIndex].soldCount = data.soldCount;
+            results[slotIndex].totalPrice = data.totalPrice;
+        }
+
+        // 이미지 설정
+        itemSellImage[slotIndex].sprite = results[slotIndex].item.icon;
+
+        // 텍스트 설정
+        itemSellCount[slotIndex].text = results[slotIndex].soldCount.ToString();
+        itemSellPrice[slotIndex].text = results[slotIndex].totalPrice.ToString();
+    }
+
 }

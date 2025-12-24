@@ -132,6 +132,7 @@ public class ShopManager : MonoBehaviour
                         if (boughtItem != null)
                         {
                             RegisteredItem registeredItem = FindAnyObjectByType<RegisteredItem>();
+                            
                             int actualPrice = registeredItem.GetCurrentPrice(boughtItem);
 
                             buyCustomer.DecreaseRegisteredItemCount(boughtItem);

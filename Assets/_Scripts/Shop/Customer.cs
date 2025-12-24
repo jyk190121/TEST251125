@@ -440,7 +440,6 @@ public class Customer : MonoBehaviour
                 allItems[i].item.itemID == item.itemID)
             {
                 allItems[i].count--;
-                int soldCount = 1;
 
                 if (allItems[i].count <= 0)
                 {
@@ -450,7 +449,7 @@ public class Customer : MonoBehaviour
                 }
                 else
                 {
-                    registeredItem.DecreaseRegisteredItem(i, soldCount, allItems[i].price);
+                    registeredItem.DecreaseRegisteredItem(i, allItems[i].count, allItems[i].price);
                     Debug.Log($"[{customerType}손님] {item.itemName} 구매 결심! 남은 수량: {allItems[i].count}");
                 }
                 return;
