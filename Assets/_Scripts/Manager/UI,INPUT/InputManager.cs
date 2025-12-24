@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
+using TMPro;
 
 //단축키를 세팅해주는 스크립트
 
@@ -35,6 +38,12 @@ public static class KeySetting
 
 public class InputManager : MonoBehaviour
 {
+    //미리 배열을 한번만 만들어둬서 이후에 새로 호출x
+    KeyCode[] allKeys;
+
+    //키 변경 중복 실행 방지
+    bool isRebinding = false;
+
     //KeyCode EnumType
     KeyCode[] defaultKeys = new KeyCode[]
     {
@@ -61,37 +70,54 @@ public class InputManager : MonoBehaviour
         {
             KeySetting.keys.Add((KeyInput)i, defaultKeys[i]);       //키 딕셔너리에 키값과 Value값 추가
         }
+        
+        allKeys = (KeyCode[])System.Enum.GetValues(typeof(KeyCode));
     }
 
-    int waitingKey = -1;
-
-    private void Update()
+    public async void ChangeKey(int num)   
     {
-        if(waitingKey != -1)
+        if (isRebinding) return;
+
+        isRebinding = true;
+        Debug.Log("키 입력 받아야함!");
+
+        //1. 키 입력을 받을 때까지 대기
+        KeyCode pressedKey = await WaitForKeyPress();
+
+        //2. 중복체크
+        if (KeySetting.keys.ContainsValue(pressedKey))
         {
-            DetectNewKey();
+            Debug.Log("이미 지정된 키입니다");
         }
-    }
-    public void ChangeKey(int num)      //키 변경 선택시 호출할 함수 -> DectectNewKey함수를 계속 호출하기 위한 장치, int num => 변경할 키의 key값 
-    {                                  
-        waitingKey = num;
+        else
+        {
+            //3. 키 변경 적용
+            KeySetting.keys[(KeyInput)num] = pressedKey;
+            Debug.Log($"{(KeyInput)num} 키가 {pressedKey}로 변경되었습니다.");
+        }
+
+        isRebinding = false;
+
     }
 
-    void DetectNewKey()         //키변경 값을 입력받아 넣는 함수
+    private async Task<KeyCode> WaitForKeyPress()
     {
-        foreach (KeyCode code in System.Enum.GetValues(typeof(KeyCode)))        //유니티가 가진 모든 키코드를 확인
+        while (true)
         {
-            if (Input.GetKeyDown(code))                                         //키 입력을 받았을 때 그 키가 유니티 키코드 내에 유효하다!
+            if (Input.anyKeyDown)
             {
-                KeySetting.keys[(KeyInput)waitingKey] = code;                   //기존 키 값을 새로 누른 키 값으로 교체한다.
-                waitingKey = -1;                                                //DetectNewKey는 다시 비활성화
-                break;
+                for (int i = 0; i < allKeys.Length; i++)
+                {
+                    // 실제 눌린 키를 찾아 즉시 반환하며 비동기 종료
+                    if (Input.GetKeyDown(allKeys[i])) return allKeys[i];
+                }
             }
+            // CPU 점유를 막고 다음 프레임까지 양보, 아니면 이 함수가 다먹음
+            await Task.Yield();
         }
     }
 
     public void Initialize()
     {
-       
     }
 }
