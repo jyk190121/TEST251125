@@ -172,7 +172,7 @@ public class NormalMosterFSM : MonoBehaviour, IHitResponder
     void Idle()
     {
         anim.applyRootMotion = false;
-        agent.isStopped = true;
+        //agent.isStopped = true;
         anim.SetBool("isMove", false);
 
         // 플레이어 탐색

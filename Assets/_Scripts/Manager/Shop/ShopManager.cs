@@ -178,6 +178,16 @@ public class ShopManager : MonoBehaviour
                 inventoryManager.quickSlotView.gameObject.SetActive(false);
                 inventoryManager.equipView.SetActive(false);
                 isRegiItemOpen = true;
+
+                if(Input.GetMouseButtonDown(1))
+                {
+                    RegiItem.UnregisterLastItemToInventory();
+                    //if (RegiItem.GetSlotIndexUnderMouse(out RegisteredItemData data) != -1)
+                    //{
+                    //    RegiItem.UnregisterItem(data);
+                    //}
+                }
+               
             }
             else if(isRegiItemOpen)
             {
