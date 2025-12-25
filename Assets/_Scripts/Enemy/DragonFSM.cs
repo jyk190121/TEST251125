@@ -17,7 +17,7 @@ using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 /// ✔ NavMesh 유지
 /// ✔ 히트 판정은 OnAttack 기반
 /// </summary>
-public class DragonFSM : MonoBehaviour ,IHitResponder
+public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
 {
     enum DragonState
     {
@@ -91,13 +91,18 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
 
     bool isActing;
 
+    public float CurrentHP => currentHP;
+    public float MaxHP => dragonData.HP;
+    public bool IsAlive => state != DragonState.Die;
+
+
+
     /*───────────────────────────────*
      * 초기화
      *───────────────────────────────*/
     void Start()
     {
         if (dragonData == null) return;
-
         state = DragonState.Idle;
 
         anim = GetComponentInChildren<Animator>();
@@ -390,61 +395,113 @@ public class DragonFSM : MonoBehaviour ,IHitResponder
      *───────────────────────────────*/
     void Roar()
     {
-        
+        if (roarAoePrefab == null)
+            return;
+
+        Vector3 pos = transform.position;
+        pos.y = 0f;
+
+        Instantiate(roarAoePrefab, pos, Quaternion.identity);
     }
+
     void Jump()
     {
-        
+        StartCoroutine(SpawnJumpAoeAfterDelay());
     }
+
+    IEnumerator SpawnJumpAoeAfterDelay()
+    {
+        yield return new WaitForSeconds(1.18f); // 애니 기반 값
+        SpawnJumpAoe();
+    }
+
+    void SpawnJumpAoe()
+    {
+        if (jumpAoePrefab == null)
+            return;
+
+        Vector3 pos = transform.position;
+        pos.y = 0f;
+
+        Instantiate(jumpAoePrefab, pos, Quaternion.identity);
+    }
+
 
     IEnumerator ChargeAttack()
     {
         isCharging = true;
+        isActing = true;
 
-        // 🔒 준비
+        // 🔒 NavMesh 완전 차단
         agent.isStopped = true;
+        agent.updatePosition = false;
+        agent.updateRotation = false;
         anim.applyRootMotion = false;
 
+        // 돌진 애니
         anim.SetInteger("Pattern", 401);
         anim.SetTrigger("Attack");
 
         // 텔레그래프
         yield return new WaitForSeconds(0.3f);
 
-        // 방향 고정
-        Vector3 dir = transform.forward;
-        Vector3 targetPos = transform.position + dir * dragonData.chargeDistance;
+        // Animator 반영 대기
+        yield return null;
 
-        yield return null; // Animator 반영 대기
-
+        // 🔥 애니메이션 길이 가져오기
         AnimatorStateInfo info = anim.GetCurrentAnimatorStateInfo(0);
         float chargeDuration = info.length;
-
         if (chargeDuration <= 0f)
-            chargeDuration = 1.0f; // 최소 fallback
+            chargeDuration = 0.8f; // fallback
 
-        // 🔥 핵심: 돌진 속도 계산
-        agent.acceleration = 999f;
-        agent.speed = dragonData.chargeDistance / chargeDuration;
+        Vector3 chargeDir = transform.forward;
 
+        float chargeDistance = dragonData.chargeDistance;
+        float chargeSpeed = chargeDistance / chargeDuration;
+
+        float elapsed = 0f;
+
+        if (chargeHitBox) chargeHitBox.SetActive(true);
+
+        Vector3 rayOriginOffset = Vector3.up * 0.5f;
+        float rayExtra = 0.2f;
+
+        while (elapsed < chargeDuration)
+        {
+            float step = chargeSpeed * Time.deltaTime;
+
+            bool blocked = Physics.Raycast(
+                transform.position + rayOriginOffset,
+                chargeDir,
+                step + rayExtra,
+                LayerMask.GetMask("Wall"),
+                QueryTriggerInteraction.Ignore
+            );
+
+            if (!blocked)
+            {
+                transform.position += chargeDir * step;
+            }
+            // ❗ 막혀도 시간은 흐른다 (애니와 동기화)
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (chargeHitBox) chargeHitBox.SetActive(false);
+
+        // 🔓 NavMesh 복구
+        agent.updatePosition = true;
+        agent.updateRotation = true;
         agent.isStopped = false;
-        agent.SetDestination(targetPos);
-
-        //돌진 관련 프리팹 소환에 대한 코드추가(나중에)
-
-        // 돌진 지속
-        yield return new WaitForSeconds(chargeDuration);
-
-        // 종료
-        agent.isStopped = true;
-        agent.speed = originalSpeed;
-
 
         chargeTimer = chargeCool;
         isCharging = false;
         isActing = false;
         state = DragonState.Idle;
     }
+
+
 
 
     /*───────────────────────────────*

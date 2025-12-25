@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7413780116771289694}
   - component: {fileID: 1069277594037352906}
   - component: {fileID: 626334891697551425}
+  - component: {fileID: -1346997689633390521}
   m_Layer: 0
   m_Name: RoarHitboxPrefab1
   m_TagString: Untagged
@@ -4892,6 +4893,21 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-1346997689633390521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778961336712436159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c8c350c12acfab4ba1241fb405fa2da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 0.1
+  knockbackPower: 6
+  useDistanceReduce: 1
 --- !u!1 &2607244999806547605
 GameObject:
   m_ObjectHideFlags: 0
