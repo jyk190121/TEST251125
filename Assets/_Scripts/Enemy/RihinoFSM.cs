@@ -142,7 +142,7 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder
     void Idle()
     {
         anim.applyRootMotion = false;
-        agent.isStopped = true;
+        //agent.isStopped = true;
         anim.SetBool("isMove", false);
 
         if (target == null)
