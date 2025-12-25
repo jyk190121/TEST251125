@@ -18,8 +18,8 @@ public class Result_Shop : MonoBehaviour
     public TextMeshProUGUI[] itemSellCount = new TextMeshProUGUI[8];   //판매한 아이템 갯수 UI
     public TextMeshProUGUI[] itemSellPrice = new TextMeshProUGUI[8];   //판매한 아이템 가격 UI
 
-    //[SerializeField]
-    //RegisteredItem registeredItem;
+    [SerializeField]
+    GridLayoutGroup gridLayout;
 
     //실제 UI들이 존재하는 오브젝트
     public GameObject uiRoot;
@@ -62,6 +62,12 @@ public class Result_Shop : MonoBehaviour
     public void OpenResultSell()
     {
         uiRoot.SetActive(true);
+
+        var results = SalesResultManager.Instance.GetAllResults();
+        int activeCount = GetActiveResultCount(results);
+
+        UpdateGridLayout(activeCount);
+
         RefreshAllUI();
     }
     public void CloseResultSell()
@@ -131,6 +137,34 @@ public class Result_Shop : MonoBehaviour
         // 텍스트 설정
         itemSellCount[slotIndex].text = results[slotIndex].soldCount.ToString();
         itemSellPrice[slotIndex].text = results[slotIndex].totalPrice.ToString();
+    }
+
+    int GetActiveResultCount(List<SellItemData> results)
+    {
+        int count = 0;
+        foreach (var r in results)
+        {
+            if (r != null && r.item != null && r.soldCount > 0)
+                count++;
+        }
+        return count;
+    }
+    void UpdateGridLayout(int activeCount)
+    {
+        if (activeCount >= 5)
+        {
+            gridLayout.cellSize = new Vector2(350, 100);
+            gridLayout.spacing = new Vector2(50, 50);
+            gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            gridLayout.constraintCount = 2;
+        }
+        else
+        {
+            gridLayout.cellSize = new Vector2(600, 100);
+            gridLayout.spacing = new Vector2(0, 50);
+            gridLayout.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            gridLayout.constraintCount = 1;
+        }
     }
 
 }

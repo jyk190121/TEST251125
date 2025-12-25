@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static RegisteredItem;
 
 public class SalesResultManager : MonoBehaviour
 {
+
     public static SalesResultManager Instance;
 
     public List<SellItemData> soldItems = new List<SellItemData>();

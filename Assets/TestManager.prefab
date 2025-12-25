@@ -330,10 +330,15 @@ MonoBehaviour:
   itemView: {fileID: 0}
   inventory: {fileID: 4827749054169522791}
   testItemA: {fileID: 11400000, guid: af39ae62b0a512e4eb9a142ff7914cd0, type: 2}
-  testItemB: {fileID: 11400000, guid: d8bc19542ae81f14e829b524afa21fa7, type: 2}
+  testItemB: {fileID: 11400000, guid: e81cf065c2dff944dbf974dfdd293ea2, type: 2}
   testItemC: {fileID: 11400000, guid: a1d17f58a4e593848a84bbd4d347fa53, type: 2}
   testItemD: {fileID: 11400000, guid: e7c63945d43a58b4db31cfbdbe8d3d59, type: 2}
   testItemE: {fileID: 11400000, guid: 1ca85e52b23b08c479c630bf0458de0a, type: 2}
+  testItemF: {fileID: 11400000, guid: 563c4d607c18dd849bd3dbedaa38cef6, type: 2}
+  testItemG: {fileID: 11400000, guid: 20add37243396cd4b9eb8b54e6acb91a, type: 2}
+  testItemH: {fileID: 11400000, guid: 4d452987748e7cc48b0c395bbf55421d, type: 2}
+  testItemI: {fileID: 11400000, guid: e95729191a5b55c458b99c0d14fced58, type: 2}
+  testItemJ: {fileID: 11400000, guid: 83ae3ef0a7137694e845e688a0e637ce, type: 2}
   currentMerchant: {fileID: 0}
   inventoryPanelRect: {fileID: 3136294377886895564}
   dropPopup: {fileID: 6531315944540458457}
