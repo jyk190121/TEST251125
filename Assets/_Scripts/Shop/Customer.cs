@@ -468,8 +468,15 @@ public class Customer : MonoBehaviour
         Debug.Log($"[{customerType}손님] 판매대로 이동 중...");
 
         // 판매대 도착 대기
-        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
+        while (true)
         {
+            //에러방지 (Navmesh)
+            if (agent == null || !agent.enabled || !agent.isOnNavMesh)
+                yield break;
+
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+                break;
+
             yield return null;
         }
 
