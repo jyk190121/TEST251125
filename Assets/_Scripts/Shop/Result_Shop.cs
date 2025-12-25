@@ -74,7 +74,7 @@ public class Result_Shop : MonoBehaviour
     {
         uiRoot.SetActive(false);
     }
-    void RefreshAllUI()
+    public void RefreshAllUI()
     {
         for (int i = 0; i < resultSlots.Length; i++) UpdateResultUI(i);
     }

@@ -1,5 +1,6 @@
 using NUnit.Framework.Internal.Execution;
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -59,6 +60,12 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
             totalPrice += count * price;
         }
     }
+
+    //public class ResultSlotUI : MonoBehaviour
+    //{
+    //    public RegisteredItemData registeredItemData; // 슬롯에 할당
+    //    public int slotIndex; // 슬롯 자체의 인덱스
+    //}
 
     //public static class SaleEvent
     //{
@@ -583,12 +590,90 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         //SaleEvent.OnItemSold?.Invoke(slotIndex, count, price);
     }
 
-    public void IncreaseRegisteredItem(int slotIndex, int count, int price)
-    {
-        countTxt[slotIndex].text = $"{count}";
-        priceTxt[slotIndex].text = $"판매가 :{count * price}";
+    //public void IncreaseRegisteredItem(int slotIndex, int count, int price)
+    //{
+    //    countTxt[slotIndex].text = $"{count}";
+    //    priceTxt[slotIndex].text = $"판매가 :{count * price}";
 
-        table.UpdateTable();
-        UpdateDataManager();
+    //    table.UpdateTable();
+    //    UpdateDataManager();
+    //}
+
+    public void UnregisterLastItemToInventory()
+    {
+        int slotIndex = GetLastRegisteredSlotIndex();
+        if (slotIndex == -1)
+        {
+            Debug.Log("해제할 등록 아이템이 없습니다.");
+            return;
+        }
+
+        RegisteredItemData data = registeredItemsData[slotIndex];
+
+        Item item = data.item;
+        int count = data.count;
+
+        // 인벤토리에 아이템 추가
+        bool added = InventoryManager.Instance.AddItem(item, count);
+        if (!added)
+        {
+            Debug.LogWarning("인벤토리가 가득 차서 아이템을 되돌릴 수 없습니다.");
+            return;
+        }
+
+        // 진열대에서 제거
+        RemoveRegisteredItem(slotIndex);
+
+        Debug.Log($"[RegisteredItem] {item.itemName} x{count} 인벤토리로 반환");
     }
+
+    int GetLastRegisteredSlotIndex()
+    {
+        for (int i = registeredItemsData.Length - 1; i >= 0; i--)
+        {
+            if (registeredItemsData[i] != null &&
+                registeredItemsData[i].item != null &&
+                registeredItemsData[i].count > 0)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    //public int GetSlotIndexUnderMouse(out RegisteredItemData data)
+    //{
+    //    PointerEventData eventData = new PointerEventData(EventSystem.current);
+    //    eventData.position = Input.mousePosition;
+
+    //    List<RaycastResult> results = new List<RaycastResult>();
+    //    EventSystem.current.RaycastAll(eventData, results);
+
+    //    foreach (var hit in results)
+    //    {
+    //        ResultSlotUI slotUI = hit.gameObject.GetComponentInParent<ResultSlotUI>();
+    //        if (slotUI != null)
+    //        {
+    //            int clickedSlotIndex = slotUI.slotIndex;
+    //            data = slotUI.registeredItemData;
+    //        }
+    //    }
+
+    //    data = null;
+    //    return -1; // 슬롯 없음
+    //}
+    //public void UnregisterItem(RegisteredItemData data)
+    //{
+    //    if (data == null || data.item == null || data.count <= 0) return;
+
+    //    InventoryManager.Instance.AddItem(data.item, data.count); // 인벤토리 반환
+    //    data.item = null;
+    //    data.count = 0;
+    //    data.price = 0;
+
+    //    // UI 갱신
+    //    table.UpdateTable();
+    //    UpdateDataManager();
+    //}
+
 }
