@@ -13,14 +13,15 @@ using System.Collections.Generic;
 /// </summary>
 public class Result_Shop : MonoBehaviour
 {
-    public GameObject[] resultSlots = new GameObject[4];               // 각 아이템 슬롯 부모
-    public Image[] itemSellImage = new Image[4];                       //판매한 아이템 이미지
-    public TextMeshProUGUI[] itemSellCount = new TextMeshProUGUI[4];   //판매한 아이템 갯수 UI
-    public TextMeshProUGUI[] itemSellPrice = new TextMeshProUGUI[4];   //판매한 아이템 가격 UI
+    public GameObject[] resultSlots = new GameObject[8];               // 각 아이템 슬롯 부모
+    public Image[] itemSellImage = new Image[8];                       //판매한 아이템 이미지
+    public TextMeshProUGUI[] itemSellCount = new TextMeshProUGUI[8];   //판매한 아이템 갯수 UI
+    public TextMeshProUGUI[] itemSellPrice = new TextMeshProUGUI[8];   //판매한 아이템 가격 UI
 
-    [SerializeField]
-    RegisteredItem registeredItem;
+    //[SerializeField]
+    //RegisteredItem registeredItem;
 
+    //실제 UI들이 존재하는 오브젝트
     public GameObject uiRoot;
 
     int[] resultCount;
@@ -28,8 +29,8 @@ public class Result_Shop : MonoBehaviour
 
     void Awake()
     {
-        resultCount = new int[4];
-        resultPrice = new int[4];
+        resultCount = new int[8];
+        resultPrice = new int[8];
         //uiRoot.SetActive(false);
     }
 
@@ -74,26 +75,55 @@ public class Result_Shop : MonoBehaviour
     void UpdateResultUI(int slotIndex)
     {
         uiRoot.SetActive(true);
-
-        // 판매된 아이템이 있는 경우
-        resultSlots[slotIndex].SetActive(true);
-       
         List<SellItemData> results = SalesResultManager.Instance.GetAllResults();
 
-        // 해당 슬롯에 판매된 아이템이 없는 경우
-        if (results[slotIndex].soldCount <= 0)
+        //print($"판매결과 :{results[slotIndex]}");
+        //if (slotIndex >= results.Count)
+        //{
+        //    resultSlots[slotIndex].SetActive(false);
+        //    return;
+        //}
+
+        //SellItemData data = results[slotIndex];
+
+        //if (data == null || data.soldCount <= 0)
+        //{
+        //    resultSlots[slotIndex].SetActive(false);
+        //    return;
+        //}
+
+        //// 해당 슬롯에 판매된 아이템이 없는 경우
+        //if (results[slotIndex].item == null || results[slotIndex].soldCount <= 0)
+        //{
+        //    resultSlots[slotIndex].SetActive(false);
+        //    results.Remove(results[slotIndex]);
+        //    return;
+        //}
+
+        //// 판매된 아이템이 있는 경우
+        //else
+        //{
+        //    resultSlots[slotIndex].SetActive(true);
+        //}
+
+        // 범위 체크
+        if (slotIndex >= results.Count)
         {
             resultSlots[slotIndex].SetActive(false);
             return;
         }
 
-        foreach (SellItemData data in results)
+        SellItemData data = results[slotIndex];
+
+        // 데이터 유효성 체크
+        if (data == null || data.item == null || data.soldCount <= 0)
         {
-            // 슬롯 하나 할당
-            results[slotIndex].item.icon = data.item.icon;
-            results[slotIndex].soldCount = data.soldCount;
-            results[slotIndex].totalPrice = data.totalPrice;
+            resultSlots[slotIndex].SetActive(false);
+            return;
         }
+
+        // UI 표시
+        resultSlots[slotIndex].SetActive(true);
 
         // 이미지 설정
         itemSellImage[slotIndex].sprite = results[slotIndex].item.icon;

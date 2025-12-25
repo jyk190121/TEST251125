@@ -560,6 +560,7 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         countTxt[slotIndex].text = "";
         priceTxt[slotIndex].text = "";
 
+
         if (itemImages[slotIndex] != null)
         {
             itemImages[slotIndex].sprite = null;
@@ -580,5 +581,14 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
 
         //// 판매 결과 누적
         //SaleEvent.OnItemSold?.Invoke(slotIndex, count, price);
+    }
+
+    public void IncreaseRegisteredItem(int slotIndex, int count, int price)
+    {
+        countTxt[slotIndex].text = $"{count}";
+        priceTxt[slotIndex].text = $"판매가 :{count * price}";
+
+        table.UpdateTable();
+        UpdateDataManager();
     }
 }

@@ -218,7 +218,7 @@ public class Customer : MonoBehaviour
 
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            Debug.Log($"[Customer] {gameObject.name}이 가게를 나갔습니다");
+            //Debug.Log($"[Customer] {gameObject.name}이 가게를 나갔습니다");
             Destroy(gameObject);
         }
     }
@@ -428,6 +428,7 @@ public class Customer : MonoBehaviour
     public void DecreaseRegisteredItemCount(Item item)
     {
         RegisteredItem registeredItem = FindAnyObjectByType<RegisteredItem>();
+
         if (registeredItem == null) return;
 
         RegisteredItem.RegisteredItemData[] allItems = registeredItem.GetAllRegisteredItemsData();
@@ -445,7 +446,9 @@ public class Customer : MonoBehaviour
                 {
                     registeredItem.RemoveRegisteredItem(i);
                     registeredItem.itemList[i] = null;
+
                     Debug.Log($"[{customerType}손님] {item.itemName}이 품절되었습니다");
+                    state =  CustomerState.LeavingShop;
                 }
                 else
                 {
@@ -486,7 +489,7 @@ public class Customer : MonoBehaviour
             // 플레이어가 판매했으면 즉시 거래 완료
             if (itemPayCheck)
             {
-                Debug.Log($"[{customerType}손님 {gameObject.name}] 돈 지불 완료!");
+                //Debug.Log($"[{customerType}손님 {gameObject.name}] 돈 지불 완료!");
                 agent.enabled = true;
                 state = CustomerState.LeavingShop;
                 yield break;
