@@ -219,11 +219,64 @@ public class ShopManager : MonoBehaviour
         else if (dayManager.IsNight)
         {
             //판매 등록 UI 열기
+            //if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && itemDisplay.image.gameObject.activeSelf == true)
+            //{
+            //    //print("상호작용 키 입력");
+            //    itemDisplay.image.gameObject.SetActive(false);
+            //    //itemDisplay.nightImage.gameObject.SetActive(true);
+            //}
+
+            //판매 등록 UI 열기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && itemDisplay.image.gameObject.activeSelf == true)
             {
                 //print("상호작용 키 입력");
                 itemDisplay.image.gameObject.SetActive(false);
-                itemDisplay.nightImage.gameObject.SetActive(true);
+                //아이템 등록 열기
+                inventoryManager.quickSlotView.gameObject.SetActive(false);
+                inventoryManager.equipView.SetActive(false);
+                itemDisplay.regiItemUI.gameObject.SetActive(true);
+                inventoeyPanel.SetActive(true);
+            }
+            else if (itemDisplay.regiItemUI.gameObject.activeSelf == true)
+            {
+                inventoryManager.quickSlotView.gameObject.SetActive(false);
+                inventoryManager.equipView.SetActive(false);
+                isRegiItemOpen = true;
+
+                if (Input.GetMouseButtonDown(1))
+                {
+                    RegiItem.UnregisterLastItemToInventory();
+                    //if (RegiItem.GetSlotIndexUnderMouse(out RegisteredItemData data) != -1)
+                    //{
+                    //    RegiItem.UnregisterItem(data);
+                    //}
+                }
+
+            }
+            else if (isRegiItemOpen)
+            {
+                isRegiItemOpen = false;
+                inventoryManager.quickSlotView.gameObject.SetActive(true);
+                inventoryManager.equipView.SetActive(true);
+            }
+        }
+
+        else if (isAction)
+        {
+            CloseShop();
+            ChangeDay();
+            if (partyPlay)
+            {
+                partyPlay = false;
+                StartCoroutine(party.partyToNight());
+            }
+            if (soundManager.PlayingBGM() && !isPlayingNight)
+            {
+                //soundManager.PlayShopBGMIndex(0);
+                soundManager.StopBGM();
+                soundManager.PlayBGM("진영", 2);
+                isPlayingDay = false;
+                isPlayingNight = true;
             }
         }
 
@@ -246,7 +299,7 @@ public class ShopManager : MonoBehaviour
             {
                 itemDisplay.image.gameObject.SetActive(false);
                 itemDisplay.regiItemUI.gameObject.SetActive(false);
-                itemDisplay.nightImage.gameObject.SetActive(false);
+                //itemDisplay.nightImage.gameObject.SetActive(false);
             }
             if (warehouse != null)
             {
@@ -256,7 +309,7 @@ public class ShopManager : MonoBehaviour
             {
                 resultItem.CloseResultSell();
             }
-            itemDisplay.nightImage.gameObject.SetActive(false);
+            //itemDisplay.nightImage.gameObject.SetActive(false);
             inventoeyPanel.SetActive(false);
         }
     }
