@@ -89,11 +89,46 @@ public class InventoryManager : MonoBehaviour
     {
         if (dropPopup != null) dropPopup.ClosePopup();
 
+        ////씬 전환 후 null이 될 수 있는 resultInvenView를 자식 오브젝트에서 다시 탐색
+        //if (resultInvenView == null)
+        //{
+        //    //비활성화된 자식오브젝트를 포함하여 모든 InventoryView 컴포넌트 검색
+        //    InventoryView[] views = GetComponentsInChildren<InventoryView>(true);
+        //    foreach (InventoryView view in views)
+        //    {
+        //        //이미 Inspector에 할당된 메인 inventoryView가 아닌 다른 컴포넌트를 검색
+        //        if (view != inventoryView)
+        //        {
+        //            resultInvenView = view;
+        //            Debug.Log("ResultInvenView를 자식 오브젝트에서 찾았습니다.");
+        //            break;
+        //        }
+        //    }
+        //}
+
+        //// resultInvenView를 찾았다면, Awake에서 했던 것처럼 초기화를 진행
+        //if (resultInvenView != null)
+        //{
+        //    resultInvenView.CreateSlots(capacity);
+        //    resultInvenView.OnSlotClicked += HandleSlotClick;
+        //    resultInvenView.OnSortRequest += HandleSortSequence;
+        //}
+
+        //기타 시작 시 초기화
+        HandleInventoryUpdate();                                
+        model.InitSlots(capacity);
+    }
+
+    //임시 아이템 업로드 코드
+    private void Update()
+    {
         //씬 전환 후 null이 될 수 있는 resultInvenView를 자식 오브젝트에서 다시 탐색
         if (resultInvenView == null)
         {
             //비활성화된 자식오브젝트를 포함하여 모든 InventoryView 컴포넌트 검색
-            InventoryView[] views = GetComponentsInChildren<InventoryView>(true);
+            GameObject invenResult = GameObject.Find("DugeonResult");
+            if (invenResult == null) return;
+            InventoryView[] views = invenResult.GetComponentsInChildren<InventoryView>(true);
             foreach (InventoryView view in views)
             {
                 //이미 Inspector에 할당된 메인 inventoryView가 아닌 다른 컴포넌트를 검색
@@ -114,14 +149,6 @@ public class InventoryManager : MonoBehaviour
             resultInvenView.OnSortRequest += HandleSortSequence;
         }
 
-        //기타 시작 시 초기화
-        HandleInventoryUpdate();                                
-        model.InitSlots(capacity);
-    }
-
-    //임시 아이템 업로드 코드
-    private void Update()
-    {
         if (Input.GetKeyDown(KeySetting.keys[KeyInput.INVENTORY]))
         {
             if (SceneManager.GetActiveScene().name == "StartScene" ||
