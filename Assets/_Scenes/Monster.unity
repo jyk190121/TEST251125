@@ -165,7 +165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5223809100160976117, guid: 6196e906dfb7d5a49ab361c328d68897, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5638659433764446490, guid: 6196e906dfb7d5a49ab361c328d68897, type: 3}
       propertyPath: bossHPBar
@@ -12983,7 +12983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6322685595575180865, guid: 1f8eaa7e28bd9654088a6a2c0a466a64, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6322685595575180865, guid: 1f8eaa7e28bd9654088a6a2c0a466a64, type: 3}
       propertyPath: m_TagString
