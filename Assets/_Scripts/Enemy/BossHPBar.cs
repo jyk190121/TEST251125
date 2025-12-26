@@ -1,32 +1,63 @@
-using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class BossHPBar : MonoBehaviour
 {
-    public Image fillImage;
+    [Header("UI")]
+    [SerializeField] CanvasGroup canvasGroup;
+    [SerializeField] Image fillImage;
 
-    DragonFSM dragon;
-    Transform cam;
-
+    IHPProvider currentBoss;
     float maxHP;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        cam = Camera.main.transform;
-        dragon = GetComponentInParent<DragonFSM>();
-
-        maxHP = dragon.dragonData.HP;
+        Hide();
     }
 
-    // Update is called once per frame
     void LateUpdate()
     {
-        // 카메라 바라보기
-        transform.forward = cam.forward;
+        if (currentBoss == null)
+        {
+            FindBoss();
+            return;
+        }
 
-        // FSM currentHP만 반영
-        fillImage.fillAmount = dragon.currentHP / maxHP;
+        if (!currentBoss.IsAlive)
+        {
+            currentBoss = null;
+            Hide();
+            return;
+        }
+
+        fillImage.fillAmount = currentBoss.CurrentHP / maxHP;
+    }
+
+    void FindBoss()
+    {
+        currentBoss = Object
+            .FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None)
+            .OfType<IHPProvider>()
+            .FirstOrDefault();
+
+        if (currentBoss == null)
+            return;
+
+        maxHP = currentBoss.MaxHP;
+        Show();
+    }
+
+    void Show()
+    {
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = false;
+    }
+
+    void Hide()
+    {
+        canvasGroup.alpha = 0f;
+        canvasGroup.blocksRaycasts = false;
     }
 }
+

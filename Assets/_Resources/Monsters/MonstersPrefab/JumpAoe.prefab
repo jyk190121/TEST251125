@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 7200128455925504521}
   - component: {fileID: 4571734514612161488}
   m_Layer: 11
-  m_Name: AoeHItbox 1
+  m_Name: JumpAoe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

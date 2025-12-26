@@ -454,13 +454,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3d42d378286ead41910799b49c75461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drone: {fileID: 11400000, guid: a02e3da47c2c883439cc07b8a24d4d5a, type: 2}
   moveSpeed: 3
   minMoveDistance: 1.5
   maxMoveDistance: 4
   wallCheckDistance: 5
   wallLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 16384
   laserPrefab: {fileID: 5230212189842148968, guid: 17c6ba95d78e4fd478e83b1d1920b1ab, type: 3}
   firePoint: {fileID: 7899044892759227432}
   attackCooldown: 4
