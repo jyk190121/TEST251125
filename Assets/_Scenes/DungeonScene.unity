@@ -851,6 +851,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 236443473}
     m_Modifications:
+    - target: {fileID: 1444835435083386433, guid: 562850bd33901bf45b9e2e61803c5751, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1444835435083386433, guid: 562850bd33901bf45b9e2e61803c5751, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2373494445662747366, guid: 562850bd33901bf45b9e2e61803c5751, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -28
+      objectReference: {fileID: 0}
+    - target: {fileID: 4383072433477783336, guid: 562850bd33901bf45b9e2e61803c5751, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -470577352, guid: 4bbc804bd86be0942a91a128941dd579, type: 3}
     - target: {fileID: 6509761787655552980, guid: 562850bd33901bf45b9e2e61803c5751, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -934,6 +950,10 @@ PrefabInstance:
     - target: {fileID: 7476853348013039955, guid: 562850bd33901bf45b9e2e61803c5751, type: 3}
       propertyPath: m_Name
       value: DungeonResultPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7476853348013039955, guid: 562850bd33901bf45b9e2e61803c5751, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
