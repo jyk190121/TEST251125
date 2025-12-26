@@ -137,8 +137,8 @@ MonoBehaviour:
   dragonData: {fileID: 11400000, guid: fef4c297ac514e249b1eb8303c01410a, type: 2}
   anim: {fileID: 9026020392138920008}
   chargeHitBox: {fileID: 1409257687363740862}
-  jumpAoeHitBox: {fileID: 0}
-  roarAoeHitbox: {fileID: 0}
+  jumpAoePrefab: {fileID: 0}
+  roarAoePrefab: {fileID: 0}
   currentHP: 0
   hitThreshold: 5
 --- !u!114 &6908305258725762131

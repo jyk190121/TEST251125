@@ -144,6 +144,8 @@ public class NormalMosterFSM : MonoBehaviour, IHitResponder
 
         agent.speed = speed;
         agent.isStopped = false;
+
+        Debug.Log("스탯 초기화");
     }
 
     /*───────────────────────────────*
@@ -462,9 +464,12 @@ public class NormalMosterFSM : MonoBehaviour, IHitResponder
      *───────────────────────────────*/
     public void Die()
     {
+        if (state == MonsterState.Die) return;
+
         state = MonsterState.Die;
         anim.applyRootMotion = true;
         agent.isStopped = true;
+
 
         anim.SetTrigger("Die");
         StartCoroutine(DieProc());

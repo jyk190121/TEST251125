@@ -1768,8 +1768,8 @@ MonoBehaviour:
     prefab: {fileID: 2322801824289053418, guid: f679a44dc19c7974a9b6f7b93ea0b6e9, type: 3}
   - roomType: 4
     prefab: {fileID: 6114786623350134996, guid: 7ea6cc0841d0c3e4c9daca663a1e87dc, type: 3}
-  minRooms: 8
-  maxRooms: 10
+  minRooms: 3
+  maxRooms: 3
   roomSpacingX: 60
   roomSpacingZ: 40
   bossCam: {fileID: 1145561844}
