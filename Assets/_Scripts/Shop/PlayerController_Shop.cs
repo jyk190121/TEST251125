@@ -8,10 +8,13 @@ public class PlayerController_Shop : MonoBehaviour
     //public bool isSleeping;
 
     PlayerControll pc;
-    float moveSpeed = 0.5f;
+    float moveSpeed = 0.1f;
     public bool isSleeping;
     Camera mainCamera;
     CharacterController cc;
+
+    float gravity = -9.8f;
+    float yVelocity;
 
     private void Start()
     {
@@ -34,7 +37,6 @@ public class PlayerController_Shop : MonoBehaviour
         float moveX = 0f;
         float moveZ = 0f;
 
-
         // 방향키 입력은 KeySetting 기반으로 수정
         if (Input.GetKey(KeySetting.keys[KeyInput.UP]))    moveZ  =  moveSpeed;
         if (Input.GetKey(KeySetting.keys[KeyInput.DOWN]))  moveZ  = -moveSpeed;
@@ -55,6 +57,15 @@ public class PlayerController_Shop : MonoBehaviour
                 transform.position = pos;
             }
 
+            if(cc.isGrounded)
+            {
+                if (yVelocity < 0) yVelocity = -2f;
+            }
+            else
+            {
+                yVelocity += gravity * Time.deltaTime;
+            }
+
             //이동 시에도 보정값
             Vector3 camForward = mainCamera.transform.forward;
             Vector3 camRight = mainCamera.transform.right;
@@ -65,7 +76,12 @@ public class PlayerController_Shop : MonoBehaviour
             camForward.Normalize();
             camRight.Normalize();
 
-            Vector3 move = (camForward * moveZ + camRight * moveX).normalized * moveSpeed;
+            Vector3 move = (camForward * moveZ + camRight * moveX);
+            move = move.normalized * moveSpeed;
+
+            Vector3 moveDot = move + Vector3.up * yVelocity;
+
+            cc.Move(moveDot * Time.deltaTime);
 
             // 애니메이션
             if (move.sqrMagnitude > 0.01f) pc.Move(move * Time.deltaTime);
