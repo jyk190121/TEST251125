@@ -474,6 +474,8 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
     public void TakeDamage(DamageData damage)
     {
+        if(gameObject.layer == 30) return;
+
         _MasterManager.Instance.DataManager.ChangeHP((int)damage.damageAmount);
 
         ApplyKnockback(damage.hitDirection);
