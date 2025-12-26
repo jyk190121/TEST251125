@@ -219,4 +219,19 @@ public class RoomController : MonoBehaviour
             SpawnExitPortal();
         }
     }
+
+    public void ClearAllMonsters()
+    {
+        for (int i = aliveMonsters.Count - 1; i >= 0; i--)
+        {
+            if (aliveMonsters[i] != null)
+            {
+                Destroy(aliveMonsters[i]);
+            }
+        }
+
+        aliveMonsters.Clear();
+
+        Debug.Log("잼 마스터, 플레이어의 상태 변화에 따라 모든 몬스터를 퇴거시켰습니다.");
+    }
 }

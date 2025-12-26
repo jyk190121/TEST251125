@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 463826608167645205}
   - component: {fileID: 8280302607658154646}
   - component: {fileID: 3611285915717547878}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: LeftWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,7 +357,7 @@ GameObject:
   - component: {fileID: 8568424674544431254}
   - component: {fileID: 8748319960579790843}
   - component: {fileID: 8124802903949142719}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: RigthWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   - component: {fileID: 2527613688625687809}
   - component: {fileID: 6846369677204909450}
   - component: {fileID: 2231537335054528345}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BottomWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -691,7 +691,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2669250726612065894}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1441,7 +1441,7 @@ GameObject:
   - component: {fileID: 5712483734995013579}
   - component: {fileID: 6808353562508044669}
   - component: {fileID: 6321987684183610918}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: TopWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1661,7 +1661,7 @@ MonoBehaviour:
   - {fileID: 4814341996828308461}
   - {fileID: 1644084007673604628}
   monsterPrefabs:
-  - {fileID: 2203997256558560351, guid: 82c9c370e9e97a8499c01e7893cc266e, type: 3}
+  - {fileID: 8456632441884022478, guid: c2377cd991f850b48bbdafd4a4240be9, type: 3}
   bossMonsterPrefab: {fileID: 0}
   isSpawned: 0
   isCleared: 0

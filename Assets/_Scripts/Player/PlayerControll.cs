@@ -80,6 +80,10 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     public float knockbackPower = 6f;
     public float knockbackDamping = 12f;
 
+    // 사라짐 관련
+
+    bool active = false;
+
     private void OnEnable()
     {
         DataManager.OnEquipmentChanged += RefreshWeapon;
@@ -494,8 +498,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
     public void Die()
     {
-        gameObject.SetActive(false);
-        _MasterManager.Instance.DataManager.ChangeReturn(true);
+        _MasterManager.Instance.DataManager.ChangeReturn(true);   
     }
 
     //칼 콤보 공격 처리
@@ -557,11 +560,18 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         Debug.Log("200원 나감");
 
         _MasterManager.Instance.DataManager.SetisPendant(true);
-        _MasterManager.Instance.DataManager.ChangeReturn(true);
+        _MasterManager.Instance.DataManager.ChangeReturn(true);       
     }
 
-    void DontMove()
+    public void SetActiveFalse(bool active)
     {
-        CC.enabled = false;
+        if (active)
+        {
+            gameObject.SetActive(true);
+        }
+        else if (!active)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
