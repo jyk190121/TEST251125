@@ -26,11 +26,6 @@ public class InventoryManager : MonoBehaviour
     public Item testItemC;              //인스펙터에서 아이템(임시) 연결
     public Item testItemD;              //인스펙터에서 아이템(임시) 연결
     public Item testItemE;              //인스펙터에서 아이템(임시) 연결
-    public Item testItemF;              //인스펙터에서 아이템(임시) 연결
-    public Item testItemG;              //인스펙터에서 아이템(임시) 연결
-    public Item testItemH;              //인스펙터에서 아이템(임시) 연결
-    public Item testItemI;              //인스펙터에서 아이템(임시) 연결
-    public Item testItemJ;              //인스펙터에서 아이템(임시) 연결
 
     //Model (Inspector에 안 보임)
     private InventoryModel model;
@@ -126,63 +121,10 @@ public class InventoryManager : MonoBehaviour
     //임시 아이템 업로드 코드
     private void Update()
     {
-        //A키를 누르면 테스트 아이템 A 획득
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            if (testItemA != null)
-            {
-                AddItem(testItemI);
-                Debug.Log("아이템 획득: " + testItemA.itemName);
-            }
-        }
-
-        //B키를 누르면 테스트 아이템 B 획득
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            if (testItemB != null)
-            {
-                AddItem(testItemJ);
-                Debug.Log("아이템 획득: " + testItemB.itemName);
-            }
-        }
-
-        //C키를 누르면 테스트 아이템 C 획득
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            if (testItemB != null)
-            {
-                AddItem(testItemH);
-                Debug.Log("아이템 획득: " + testItemC.itemName);
-            }
-        }
-
-        //D키를 누르면 테스트 아이템 D 획득
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            if (testItemB != null)
-            {
-                AddItem(testItemG);
-                Debug.Log("아이템 획득: " + testItemD.itemName);
-            }
-        }
-
-        //C키를 누르면 테스트 아이템 E 획득
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            if (testItemB != null)
-            {
-                AddItem(testItemF);
-                Debug.Log("아이템 획득: " + testItemE.itemName);
-            }
-        }
-
-
-
-
-
+        
 
         //A키를 누르면 테스트 아이템 A 획득
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             if (testItemA != null)
             {
@@ -192,7 +134,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //B키를 누르면 테스트 아이템 B 획득
-        if (Input.GetKeyDown(KeyCode.Alpha7))
+        if (Input.GetKeyDown(KeyCode.F2))
         {
             if (testItemB != null)
             {
@@ -202,7 +144,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //C키를 누르면 테스트 아이템 C 획득
-        if (Input.GetKeyDown(KeyCode.Alpha8))
+        if (Input.GetKeyDown(KeyCode.F3))
         {
             if (testItemB != null)
             {
@@ -212,7 +154,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //D키를 누르면 테스트 아이템 D 획득
-        if (Input.GetKeyDown(KeyCode.Alpha9))
+        if (Input.GetKeyDown(KeyCode.F4))
         {
             if (testItemB != null)
             {
@@ -222,7 +164,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         //C키를 누르면 테스트 아이템 E 획득
-        if (Input.GetKeyDown(KeyCode.Alpha0))
+        if (Input.GetKeyDown(KeyCode.F5))
         {
             if (testItemB != null)
             {
