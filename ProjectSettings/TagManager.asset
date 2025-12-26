@@ -8,6 +8,8 @@ TagManager:
   - Cut
   - Hide
   - Boss
+  - Dragon
+  - Rihino
   layers:
   - Default
   - TransparentFX
@@ -25,7 +27,7 @@ TagManager:
   - 
   - Wall
   - 
-  - 
+  - MonstersAttack
   - 
   - 
   - 

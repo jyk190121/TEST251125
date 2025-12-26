@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1069277594037352906}
   - component: {fileID: 626334891697551425}
   - component: {fileID: -1346997689633390521}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: RoarHitboxPrefab1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4920,7 +4920,7 @@ GameObject:
   - component: {fileID: 5160710875047498762}
   - component: {fileID: 7186518040631520299}
   - component: {fileID: 3770529893807508914}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
