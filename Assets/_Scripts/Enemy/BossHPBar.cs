@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using Unity.VisualScripting;
+using System.Collections;
 
 public class BossHPBar : MonoBehaviour
 {
@@ -24,14 +26,20 @@ public class BossHPBar : MonoBehaviour
             return;
         }
 
-        if (!currentBoss.IsAlive)
+        if (currentBoss.CurrentHP <= 0)
         {
-            currentBoss = null;
-            Hide();
+            fillImage.fillAmount = 0;
+            StartCoroutine(HideHPBar());
             return;
         }
 
         fillImage.fillAmount = currentBoss.CurrentHP / maxHP;
+    }
+
+    IEnumerator HideHPBar()
+    {
+        yield return new WaitForSeconds(3f);
+        Hide();
     }
 
     void FindBoss()
