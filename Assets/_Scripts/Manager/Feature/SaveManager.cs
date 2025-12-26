@@ -1,11 +1,15 @@
 using System.IO;
+using TMPro;
 using UnityEngine;
 using static DataManager;
+using System.Collections;
 
 public class SaveManager : MonoBehaviour
 {
     private static string _savePath;
     private static readonly string SAVE_FILE = "gamedata.json";
+
+    [SerializeField] GameObject saveText;
 
     private static string SavePath // 저장 경로 캐싱
     {
@@ -29,12 +33,13 @@ public class SaveManager : MonoBehaviour
             if (!Directory.Exists(SavePath))
                 Directory.CreateDirectory(SavePath);
 
-            // DataManager → GameSaveData로 변환
             GameSaveData saveData = ConvertDataManagerToSaveData(dataManager);
-
             string json = JsonUtility.ToJson(saveData, true);
             string fullPath = Path.Combine(SavePath, SAVE_FILE);
             File.WriteAllText(fullPath, json);
+
+            // 저장중 텍스트 표시
+            StartCoroutine(ShowSaveMessage());
 
             Debug.Log("게임 저장 완료: " + fullPath);
         }
@@ -43,6 +48,14 @@ public class SaveManager : MonoBehaviour
             Debug.LogError("저장 오류: " + e.Message);
         }
     }
+
+    private IEnumerator ShowSaveMessage()
+    {
+        saveText.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        saveText.SetActive(false);
+    }
+
 
     /// <summary>
     /// 플레이어 데이터 로드
