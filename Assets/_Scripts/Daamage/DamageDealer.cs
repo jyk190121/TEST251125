@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class DamageDealer : MonoBehaviour
 {
@@ -49,10 +50,12 @@ public class DamageDealer : MonoBehaviour
             }
             if (gameObject.layer == 10)
             {
-                if (gameObject.name == "BossDragonRoot")
+                if (damageOwner.name == "BossDragonRoot")
                 {
                     MonsterData dragon = damageOwner.GetComponent<DragonFSM>().dragonData;
                     baseDamage = dragon.Attack;
+                    Debug.Log(dragon.Attack);
+                    Debug.Log(baseDamage);
                     DFSM = GetComponent<DragonFSM>();
                 }
                 if (gameObject.name == "BossRihinoRoot")
@@ -85,6 +88,8 @@ public class DamageDealer : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (damageOwner == null) return;
+        Debug.Log($"데미지 주인  {damageOwner.name} + {damageOwner.layer}" );
+
 
         //플레이어 확인 및 공격중인지 확인
         if (gameObject.layer == 7)
@@ -129,9 +134,12 @@ public class DamageDealer : MonoBehaviour
         if (hitTargets.Contains(other.gameObject)) return;
         //맞은게 나야? 쟤야?
         if (other.gameObject.layer == damageOwner.layer) return;
-        
+        if((other.gameObject.layer == 10 || other.gameObject.layer == 11) && damageOwner.layer == 16) return;
+
         //맞은 애
         IHitResponder responder = other.GetComponent<IHitResponder>();
+       
+
         if(responder != null)
         {
             //hashSet에 맞은 놈 추가

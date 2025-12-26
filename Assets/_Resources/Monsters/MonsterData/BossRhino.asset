@@ -42,7 +42,7 @@ MonoBehaviour:
   phaseTwoHpRate: 0.5
   jumpAoeRadius: 0
   roarRange: 10
-  chargeDistance: 10
+  chargeDistance: 30
   chargeStoppingTime: 1
   attackFX: {fileID: 0}
   hitFX: {fileID: 0}

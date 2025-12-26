@@ -3,7 +3,7 @@ using UnityEngine;
 public class RoarAOE : MonoBehaviour
 {
     [Header("Life")]
-    [SerializeField] float lifeTime = 0.1f;
+    [SerializeField] float lifeTime = 0.5f;
 
     [Header("Knockback")]
     [SerializeField] float knockbackPower = 6f;
