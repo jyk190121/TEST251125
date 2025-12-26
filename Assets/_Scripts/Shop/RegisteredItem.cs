@@ -23,6 +23,7 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
     Table table;                                //테이블에도 아이템 이미지 업데이트
     public TextMeshProUGUI[] countTxt;          //등록된 아이템 갯수 보여주기
     public TextMeshProUGUI[] priceTxt;          //등록된 아이템 가격 보여주기
+    public TextMeshProUGUI[] priceEachTxt;      //등록된 아이템 개당 가격 보여주기
 
     [System.Serializable]
     [RequireComponent(typeof(RegisteredItemData))]
@@ -154,7 +155,8 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
 
                     // UI 텍스트 업데이트
                     countTxt[i].text = registeredItemsData[i].count.ToString();
-                    priceTxt[i].text = $"판매가 :{(registeredItemsData[i].price * registeredItemsData[i].count).ToString()}";
+                    priceTxt[i].text = $"{(registeredItemsData[i].price * registeredItemsData[i].count).ToString()}";
+                    priceEachTxt[i].text = $"{(registeredItemsData[i].price).ToString()}";
 
                     // 아이콘 업데이트
                     SetupSlotImage(i, registeredItemsData[i].item);
@@ -165,6 +167,7 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
                     itemList[i] = null;
                     countTxt[i].text = "";
                     priceTxt[i].text = "";
+                    priceEachTxt[i].text = "";
 
                     if (itemImages != null && i < itemImages.Length && itemImages[i] != null)
                     {
@@ -384,7 +387,8 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
         itemList[slotIndex] = item;
 
         countTxt[slotIndex].text = count.ToString();
-        priceTxt[slotIndex].text = $"판매가 :{(price*count).ToString()}";
+        priceTxt[slotIndex].text = $"{(price*count)}";
+        priceEachTxt[slotIndex].text = $"{price}";
 
         SetupSlotImage(slotIndex, item);
 
@@ -566,7 +570,7 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
 
         countTxt[slotIndex].text = "";
         priceTxt[slotIndex].text = "";
-
+        priceEachTxt[slotIndex].text = "";
 
         if (itemImages[slotIndex] != null)
         {
@@ -581,7 +585,8 @@ public class RegisteredItem : MonoBehaviour, IDropHandler
     public void DecreaseRegisteredItem(int slotIndex, int count, int price)
     {
         countTxt[slotIndex].text = $"{count}";
-        priceTxt[slotIndex].text = $"판매가 :{count * price}";
+        priceTxt[slotIndex].text = $"{count * price}";
+        priceEachTxt[slotIndex].text = $"{price}";
 
         table.UpdateTable();
         UpdateDataManager();
