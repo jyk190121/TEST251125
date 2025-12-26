@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(InventoryManager))]
 public class InventoryManager : MonoBehaviour
@@ -121,7 +122,14 @@ public class InventoryManager : MonoBehaviour
     //임시 아이템 업로드 코드
     private void Update()
     {
-        
+        if (Input.GetKeyDown(KeySetting.keys[KeyInput.INVENTORY]))
+        {
+            if (SceneManager.GetActiveScene().name == "StartScene" ||
+                SceneManager.GetActiveScene().name == "Intro")
+            {
+                return;
+            }
+        }
 
         //A키를 누르면 테스트 아이템 A 획득
         if (Input.GetKeyDown(KeyCode.F1))

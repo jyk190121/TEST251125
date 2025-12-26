@@ -22,6 +22,10 @@ public class Intro : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("StartScene");
+        }
     }
 
     public IEnumerator FadeTextToFullAlpha(float t, Image i, Image j, Image k)

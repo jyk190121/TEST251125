@@ -109,7 +109,10 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
     public void Update()
     {
-        ApplyGravity();
+        if (CC.enabled)
+        {
+            ApplyGravity();
+        }
 
         // 넉백 타이머
         if (knockbackTimer > 0)
