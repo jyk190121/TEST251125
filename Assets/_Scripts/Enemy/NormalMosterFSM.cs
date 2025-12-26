@@ -39,6 +39,8 @@ public class NormalMosterFSM : MonoBehaviour, IHitResponder
     public Animator anim;
     RoomController roomController;
 
+    public Collider agentCollider;
+
     /*───────────────────────────────*
      * 기본 스탯
      *───────────────────────────────*/
@@ -108,6 +110,7 @@ public class NormalMosterFSM : MonoBehaviour, IHitResponder
 
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        agentCollider = GetComponent<Collider>();
 
         // 스탯 초기화
         currentHP = monsterData.HP;
@@ -495,6 +498,9 @@ public class NormalMosterFSM : MonoBehaviour, IHitResponder
         agent.isStopped = true;
 
         anim.SetTrigger("Die");
+        
+        agentCollider.isTrigger = true;
+
         StartCoroutine(DieProc());
     }
 

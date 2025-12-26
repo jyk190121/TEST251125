@@ -74,13 +74,8 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder, IHPProvider
     /*───────────────────────────────*
      * 돌진
      *───────────────────────────────*/
-    float chargeSpeedMul = 3f;
-    float originalSpeed;
     bool isCharging;
     bool isActing;
-
-    public GameObject roarAoePrefab;
-
     public float CurrentHP => currentHP;
     public float MaxHP => rihinoData.HP;
     public bool IsAlive => state != RihinoState.Die;
@@ -121,7 +116,6 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder, IHPProvider
         normalPatternIDs = rihinoData.NormalpatternIDs;
 
         agent.speed = speed;
-        originalSpeed = speed;
     }
 
     void Update()
@@ -212,7 +206,7 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder, IHPProvider
             return;
         }
 
-        // 🔥 포효
+        // 
         if (CanUseSpecial())
         {
             StartCoroutine(ExecuteSpecialPattern());
@@ -315,8 +309,8 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder, IHPProvider
         // 특수 공격 발동
         switch (sp)
         {
-            case SpecialPattern.AOE:
-                Roar();
+            case SpecialPattern.Charge:
+                ChargeAttack();
                 break;
             
         }
@@ -337,26 +331,13 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder, IHPProvider
 
         foreach (var sp in specialPatterns)
         {
-            if (sp == SpecialPattern.Roar)
+            if (sp == SpecialPattern.Charge)
                 valid.Add(sp);
         }
 
         if (valid.Count == 0) return default;
         return valid[Random.Range(0, valid.Count)];
     }
-
-
-    void Roar()
-    {
-        if (roarAoePrefab == null)
-            return;
-
-        Vector3 pos = transform.position;
-        pos.y = 0f;
-
-        Instantiate(roarAoePrefab, pos, Quaternion.identity);
-    }
-
     /*───────────────────────────────*
      * 돌진
      *───────────────────────────────*/
@@ -422,6 +403,9 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder, IHPProvider
         }
 
         if (chargeHitbox) chargeHitbox.SetActive(false);
+
+        // 🔥 이 한 줄이 핵심
+        agent.Warp(transform.position);
 
         // 🔓 NavMesh 복구
         agent.updatePosition = true;

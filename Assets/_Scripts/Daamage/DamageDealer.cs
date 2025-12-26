@@ -58,7 +58,7 @@ public class DamageDealer : MonoBehaviour
                     Debug.Log(baseDamage);
                     DFSM = GetComponent<DragonFSM>();
                 }
-                if (gameObject.name == "BossRihinoRoot")
+                if (damageOwner.name == "BossRihinoRoot")
                 {
                     MonsterData rihino = damageOwner.GetComponent<RihinoFSM>().rihinoData;
                     baseDamage = rihino.Attack;
@@ -112,14 +112,14 @@ public class DamageDealer : MonoBehaviour
             }
             if (gameObject.layer == 10)
             {
-                if (gameObject.name == "BossDragonRoot")
+                if (damageOwner.name == "BossDragonRoot")
                 {
                     DFSM = damageOwner.GetComponent<DragonFSM>();
                     bool checkAttack = DFSM.OnAttack();
                     if (!checkAttack) return;
                     ResetHitTargets();
                 }
-                if (gameObject.name == "BossRihinoRoot")
+                if (damageOwner.name == "BossRihinoRoot")
                 {
                     RFSM = damageOwner.GetComponent<RihinoFSM>();
                     bool checkAttack = RFSM.OnAttack();

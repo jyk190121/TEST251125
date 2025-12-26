@@ -27,7 +27,7 @@ MonoBehaviour:
   Type: 0
   Race: 5
   NormalPatterns: 000000000000000000000000
-  SpecialPatterns: 910100009201000093010000
+  SpecialPatterns: 9101000093010000
   NormalpatternIDs: 000000000100000002000000
   windupTime: 0.1
   recoveryTime: 0.2

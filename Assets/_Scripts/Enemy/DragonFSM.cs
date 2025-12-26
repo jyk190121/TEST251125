@@ -41,9 +41,7 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
     [Header("HitBox")]
     public GameObject chargeHitBox;
     public GameObject jumpAoePrefab;
-    public GameObject roarAoePrefab;
 
-    public Transform roarPoint;
 
     /*───────────────────────────────*
      * 스탯
@@ -86,9 +84,6 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
     /*───────────────────────────────*
      * 돌진
      *───────────────────────────────*/
-    Vector3 chargeTarget;
-    float chargeSpeedMul = 3f;
-    float originalSpeed;
     bool isCharging;
 
     bool isActing;
@@ -135,7 +130,6 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
         normalPatternIDs = dragonData.NormalpatternIDs;
 
         agent.speed = speed;
-        originalSpeed = speed;
 
 
         if (chargeHitBox) chargeHitBox.SetActive(false);
@@ -322,7 +316,7 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
     }
 
     /*───────────────────────────────*
-     * 특수 공격 (포효 / 점프)
+     * 특수 공격 (점프)
      *───────────────────────────────*/
     IEnumerator ExecuteSpecialPattern()
     {
@@ -355,9 +349,6 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
         // 특수 공격 발동
         switch (sp)
         {
-            case SpecialPattern.Roar:
-                Roar();
-                break;
             case SpecialPattern.JumpSmash:
                 Jump();
                 break;
@@ -380,9 +371,6 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
 
         foreach (var sp in specialPatterns)
         {
-            if (sp == SpecialPattern.Roar)
-                valid.Add(sp);
-
             if (sp == SpecialPattern.JumpSmash)
                 valid.Add(sp);
         }
@@ -392,35 +380,8 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
     }
 
     /*───────────────────────────────*
-     * 특수 공격 구현부 (비어 있음)
+     * 특수 공격 구현부 
      *───────────────────────────────*/
-    void Roar()
-    {
-        StartCoroutine(SpawnRoarAoeAfterDelay());
-    }
-
-    IEnumerator SpawnRoarAoeAfterDelay()
-    {
-        yield return new WaitForSeconds(1.15f);
-        SpawnRoarAoe();
-    }
-    void SpawnRoarAoe()
-    {
-        if (roarAoePrefab != null) return;
-
-        Vector3 pos = roarPoint.position;
-
-        GameObject Aoe = Instantiate(roarAoePrefab, pos, Quaternion.identity);
-        DamageDealer roar = roarAoePrefab.GetComponent<DamageDealer>();
-
-        if (roar != null)
-        {
-            roar.SetOwner(this.gameObject);
-
-            roar.SetDamage(dragonData.Attack);
-        }
-    }
-
     void Jump()
     {
         StartCoroutine(SpawnJumpAoeAfterDelay());
