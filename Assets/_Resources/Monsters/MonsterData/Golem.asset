@@ -17,7 +17,7 @@ MonoBehaviour:
   MobPrefab: {fileID: 8456632441884022478, guid: c2377cd991f850b48bbdafd4a4240be9, type: 3}
   HP: 10
   Speed: 3
-  Attack: 3
+  Attack: 30
   Defense: 0
   CoolTime: 3
   attackRange: 5

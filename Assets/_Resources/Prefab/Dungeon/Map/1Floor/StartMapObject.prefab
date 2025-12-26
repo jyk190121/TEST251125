@@ -492,7 +492,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1361213701053794358}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -636,6 +636,7 @@ MonoBehaviour:
   PortalPrefab: {fileID: 0}
   spawnPoints: []
   monsterPrefabs: []
+  bossMonsterPrefab: {fileID: 0}
   isSpawned: 0
   isCleared: 0
   isStartRoom: 0
@@ -1005,7 +1006,7 @@ GameObject:
   - component: {fileID: 1103242712221415155}
   - component: {fileID: 926715300382622641}
   - component: {fileID: 3210553616737374093}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: RigthWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1256,7 +1257,7 @@ GameObject:
   - component: {fileID: 1703778075287013975}
   - component: {fileID: 4310953162831886271}
   - component: {fileID: 1631164675698374992}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: TopWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1473,7 +1474,7 @@ GameObject:
   - component: {fileID: 2140525605124687052}
   - component: {fileID: 1545031063787989323}
   - component: {fileID: 3814273207546188976}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: LeftWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1581,7 +1582,7 @@ GameObject:
   - component: {fileID: 7379787236421608481}
   - component: {fileID: 4982650803632925105}
   - component: {fileID: 157585834170652979}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: BottomWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
