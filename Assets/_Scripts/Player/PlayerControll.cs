@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Android.Gradle.Manifest;
 using Unity.VisualScripting;
 using UnityEditor.Timeline;
 using UnityEngine;
@@ -35,7 +36,11 @@ public class PlayerControll : MonoBehaviour, IHitResponder
     //콤보시스템
     private int comboInputBuffer = 0;
     private const int MaxComboInput = 3; // 최대 2번까지 미리 입력 허용 (총 3타 콤보이므로)
-    
+
+    //y값 고정 관련
+    private float verticalVelocity; // 현재 수직 속도
+    private float gravity = -20f;   // 중력 강도 (필요에 따라 조절)
+    private float groundedGravity = -0.5f; // 바닥에 닿았을 때 최소 유지 중력
 
     //구르기
     //1. 구르기 거리
@@ -104,6 +109,8 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
     public void Update()
     {
+        ApplyGravity();
+
         // 넉백 타이머
         if (knockbackTimer > 0)
         {
@@ -575,5 +582,26 @@ public class PlayerControll : MonoBehaviour, IHitResponder
         {
             gameObject.SetActive(false);
         }
+    }
+
+    // --- 중력 적용 함수 추가 ---
+    private void ApplyGravity()
+    {
+        // CharacterController가 바닥을 감지하고 있는지 확인
+        if (CC.isGrounded && verticalVelocity < 0)
+        {
+            // 바닥에 닿아있다면 수직 속도를 아주 작은 음수로 유지 (지면 밀착용)
+            verticalVelocity = groundedGravity;
+        }
+        else
+        {
+            // 공중에 있다면 시간에 따라 중력 가속도 적용
+            verticalVelocity += gravity * Time.deltaTime;
+        }
+
+        // 계산된 수직 속도만큼 이동 처리
+        // Move 함수는 누적된 Vector3를 전달받으므로 수직 벡터만 따로 Move해줍니다.
+        Vector3 gravityMove = new Vector3(0, verticalVelocity, 0);
+        CC.Move(gravityMove * Time.deltaTime);
     }
 }
