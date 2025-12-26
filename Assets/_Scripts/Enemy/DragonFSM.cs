@@ -135,7 +135,6 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
         agent.speed = speed;
         originalSpeed = speed;
 
-        agent.isStopped = false;
 
         if (chargeHitBox) chargeHitBox.SetActive(false);
     }

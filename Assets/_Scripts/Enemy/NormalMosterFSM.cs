@@ -143,7 +143,6 @@ public class NormalMosterFSM : MonoBehaviour, IHitResponder
         deathFX = monsterData.deathFX;
 
         agent.speed = speed;
-        agent.isStopped = false;
     }
 
     /*───────────────────────────────*
