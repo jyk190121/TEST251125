@@ -165,6 +165,12 @@ public class BattleRecord: MonoBehaviour
     {
         _MasterManager.Instance.DungeonManager.OffMiniMap();
 
+        RoomController[] rooms = FindObjectsByType<RoomController>(FindObjectsSortMode.None);
+        foreach (var room in rooms)
+        {
+            room.ClearAllMonsters();
+        }
+
         //결과창 케이스 별 분리
         resultPanel.SetActive(true);            // 평소엔 꺼놨다가 키기
         inventoryPrefab.SetActive(true);

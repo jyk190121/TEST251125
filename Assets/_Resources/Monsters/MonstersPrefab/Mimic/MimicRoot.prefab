@@ -160,8 +160,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2216982521680389510}
   - component: {fileID: 6202200885196098016}
-  - component: {fileID: 9199163235190364614}
   - component: {fileID: 8781426478405307209}
+  - component: {fileID: 9199163235190364614}
   - component: {fileID: -8562334953468094472}
   m_Layer: 11
   m_Name: MimicRoot
@@ -211,24 +211,6 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 1
   m_Center: {x: 0, y: 0.75, z: 0}
---- !u!114 &9199163235190364614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2203997256558560351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bb19a6ac24278044a4c0b2bd0e71a5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 3013395860015870315}
-  normalMonsterFSM: {fileID: 8781426478405307209}
-  revealHitBox: {fileID: 208919454201639197}
-  triggerRange: 2.5
-  hitBoxDelay: 0.3
-  hitBoxDuration: 0.2
 --- !u!114 &8781426478405307209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,6 +230,24 @@ MonoBehaviour:
   laserPrefab: {fileID: 0}
   aoePrefab: {fileID: 0}
   firePoint: {fileID: 0}
+--- !u!114 &9199163235190364614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2203997256558560351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb19a6ac24278044a4c0b2bd0e71a5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 3013395860015870315}
+  normalMonsterFSM: {fileID: 8781426478405307209}
+  revealHitBox: {fileID: 208919454201639197}
+  triggerRange: 2.5
+  hitBoxDelay: 0.3
+  hitBoxDuration: 0.2
 --- !u!195 &-8562334953468094472
 NavMeshAgent:
   m_ObjectHideFlags: 0

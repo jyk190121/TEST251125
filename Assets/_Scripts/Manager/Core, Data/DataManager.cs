@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using System;
+using UnityEditor.Build;
 
 /// <summary>
 /// 게임 전체 데이터를 관리하는 Manager
@@ -10,6 +11,7 @@ public class DataManager : MonoBehaviour
     // ===== 플레이어 정보 =====
     PlayerModel modelstat;      //장비를 착용하지 않은 기본 스탯
     PlayerModel player;         //플레이어의 정보를 담을 그릇
+    
 
     public Item EquipWeapon;    //장착한 무기
     public Item EquipHead;      //장착한 투구
@@ -94,6 +96,7 @@ public class DataManager : MonoBehaviour
         // 기본값 설정
         modelstat = PlayerModel.SetStat();
         player = PlayerModel.SetStat();
+         
 
         EquipWeapon = _MasterManager.Instance.ItemManager.GetItemByID(2000);
         EquipHead = null;
@@ -245,6 +248,7 @@ public void playerStatChanged(StatStruct stat)
     public void ChangeReturn(bool Return)
     {
         isReturn = Return;
+
         if (isReturn)
         {
             BR.OpenResultPanel(isClear, isPendant);
