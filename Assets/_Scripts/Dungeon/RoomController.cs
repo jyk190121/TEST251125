@@ -149,12 +149,13 @@ public class RoomController : MonoBehaviour
         // 팩트체크: 실제 몬스터 생성 함수 실행
         SpawnMonster();
 
+        LockDoors();
+
         // 0.2초 정도 여유를 주어 Instantiate가 완료되고 리스트에 들어갈 시간을 줍니다.
         yield return new WaitForSeconds(0.2f);
 
         isSpawningInProgress = false;
 
-        LockDoors();
     }
 
 
