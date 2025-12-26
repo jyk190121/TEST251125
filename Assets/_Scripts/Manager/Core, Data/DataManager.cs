@@ -165,8 +165,15 @@ public class DataManager : MonoBehaviour
 public void playerStatChanged(StatStruct stat)
     {
         //이후 장비 관련 변수 추가시 수정 필요
-        player.HP = modelstat.HP + stat.hp;
         player.MaxHP = modelstat.HP + stat.hp;
+        if(BR == null)
+        {
+            player.HP = player.MaxHP;
+        }
+        if(player.HP > player.MaxHP)
+        {
+            player.HP = player.MaxHP;
+        }
         player.ATT = modelstat.ATT + stat.att;
         player.Defend = modelstat.Defend + stat.def;
         player.moveSpeed = modelstat.moveSpeed + stat.spd;
