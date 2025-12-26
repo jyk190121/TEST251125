@@ -14,51 +14,33 @@ using System.Collections.Generic;
 /// </summary>
 public class DroneFSM : MonoBehaviour
 {
-    /*───────────────────────────────*
-     * 상태 정의
-     *───────────────────────────────*/
-    enum DroneState
-    {
-        Idle,
-        Move,
-        Attack,
-        GetHit,
-        Die
-    }
-
+    enum DroneState { Idle, Move, Attack, GetHit, Die }
     DroneState state;
 
-    /*───────────────────────────────*
-     * 이동 / 공격 방향
-     *───────────────────────────────*/
-    Vector3 moveDir;      // 현재 이동 방향
-    Vector3 attackDir;    // 현재 공격 방향
+    RoomController roomController;
+    public MonsterData drone;
+    float currentHP;
 
-    /*───────────────────────────────*
-     * 이동 설정
-     *───────────────────────────────*/
+    Vector3 moveDir;
+    Vector3 attackDir;
+
     [Header("Movement")]
-    public float moveSpeed = 3f;
+    public float moveSpeed;
     public float minMoveDistance = 1.5f;
     public float maxMoveDistance = 4f;
+
+    // 🔥 이 변수 하나로만 벽 회피 처리
     public float wallCheckDistance = 5f;
     public LayerMask wallLayer;
 
     float moveRemain;
 
-    /*───────────────────────────────*
-     * 공격 설정
-     *───────────────────────────────*/
     [Header("Attack")]
     public GameObject laserPrefab;
     public Transform firePoint;
-
-    public float attackCooldown = 4f;
+    public float attackCooldown;
     float attackTimer;
 
-    /*───────────────────────────────*
-     * 4방향 정의
-     *───────────────────────────────*/
     readonly Vector3[] directions =
     {
         Vector3.forward,
@@ -67,11 +49,19 @@ public class DroneFSM : MonoBehaviour
         Vector3.right
     };
 
-    /*───────────────────────────────*
-     * 초기화
-     *───────────────────────────────*/
     void Start()
     {
+        if (drone == null)
+        {
+            Debug.LogError("DroneFSM : MonsterData not assigned");
+            enabled = false;
+            return;
+        }
+
+        currentHP = drone.HP;
+        moveSpeed = drone.Speed;
+        attackCooldown = drone.CoolTime;
+
         state = DroneState.Idle;
         attackTimer = attackCooldown;
     }
@@ -83,21 +73,12 @@ public class DroneFSM : MonoBehaviour
 
         switch (state)
         {
-            case DroneState.Idle:
-                Idle();
-                break;
-            case DroneState.Move:
-                Move();
-                break;
-            case DroneState.Attack:
-                Attack();
-                break;
+            case DroneState.Idle: Idle(); break;
+            case DroneState.Move: Move(); break;
+            case DroneState.Attack: Attack(); break;
         }
     }
 
-    /*───────────────────────────────*
-     * Idle
-     *───────────────────────────────*/
     void Idle()
     {
         if (attackTimer <= 0f)
@@ -110,39 +91,46 @@ public class DroneFSM : MonoBehaviour
         state = DroneState.Move;
     }
 
-    /*───────────────────────────────*
-     * Move
-     *───────────────────────────────*/
     void Move()
     {
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
-        moveRemain -= Time.deltaTime * moveSpeed;
+        RotateTo(moveDir);
+
+        Vector3 origin = transform.position + Vector3.up * 0.2f;
+        float step = moveSpeed * Time.deltaTime;
+
+        // 🔥 이동 중에도 "이 방향에 벽 있으면" 즉시 꺾기
+        if (Physics.Raycast(origin, moveDir, wallCheckDistance, wallLayer))
+        {
+            ChooseMoveDirection();
+            return;
+        }
+
+        transform.position += moveDir * step;
+        moveRemain -= step;
 
         if (moveRemain <= 0f)
-        {
             state = DroneState.Idle;
-        }
     }
 
-    /*───────────────────────────────*
-     * Attack
-     *───────────────────────────────*/
+    void RotateTo(Vector3 dir)
+    {
+        if (dir == Vector3.zero) return;
+
+        Quaternion target = Quaternion.LookRotation(dir);
+        transform.rotation = Quaternion.Slerp(transform.rotation, target, Time.deltaTime * 10f);
+    }
+
     void Attack()
     {
         attackDir = GetRandomDirection();
+        RotateTo(attackDir);
         FireLaser();
 
         attackTimer = attackCooldown;
-
-        // 공격 방향 기준 수직 이동
         ChoosePerpendicularMove();
-
         state = DroneState.Move;
     }
 
-    /*───────────────────────────────*
-     * 레이저 발사
-     *───────────────────────────────*/
     void FireLaser()
     {
         if (laserPrefab == null || firePoint == null)
@@ -152,30 +140,28 @@ public class DroneFSM : MonoBehaviour
         Instantiate(laserPrefab, firePoint.position, rot);
     }
 
-    /*───────────────────────────────*
-     * 이동 방향 선택
-     *───────────────────────────────*/
+    // 🔥 wallCheckDistance 하나로 방향 후보 필터링
     void ChooseMoveDirection()
     {
         List<Vector3> validDirs = new List<Vector3>();
+        Vector3 origin = transform.position + Vector3.up * 0.2f;
 
         foreach (var dir in directions)
         {
-            if (!Physics.Raycast(transform.position, dir, wallCheckDistance, wallLayer))
-                validDirs.Add(dir);
+            if (Physics.Raycast(origin, dir, wallCheckDistance, wallLayer))
+                continue;
+
+            validDirs.Add(dir);
         }
 
-        if (validDirs.Count == 0)
-            moveDir = Vector3.zero;
-        else
-            moveDir = validDirs[Random.Range(0, validDirs.Count)];
+        moveDir = validDirs.Count > 0
+            ? validDirs[Random.Range(0, validDirs.Count)]
+            : Vector3.zero;
 
         moveRemain = Random.Range(minMoveDistance, maxMoveDistance);
     }
 
-    /*───────────────────────────────*
-     * 공격 방향의 수직 이동
-     *───────────────────────────────*/
+    // 🔥 공격 후 수직 이동도 동일 기준
     void ChoosePerpendicularMove()
     {
         List<Vector3> candidates = new List<Vector3>();
@@ -192,34 +178,92 @@ public class DroneFSM : MonoBehaviour
         }
 
         List<Vector3> valid = new List<Vector3>();
+        Vector3 origin = transform.position + Vector3.up * 0.2f;
+
         foreach (var dir in candidates)
         {
-            if (!Physics.Raycast(transform.position, dir, wallCheckDistance, wallLayer))
-                valid.Add(dir);
+            if (Physics.Raycast(origin, dir, wallCheckDistance, wallLayer))
+                continue;
+
+            valid.Add(dir);
         }
 
-        if (valid.Count > 0)
-            moveDir = valid[Random.Range(0, valid.Count)];
-        else
-            moveDir = Vector3.zero;
+        moveDir = valid.Count > 0
+            ? valid[Random.Range(0, valid.Count)]
+            : Vector3.zero;
 
         moveRemain = Random.Range(minMoveDistance, maxMoveDistance);
     }
 
-    /*───────────────────────────────*
-     * 랜덤 4방향
-     *───────────────────────────────*/
     Vector3 GetRandomDirection()
     {
         return directions[Random.Range(0, directions.Length)];
     }
 
-    /*───────────────────────────────*
-     * Gizmos
-     *───────────────────────────────*/
+    public void TakeDamage(DamageData data)
+    {
+        if (state == DroneState.Die) return;
+
+        currentHP -= data.damageAmount;
+
+        if (currentHP <= 0)
+            Die();
+    }
+
+    public void Die()
+    {
+        state = DroneState.Die;
+        StartCoroutine(DieProc());
+    }
+
+    IEnumerator DieProc()
+    {
+        DropItems();
+        yield return new WaitForSeconds(3f);
+
+        roomController?.ClearDungeon(gameObject);
+        _MasterManager.Instance.DataManager.GetMonster(drone);
+        Destroy(gameObject);
+    }
+
+    void DropItems()
+    {
+        if (drone.DropTable == null) return;
+
+        foreach (var drop in drone.DropTable)
+        {
+            if (Random.value > drop.chance) continue;
+
+            int count = Random.Range(drop.minCount, drop.maxCount + 1);
+            for (int i = 0; i < count; i++)
+                Instantiate(drop.itemPrefab, transform.position + GetRandomDropOffset(), Quaternion.identity);
+        }
+    }
+
+    Vector3 GetRandomDropOffset()
+    {
+        Vector2 rand = Random.insideUnitCircle * 0.5f;
+        return new Vector3(rand.x, 0f, rand.y);
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, wallCheckDistance);
+
+        if (!Application.isPlaying) return;
+
+        foreach (var dir in directions)
+        {
+            Gizmos.color = Physics.Raycast(transform.position, dir, wallCheckDistance, wallLayer)
+                ? Color.red
+                : Color.green;
+
+            Gizmos.DrawRay(transform.position, dir * wallCheckDistance);
+        }
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(transform.position, moveDir * wallCheckDistance);
     }
 }
+
