@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2715027118258937969}
   - component: {fileID: 1886162328100163540}
+  - component: {fileID: -1332404697133960235}
   m_Layer: 5
   m_Name: BossHPBar
   m_TagString: Untagged
@@ -50,7 +51,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4212b37db91c744c92180d95d81557e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasGroup: {fileID: 0}
   fillImage: {fileID: 4133558079005614018}
+--- !u!225 &-1332404697133960235
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976599443939575152}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1753503277413099617
 GameObject:
   m_ObjectHideFlags: 0
