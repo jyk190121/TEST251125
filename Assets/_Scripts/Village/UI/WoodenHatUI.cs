@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -30,6 +31,8 @@ public class WoodenHatUI : MonoBehaviour
     [SerializeField] private Button craftButton;
     [SerializeField] private TextMeshProUGUI craftButtonText;
 
+    [SerializeField] Image madeImage;
+
     [SerializeField] TextMeshProUGUI CloseButtonText;
 
     private WoodenHatSystem craftingSystem;
@@ -37,6 +40,7 @@ public class WoodenHatUI : MonoBehaviour
     private bool isPocionTab = true;  // true: 포션, false: 강화
 
     private List<Button> createdButtons = new List<Button>();  // 생성된 버튼 추적
+    private Coroutine madeImageCoroutine;
 
     private void Start()
     {
@@ -230,6 +234,10 @@ public class WoodenHatUI : MonoBehaviour
         if (recipeImage != null)
             recipeImage.sprite = recipe.outputItem.icon;
 
+        if (madeImage != null)
+            madeImage.sprite = recipeImage.sprite;
+        madeImage.color = new Color(1, 1, 1, 0);
+
         //설명 표시
         if (descriptionText != null)
             descriptionText.text = recipe.outputItem.description;
@@ -314,10 +322,58 @@ public class WoodenHatUI : MonoBehaviour
         string itemName = recipe != null ? recipe.outputItem.itemName : "아이템";
         string action = isPocionTab ? "포션 제작" : "강화";
 
+        // 기존 애니메이션이 진행 중이면 중단
+        if (madeImageCoroutine != null)
+            StopCoroutine(madeImageCoroutine);
+
+        // 새로운 애니메이션 시작
+        madeImageCoroutine = StartCoroutine(ShowMadeImageEffect());
+
         Debug.Log($"[WoodenHatUI] {action} 성공: {itemName} x{quantity}");
 
         // 선택 해제 및 UI 갱신
         SelectRecipe(selectedRecipeID);
+    }
+
+    /// <summary>
+    /// madeImage를 1초간 표시한 후 위로 움직이면서 사라지는 효과
+    /// </summary>
+    private IEnumerator ShowMadeImageEffect()
+    {
+        // 1. 이미지 표시 (알파값 1로)
+        madeImage.color = new Color(1, 1, 1, 1);
+
+        // RectTransform 초기 위치 설정
+        RectTransform rectTransform = madeImage.GetComponent<RectTransform>();
+        Vector3 startPos = rectTransform.localPosition;
+
+        // 2. 1초 대기
+        yield return new WaitForSeconds(1f);
+
+        // 3. 위로 움직이면서 사라지기 (0.5초)
+        float elapsedTime = 0f;
+        float duration = 0.5f;
+        Vector3 endPos = startPos + Vector3.up * 100f;  // 100픽셀 위로 이동
+
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            float progress = elapsedTime / duration;
+
+            // 위치 이동
+            rectTransform.localPosition = Vector3.Lerp(startPos, endPos, progress);
+
+            // 알파값 감소 (0.5초에 걸쳐 투명해짐)
+            Color color = madeImage.color;
+            color.a = Mathf.Lerp(1f, 0f, progress);
+            madeImage.color = color;
+
+            yield return null;
+        }
+
+        // 4. 최종 상태 설정 (완벽하게 투명)
+        madeImage.color = new Color(1, 1, 1, 0);
+        rectTransform.localPosition = startPos;  // 원래 위치로 복원
     }
 
     private void OnDestroy()
