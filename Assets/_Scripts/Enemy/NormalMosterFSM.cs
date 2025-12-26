@@ -358,7 +358,20 @@ public class NormalMosterFSM : MonoBehaviour, IHitResponder
 
         GameObject proj = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
         proj.transform.right = dir;
-        proj.GetComponent<Projectile>()?.Launch();
+        DamageDealer dealer = projectilePrefab.GetComponent<DamageDealer>();
+
+        if (dealer != null)
+        {
+            dealer.SetOwner(this.gameObject);
+
+            dealer.SetDamage(monsterData.Attack);
+        }
+
+        Projectile projectile = proj.GetComponent<Projectile>();
+        if (projectile != null)
+        {
+            projectile.Launch();
+        }
     }
 
     /*───────────────────────────────*
@@ -411,12 +424,28 @@ public class NormalMosterFSM : MonoBehaviour, IHitResponder
     void Aoe()
     {
         Instantiate(aoePrefab, transform.position, Quaternion.identity);
+        DamageDealer dealer = aoePrefab.GetComponent<DamageDealer>();
+        if (dealer != null)
+        {
+            dealer.SetOwner(gameObject);
+
+            dealer.SetDamage(monsterData.Attack);
+        }
     }
 
     void StartLaser()
     {
         if (laserPrefab == null || firePoint == null) return;
         Instantiate(laserPrefab, firePoint.position, firePoint.rotation);
+
+        DamageDealer dealer = laserPrefab.GetComponent<DamageDealer>();
+
+        if (dealer != null)
+        {
+            dealer.SetOwner(gameObject);
+
+            dealer.SetDamage(monsterData.Attack);
+        }
     }
 
     /*───────────────────────────────*

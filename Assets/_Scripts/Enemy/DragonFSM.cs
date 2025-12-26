@@ -43,6 +43,8 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
     public GameObject jumpAoePrefab;
     public GameObject roarAoePrefab;
 
+    public Transform roarPoint;
+
     /*───────────────────────────────*
      * 스탯
      *───────────────────────────────*/
@@ -394,13 +396,29 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
      *───────────────────────────────*/
     void Roar()
     {
-        if (roarAoePrefab == null)
-            return;
+        StartCoroutine(SpawnRoarAoeAfterDelay());
+    }
 
-        Vector3 pos = transform.position;
-        pos.y = 0f;
+    IEnumerator SpawnRoarAoeAfterDelay()
+    {
+        yield return new WaitForSeconds(1.15f);
+        SpawnRoarAoe();
+    }
+    void SpawnRoarAoe()
+    {
+        if (roarAoePrefab != null) return;
 
-        Instantiate(roarAoePrefab, pos, Quaternion.identity);
+        Vector3 pos = roarPoint.position;
+
+        GameObject Aoe = Instantiate(roarAoePrefab, pos, Quaternion.identity);
+        DamageDealer roar = roarAoePrefab.GetComponent<DamageDealer>();
+
+        if (roar != null)
+        {
+            roar.SetOwner(this.gameObject);
+
+            roar.SetDamage(dragonData.Attack);
+        }
     }
 
     void Jump()
@@ -410,7 +428,7 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
 
     IEnumerator SpawnJumpAoeAfterDelay()
     {
-        yield return new WaitForSeconds(1.18f); // 애니 기반 값
+        yield return new WaitForSeconds(1.12f); // 애니 기반 값
         SpawnJumpAoe();
     }
 
@@ -422,7 +440,15 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
         Vector3 pos = transform.position;
         pos.y = 0f;
 
-        Instantiate(jumpAoePrefab, pos, Quaternion.identity);
+        GameObject Aoe = Instantiate(jumpAoePrefab, pos, Quaternion.identity);
+        DamageDealer jump = jumpAoePrefab.GetComponent<DamageDealer>();
+
+        if (jump != null)
+        {
+            jump.SetOwner(this.gameObject);
+
+            jump.SetDamage(dragonData.Attack);
+        }
     }
 
 
@@ -487,9 +513,13 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
             yield return null;
         }
 
+        // 돌진 루프 끝난 직후
         if (chargeHitBox) chargeHitBox.SetActive(false);
 
-        // 🔓 NavMesh 복구
+        // 🔥 이 한 줄이 핵심
+        agent.Warp(transform.position);
+
+        // NavMesh 복구
         agent.updatePosition = true;
         agent.updateRotation = true;
         agent.isStopped = false;

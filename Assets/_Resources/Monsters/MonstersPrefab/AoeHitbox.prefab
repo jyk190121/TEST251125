@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1974881886483207732}
   - component: {fileID: 5989638885946418956}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: AoeHItbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 4320913104942920717}
   - component: {fileID: 7222241649738930318}
   - component: {fileID: 5615694350459633092}
-  m_Layer: 11
+  m_Layer: 16
   m_Name: AoeBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,9 +263,29 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1189626028078575417, guid: 998cb23e992c6c3468eb486539f46fa7, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3882723058973585673, guid: 998cb23e992c6c3468eb486539f46fa7, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 5034656251238326012, guid: 998cb23e992c6c3468eb486539f46fa7, type: 3}
       propertyPath: m_Name
       value: Smoke AOE explosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 5034656251238326012, guid: 998cb23e992c6c3468eb486539f46fa7, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5803322884146730385, guid: 998cb23e992c6c3468eb486539f46fa7, type: 3}
+      propertyPath: m_Layer
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 5984937035518212707, guid: 998cb23e992c6c3468eb486539f46fa7, type: 3}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
