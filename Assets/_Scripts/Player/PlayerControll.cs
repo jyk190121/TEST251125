@@ -494,6 +494,7 @@ public class PlayerControll : MonoBehaviour, IHitResponder
 
     public void Die()
     {
+        gameObject.SetActive(false);
         _MasterManager.Instance.DataManager.ChangeReturn(true);
     }
 
