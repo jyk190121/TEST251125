@@ -218,7 +218,7 @@ public class Customer : MonoBehaviour
 
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            Debug.Log($"[Customer] {gameObject.name}이 가게를 나갔습니다");
+            //Debug.Log($"[Customer] {gameObject.name}이 가게를 나갔습니다");
             Destroy(gameObject);
         }
     }
@@ -428,6 +428,7 @@ public class Customer : MonoBehaviour
     public void DecreaseRegisteredItemCount(Item item)
     {
         RegisteredItem registeredItem = FindAnyObjectByType<RegisteredItem>();
+
         if (registeredItem == null) return;
 
         RegisteredItem.RegisteredItemData[] allItems = registeredItem.GetAllRegisteredItemsData();
@@ -440,17 +441,18 @@ public class Customer : MonoBehaviour
                 allItems[i].item.itemID == item.itemID)
             {
                 allItems[i].count--;
-                int soldCount = 1;
 
                 if (allItems[i].count <= 0)
                 {
                     registeredItem.RemoveRegisteredItem(i);
                     registeredItem.itemList[i] = null;
+
                     Debug.Log($"[{customerType}손님] {item.itemName}이 품절되었습니다");
+                    state =  CustomerState.LeavingShop;
                 }
                 else
                 {
-                    registeredItem.DecreaseRegisteredItem(i, soldCount, allItems[i].price);
+                    registeredItem.DecreaseRegisteredItem(i, allItems[i].count, allItems[i].price);
                     Debug.Log($"[{customerType}손님] {item.itemName} 구매 결심! 남은 수량: {allItems[i].count}");
                 }
                 return;
@@ -466,8 +468,15 @@ public class Customer : MonoBehaviour
         Debug.Log($"[{customerType}손님] 판매대로 이동 중...");
 
         // 판매대 도착 대기
-        while (agent.pathPending || agent.remainingDistance > agent.stoppingDistance)
+        while (true)
         {
+            //에러방지 (Navmesh)
+            if (agent == null || !agent.enabled || !agent.isOnNavMesh)
+                yield break;
+
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+                break;
+
             yield return null;
         }
 
@@ -487,7 +496,7 @@ public class Customer : MonoBehaviour
             // 플레이어가 판매했으면 즉시 거래 완료
             if (itemPayCheck)
             {
-                Debug.Log($"[{customerType}손님 {gameObject.name}] 돈 지불 완료!");
+                //Debug.Log($"[{customerType}손님 {gameObject.name}] 돈 지불 완료!");
                 agent.enabled = true;
                 state = CustomerState.LeavingShop;
                 yield break;

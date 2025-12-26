@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static DayManager;
+using static RegisteredItem;
 /// <summary>
 /// 1. 밤/낮을 구분해주는 기능 (DayManager)
 ///  - 낮 : 플레이어가 계산대 앞에서 상호작용 키로 판매시작 / 아이템 들고 온 손님 존재할 땐 : 판매
@@ -132,9 +134,13 @@ public class ShopManager : MonoBehaviour
                         if (boughtItem != null)
                         {
                             RegisteredItem registeredItem = FindAnyObjectByType<RegisteredItem>();
+                            
                             int actualPrice = registeredItem.GetCurrentPrice(boughtItem);
 
                             buyCustomer.DecreaseRegisteredItemCount(boughtItem);
+                            SalesResultManager.Instance.AddSale(boughtItem, 1 , actualPrice);
+
+                            //판매한 아이템에 추가
 
                             dataManager.EarnMoney(actualPrice);
 
@@ -172,6 +178,16 @@ public class ShopManager : MonoBehaviour
                 inventoryManager.quickSlotView.gameObject.SetActive(false);
                 inventoryManager.equipView.SetActive(false);
                 isRegiItemOpen = true;
+
+                if(Input.GetMouseButtonDown(1))
+                {
+                    RegiItem.UnregisterLastItemToInventory();
+                    //if (RegiItem.GetSlotIndexUnderMouse(out RegisteredItemData data) != -1)
+                    //{
+                    //    RegiItem.UnregisterItem(data);
+                    //}
+                }
+               
             }
             else if(isRegiItemOpen)
             {
@@ -261,9 +277,10 @@ public class ShopManager : MonoBehaviour
         //pos_palyer.playerIsSales = false;
         pos_palyer.posUpdate();
         pos_palyer.image.gameObject.SetActive(false);
-        print("밤됫대");
+        //print("밤됫대");
 
         //오늘 판매한 UI 도 만들어야댐
+        //SalesResultManager.Instance.GetAllResults();
         resultItem.OpenResultSell();
     }
 
@@ -276,6 +293,8 @@ public class ShopManager : MonoBehaviour
         }
         else if (dayManager.IsNight)
         {
+            //판매결과 초기화
+            SalesResultManager.Instance.ClearResults();
             dayManager.ChangeTimeOfDay(TimeOfDay.Day);
         }
     }

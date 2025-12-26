@@ -83,6 +83,9 @@ public class InputManager : MonoBehaviour
         isRebinding = true;
         Debug.Log("키 입력 받아야함!");
 
+        //0. 바꾸려는 키의 기존 값 받아놓기
+        KeyCode oldKey = KeySetting.keys[(KeyInput)num];
+
         //1. 키 입력을 받을 때까지 대기
         KeyCode pressedKey = await WaitForKeyPress();
 
@@ -90,6 +93,8 @@ public class InputManager : MonoBehaviour
         if (KeySetting.keys.ContainsValue(pressedKey))
         {
             Debug.Log("이미 지정된 키입니다");
+            KeySetting.keys[(KeyInput)num] = oldKey;
+            onComplete?.Invoke(oldKey);
         }
         else
         {
