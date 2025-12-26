@@ -28,30 +28,39 @@ public class VillagePlayerAnim : MonoBehaviour
 
     void HandleMovementAnim()
     {
-        // 4방향 입력 체크
-        bool isWalking_Up =
-            Input.GetKey(KeySetting.keys[KeyInput.UP]);
-        bool isWalking_Side =
-            Input.GetKey(KeySetting.keys[KeyInput.LEFT]) ||
-            Input.GetKey(KeySetting.keys[KeyInput.RIGHT]);
-        bool isWalking_Down =
-            Input.GetKey(KeySetting.keys[KeyInput.DOWN]);
+        // 1. 모든 상태를 일단 false로 초기화 (중복 방지 핵심)
+        bool isUp = false;
+        bool isDown = false;
+        bool isSide = false;
 
-        if (Input.GetKey(KeySetting.keys[KeyInput.LEFT]))
+        // 2. 이동 스크립트와 똑같은 우선순위로 체크 (상 -> 하 -> 좌 -> 우)
+        // 하나가 걸리면 다른 건 쳐다보지 않음 (else if 사용)
+
+        if (Input.GetKey(KeySetting.keys[KeyInput.UP]))
         {
-            sr.flipX = true;
+            isUp = true;
+            sr.flipX = false; // 위로 갈 땐 뒤집지 않음
         }
-        else if (Input.GetKey(KeySetting.keys[KeyInput.UP])||
-                 Input.GetKey(KeySetting.keys[KeyInput.RIGHT])||
-                 Input.GetKey(KeySetting.keys[KeyInput.DOWN]))
+        else if (Input.GetKey(KeySetting.keys[KeyInput.DOWN]))
         {
-            sr.flipX = false;
+            isDown = true;
+            sr.flipX = false; // 아래로 갈 땐 뒤집지 않음
+        }
+        else if (Input.GetKey(KeySetting.keys[KeyInput.LEFT]))
+        {
+            isSide = true;
+            sr.flipX = true;  // 왼쪽 볼 때만 뒤집음!
+        }
+        else if (Input.GetKey(KeySetting.keys[KeyInput.RIGHT]))
+        {
+            isSide = true;
+            sr.flipX = false; // 오른쪽 볼 땐 원래대로
         }
 
-        // Bool 파라미터 직접 넘기기
-        anim.SetBool(hashMoveUp, isWalking_Up);
-        anim.SetBool(hashMoveSide, isWalking_Side);
-        anim.SetBool(hashMoveDown, isWalking_Down);
-
+        // 3. 결정된 값만 애니메이터에 전달
+        // 이제 isUp, isDown, isSide 중 하나만 true이거나, 모두 false(Idle)입니다.
+        anim.SetBool(hashMoveUp, isUp);
+        anim.SetBool(hashMoveDown, isDown);
+        anim.SetBool(hashMoveSide, isSide);
     }
 }
