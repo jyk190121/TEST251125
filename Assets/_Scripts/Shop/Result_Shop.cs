@@ -17,6 +17,8 @@ public class Result_Shop : MonoBehaviour
     public Image[] itemSellImage = new Image[8];                       //판매한 아이템 이미지
     public TextMeshProUGUI[] itemSellCount = new TextMeshProUGUI[8];   //판매한 아이템 갯수 UI
     public TextMeshProUGUI[] itemSellPrice = new TextMeshProUGUI[8];   //판매한 아이템 가격 UI
+    public Button closeBtn;
+    public TextMeshProUGUI closeTxt;
 
     [SerializeField]
     GridLayoutGroup gridLayout;
@@ -32,6 +34,8 @@ public class Result_Shop : MonoBehaviour
         resultCount = new int[8];
         resultPrice = new int[8];
         //uiRoot.SetActive(false);
+
+        closeBtn.onClick.AddListener(CloseResultSell);
     }
 
     //void OnEnable()
@@ -62,6 +66,8 @@ public class Result_Shop : MonoBehaviour
     public void OpenResultSell()
     {
         uiRoot.SetActive(true);
+
+        closeTxt.text = $"닫기 [{KeySetting.keys[KeyInput.CANCLE]}]";
 
         var results = SalesResultManager.Instance.GetAllResults();
         int activeCount = GetActiveResultCount(results);
