@@ -262,7 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c73244c8c0d8e4c4a8ebdd5c2df8db8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundPanel: {fileID: 0}
+  soundPanel: {fileID: 3385012224798606875}
   bgmSource: {fileID: 818273609096767659}
   sfxSource: {fileID: 4834782052531760388}
   BGMClips1:
@@ -2772,6 +2772,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e7b57a77e715344f847f37db3c4dd12, type: 3}
+--- !u!1 &3385012224798606875 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7802027157077815175, guid: 8e7b57a77e715344f847f37db3c4dd12, type: 3}
+  m_PrefabInstance: {fileID: 4809744294311831964}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8910036159013979642 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4114436687529061478, guid: 8e7b57a77e715344f847f37db3c4dd12, type: 3}
