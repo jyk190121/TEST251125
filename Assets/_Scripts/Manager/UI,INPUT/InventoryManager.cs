@@ -71,7 +71,11 @@ public class InventoryManager : MonoBehaviour
         soundManager = FindAnyObjectByType<SoundManager>();
 
         //View 초기화
-        inventoryView.CreateSlots(capacity);
+        //inventoryView.CreateSlots(capacity);
+
+        //View 초기화
+        InitView(inventoryView);
+
 
         //이벤트 연결 (Model -> View)
         //모델 데이터가 변하면 -> HandleInventoryUpdate 실행
@@ -85,15 +89,87 @@ public class InventoryManager : MonoBehaviour
         inventoryView.OnSortRequest += HandleSortSequence;
     }
 
+    private void OnEnable()
+    {
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //씬을 이동하여 파괴된 인벤 결과창을 다시 찾음
+        FindAndInitResultView();
+    }
+
+    private void FindAndInitResultView()
+    {
+        //찾으려는 부모 오브젝트 이름
+        GameObject invenResult = GameObject.Find("DugeonResult");
+
+        //해당 씬에 결과창이 없으면 패스
+        if (invenResult == null) return;
+
+        //비활성화된 자식까지 포함해서 검색
+        InventoryView[] views = invenResult.GetComponentsInChildren<InventoryView>(true);
+
+        foreach (InventoryView view in views)
+        {
+            //메인 인벤토리가 아닌 것을 찾음
+            if (view != inventoryView)
+            {
+                resultInvenView = view;
+                Debug.Log($"[InventoryManager] 새 씬에서 ResultInvenView({view.name})를 찾아 연결했습니다.");
+
+                //찾은 뷰 초기화 및 이벤트 연결
+                InitView(resultInvenView);
+
+                //결과창에도 같은 현재 가지고 있는 아이템 목록을 그리게함
+                resultInvenView.RefreshAll(model.GetSlotsForView());
+                break;
+            }
+        }
+    }
+
+    // 뷰 초기화 및 이벤트 연결을 한 곳에서 관리
+    private void InitView(InventoryView view)
+    {
+        if (view == null) return;
+
+        view.CreateSlots(capacity);
+
+        //이벤트 중복 등록 방지를 위해 기존 것 제거 후 추가
+        view.OnSlotClicked -= HandleSlotClick;
+        view.OnSlotClicked += HandleSlotClick;
+
+        view.OnSortRequest -= HandleSortSequence;
+        view.OnSortRequest += HandleSortSequence;
+    }
+
+
     private void Start()
     {
         if (dropPopup != null) dropPopup.ClosePopup();
 
+        //기타 시작 시 초기화
+        HandleInventoryUpdate();                                
+        model.InitSlots(capacity);
+    }
+
+    //임시 아이템 업로드 코드
+    private void Update()
+    {
         ////씬 전환 후 null이 될 수 있는 resultInvenView를 자식 오브젝트에서 다시 탐색
         //if (resultInvenView == null)
         //{
         //    //비활성화된 자식오브젝트를 포함하여 모든 InventoryView 컴포넌트 검색
-        //    InventoryView[] views = GetComponentsInChildren<InventoryView>(true);
+        //    GameObject invenResult = GameObject.Find("DugeonResult");
+        //    if (invenResult == null) return;
+        //    InventoryView[] views = invenResult.GetComponentsInChildren<InventoryView>(true);
         //    foreach (InventoryView view in views)
         //    {
         //        //이미 Inspector에 할당된 메인 inventoryView가 아닌 다른 컴포넌트를 검색
@@ -113,41 +189,6 @@ public class InventoryManager : MonoBehaviour
         //    resultInvenView.OnSlotClicked += HandleSlotClick;
         //    resultInvenView.OnSortRequest += HandleSortSequence;
         //}
-
-        //기타 시작 시 초기화
-        HandleInventoryUpdate();                                
-        model.InitSlots(capacity);
-    }
-
-    //임시 아이템 업로드 코드
-    private void Update()
-    {
-        //씬 전환 후 null이 될 수 있는 resultInvenView를 자식 오브젝트에서 다시 탐색
-        if (resultInvenView == null)
-        {
-            //비활성화된 자식오브젝트를 포함하여 모든 InventoryView 컴포넌트 검색
-            GameObject invenResult = GameObject.Find("DugeonResult");
-            if (invenResult == null) return;
-            InventoryView[] views = invenResult.GetComponentsInChildren<InventoryView>(true);
-            foreach (InventoryView view in views)
-            {
-                //이미 Inspector에 할당된 메인 inventoryView가 아닌 다른 컴포넌트를 검색
-                if (view != inventoryView)
-                {
-                    resultInvenView = view;
-                    Debug.Log("ResultInvenView를 자식 오브젝트에서 찾았습니다.");
-                    break;
-                }
-            }
-        }
-
-        // resultInvenView를 찾았다면, Awake에서 했던 것처럼 초기화를 진행
-        if (resultInvenView != null)
-        {
-            resultInvenView.CreateSlots(capacity);
-            resultInvenView.OnSlotClicked += HandleSlotClick;
-            resultInvenView.OnSortRequest += HandleSortSequence;
-        }
 
         if (Input.GetKeyDown(KeySetting.keys[KeyInput.INVENTORY]))
         {
