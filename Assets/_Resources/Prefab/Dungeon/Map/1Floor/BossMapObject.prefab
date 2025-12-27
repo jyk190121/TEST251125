@@ -1574,7 +1574,7 @@ MonoBehaviour:
   spawnPoints:
   - {fileID: 5086756271288131678}
   monsterPrefabs: []
-  bossMonsterPrefab: {fileID: 6322685595575180865, guid: 1f8eaa7e28bd9654088a6a2c0a466a64, type: 3}
+  bossMonsterPrefab: {fileID: 206288137534574219, guid: b5b2f50c1c6f9d7429a359384989b912, type: 3}
   isSpawned: 0
   isCleared: 0
   isStartRoom: 0
