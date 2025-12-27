@@ -83,6 +83,8 @@ public class ShopManager : MonoBehaviour
         //sales.text = "판매 시작";
 
         //soundManager.StopBGM();
+        isPlayingDay = false;
+        isPlayingNight = false;
         pos_palyer.posUpdate();
     }
     // Update is called once per frame
