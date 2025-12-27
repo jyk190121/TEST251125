@@ -61429,6 +61429,7 @@ GameObject:
   - component: {fileID: 3164559251100850260}
   - component: {fileID: 3977622936258306999}
   - component: {fileID: 803492957870667230}
+  - component: {fileID: 2834825646493377796}
   m_Layer: 10
   m_Name: BossDragonRoot
   m_TagString: Untagged
@@ -61444,7 +61445,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6322685595575180865}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 8.28}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
@@ -61452,7 +61453,7 @@ Transform:
   - {fileID: 1338576632194864531}
   - {fileID: 8418502113115448558}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!136 &5638007787087772517
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -61551,8 +61552,31 @@ MonoBehaviour:
   chargeHitBox: {fileID: 8274098535738465651}
   jumpAoePrefab: {fileID: 8633428259847464577, guid: c606a7cb786184e40b7d791cbf84416c, type: 3}
   roarAoePrefab: {fileID: 4516116232608486125, guid: 5a69547bdd15201439d51394026e3033, type: 3}
+  roarPoint: {fileID: 0}
   currentHP: 0
   hitThreshold: 5
+--- !u!95 &2834825646493377796
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6322685595575180865}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f4d365a5cc471dd43babcf720abe6c60, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6433170606907807402
 GameObject:
   m_ObjectHideFlags: 0

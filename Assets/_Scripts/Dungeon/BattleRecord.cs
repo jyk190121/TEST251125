@@ -5,6 +5,7 @@ using System.Threading;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 //전투 관련 데이터 처리(파밍한 아이템, 잡은 몬스터 보관했다가 Result Panel에 띄움)
@@ -185,12 +186,29 @@ public class BattleRecord: MonoBehaviour
         }
         else if (Clear)
         {
-            _MasterManager.Instance.DataManager.DungeonClear(1);
-            enter.gameObject.SetActive(true);
-            deadReason.text = "던전 클리어 후 복귀";
-            enter.text = $"{KeySetting.keys[KeyInput.INTERACTIVE]}   2층 입장";
+            // 현재 활성화된 씬의 이름을 가져옵니다.
+            string currentScene = SceneManager.GetActiveScene().name;
+
+            // 1층(Dungeon1Scene 등)을 클리어했을 때만 2층 입장 버튼을 보여줌
+            // ※ 실제 프로젝트의 1층 씬 이름으로 "DungeonScene"을 수정하세요.
+            if (currentScene == "DungeonScene")
+            {
+                _MasterManager.Instance.DataManager.DungeonClear(1);
+                enter.gameObject.SetActive(true);
+                deadReason.text = "던전 클리어 후 복귀";
+                enter.text = $"{KeySetting.keys[KeyInput.INTERACTIVE]}   2층 입장";
+                Key_Enter = true;
+            }
+            else
+            {
+                // 2층이나 다른 층일 경우 (최종 클리어)
+                _MasterManager.Instance.DataManager.DungeonClear(2); // 필요시 층수 업데이트
+                deadReason.text = "던전 완전 정복!";
+                enter.gameObject.SetActive(false); // 2층 입장 버튼 숨김
+                Key_Enter = false;
+            }
+
             HowImage.sprite = sprites[1];
-            Key_Enter = true;
         }
         else
         {
