@@ -455,7 +455,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drone: {fileID: 11400000, guid: a02e3da47c2c883439cc07b8a24d4d5a, type: 2}
-  moveSpeed: 1
   minMoveDistance: 1.5
   maxMoveDistance: 4
   wallCheckDistance: 5

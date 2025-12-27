@@ -32,17 +32,17 @@ MonoBehaviour:
   windupTime: 0.1
   recoveryTime: 0.2
   poise: 0
-  specialCoolTime: 2
+  specialCoolTime: 5
   aoeRange: 2
   projectilePrefab: {fileID: 0}
   laserPrefab: {fileID: 0}
   moveRange: 5
   moveInterval: 1
-  patternCooldown: 1
+  patternCooldown: 2
   phaseTwoHpRate: 0.5
   jumpAoeRadius: 0
   roarRange: 10
-  chargeDistance: 30
+  chargeDistance: 20
   chargeStoppingTime: 1
   attackFX: {fileID: 0}
   hitFX: {fileID: 0}

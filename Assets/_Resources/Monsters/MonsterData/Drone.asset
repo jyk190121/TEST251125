@@ -16,7 +16,7 @@ MonoBehaviour:
   mobName: "\uB4DC\uB860"
   MobPrefab: {fileID: 3074466845020280497, guid: 399f9db46c2ff974db730847e4d8a811, type: 3}
   HP: 100
-  Speed: 20
+  Speed: 2
   Attack: 0
   Defense: 0
   CoolTime: 5

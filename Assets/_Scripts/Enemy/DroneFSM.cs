@@ -12,7 +12,7 @@ using System.Collections.Generic;
 /// ✔ 공격 방향 기준 수직 이동
 /// ✔ 애니메이션 없음
 /// </summary>
-public class DroneFSM : MonoBehaviour
+public class DroneFSM : MonoBehaviour , IHitResponder
 {
     enum DroneState { Idle, Move, Attack, GetHit, Die }
     DroneState state;
@@ -25,7 +25,7 @@ public class DroneFSM : MonoBehaviour
     Vector3 attackDir;
 
     [Header("Movement")]
-    public float moveSpeed;
+    float moveSpeed;
     public float minMoveDistance = 1.5f;
     public float maxMoveDistance = 4f;
 
