@@ -28,8 +28,6 @@ public class ShopManager : MonoBehaviour
 
     public DayManager dayManager;           //낮, 밤 체크용
     public bool isAction;                   //판매활동했는지
-    bool isPlayingDay;                      //재생중인 노래가 있는지 (낮)
-    bool isPlayingNight;                    //재생중인 노래가 있는지 (밤)
     bool isRegiItemOpen;
     POS_playerSalas pos_palyer;             //포스기
     SalesCustomer salesCustomer;            //손님 계산대 앞에 있는지 여부
@@ -45,7 +43,7 @@ public class ShopManager : MonoBehaviour
 
     //public GameObject light_Shop;
     Light_Shop light_Shop;
-  
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -54,7 +52,6 @@ public class ShopManager : MonoBehaviour
         dayManager = _MasterManager.Instance.DayManager;
         dataManager = _MasterManager.Instance.DataManager;
         customerManager = FindAnyObjectByType<CustomerManager>();
-        soundManager = FindAnyObjectByType<SoundManager>();
         pos_palyer = FindAnyObjectByType<POS_playerSalas>();
         light_Shop = FindAnyObjectByType<Light_Shop>();
         salesCustomer = FindAnyObjectByType<SalesCustomer>();
@@ -81,8 +78,11 @@ public class ShopManager : MonoBehaviour
         pos_palyer.key.text = $"{KeySetting.GetKeyString(KeyInput.INTERACTIVE)}";
         //손님이 아이템을 가져오면 '판매' 라는 문구 로 변경
         //sales.text = "판매 시작";
+        soundManager = _MasterManager.Instance.SoundManager;
 
-        //soundManager.StopBGM();
+        soundManager.StopBGM();
+
+        isAction = false;
         pos_palyer.posUpdate();
     }
     // Update is called once per frame
@@ -91,21 +91,9 @@ public class ShopManager : MonoBehaviour
         //낮인지
         if (dayManager.IsDay && !isAction)
         {
-            if (soundManager.PlayingBGM() && !isPlayingDay)
-            {
-                //soundManager.PlayShopBGMIndex(0);
-                soundManager.StopBGM();
-                soundManager.PlayBGM("진영", 0);
-                isPlayingDay = true;
-                isPlayingNight = false;
-                //partyPlay = true;
-            }
+            if(!soundManager.PlayingBGM()) soundManager.PlayBGM("진영", 0);
 
-            if (!partyPlay)
-            {
-                party.StopParty();
-                //partyPlay = true;
-            }
+            if (!partyPlay) party.StopParty();
 
             //상호작용 키로 상점 오픈하기
             if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && pos_palyer.playerIsSales)
@@ -193,28 +181,27 @@ public class ShopManager : MonoBehaviour
                 inventoryManager.equipView.SetActive(true);
             }
         }
-
-        else if (isAction)
-        {
-            CloseShop();
-            ChangeDay();
-            if (partyPlay)
-            {
-                partyPlay = false;
-                StartCoroutine(party.partyToNight());
-            }
-            if (soundManager.PlayingBGM() && !isPlayingNight)
-            {
-                //soundManager.PlayShopBGMIndex(0);
-                soundManager.StopBGM();
-                soundManager.PlayBGM("진영", 2);
-                isPlayingDay = false;
-                isPlayingNight = true;
-            }
-        }
+       
         //밤인지
         else if (dayManager.IsNight)
         {
+            if (isAction)
+            {
+                CloseShop();
+                ChangeDay();
+                if (partyPlay)
+                {
+                    partyPlay = false;
+                    StartCoroutine(party.partyToNight());
+                }
+                //soundManager.PlayShopBGMIndex(0);
+                soundManager.StopBGM();
+                soundManager.PlayBGM("진영", 2);
+            }
+            else
+            {
+                soundManager.StopBGM();
+            }
             //판매 등록 UI 열기
             //if (Input.GetKeyDown(KeySetting.keys[KeyInput.INTERACTIVE]) && itemDisplay.image.gameObject.activeSelf == true)
             //{
@@ -255,25 +242,6 @@ public class ShopManager : MonoBehaviour
                 isRegiItemOpen = false;
                 inventoryManager.quickSlotView.gameObject.SetActive(true);
                 inventoryManager.equipView.SetActive(true);
-            }
-        }
-
-        else if (isAction)
-        {
-            CloseShop();
-            ChangeDay();
-            if (partyPlay)
-            {
-                partyPlay = false;
-                StartCoroutine(party.partyToNight());
-            }
-            if (soundManager.PlayingBGM() && !isPlayingNight)
-            {
-                //soundManager.PlayShopBGMIndex(0);
-                soundManager.StopBGM();
-                soundManager.PlayBGM("진영", 2);
-                isPlayingDay = false;
-                isPlayingNight = true;
             }
         }
 

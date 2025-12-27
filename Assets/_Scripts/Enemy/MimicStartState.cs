@@ -17,7 +17,7 @@ public class MimicStartState : MonoBehaviour
     [Header("Trigger Settings")]
     public float triggerRange = 2.5f;           // 플레이어 접근 거리
     public float hitBoxDelay = 0.3f;             // 애니 시작 후 히트박스 켜질 시간
-    public float hitBoxDuration = 0.2f;          // 히트박스 유지 시간
+    public float hitBoxDuration = 1f;          // 히트박스 유지 시간
 
     Transform target;
     bool isRevealed;
