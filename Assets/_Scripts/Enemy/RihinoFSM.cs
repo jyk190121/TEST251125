@@ -441,7 +441,7 @@ public class RihinoFSM : MonoBehaviour ,IHitResponder, IHPProvider
             }
             return;
         }
-
+        if (state == RihinoState.Die) return;
         // 공격 중이 아닐 때만 피격 처리
         if (currentHP <= 0)
         {

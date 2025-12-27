@@ -511,7 +511,7 @@ public class DragonFSM : MonoBehaviour ,IHitResponder , IHPProvider
             Die();
             return;
         }
-
+        if (state == DragonState.Die) return;
         // 공격 중이면 경직 누적만
         if (state == DragonState.Attack || isCharging)
         {

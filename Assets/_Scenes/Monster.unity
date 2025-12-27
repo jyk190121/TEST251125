@@ -798,15 +798,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2930929578822755523, guid: 399f9db46c2ff974db730847e4d8a811, type: 3}
       propertyPath: moveSpeed
-      value: 10
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2930929578822755523, guid: 399f9db46c2ff974db730847e4d8a811, type: 3}
       propertyPath: maxMoveDistance
-      value: 200
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2930929578822755523, guid: 399f9db46c2ff974db730847e4d8a811, type: 3}
       propertyPath: minMoveDistance
-      value: 50
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2930929578822755523, guid: 399f9db46c2ff974db730847e4d8a811, type: 3}
       propertyPath: wallLayer.m_Bits
@@ -814,7 +814,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2930929578822755523, guid: 399f9db46c2ff974db730847e4d8a811, type: 3}
       propertyPath: wallCheckDistance
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3074466845019982481, guid: 399f9db46c2ff974db730847e4d8a811, type: 3}
       propertyPath: m_LocalPosition.x
@@ -862,7 +862,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3074466845020280497, guid: 399f9db46c2ff974db730847e4d8a811, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12983,7 +12983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6322685595575180865, guid: 1f8eaa7e28bd9654088a6a2c0a466a64, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6322685595575180865, guid: 1f8eaa7e28bd9654088a6a2c0a466a64, type: 3}
       propertyPath: m_TagString

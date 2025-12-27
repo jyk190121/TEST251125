@@ -465,6 +465,7 @@ public class NormalMosterFSM : MonoBehaviour, IHitResponder
             if (currentHP <= 0) Die();
             return;
         }
+        if (state == MonsterState.Die) return;
 
         if (currentHP <= 0) Die();
         else StartCoroutine(GetHitProc());
