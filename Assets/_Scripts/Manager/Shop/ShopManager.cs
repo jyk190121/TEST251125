@@ -144,6 +144,7 @@ public class ShopManager : MonoBehaviour
             //손님이 다 나갔을 때 밤으로 만들자
             if (customerManager.GetCustomerAllExit() && pos_palyer.shopOpenCheck)
             {
+                ChangeDay();
                 isAction = true;
             }
 
@@ -188,7 +189,7 @@ public class ShopManager : MonoBehaviour
             if (isAction)
             {
                 CloseShop();
-                ChangeDay();
+                //ChangeDay();
                 if (partyPlay)
                 {
                     partyPlay = false;
