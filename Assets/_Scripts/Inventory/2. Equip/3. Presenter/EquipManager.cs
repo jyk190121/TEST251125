@@ -1,15 +1,18 @@
+using System;
 using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class EquipManager : MonoBehaviour
 {
     public static EquipManager Instance;
 
     [Header("UI 연결")]
-    public EquipSlotView[] uiSlots;     //슬롯 UI 4개 연결 (0:무기, 1:머리, 2:몸, 3:발)
-    public EquipSlotView[] uiSlots_2;   //Result 장비창
+    public EquipSlotView[] uiSlots;         //슬롯 UI 4개 연결 (0:무기, 1:머리, 2:몸, 3:발)
+    public EquipSlotView[] resultUiSlots;   //Result 장비창
     public GameObject equipPanel;
-    public GameObject equipPanel_2;
+    public GameObject resultEquipPanel;
 
     //실제 데이터를 관리하는 모델 객체
     public EquipModel model;
@@ -33,23 +36,65 @@ public class EquipManager : MonoBehaviour
 
     private void Start()
     {
-        if (equipPanel_2 == null)
-        {
-            var allSlots = FindAnyObjectByType<EquipSlotView>();
-        }
+        //if (resultEquipPanel == null)
+        //{
+        //    var allSlots = FindAnyObjectByType<EquipSlotView>();
+        //}
+        //처음 시작 시 메인 UI 갱신
+        RefreshUI();
 
-        // 새 게임이면 빈 슬롯 표시
+        //새 게임이면 빈 슬롯 표시
         if (!SaveManager.HasSaveData())
         {
             RefreshUI();
         }
     }
 
-    // 데이터 로드 완료 시 호출
+    //데이터 로드 완료 시 호출
     private void OnDataLoadedHandler()
     {
         Debug.Log("[EquipManager] 데이터 로드 이벤트 수신!");
         LoadEquipmentFromDataManager();
+    }
+
+    private void OnEnable()
+    {
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        //씬을 이동하여 파괴된 인벤 결과창을 다시 찾음
+        FindAndInitResultView();
+    }
+
+    private void FindAndInitResultView()
+    {
+        //찾으려는 부모 오브젝트 이름
+        GameObject equipResult = GameObject.Find("DugeonResult");
+
+        //해당 씬에 결과창이 없으면 패스
+        if (equipResult == null) return;
+
+        //비활성화된 자식까지 포함해서 검색        
+        EquipSlotView[] views = equipResult.GetComponentsInChildren<EquipSlotView>(true);
+        resultEquipPanel = equipResult;
+
+        //무기, 머리, 몸, 신발 4개 슬롯이 정확이 맞으면 실행
+        if (views.Length == 4)
+        {
+            resultUiSlots = views;
+            Debug.Log("[EquipManager] 결과창 슬롯 4개를 찾아 연결했습니다.");
+
+            //연결 즉시 화면 갱신
+            RefreshUI();
+        }
     }
 
     //====================================================
@@ -188,9 +233,9 @@ public class EquipManager : MonoBehaviour
             {
                 uiSlots[i].UpdateSlot(currentEquips[i]);
 
-                if (equipPanel_2 == null) continue;
-                if (uiSlots_2 == null) continue;
-                uiSlots_2[i].UpdateSlot(currentEquips[i]);
+                if (resultEquipPanel == null) continue;
+                if (resultUiSlots == null) continue;
+                resultUiSlots[i].UpdateSlot(currentEquips[i]);
             }
         }
 
