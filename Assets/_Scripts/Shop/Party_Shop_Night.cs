@@ -9,9 +9,13 @@ public class Party_Shop_Night : MonoBehaviour
     public GameObject[] particleArray;
     List<GameObject> particles;
     Transform pos;
+    Coroutine partyStart;
+
     void Awake()
     {
         pos = transform;
+
+        partyStart = StartCoroutine(partyToNight());
     }
 
     //파티클 터트리자!
@@ -69,6 +73,6 @@ public class Party_Shop_Night : MonoBehaviour
         }
 
         particles.Clear();
-        StopCoroutine(partyToNight());
+        StopCoroutine(partyStart);
     }
 }

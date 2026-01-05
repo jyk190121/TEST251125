@@ -84,6 +84,8 @@ public class ShopManager : MonoBehaviour
 
         isAction = false;
         pos_palyer.posUpdate();
+
+        party.StopParty();
     }
     // Update is called once per frame
     void Update()
